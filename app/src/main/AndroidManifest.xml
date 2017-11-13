@@ -15,15 +15,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
-
         </activity>
         <activity android:name=".ClientActivity">
             <intent-filter>
                 <action android:name="android.intent.action.DEFAULT" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".FacturaActivity"></activity>
     </application>
 
 </manifest>

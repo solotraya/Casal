@@ -54,8 +54,11 @@ public class MainActivity extends AppCompatActivity {
         db.InserirProducte("Bocadillo grande","2.50","Bocadillos");
         db.InserirProducte("Bocadillo pequeño","2","Bocadillos");
 
-        //dataActual
-        // db.InserirVenta("12/11/2017");
+               //idClient,idFactura
+        db.InserirVenta(1,1,"27/12/2017","0");
+
+        db.InserirFactura(2,1);db.InserirFactura(3,1);
+        db.InserirFactura(3,1);db.InserirFactura(5,1);
         db.tanca();
     }
 

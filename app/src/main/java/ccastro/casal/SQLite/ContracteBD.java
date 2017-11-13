@@ -37,14 +37,15 @@ public class ContracteBD {
         public static final String NOM_TAULA = "Factura";
         public static final String ID_PRODUCTE = "id_producte";
         public static final String ID_VENTA = "id_venta";
-        public static final String FACTURA_COBRADA = "facturaCobrada";  // 0 NO 1 SI
-        public static final String TOTAL_FACTURA = "totalFactura";
-        public static final String DATA_FACTURA= "dataFactura";  // DATA ACTUAL
+
     }
 
     public static final class Venta implements BaseColumns {
         public static final String NOM_TAULA = "Venta";
         public static final String ID_CLIENT = "id_client";
         public static final String ID_FACTURA = "id_factura";
+        public static final String DATA_VENTA= "dataVenta";  // DATA ACTUAL
+        public static final String VENTA_COBRADA = "ventaCobrada";  // 0 NO 1 SI
+        public static final String TOTAL_VENTA = "totalVenta";
     }
 }

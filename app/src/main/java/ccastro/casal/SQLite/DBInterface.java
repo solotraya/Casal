@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import ccastro.casal.SQLite.ContracteBD.Client;
 import ccastro.casal.SQLite.ContracteBD.Producte;
+import ccastro.casal.SQLite.ContracteBD.Factura;
 import ccastro.casal.SQLite.ContracteBD.Venta;
 
 /**
@@ -100,9 +101,22 @@ public class DBInterface {
         initialValues.put(Producte.TIPUS_PRODUCTE, tipusProducte);
         return bd.insert(Producte.NOM_TAULA, null, initialValues);
     }
-    public long InserirVenta(String data) {
+    public long InserirVenta(Integer idClient, Integer idFactura, String dataFactura, String facturaCobrada) {
 
         ContentValues initialValues = new ContentValues();
+        initialValues.put(Venta.ID_CLIENT, idClient);
+        initialValues.put(Venta.ID_FACTURA, idFactura);
+        initialValues.put(Venta.DATA_VENTA, dataFactura);
+        initialValues.put(Venta.VENTA_COBRADA, facturaCobrada);
         return bd.insert(Venta.NOM_TAULA, null, initialValues);
     }
+    public long InserirFactura(Integer idProducte, Integer idVenta) {
+
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(Factura.ID_PRODUCTE, idProducte);
+        initialValues.put(Factura.ID_VENTA, idVenta);
+
+        return bd.insert(Venta.NOM_TAULA, null, initialValues);
+    }
+
 }
