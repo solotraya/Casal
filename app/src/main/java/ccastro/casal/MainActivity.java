@@ -13,7 +13,7 @@ import ccastro.casal.SQLite.DBInterface;
 
 public class MainActivity extends AppCompatActivity {
     DBInterface db;
-    Button buttonExemples, buttonClients;
+    Button buttonExemples, buttonClients, buttonVenta;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +34,14 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, ClientActivity.class));
             }
         });
+        buttonVenta = (Button) findViewById(R.id.buttonVenta);
+        buttonVenta.setOnClickListener( new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this, VentaActivity.class));
+            }
+                                        }
+        );
     }
     public void CrearExemplesBD(){
         db.obre();
@@ -54,11 +62,12 @@ public class MainActivity extends AppCompatActivity {
         db.InserirProducte("Bocadillo grande","2.50","Bocadillos");
         db.InserirProducte("Bocadillo pequeño","2","Bocadillos");
 
+        db.InserirFactura(2,1);db.InserirFactura(3,1);
+        db.InserirFactura(3,1);db.InserirFactura(5,1);
                //idClient,idFactura
         db.InserirVenta(1,1,"27/12/2017","0");
 
-        db.InserirFactura(2,1);db.InserirFactura(3,1);
-        db.InserirFactura(3,1);db.InserirFactura(5,1);
+
         db.tanca();
     }
 

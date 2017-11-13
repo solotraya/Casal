@@ -73,7 +73,7 @@ public class AjudaBD extends SQLiteOpenHelper {
             + Venta.ID_FACTURA + " INTEGER NOT NULL, "
             + Venta.DATA_VENTA +  " TEXT NOT NULL, "
             + Venta.VENTA_COBRADA + " TEXT NOT NULL, "
-            + Venta.TOTAL_VENTA +  " TEXT NOT NULL, "
+            + Venta.TOTAL_VENTA +  " TEXT, "  // dejo que pueda ser null, para luego hacer el calculo.
             + "FOREIGN KEY("+ Venta.ID_CLIENT+") REFERENCES " + Client.NOM_TAULA +"(" + Client._ID +"),"
             + "FOREIGN KEY("+ Venta.ID_FACTURA+") REFERENCES " + Factura.NOM_TAULA +"(" + Factura._ID +"));";
 

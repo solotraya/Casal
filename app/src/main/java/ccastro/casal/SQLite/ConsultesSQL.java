@@ -20,6 +20,9 @@ public class ConsultesSQL {
             +  Producte.TIPUS_PRODUCTE+", p."+  Producte.PREU_PRODUCTE+
             " FROM "+ ContracteBD.Producte.NOM_TAULA+" p";
 
+    String RetornaTotesLesVentes ="Select v."+ ContracteBD.Venta._ID+", v."+ ContracteBD.Venta.DATA_VENTA+", v."
+            + ContracteBD.Venta.VENTA_COBRADA+
+            " FROM "+ ContracteBD.Venta.NOM_TAULA+" v";
 
     /**
      *

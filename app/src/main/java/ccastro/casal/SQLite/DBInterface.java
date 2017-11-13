@@ -76,6 +76,9 @@ public class DBInterface {
     public Cursor RetornaTotsElsClients() {
         return bd.rawQuery(consulta.RetornaTotsElsClients, null);
     }
+    public Cursor RetornaTotesLesVentes(){
+        return bd.rawQuery(consulta.RetornaTotesLesVentes,null);
+    }
 
 
     /**
