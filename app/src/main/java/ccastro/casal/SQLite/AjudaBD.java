@@ -64,6 +64,7 @@ public class AjudaBD extends SQLiteOpenHelper {
             + Factura._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + Factura.ID_PRODUCTE + " INTEGER NOT NULL, "
             + Factura.ID_VENTA + " INTEGER NOT NULL, "
+            + Factura.QUANTITAT_PRODUCTE + " INTEGER NOT NULL, "
             + "FOREIGN KEY("+ Factura.ID_PRODUCTE+") REFERENCES " + Client.NOM_TAULA +"(" + Client._ID +"),"
             + "FOREIGN KEY("+ Factura.ID_VENTA+") REFERENCES " + Venta.NOM_TAULA +"(" + Venta._ID +"));";
 

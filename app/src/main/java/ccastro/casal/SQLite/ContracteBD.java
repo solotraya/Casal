@@ -37,6 +37,7 @@ public class ContracteBD {
         public static final String NOM_TAULA = "Factura";
         public static final String ID_PRODUCTE = "id_producte";
         public static final String ID_VENTA = "id_venta";
+        public static final String QUANTITAT_PRODUCTE = "quantitat_producte";
 
     }
 

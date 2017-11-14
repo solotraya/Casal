@@ -117,12 +117,12 @@ public class DBInterface {
         initialValues.put(Venta.TOTAL_VENTA, totalVenta);
         return bd.insert(Venta.NOM_TAULA, null, initialValues);
     }
-    public long InserirFactura(Integer idProducte, Integer idVenta) {
+    public long InserirFactura(Integer idProducte, Integer idVenta, Integer quantitatProducte) {
 
         ContentValues initialValues = new ContentValues();
         initialValues.put(Factura.ID_PRODUCTE, idProducte);
         initialValues.put(Factura.ID_VENTA, idVenta);
-
+        initialValues.put(Factura.QUANTITAT_PRODUCTE, quantitatProducte);
         return bd.insert(Factura.NOM_TAULA, null, initialValues);
     }
 

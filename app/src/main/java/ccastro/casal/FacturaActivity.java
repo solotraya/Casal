@@ -33,17 +33,18 @@ public class FacturaActivity extends AppCompatActivity {
     }
     public void CursorBD(Cursor cursor){
         Integer contador = 0;
-        ArrayList <String> nomProducte = new ArrayList<>();
-        ArrayList <String> tipusProducte = new ArrayList<>();
+        ArrayList <String> factura = new ArrayList<>();
         if(cursor.moveToFirst()){
             do {
-                nomProducte.add(contador,cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.NOM_PRODUCTE)));
-                tipusProducte.add(contador,cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.TIPUS_PRODUCTE)));
-                //Toast.makeText(this, cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.NOM_PRODUCTE)), Toast.LENGTH_LONG).show();
-            }while(cursor.moveToNext());
+                factura.add(contador,"Producte: "+cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.NOM_PRODUCTE))+
+                " Preu: "+cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE))+
+                " Tipus: "+cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.TIPUS_PRODUCTE))+
+                " Quantitat: "+cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)));
+               // Toast.makeText(this, cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)), Toast.LENGTH_SHORT).show();
+            } while(cursor.moveToNext());
             contador++;
         }
-        Iterator it = nomProducte.iterator();
+        Iterator it = factura.iterator();
         while (it.hasNext()){
             String producto =(String) it.next();
             Log.d("PRODUCTOS: ",producto);
