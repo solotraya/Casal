@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -32,23 +33,32 @@ public class FacturaActivity extends AppCompatActivity {
         db.tanca();
     }
     public void CursorBD(Cursor cursor){
-        Integer contador = 0;
+        float preuProducteQuantitat=0;
+       float preuTotal=0;
         ArrayList <String> factura = new ArrayList<>();
         if(cursor.moveToFirst()){
+            factura.clear();
             do {
-                factura.add(contador,"Producte: "+cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.NOM_PRODUCTE))+
+                factura.add("Producte: "+cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.NOM_PRODUCTE))+
                 " Preu: "+cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE))+
                 " Tipus: "+cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.TIPUS_PRODUCTE))+
                 " Quantitat: "+cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)));
                // Toast.makeText(this, cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)), Toast.LENGTH_SHORT).show();
+                preuProducteQuantitat = Float.parseFloat(cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE)))
+                        * Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)));
+                preuTotal = preuTotal + preuProducteQuantitat;
             } while(cursor.moveToNext());
-            contador++;
+
+
         }
         Iterator it = factura.iterator();
         while (it.hasNext()){
             String producto =(String) it.next();
             Log.d("PRODUCTOS: ",producto);
         }
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.setMaximumFractionDigits(2);
+        Log.d("PREU TOTAL FACTURA: ",df.format(preuTotal));
 
     }
 }
