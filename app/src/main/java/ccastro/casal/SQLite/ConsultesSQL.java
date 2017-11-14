@@ -5,6 +5,7 @@ import android.database.Cursor;
 import ccastro.casal.SQLite.ContracteBD.Client;
 import ccastro.casal.SQLite.ContracteBD.Factura;
 import ccastro.casal.SQLite.ContracteBD.Producte;
+import ccastro.casal.SQLite.ContracteBD.Venta;
 
 
 /**
@@ -21,15 +22,17 @@ public class ConsultesSQL {
             +  Producte.TIPUS_PRODUCTE+", p."+  Producte.PREU_PRODUCTE+
             " FROM "+ ContracteBD.Producte.NOM_TAULA+" p";
 
-    String RetornaTotesLesVentes ="Select v."+ ContracteBD.Venta._ID+", v."+ ContracteBD.Venta.DATA_VENTA+", v."
-            + ContracteBD.Venta.VENTA_COBRADA+", c."+ Client.NOM_CLIENT+
+    String RetornaVentesDataActual ="Select v."+ ContracteBD.Venta._ID+", v."+ ContracteBD.Venta.DATA_VENTA+
+            ", v." + ContracteBD.Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+
             " FROM "+ ContracteBD.Venta.NOM_TAULA+" v"+
-            " LEFT JOIN  " + ContracteBD.Client.NOM_TAULA + " c ON c." + ContracteBD.Client._ID + " = v." + ContracteBD.Venta.ID_CLIENT;
+            " LEFT JOIN  " + ContracteBD.Client.NOM_TAULA + " c ON c." + ContracteBD.Client._ID + " = v." + ContracteBD.Venta.ID_CLIENT+
+            " WHERE v."+ ContracteBD.Venta.DATA_VENTA+" LIKE strftime('%Y %m %d','now')";
 
     public String RetornaFacturaId_Venta(String id_Venta){
-        return "Select p."+ Producte.NOM_PRODUCTE+", p."+ Producte.PREU_PRODUCTE+", p."+ Producte.TIPUS_PRODUCTE+", f."+ Factura.QUANTITAT_PRODUCTE+
+        return "Select p."+ Producte.NOM_PRODUCTE+", p."+ Producte.PREU_PRODUCTE+", p."+ Producte.TIPUS_PRODUCTE+
+                ", f."+ Factura.QUANTITAT_PRODUCTE+", v."+ Venta.DATA_VENTA+ ", v."+ Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+
                 " FROM "+ ContracteBD.Factura.NOM_TAULA+" f"+
-                //" LEFT JOIN  " + Venta.NOM_TAULA + " v ON f." + Factura.ID_VENTA + " = v." + Venta._ID+","+
+                " LEFT JOIN  " + Venta.NOM_TAULA + " v ON f." + Factura.ID_VENTA + " = v." + Venta._ID+
                 " LEFT JOIN  " + Producte.NOM_TAULA + " p ON f." + Factura.ID_PRODUCTE + " = p." + Producte._ID+
                 " WHERE f."+Factura.ID_VENTA+ " = "+id_Venta;
     }

@@ -71,10 +71,9 @@ public class AjudaBD extends SQLiteOpenHelper {
     public static final String BD_CREATE_VENTA = "CREATE TABLE IF NOT EXISTS " + Venta.NOM_TAULA + "("
             + Venta._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + Venta.ID_CLIENT + " INTEGER NOT NULL, "
-         //   + Venta.ID_FACTURA + " INTEGER NOT NULL, "
             + Venta.DATA_VENTA +  " TEXT NOT NULL, "
             + Venta.VENTA_COBRADA + " TEXT NOT NULL, "
-            + Venta.TOTAL_VENTA +  " TEXT, "  // dejo que pueda ser null, para luego hacer el calculo.
+            + Venta.HORA_VENTA +   " TEXT NOT NULL, "
             + "FOREIGN KEY("+ Venta.ID_CLIENT+") REFERENCES " + Client.NOM_TAULA +"(" + Client._ID +"));";
 
 

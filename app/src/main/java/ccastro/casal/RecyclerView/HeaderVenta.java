@@ -9,12 +9,14 @@ public class HeaderVenta {
     public String nomClient;
     public String dataVenta;
     public String ventaPagada;
+    public String horaVenta;
 
-    public HeaderVenta(String idVenta, String nomClient, String dataVenta, String ventaPagada) {
+    public HeaderVenta(String idVenta, String nomClient, String dataVenta, String ventaPagada, String horaVenta) {
         this.idVenta = idVenta;
         this.nomClient = nomClient;
         this.dataVenta = dataVenta;
         this.ventaPagada = ventaPagada;
+        this.horaVenta = horaVenta;
     }
 
     public String getIdVenta() {
@@ -47,5 +49,13 @@ public class HeaderVenta {
 
     public void setVentaPagada(String ventaPagada) {
         this.ventaPagada = ventaPagada;
+    }
+
+    public String getHoraVenta() {
+        return horaVenta;
+    }
+
+    public void setHoraVenta(String horaVenta) {
+        this.horaVenta = horaVenta;
     }
 }

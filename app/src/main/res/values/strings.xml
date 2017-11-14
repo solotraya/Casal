@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">Casal</string>
+    <string name="app_name">Casal Civic</string>
+    <string name="cantidad">Cantidad</string>
 </resources>

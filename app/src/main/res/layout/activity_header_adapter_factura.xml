@@ -17,13 +17,6 @@
         android:orientation="vertical">
 
 
-        <TextView
-            android:id="@+id/idVenta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="idFactura"
-            android:visibility="gone" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -34,21 +27,21 @@
                 android:weightSum="2"
                 android:orientation="horizontal">
                 <TextView
-                    android:id="@+id/nomClient"
+                    android:id="@+id/nomProducte"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="NomClient"
+                    android:text="NomProducte"
                     android:textColor="@android:color/holo_red_dark"
-                    android:layout_weight="0.5"
+                    android:layout_weight="1"
                     android:textSize="20dp"
                     android:textStyle="bold" />
                 <TextView
-                    android:id="@+id/ventaPagada"
+                    android:id="@+id/preuProducte"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1"
                     android:textSize="12sp"
-                    android:text="ventaPagada" />
+                    android:text="preuProducte" />
             </LinearLayout>
 
             <LinearLayout
@@ -58,21 +51,19 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/dataVenta"
+                    android:id="@+id/tipusProducte"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
                     android:layout_weight="1"
-                    android:text="data" />
+                    android:text="tipusProducte" />
                 <TextView
-                    android:id="@+id/horaVenta"
+                    android:id="@+id/quantitat"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textSize="12sp"
-                    android:text="horaVenta" />
-
-
+                    android:text="quantitat" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -76,8 +76,8 @@ public class DBInterface {
     public Cursor RetornaTotsElsClients() {
         return bd.rawQuery(consulta.RetornaTotsElsClients, null);
     }
-    public Cursor RetornaTotesLesVentes(){
-        return bd.rawQuery(consulta.RetornaTotesLesVentes,null);
+    public Cursor RetornaVentesDataActual(){
+        return bd.rawQuery(consulta.RetornaVentesDataActual,null);
     }
     public Cursor RetornaFacturaId_Venta(String idVenta){
         return bd.rawQuery(consulta.RetornaFacturaId_Venta(idVenta),null);
@@ -107,14 +107,14 @@ public class DBInterface {
         initialValues.put(Producte.TIPUS_PRODUCTE, tipusProducte);
         return bd.insert(Producte.NOM_TAULA, null, initialValues);
     }
-    public long InserirVenta(Integer idClient, String dataVenta, String ventaCobrada, String totalVenta) {
+    public long InserirVenta(Integer idClient, String dataVenta, String ventaCobrada, String horaVenta) {
 
         ContentValues initialValues = new ContentValues();
         initialValues.put(Venta.ID_CLIENT, idClient);
        // initialValues.put(Venta.ID_FACTURA, idFactura);
         initialValues.put(Venta.DATA_VENTA, dataVenta);
         initialValues.put(Venta.VENTA_COBRADA, ventaCobrada);
-        initialValues.put(Venta.TOTAL_VENTA, totalVenta);
+        initialValues.put(Venta.HORA_VENTA, horaVenta);
         return bd.insert(Venta.NOM_TAULA, null, initialValues);
     }
     public long InserirFactura(Integer idProducte, Integer idVenta, Integer quantitatProducte) {
