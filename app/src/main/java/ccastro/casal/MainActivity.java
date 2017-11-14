@@ -65,8 +65,8 @@ public class MainActivity extends AppCompatActivity {
         db.InserirFactura(2,1);db.InserirFactura(3,1);
         db.InserirFactura(3,1);db.InserirFactura(5,1);
                //idClient,idFactura,data,pagat?,totalVenta
-        db.InserirVenta(1,1,"27/12/2017","0","0");
-
+        //db.InserirVenta(1,1,"27/12/2017","0","0");
+        db.InserirVenta(1,"27/12/2017","0","0");  // SIN ID_FACTURA!!
         db.tanca();
     }
 
