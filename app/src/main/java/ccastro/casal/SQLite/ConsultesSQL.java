@@ -21,8 +21,10 @@ public class ConsultesSQL {
             " FROM "+ ContracteBD.Producte.NOM_TAULA+" p";
 
     String RetornaTotesLesVentes ="Select v."+ ContracteBD.Venta._ID+", v."+ ContracteBD.Venta.DATA_VENTA+", v."
-            + ContracteBD.Venta.VENTA_COBRADA+
-            " FROM "+ ContracteBD.Venta.NOM_TAULA+" v";
+            + ContracteBD.Venta.VENTA_COBRADA+", c."+ Client.NOM_CLIENT+
+            " FROM "+ ContracteBD.Venta.NOM_TAULA+" v"+
+            " LEFT JOIN  " + ContracteBD.Client.NOM_TAULA + " c ON c." + ContracteBD.Client._ID + " = v." + ContracteBD.Venta.ID_CLIENT;
+
 
     /**
      *

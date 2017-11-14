@@ -23,7 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".VentaActivity"></activity>
+        <activity android:name=".VentaActivity" />
+        <activity android:name=".FacturaActivity" />
+        <activity android:name=".RecyclerView.HeaderAdapterVenta"></activity>
     </application>
 
 </manifest>

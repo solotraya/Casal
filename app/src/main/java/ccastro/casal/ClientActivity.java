@@ -47,7 +47,8 @@ public class ClientActivity extends AppCompatActivity {
         Cursor cursor= db.RetornaTotsElsClients();
         if (cursor.moveToFirst()) {
             do {
-                clients.add(cursor.getString(cursor.getColumnIndex(Client._ID))+" "+cursor.getString(cursor.getColumnIndex(Client.NOM_CLIENT))+" "+cursor.getString(cursor.getColumnIndex(Client.COGNOMS_CLIENT))+" "+cursor.getString(cursor.getColumnIndex(Client.TIPUS_CLIENT)));
+                clients.add(cursor.getString(cursor.getColumnIndex(Client._ID))+" "+cursor.getString(cursor.getColumnIndex(Client.NOM_CLIENT))
+                        +" "+cursor.getString(cursor.getColumnIndex(Client.COGNOMS_CLIENT))+" "+cursor.getString(cursor.getColumnIndex(Client.TIPUS_CLIENT)));
             } while (cursor.moveToNext());
         }
         db.tanca();

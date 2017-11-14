@@ -1,0 +1,51 @@
+package ccastro.casal.RecyclerView;
+
+/**
+ * Created by Carlos on 14/11/2017.
+ */
+
+public class HeaderVenta {
+    public String idVenta;
+    public String nomClient;
+    public String dataVenta;
+    public String ventaPagada;
+
+    public HeaderVenta(String idVenta, String nomClient, String dataVenta, String ventaPagada) {
+        this.idVenta = idVenta;
+        this.nomClient = nomClient;
+        this.dataVenta = dataVenta;
+        this.ventaPagada = ventaPagada;
+    }
+
+    public String getIdVenta() {
+        return idVenta;
+    }
+
+    public void setIdVenta(String idVenta) {
+        this.idVenta = idVenta;
+    }
+
+    public String getNomClient() {
+        return nomClient;
+    }
+
+    public void setNomClient(String nomClient) {
+        this.nomClient = nomClient;
+    }
+
+    public String getDataVenta() {
+        return dataVenta;
+    }
+
+    public void setDataVenta(String dataVenta) {
+        this.dataVenta = dataVenta;
+    }
+
+    public String getVentaPagada() {
+        return ventaPagada;
+    }
+
+    public void setVentaPagada(String ventaPagada) {
+        this.ventaPagada = ventaPagada;
+    }
+}
