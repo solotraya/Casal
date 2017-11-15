@@ -26,6 +26,15 @@ public class ContracteBD {
 
     }
 
+    public static final class Treballador implements BaseColumns {
+        public static final String NOM_TAULA = "Treballador";
+        public static final String NOM_TREBALLADOR = "nomTreballador";
+        public static final String COGNOMS_TREBALLADOR = "cognomsTreballador";
+        public static final String USER_NAME = "userName";
+        public static final String PASSWORD = "password";
+
+    }
+
     public static final class Producte implements BaseColumns {
         public static final String NOM_TAULA = "Producte";
         public static final String NOM_PRODUCTE = "nomProducte"; // Cocacola
@@ -44,7 +53,7 @@ public class ContracteBD {
     public static final class Venta implements BaseColumns {
         public static final String NOM_TAULA = "Venta";
         public static final String ID_CLIENT = "id_client";
-        //public static final String ID_FACTURA = "id_factura";
+        public static final String ID_TREBALLADOR = "id_treballador";
         public static final String DATA_VENTA= "dataVenta";  // DATA ACTUAL
         public static final String VENTA_COBRADA = "ventaCobrada";  // 0 NO 1 SI
         public static final String HORA_VENTA = "horaVenta";

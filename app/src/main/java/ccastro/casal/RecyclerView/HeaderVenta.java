@@ -7,13 +7,15 @@ package ccastro.casal.RecyclerView;
 public class HeaderVenta {
     public String idVenta;
     public String nomClient;
+    public String nomTreballador;
     public String dataVenta;
     public String ventaPagada;
     public String horaVenta;
 
-    public HeaderVenta(String idVenta, String nomClient, String dataVenta, String ventaPagada, String horaVenta) {
+    public HeaderVenta(String idVenta, String nomClient, String nomTreballador, String dataVenta, String ventaPagada, String horaVenta) {
         this.idVenta = idVenta;
         this.nomClient = nomClient;
+        this.nomTreballador = nomTreballador;
         this.dataVenta = dataVenta;
         this.ventaPagada = ventaPagada;
         this.horaVenta = horaVenta;
@@ -33,6 +35,14 @@ public class HeaderVenta {
 
     public void setNomClient(String nomClient) {
         this.nomClient = nomClient;
+    }
+
+    public String getNomTreballador() {
+        return nomTreballador;
+    }
+
+    public void setNomTreballador(String nomTreballador) {
+        this.nomTreballador = nomTreballador;
     }
 
     public String getDataVenta() {

@@ -25,7 +25,7 @@ import static ccastro.casal.R.id.ventaPagada;
 
 public class FacturaActivity extends AppCompatActivity {
     DBInterface db;
-    TextView dataVenta,horaVenta,nomClient,estatVenta,preuTotalFactura;
+    TextView dataVenta,horaVenta,nomClient,nomTreballador,estatVenta,preuTotalFactura;
     Button buttonPagar;
     String idVenta;
     View v;
@@ -41,6 +41,7 @@ public class FacturaActivity extends AppCompatActivity {
         dataVenta = (TextView) findViewById(R.id.dataVenta);
         horaVenta = (TextView) findViewById(R.id.horaVenta);
         nomClient = (TextView) findViewById(R.id.nomClient);
+        nomTreballador = (TextView) findViewById(R.id.nomTreballadorF);
         estatVenta = (TextView) findViewById(ventaPagada);
         preuTotalFactura = (TextView) findViewById(R.id.precioTotalFactura);
         buttonPagar = (Button) findViewById(R.id.buttonPagar);
@@ -130,6 +131,9 @@ public class FacturaActivity extends AppCompatActivity {
         }
         if (getIntent().hasExtra("NOM_CLIENT")){
             nomClient.setText(getIntent().getExtras().getString("NOM_CLIENT"));
+        }
+        if (getIntent().hasExtra("NOM_TREBALLADOR")){
+            nomTreballador.setText(getIntent().getExtras().getString("NOM_TREBALLADOR"));
         }
         if (getIntent().hasExtra("ESTAT_VENTA")){
             estatVenta.setText(getIntent().getExtras().getString("ESTAT_VENTA"));

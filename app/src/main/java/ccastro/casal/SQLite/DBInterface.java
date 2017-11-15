@@ -9,6 +9,7 @@ import android.util.Log;
 import ccastro.casal.SQLite.ContracteBD.Client;
 import ccastro.casal.SQLite.ContracteBD.Factura;
 import ccastro.casal.SQLite.ContracteBD.Producte;
+import ccastro.casal.SQLite.ContracteBD.Treballador;
 import ccastro.casal.SQLite.ContracteBD.Venta;
 
 /**
@@ -58,6 +59,7 @@ public class DBInterface {
     public void Esborra() {
         bd.execSQL("drop table if exists " + Venta.NOM_TAULA + " ;");
         bd.execSQL("drop table if exists " + Client.NOM_TAULA + " ;");
+        bd.execSQL("drop table if exists " + Treballador.NOM_TAULA + " ;");
         bd.execSQL("drop table if exists " + Producte.NOM_TAULA + " ;");
         bd.execSQL("drop table if exists " + Factura.NOM_TAULA + " ;");
         ajuda.onCreate(bd);
@@ -114,6 +116,16 @@ public class DBInterface {
         initialValues.put(Client.TIPUS_CLIENT, tipusClient);
         return bd.insert(Client.NOM_TAULA, null, initialValues);
     }
+
+    public long InserirTreballador(String nom, String cognoms, String userName, String password) {
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(Treballador.NOM_TREBALLADOR, nom);
+        initialValues.put(Treballador.COGNOMS_TREBALLADOR, cognoms);
+        initialValues.put(Treballador.USER_NAME, userName);
+        initialValues.put(Treballador.PASSWORD, password);
+        return bd.insert(Treballador.NOM_TAULA, null, initialValues);
+    }
+
     public long InserirProducte(String nom, String preu, String tipusProducte) {
 
         ContentValues initialValues = new ContentValues();
@@ -122,11 +134,11 @@ public class DBInterface {
         initialValues.put(Producte.TIPUS_PRODUCTE, tipusProducte);
         return bd.insert(Producte.NOM_TAULA, null, initialValues);
     }
-    public long InserirVenta(Integer idClient, String dataVenta, String ventaCobrada, String horaVenta) {
+    public long InserirVenta(Integer idClient,Integer idTreballador, String dataVenta, String ventaCobrada, String horaVenta) {
 
         ContentValues initialValues = new ContentValues();
         initialValues.put(Venta.ID_CLIENT, idClient);
-       // initialValues.put(Venta.ID_FACTURA, idFactura);
+        initialValues.put(Venta.ID_TREBALLADOR, idTreballador);
         initialValues.put(Venta.DATA_VENTA, dataVenta);
         initialValues.put(Venta.VENTA_COBRADA, ventaCobrada);
         initialValues.put(Venta.HORA_VENTA, horaVenta);

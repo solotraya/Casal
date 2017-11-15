@@ -53,6 +53,10 @@ public class MainActivity extends AppCompatActivity {
         db.InserirClient("Remedios","Luque","Ayuntamiento");
         db.InserirClient("Juan","Gomez Fuentes","Llevar");
 
+        // nom, cognoms, username, password
+        db.InserirTreballador("Diego","Castro Hurtado","diego","1986");
+        db.InserirTreballador("Maria","Cañabate Méndez","maria","1986");
+
         // nomProducte, preu, tipus
         db.InserirProducte("Café Solo","1.10","Café");
         db.InserirProducte("Café con leche","1.20","Café");
@@ -64,9 +68,9 @@ public class MainActivity extends AppCompatActivity {
                  //id_producte,id_venta/quantitatProducte
         db.InserirFactura(2,1,1);db.InserirFactura(3,1,2);db.InserirFactura(5,1,4);
         db.InserirFactura(1,2,2);db.InserirFactura(4,2,1);db.InserirFactura(6,2,3);
-                //id_client,dataVenta,Cobrada,TotalVenta
-        db.InserirVenta(1,"2017 11 15","0","10:15");  // SIN ID_FACTURA!!
-        db.InserirVenta(2,"2017 11 15","1","11:00");
+             //id_client,id_treballador,dataVenta,Cobrada,TotalVenta
+        db.InserirVenta(1,1,"2017 11 15","0","10:15");  // SIN ID_FACTURA!!
+        db.InserirVenta(2,2,"2017 11 15","1","11:00");
         db.tanca();
     }
 

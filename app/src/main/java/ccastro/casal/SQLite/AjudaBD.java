@@ -10,6 +10,7 @@ import ccastro.casal.SQLite.ContracteBD.Client;
 import ccastro.casal.SQLite.ContracteBD.Factura;
 import ccastro.casal.SQLite.ContracteBD.Producte;
 import ccastro.casal.SQLite.ContracteBD.Venta;
+import ccastro.casal.SQLite.ContracteBD.Treballador;
 
 import static android.content.ContentValues.TAG;
 
@@ -44,6 +45,7 @@ public class AjudaBD extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(BD_CREATE_PRODUCTE);
         db.execSQL(BD_CREATE_CLIENT);
+        db.execSQL(BD_CREATE_TREBALLADOR);
         db.execSQL(BD_CREATE_VENTA);
         db.execSQL(BD_CREATE_FACTURA);
     }
@@ -60,6 +62,13 @@ public class AjudaBD extends SQLiteOpenHelper {
             + Client.COGNOMS_CLIENT + " TEXT NOT NULL, "
             + Client.TIPUS_CLIENT + " TEXT NOT NULL);";
 
+    public static final String BD_CREATE_TREBALLADOR = "CREATE TABLE IF NOT EXISTS " + Treballador.NOM_TAULA + "("
+            + Treballador._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + Treballador.NOM_TREBALLADOR + " TEXT NOT NULL, "
+            + Treballador.COGNOMS_TREBALLADOR + " TEXT NOT NULL, "
+            + Treballador.USER_NAME + " TEXT NOT NULL, "
+            + Treballador.PASSWORD + " TEXT NOT NULL);";
+
     public static final String BD_CREATE_FACTURA = "CREATE TABLE IF NOT EXISTS " + Factura.NOM_TAULA + "("
             + Factura._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + Factura.ID_PRODUCTE + " INTEGER NOT NULL, "
@@ -71,9 +80,11 @@ public class AjudaBD extends SQLiteOpenHelper {
     public static final String BD_CREATE_VENTA = "CREATE TABLE IF NOT EXISTS " + Venta.NOM_TAULA + "("
             + Venta._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + Venta.ID_CLIENT + " INTEGER NOT NULL, "
+            + Venta.ID_TREBALLADOR + " INTEGER NOT NULL, "
             + Venta.DATA_VENTA +  " TEXT NOT NULL, "
             + Venta.VENTA_COBRADA + " TEXT NOT NULL, "
             + Venta.HORA_VENTA +   " TEXT NOT NULL, "
+            + "FOREIGN KEY("+ Venta.ID_TREBALLADOR+") REFERENCES " + Treballador.NOM_TAULA +"(" + Treballador._ID +"),"
             + "FOREIGN KEY("+ Venta.ID_CLIENT+") REFERENCES " + Client.NOM_TAULA +"(" + Client._ID +"));";
 
 
@@ -86,6 +97,7 @@ public class AjudaBD extends SQLiteOpenHelper {
         Log.w(TAG, "Actualitzant Base de dades versió " + VersioAntiga + " a " + VersioNova + ". Destruirà totes les dades");
         db.execSQL("Drop table if exists " + Factura.NOM_TAULA);
         db.execSQL("Drop table if exists " + Venta.NOM_TAULA);
+        db.execSQL("Drop table if exists " + Treballador.NOM_TAULA);
         db.execSQL("Drop table if exists " + Client.NOM_TAULA);
         db.execSQL("Drop table if exists " + Producte.NOM_TAULA);
         onCreate(db);
