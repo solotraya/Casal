@@ -4,7 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="ccastro.casal.VentaActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/filter_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/holo_blue_dark"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/Widget.AppCompat.Toolbar" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_consulta"
@@ -13,3 +22,4 @@
     </android.support.v7.widget.RecyclerView>
 
 </LinearLayout>
+
