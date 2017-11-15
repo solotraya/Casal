@@ -117,23 +117,24 @@ public class VentaActivity extends AppCompatActivity   {
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
             Cursor cursor = null;
-            String estat;
+            String estat="2";
             Log.d("POSICION: ",Integer.toString(position));
             if (position == 0) { // mostrar TOT, tant PAGAT COM NO PAGAT
-                // consulta normal
-            } else if (position == 1) { // MOSTRAR VENTADAS PAGADAS
-                estat = "1";
                 db.obre();
                 myDataset = new ArrayList<HeaderVenta>();
-                //cursor = db.      CONSULTA con parametro estat
+                cursor = db.RetornaVentesDataActual();
                 myDataset = mouCursor(cursor);
                 headerAdapterVenta.actualitzaRecycler(myDataset);
                 db.tanca();
-            } else {  // MOSTRAR VENTAS QUE FALTA PAGAR
-                estat="0";
+            } else if (position == 1) { // MOSTRAR VENTADAS PAGADAS
+                estat = "1";
+            } else if (position == 2) {  // MOSTRAR VENTAS QUE FALTA PAGAR
+                estat = "0";
+            }
+            if (estat.equals("0") || estat.equals("1")){
                 db.obre();
                 myDataset = new ArrayList<HeaderVenta>();
-                //cursor = db.      CONSULTA con parametro estat
+                cursor = db.RetornaVentesDataActualEstatVenta(estat);
                 myDataset = mouCursor(cursor);
                 headerAdapterVenta.actualitzaRecycler(myDataset);
                 db.tanca();
@@ -147,6 +148,5 @@ public class VentaActivity extends AppCompatActivity   {
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
         }
-
     }
 }

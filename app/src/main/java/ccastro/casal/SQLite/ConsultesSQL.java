@@ -36,6 +36,13 @@ public class ConsultesSQL {
                 " LEFT JOIN  " + Producte.NOM_TAULA + " p ON f." + Factura.ID_PRODUCTE + " = p." + Producte._ID+
                 " WHERE f."+Factura.ID_VENTA+ " = "+id_Venta;
     }
+    public String RetornaVentesDataActualEstatVenta(String estatVenta){
+        return  "Select v."+ ContracteBD.Venta._ID+", v."+ ContracteBD.Venta.DATA_VENTA+
+                ", v." + ContracteBD.Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+
+                " FROM "+ ContracteBD.Venta.NOM_TAULA+" v"+
+                " LEFT JOIN  " + ContracteBD.Client.NOM_TAULA + " c ON c." + ContracteBD.Client._ID + " = v." + ContracteBD.Venta.ID_CLIENT+
+                " WHERE v."+ ContracteBD.Venta.DATA_VENTA+" LIKE strftime('%Y %m %d','now') AND v."+ Venta.VENTA_COBRADA+" LIKE "+estatVenta;
+    }
 
     /**
      *

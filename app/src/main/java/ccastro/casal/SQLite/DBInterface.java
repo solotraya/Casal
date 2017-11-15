@@ -81,13 +81,14 @@ public class DBInterface {
     public Cursor RetornaVentesDataActual(){
         return bd.rawQuery(consulta.RetornaVentesDataActual,null);
     }
+    public Cursor RetornaVentesDataActualEstatVenta(String estatVenta){
+        return bd.rawQuery(consulta.RetornaVentesDataActualEstatVenta(estatVenta),null);
+    }
     public Cursor RetornaFacturaId_Venta(String idVenta){
         return bd.rawQuery(consulta.RetornaFacturaId_Venta(idVenta),null);
     }
 
     public void ActalitzaEstatVenta(String _id) {
-        Log.d("_id ===>>> ", ""+_id);
-        Log.d("proba", Boolean.toString(bd.isOpen()));
         Integer idVenta = Integer.parseInt(_id);
         ContentValues valores = new ContentValues();
         valores.put(Venta.VENTA_COBRADA, "1");
