@@ -54,10 +54,12 @@ public class HeaderAdapterFactura extends RecyclerView.Adapter<HeaderAdapterFact
     public void onBindViewHolder(ViewHolder holder, int position) {
         // Obteniu un element del vostre conjunt de dades en aquesta posició
         // Reemplaça els continguts de la vista amb aquest element
+
         holder.nomProducte.setText(mDataset.get(position).getNombreProducto());
         holder.tipusProducte.setText(mDataset.get(position).getTipoProducto());
-        holder.preuProducte.setText(mDataset.get(position).getPrecioProducto());
+        holder.preuProducte.setText(mDataset.get(position).getPrecioProducto()+"€");
         holder.quantitat.setText(mDataset.get(position).getCantidadProducto());
+        holder.total.setText(mDataset.get(position).getPrecioLinea()+"€");
     }
 
     /**
@@ -70,7 +72,7 @@ public class HeaderAdapterFactura extends RecyclerView.Adapter<HeaderAdapterFact
     }
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         // nom,dni,data,qr,localitzacio,email,check;
-        TextView nomProducte,preuProducte,tipusProducte,quantitat;
+        TextView nomProducte,preuProducte,tipusProducte,quantitat,total;
         View v;
         Context context;
         /**
@@ -83,7 +85,7 @@ public class HeaderAdapterFactura extends RecyclerView.Adapter<HeaderAdapterFact
             preuProducte=(TextView) v.findViewById(R.id.preuProducte);
             tipusProducte = (TextView) v.findViewById(R.id.tipusProducte);
             quantitat = (TextView) v.findViewById(R.id.quantitat);
-
+            total = (TextView) v.findViewById(R.id.total);
             context = itemView.getContext();
             v.setOnClickListener(this);
         }

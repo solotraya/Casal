@@ -58,6 +58,7 @@ public class DBInterface {
         bd.execSQL("drop table if exists " + Venta.NOM_TAULA + " ;");
         bd.execSQL("drop table if exists " + Client.NOM_TAULA + " ;");
         bd.execSQL("drop table if exists " + Producte.NOM_TAULA + " ;");
+        bd.execSQL("drop table if exists " + Factura.NOM_TAULA + " ;");
         ajuda.onCreate(bd);
     }
 

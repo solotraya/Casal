@@ -5,12 +5,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.TextView;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import ccastro.casal.RecyclerView.HeaderAdapterFactura;
 import ccastro.casal.RecyclerView.HeaderFactura;
@@ -19,7 +17,7 @@ import ccastro.casal.SQLite.DBInterface;
 
 public class FacturaActivity extends AppCompatActivity {
     DBInterface db;
-    TextView dataVenta,horaVenta,nomClient,estatVenta;
+    TextView dataVenta,horaVenta,nomClient,estatVenta,preuTotalFactura;
     String idVenta;
     private HeaderAdapterFactura headerAdapterFactura;
     private ArrayList<HeaderFactura> myDataset;
@@ -34,21 +32,8 @@ public class FacturaActivity extends AppCompatActivity {
         horaVenta = (TextView) findViewById(R.id.horaVenta);
         nomClient = (TextView) findViewById(R.id.nomClient);
         estatVenta = (TextView) findViewById(R.id.ventaPagada);
-        if (getIntent().hasExtra("ID_VENTA")){  // pasado desde HeaderAdapterVenta
-            idVenta = getIntent().getExtras().getString("ID_VENTA");
-        }
-        if (getIntent().hasExtra("DATA_VENTA")){
-            dataVenta.setText(getIntent().getExtras().getString("DATA_VENTA"));
-        }
-        if (getIntent().hasExtra("NOM_CLIENT")){
-            nomClient.setText(getIntent().getExtras().getString("NOM_CLIENT"));
-        }
-        if (getIntent().hasExtra("DATA_VENTA")){
-            estatVenta.setText(getIntent().getExtras().getString("ESTAT_VENTA"));
-        }
-        if (getIntent().hasExtra("HORA_VENTA")){
-            horaVenta.setText(getIntent().getExtras().getString("HORA_VENTA"));
-        }
+        preuTotalFactura = (TextView) findViewById(R.id.precioTotalFactura);
+        cogerIntents();
         myDataset = new ArrayList<>();
         headerAdapterFactura= new HeaderAdapterFactura(myDataset);
         db = new DBInterface(this);
@@ -68,43 +53,48 @@ public class FacturaActivity extends AppCompatActivity {
         float preuProducteQuantitat=0;
         float preuTotal=0;
         ArrayList <String> factura = new ArrayList<>();
+        DecimalFormat df = new DecimalFormat("0.00");
+        df.setMaximumFractionDigits(2);
         if(cursor.moveToFirst()){
             factura.clear();
-            String dataVenta, estadoVenta,producto,precio,tipoProducto,cantidad;
             do {
                 myDataset.add(new HeaderFactura(
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.NOM_PRODUCTE)),
                                 cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE)),
                                 cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.TIPUS_PRODUCTE)),
-                                cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE))));
-
-                factura.add(
-                        " Data Venta: "+cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.DATA_VENTA))+
-                        " Estado Venta: "+ventaPagada(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.VENTA_COBRADA)))+
-                        " Producte: "+cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.NOM_PRODUCTE))+
-                        " Preu: "+cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE))+
-                        " Tipus: "+cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.TIPUS_PRODUCTE))+
-                        " Quantitat: "+cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)));
-               // Toast.makeText(this, cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)), Toast.LENGTH_SHORT).show();
+                                cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)),
+                                df.format(Float.parseFloat(cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE)))
+                                * Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE))))
+                        ));
                 preuProducteQuantitat = Float.parseFloat(cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE)))
                         * Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)));
                 preuTotal = preuTotal + preuProducteQuantitat;
+                preuTotalFactura.setText(df.format(preuTotal)+"€");
             } while(cursor.moveToNext());
-
-
         }
-        Iterator it = factura.iterator();
-        while (it.hasNext()){
-            String producto =(String) it.next();
-            Log.d("PRODUCTOS: ",producto);
-        }
-        DecimalFormat df = new DecimalFormat("0.00");
-        df.setMaximumFractionDigits(2);
-        Log.d("PREU TOTAL FACTURA: ",df.format(preuTotal));
         return myDataset;
     }
+
     public String ventaPagada(String ventaPagada){
         if (ventaPagada.equalsIgnoreCase("0")) return "Falta Pagar";
         else return "Pagado";
+    }
+
+    public void cogerIntents(){
+        if (getIntent().hasExtra("ID_VENTA")){  // pasado desde HeaderAdapterVenta
+            idVenta = getIntent().getExtras().getString("ID_VENTA");
+        }
+        if (getIntent().hasExtra("DATA_VENTA")){
+            dataVenta.setText(getIntent().getExtras().getString("DATA_VENTA"));
+        }
+        if (getIntent().hasExtra("NOM_CLIENT")){
+            nomClient.setText(getIntent().getExtras().getString("NOM_CLIENT"));
+        }
+        if (getIntent().hasExtra("DATA_VENTA")){
+            estatVenta.setText(getIntent().getExtras().getString("ESTAT_VENTA"));
+        }
+        if (getIntent().hasExtra("HORA_VENTA")){
+            horaVenta.setText(getIntent().getExtras().getString("HORA_VENTA"));
+        }
     }
 }
