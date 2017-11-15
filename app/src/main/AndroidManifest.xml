@@ -9,7 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,7 +25,8 @@
         </activity>
         <activity android:name=".VentaActivity" />
         <activity android:name=".FacturaActivity" />
-        <activity android:name=".RecyclerView.HeaderAdapterVenta"></activity>
+        <activity android:name=".RecyclerView.HeaderAdapterVenta" />
+        <activity android:name=".MainActivity"></activity>
     </application>
 
 </manifest>

@@ -4,15 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ccastro.casal.MainActivity">
+    tools:context="ccastro.casal.LoginActivity">
 
-    <Button
-        android:id="@+id/buttonExemples"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Introduir Exemples"
-        tools:layout_editor_absoluteX="89dp"
-        tools:layout_editor_absoluteY="408dp" />
 
     <Button
         android:id="@+id/buttonClients"

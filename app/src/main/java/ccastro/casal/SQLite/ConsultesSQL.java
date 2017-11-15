@@ -31,7 +31,7 @@ public class ConsultesSQL {
             " WHERE v."+ ContracteBD.Venta.DATA_VENTA+" LIKE strftime('%Y %m %d','now')";
 
     public String RetornaFacturaId_Venta(String id_Venta){
-        return "Select p."+ Producte.NOM_PRODUCTE+", p."+ Producte.PREU_PRODUCTE+", p."+ Producte.TIPUS_PRODUCTE+
+        return " Select p."+ Producte.NOM_PRODUCTE+", p."+ Producte.PREU_PRODUCTE+", p."+ Producte.TIPUS_PRODUCTE+
                 ", f."+ Factura.QUANTITAT_PRODUCTE+", v."+ Venta.DATA_VENTA+ ", v."+ Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+
                 " FROM "+ ContracteBD.Factura.NOM_TAULA+" f"+
                 " LEFT JOIN  " + Venta.NOM_TAULA + " v ON f." + Factura.ID_VENTA + " = v." + Venta._ID+
@@ -39,13 +39,18 @@ public class ConsultesSQL {
                 " WHERE f."+Factura.ID_VENTA+ " = "+id_Venta;
     }
     public String RetornaVentesDataActualEstatVenta(String estatVenta){
-        return  "Select v."+ ContracteBD.Venta._ID+", v."+ ContracteBD.Venta.DATA_VENTA+
+        return  " Select v."+ ContracteBD.Venta._ID+", v."+ ContracteBD.Venta.DATA_VENTA+
                 ", v." + ContracteBD.Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+
                 ", t."+  ContracteBD.Treballador.NOM_TREBALLADOR+", t."+  ContracteBD.Treballador.COGNOMS_TREBALLADOR+
                 " FROM "+ ContracteBD.Venta.NOM_TAULA+" v"+
                 " LEFT JOIN  " + ContracteBD.Treballador.NOM_TAULA + " t ON t." + ContracteBD.Treballador._ID + " = v." + Venta.ID_TREBALLADOR+
                 " LEFT JOIN  " + ContracteBD.Client.NOM_TAULA + " c ON c." + ContracteBD.Client._ID + " = v." + ContracteBD.Venta.ID_CLIENT+
                 " WHERE v."+ ContracteBD.Venta.DATA_VENTA+" LIKE strftime('%Y %m %d','now') AND v."+ Venta.VENTA_COBRADA+" LIKE "+estatVenta;
+    }
+    public String verificarLogin (String userName, String password){
+        return  " Select t."+ ContracteBD.Treballador._ID+",t."+ ContracteBD.Treballador.NOM_TREBALLADOR+",t."+ ContracteBD.Treballador.COGNOMS_TREBALLADOR+
+                " FROM "+ ContracteBD.Treballador.NOM_TAULA+" t"+
+                " WHERE t."+ ContracteBD.Treballador.USER_NAME+" LIKE '"+userName+"' AND t."+ ContracteBD.Treballador.PASSWORD+" LIKE '"+password+"'";
     }
 
     /**

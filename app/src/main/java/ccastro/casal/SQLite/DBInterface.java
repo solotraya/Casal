@@ -89,6 +89,9 @@ public class DBInterface {
     public Cursor RetornaFacturaId_Venta(String idVenta){
         return bd.rawQuery(consulta.RetornaFacturaId_Venta(idVenta),null);
     }
+    public Cursor verificarLogin(String userName, String password){
+        return bd.rawQuery(consulta.verificarLogin(userName,password),null);
+    }
 
     public void ActalitzaEstatVenta(String _id) {
         Integer idVenta = Integer.parseInt(_id);
