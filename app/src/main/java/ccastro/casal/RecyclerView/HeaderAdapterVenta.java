@@ -56,8 +56,12 @@ public class HeaderAdapterVenta extends RecyclerView.Adapter<HeaderAdapterVenta.
     public void onBindViewHolder(ViewHolder holder, int position) {
         // Obteniu un element del vostre conjunt de dades en aquesta posició
         // Reemplaça els continguts de la vista amb aquest element
+
+        String data = mDataset.get(position).getDataVenta();
+        String dataCorrecta[] = data.split(" ");
+        String dataFormatSpain = dataCorrecta[2]+"/"+dataCorrecta[1]+"/"+dataCorrecta[0];
         holder.nomClient.setText(mDataset.get(position).getNomClient());
-        holder.dataVenta.setText(mDataset.get(position).getDataVenta());
+        holder.dataVenta.setText(dataFormatSpain);
         holder.ventaPagada.setText(mDataset.get(position).getVentaPagada());
         holder.idVenta.setText(mDataset.get(position).getIdVenta());
         holder.horaVenta.setText(mDataset.get(position).getHoraVenta());
@@ -100,13 +104,13 @@ public class HeaderAdapterVenta extends RecyclerView.Adapter<HeaderAdapterVenta.
          */
         @Override
         public void onClick(View view) {
-            //  Toast.makeText(view.getContext(), idServei.getText().toString(), Toast.LENGTH_LONG).show();
             Intent intent = new Intent(context,FacturaActivity.class);
             intent.putExtra("ID_VENTA",idVenta.getText().toString());
             intent.putExtra("DATA_VENTA",dataVenta.getText().toString());
             intent.putExtra("HORA_VENTA",horaVenta.getText().toString());
             intent.putExtra("ESTAT_VENTA",ventaPagada.getText().toString());
             intent.putExtra("NOM_CLIENT",nomClient.getText().toString());
+
             context.startActivity(intent);
         }
     }
@@ -119,4 +123,5 @@ public class HeaderAdapterVenta extends RecyclerView.Adapter<HeaderAdapterVenta.
         mDataset = llistaConsultes;
         this.notifyDataSetChanged();
     }
+
 }

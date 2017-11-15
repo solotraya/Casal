@@ -24,21 +24,8 @@ public class VentaActivity extends AppCompatActivity   {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venta);
-        /**
-         * Instanciació del Recycler i de l'arrayList
-         */
 
-        myDataset = new ArrayList<>();
-        headerAdapterVenta= new HeaderAdapterVenta(myDataset);
-        db = new DBInterface(this);
-        db.obre();
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_consulta);
-        linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(headerAdapterVenta);
-        Cursor cursor = db.RetornaVentesDataActual();
-        myDataset = mouCursor(cursor);
-        db.tanca();
+
 
     }
 
@@ -57,13 +44,30 @@ public class VentaActivity extends AppCompatActivity   {
         return myDataset;
     }
 
-
-
     public String ventaPagada(String ventaPagada){
         if (ventaPagada.equalsIgnoreCase("0")) return "Falta Pagar";
         else return "Pagado";
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /**
+         * Instanciació del Recycler i de l'arrayList
+         */
 
+        myDataset = new ArrayList<>();
+        headerAdapterVenta= new HeaderAdapterVenta(myDataset);
 
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_consulta);
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(headerAdapterVenta);
+        db = new DBInterface(this);
+        db.obre();
+        Cursor cursor = db.RetornaVentesDataActual();
+        myDataset = mouCursor(cursor);
+        db.tanca();
+
+    }
 }

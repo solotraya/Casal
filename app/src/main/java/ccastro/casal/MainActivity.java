@@ -54,9 +54,9 @@ public class MainActivity extends AppCompatActivity {
         db.InserirClient("Juan","Gomez Fuentes","Llevar");
 
         // nomProducte, preu, tipus
-        db.InserirProducte("Café Solo","1.10","Cafe");
-        db.InserirProducte("Café con leche","1.20","Cafe");
-        db.InserirProducte("Carajillo","1.50","Cafe");
+        db.InserirProducte("Café Solo","1.10","Café");
+        db.InserirProducte("Café con leche","1.20","Café");
+        db.InserirProducte("Carajillo","1.50","Café");
         db.InserirProducte("Cocacola","1.30","Bebidas");
         db.InserirProducte("Agua","0.90","Bebidas");
         db.InserirProducte("Bocadillo grande","2.50","Bocadillos");

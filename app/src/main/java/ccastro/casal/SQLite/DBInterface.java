@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import ccastro.casal.SQLite.ContracteBD.Client;
 import ccastro.casal.SQLite.ContracteBD.Factura;
@@ -82,6 +83,18 @@ public class DBInterface {
     }
     public Cursor RetornaFacturaId_Venta(String idVenta){
         return bd.rawQuery(consulta.RetornaFacturaId_Venta(idVenta),null);
+    }
+
+    public void ActalitzaEstatVenta(String _id) {
+        Log.d("_id ===>>> ", ""+_id);
+        Log.d("proba", Boolean.toString(bd.isOpen()));
+        Integer idVenta = Integer.parseInt(_id);
+        ContentValues valores = new ContentValues();
+        valores.put(Venta.VENTA_COBRADA, "1");
+        String where = Venta._ID + " = ? ";
+        String[] selection = {""+idVenta};
+        bd.update(Venta.NOM_TAULA, valores, where, selection);
+        Log.d("proba", "Actualitzat");
     }
 
 
