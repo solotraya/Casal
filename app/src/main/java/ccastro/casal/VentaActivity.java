@@ -2,6 +2,7 @@ package ccastro.casal;
 
 import android.database.Cursor;
 import android.database.MatrixCursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -97,11 +99,10 @@ public class VentaActivity extends AppCompatActivity   {
                 cursorTest,
                 new String[]{"estatVenta"}, //Columna del cursor que volem agafar
                 new int[]{android.R.id.text1}, 0);
+
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerEstatVenta.setAdapter(adapter);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerEstatVenta.setOnItemSelectedListener(new myOnItemSelectedListener());
-
     }
 
     class myOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
@@ -117,6 +118,7 @@ public class VentaActivity extends AppCompatActivity   {
          */
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+            ((TextView) view).setTextColor(Color.RED);  // COLOR DEL TEXTO SELECCIONADO DEL TOOLBAR
             Cursor cursor = null;
             String estat="2";
             Log.d("POSICION: ",Integer.toString(position));
@@ -148,6 +150,7 @@ public class VentaActivity extends AppCompatActivity   {
          */
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
+
         }
     }
 }
