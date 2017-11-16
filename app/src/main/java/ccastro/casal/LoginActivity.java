@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     View v;
     Cursor cursor;
     String huella = null;
-    public static String ID_TREBALLADOR=null, NOM_USUARI="Administrador"; 
+    public static String ID_TREBALLADOR=null, NOM_USUARI="Administrador";
     private KeyStore keyStore;
     private static final String KEY_NAME = "EDMTDev";
     private Cipher cipher;
@@ -75,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                     v=view;
                     mouCursor(cursor); // Recogemos el id_usuario y nombre trabajador
 
-                    if (huella == null){
+                    if (huella == null && ! textUserName.getText().toString().equalsIgnoreCase("admin")){
                         AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                         builder.setMessage("Quieres relacionar tu contraseña con tu huella dactilar?")
                                 .setTitle("Atención!!")
