@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     View v;
     Cursor cursor;
     String huella = null;
-    public static String ID_TREBALLADOR=null, NOM_USUARI="Administrador"; // TEST CARLOS
+    public static String ID_TREBALLADOR=null, NOM_USUARI="Administrador"; 
     private KeyStore keyStore;
     private static final String KEY_NAME = "EDMTDev";
     private Cipher cipher;
