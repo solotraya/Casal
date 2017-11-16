@@ -45,7 +45,7 @@ public class LoginActivity extends AppCompatActivity {
     View v;
     Cursor cursor;
     String huella = null;
-    public static String ID_TREBALLADOR=null, NOM_USUARI="Administrador";
+    public static String ID_TREBALLADOR=null, NOM_USUARI="Administrador"; // TEST CARLOS
     private KeyStore keyStore;
     private static final String KEY_NAME = "EDMTDev";
     private Cipher cipher;
@@ -178,7 +178,6 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirVenta(1,1,"2017 11 16","0","10:15");  // SIN ID_FACTURA!!
         db.InserirVenta(2,2,"2017 11 16","1","11:00");
         db.tanca();
-
     }
 
 
