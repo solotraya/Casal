@@ -13,7 +13,7 @@ import static ccastro.casal.LoginActivity.NOM_USUARI;
 
 public class MainActivity extends AppCompatActivity {
     DBInterface db;
-    Button  buttonClients, buttonVenta;
+    Button  buttonClients, buttonVenta, buttonComedor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +35,14 @@ public class MainActivity extends AppCompatActivity {
                                             @Override
                                             public void onClick(View view) {
                                                 startActivity(new Intent(MainActivity.this, VentaActivity.class));
+                                            }
+                                        }
+        );
+        buttonComedor = (Button) findViewById(R.id.buttonComedor);
+        buttonComedor.setOnClickListener( new View.OnClickListener(){
+                                            @Override
+                                            public void onClick(View view) {
+                                                startActivity(new Intent(MainActivity.this, MesaActivity.class));
                                             }
                                         }
         );

@@ -21,5 +21,11 @@
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Venta" />
+    <Button
+        android:id="@+id/buttonComedor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Comedor" />
 
 </LinearLayout>

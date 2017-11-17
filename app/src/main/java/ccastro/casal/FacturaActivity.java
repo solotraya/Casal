@@ -64,6 +64,7 @@ public class FacturaActivity extends AppCompatActivity {
                                         dialog.cancel();
                                         Toast.makeText(FacturaActivity.this, "Factura Pagada", Toast.LENGTH_LONG).show();
                                         estatVenta.setText("Pagado");
+                                        buttonPagar.setVisibility(View.INVISIBLE);
                                         DBInterface db=new DBInterface(v.getContext());
                                         db.obre();
                                         db.ActalitzaEstatVenta(idVenta);

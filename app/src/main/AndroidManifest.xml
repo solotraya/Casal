@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ccastro.casal">
+
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -26,7 +28,8 @@
         <activity android:name=".VentaActivity" />
         <activity android:name=".FacturaActivity" />
         <activity android:name=".RecyclerView.HeaderAdapterVenta" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
+        <activity android:name=".MesaActivity" />
     </application>
 
 </manifest>

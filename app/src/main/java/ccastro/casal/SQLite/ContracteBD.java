@@ -18,12 +18,27 @@ public class ContracteBD {
      */
     private ContracteBD() {}
 
-    public static final class Client implements BaseColumns {
-        public static final String NOM_TAULA = "Client";
-        public static final String NOM_CLIENT = "nomClient";
-        public static final String COGNOMS_CLIENT = "cognomsClient";
-        public static final String TIPUS_CLIENT = "tipusClient"; // 0 Comedor 1 Llevar 2 Ayuntamiento
+    public static final class Mesa implements BaseColumns {
+        public static final String NOM_TAULA = "mesa";
+        public static final String NOMBRE_MESA = "nombre_mesa";
+    }
 
+    public static final class Reserva_Cliente implements BaseColumns {
+        public static final String NOM_TAULA = "reserva_cliente";
+        public static final String DIA_RESERVADO = "dia_reservado";  // HABRA QUE PONER 2 datePicker y HACER RESERVA POR CADA DIA RESERVADO
+        public static final String ASISTENCIA = "asistencia";     // Si el cliente no viene se anota
+        public static final String ID_CLIENTE = "id_cliente";
+        public static final String ID_MESA = "id_mesa";  // ESTA ES LA IMPORTANTE, si el cliente tiene mesa por defecto se auto-asigna, pero se puede cambiar
+        // UNIQUE (id_cliente, dia_reservado)
+    }
+
+    public static final class Client implements BaseColumns {
+        public static final String NOM_TAULA = "client";
+        public static final String NOM_CLIENT = "nom_client";
+        public static final String COGNOMS_CLIENT = "cognoms_client";
+        public static final String TIPUS_CLIENT = "tipus_client"; // 0 Comedor 1 Llevar 2 Ayuntamiento
+        public static final String MESA_FAVORITA = "id_mesa";  // OPCIONAL para guardar la mesa preferida,
+        // para que en la Activity venga auto-rellenado con esa mesa (que igualmente se puede cambiar)
     }
 
     public static final class Treballador implements BaseColumns {

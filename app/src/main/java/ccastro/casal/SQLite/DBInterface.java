@@ -8,9 +8,12 @@ import android.util.Log;
 
 import ccastro.casal.SQLite.ContracteBD.Client;
 import ccastro.casal.SQLite.ContracteBD.Factura;
+import ccastro.casal.SQLite.ContracteBD.Mesa;
 import ccastro.casal.SQLite.ContracteBD.Producte;
 import ccastro.casal.SQLite.ContracteBD.Treballador;
+import ccastro.casal.SQLite.ContracteBD.Reserva_Cliente;
 import ccastro.casal.SQLite.ContracteBD.Venta;
+
 
 /**
  * @author Carlos Alberto Castro Cañabate
@@ -61,7 +64,9 @@ public class DBInterface {
         bd.execSQL("drop table if exists " + Client.NOM_TAULA + " ;");
         bd.execSQL("drop table if exists " + Treballador.NOM_TAULA + " ;");
         bd.execSQL("drop table if exists " + Producte.NOM_TAULA + " ;");
+        bd.execSQL("Drop table if exists " + Reserva_Cliente.NOM_TAULA);
         bd.execSQL("drop table if exists " + Factura.NOM_TAULA + " ;");
+        bd.execSQL("drop table if exists " + Mesa.NOM_TAULA + " ;");
         ajuda.onCreate(bd);
     }
 
@@ -89,6 +94,9 @@ public class DBInterface {
     public Cursor RetornaFacturaId_Venta(String idVenta){
         return bd.rawQuery(consulta.RetornaFacturaId_Venta(idVenta),null);
     }
+    public Cursor RetornaMesasReservadasDataActual(){
+        return bd.rawQuery(consulta.RetornaMesasReservadasDataActual,null);
+    }
     public Cursor verificarLogin(String userName, String password){
         return bd.rawQuery(consulta.verificarLogin(userName,password),null);
     }
@@ -111,12 +119,13 @@ public class DBInterface {
      * @param tipusClient del Client
      * @return posicio a taula client
      */
-    public long InserirClient(String nom, String cognoms, String tipusClient) {
+    public long InserirClient(String nom, String cognoms, String tipusClient,Integer mesaFavorita) {
 
         ContentValues initialValues = new ContentValues();
         initialValues.put(Client.NOM_CLIENT, nom);
         initialValues.put(Client.COGNOMS_CLIENT, cognoms);
         initialValues.put(Client.TIPUS_CLIENT, tipusClient);
+        initialValues.put(Client.MESA_FAVORITA, mesaFavorita);
         return bd.insert(Client.NOM_TAULA, null, initialValues);
     }
 
@@ -156,4 +165,20 @@ public class DBInterface {
         return bd.insert(Factura.NOM_TAULA, null, initialValues);
     }
 
+    public long InserirMesa(String nombreMesa) {
+
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(Mesa.NOMBRE_MESA, nombreMesa);
+        return bd.insert(Mesa.NOM_TAULA, null, initialValues);
+    }
+
+    public long InserirReserva_Cliente (String dia_reservado, String asistencia, Integer idCliente, Integer idMesa) {
+
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(Reserva_Cliente.DIA_RESERVADO,dia_reservado);
+        initialValues.put(Reserva_Cliente.ASISTENCIA,asistencia);
+        initialValues.put(Reserva_Cliente.ID_CLIENTE,idCliente);
+        initialValues.put(Reserva_Cliente.ID_MESA,idMesa);
+        return bd.insert(Reserva_Cliente.NOM_TAULA, null, initialValues);
+    }
 }
