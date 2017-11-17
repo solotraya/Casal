@@ -118,10 +118,7 @@ public class FacturaActivity extends AppCompatActivity {
         return myDataset;
     }
 
-    public String ventaPagada(String ventaPagada){
-        if (ventaPagada.equalsIgnoreCase("0")) return "Falta Pagar";
-        else return "Pagado";
-    }
+
 
     public void cogerIntents(){
         if (getIntent().hasExtra("ID_VENTA")){  // pasado desde HeaderAdapterVenta

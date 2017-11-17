@@ -4,11 +4,12 @@ import android.database.Cursor;
 
 import ccastro.casal.SQLite.ContracteBD.Client;
 import ccastro.casal.SQLite.ContracteBD.Factura;
+import ccastro.casal.SQLite.ContracteBD.Mesa;
 import ccastro.casal.SQLite.ContracteBD.Producte;
-import ccastro.casal.SQLite.ContracteBD.Venta;
 import ccastro.casal.SQLite.ContracteBD.Reserva_Cliente;
 import ccastro.casal.SQLite.ContracteBD.Treballador;
-import ccastro.casal.SQLite.ContracteBD.Mesa;
+import ccastro.casal.SQLite.ContracteBD.Venta;
+
 /**
  * @author Carlos Alberto Castro Cañabate
  *
@@ -22,10 +23,9 @@ public class ConsultesSQL {
             " WHERE r."+ Reserva_Cliente.DIA_RESERVADO+" LIKE strftime('%Y %m %d','now')";
 
     String RetornaClientsReservadosDataActual ="Select c."+Client.MESA_FAVORITA+", c."+Client.COGNOMS_CLIENT+", m."+ Mesa.NOMBRE_MESA+
-            " FROM "+ Treballador.NOM_TAULA+" r"+
+            " FROM "+ Reserva_Cliente.NOM_TAULA+" r"+
             " LEFT JOIN  " + Client.NOM_TAULA + " c ON c." + ContracteBD.Client._ID + " = r." + Reserva_Cliente.ID_CLIENTE+
             " WHERE r."+ Reserva_Cliente.DIA_RESERVADO+" LIKE strftime('%Y %m %d','now')";
-
 
     String RetornaTotsElsClients ="Select c."+ ContracteBD.Client._ID+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+", c."+  Client.TIPUS_CLIENT+
             " FROM "+ Client.NOM_TAULA+" c";
@@ -59,6 +59,14 @@ public class ConsultesSQL {
                 " LEFT JOIN  " + Client.NOM_TAULA + " c ON c." + Client._ID + " = v." + Venta.ID_CLIENT+
                 " WHERE v."+ Venta.DATA_VENTA+" LIKE strftime('%Y %m %d','now') AND v."+ Venta.VENTA_COBRADA+" LIKE "+estatVenta;
     }
+
+    public String RetornaClientsReservadosDataActualMesa(String idMesa){
+        return "Select c."+Client._ID+", c."+Client.NOM_CLIENT+", c."+Client.COGNOMS_CLIENT+", c."+Client.TIPUS_CLIENT+", r."+Reserva_Cliente.PAGADO+", r."+Reserva_Cliente.ASISTENCIA+
+                " FROM "+ Reserva_Cliente.NOM_TAULA+" r"+
+                " LEFT JOIN  " + Client.NOM_TAULA + " c ON c." + ContracteBD.Client._ID + " = r." + Reserva_Cliente.ID_CLIENTE+
+                " WHERE r."+ Reserva_Cliente.DIA_RESERVADO+" LIKE strftime('%Y %m %d','now') AND r."+Reserva_Cliente.ID_MESA+" LIKE "+idMesa;
+    }
+
     public String verificarLogin (String userName, String password){
         return  " Select t."+ Treballador._ID+",t."+ Treballador.NOM_TREBALLADOR+",t."+ Treballador.COGNOMS_TREBALLADOR+
                 " FROM "+ Treballador.NOM_TAULA+" t"+

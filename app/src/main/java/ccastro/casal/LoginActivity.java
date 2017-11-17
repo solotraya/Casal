@@ -188,10 +188,12 @@ public class LoginActivity extends AppCompatActivity {
 
 
 
-        //dia, assistencia(0 SI por defecto, 1 NO), idCliente, idMesa
-        db.InserirReserva_Cliente("2017 11 17","0",1,2);
-        db.InserirReserva_Cliente("2017 11 17","0",2,2);
-        db.InserirReserva_Cliente("2017 11 17","0",3,1);
+        //dia, assistencia(0 SI por defecto, 1 NO), pagado (0 NO, 1 SI),idCliente, idMesa
+
+        db.InserirReserva_Cliente("2017 11 17","0","1",2,2);
+        db.InserirReserva_Cliente("2017 11 17","0","0",4,2);
+        db.InserirReserva_Cliente("2017 11 17","0","0",1,2);db.InserirReserva_Cliente("2017 11 18","0","0",2,2);
+        db.InserirReserva_Cliente("2017 11 17","0","0",3,2);
         db.tanca();
     }
 

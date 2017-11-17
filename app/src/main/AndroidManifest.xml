@@ -30,6 +30,7 @@
         <activity android:name=".RecyclerView.HeaderAdapterVenta" />
         <activity android:name=".MainActivity" />
         <activity android:name=".MesaActivity" />
+        <activity android:name=".ReservaActivity"></activity>
     </application>
 
 </manifest>

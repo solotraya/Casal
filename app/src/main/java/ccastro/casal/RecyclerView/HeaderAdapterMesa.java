@@ -1,6 +1,7 @@
 package ccastro.casal.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import ccastro.casal.R;
+import ccastro.casal.ReservaActivity;
 
 /**
  * @author Carlos Alberto Castro Cañabate
@@ -91,11 +93,11 @@ public class HeaderAdapterMesa extends RecyclerView.Adapter<HeaderAdapterMesa.Vi
          */
         @Override
         public void onClick(View view) {
-            /*
+
             Intent intent = new Intent(context,ReservaActivity.class);
             intent.putExtra("ID_MESA",idMesa.getText().toString());
             intent.putExtra("NOM_MESA",nomMesa.getText().toString());
-            context.startActivity(intent); */
+            context.startActivity(intent);
         }
     }
 

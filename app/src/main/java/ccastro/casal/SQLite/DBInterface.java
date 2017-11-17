@@ -10,8 +10,8 @@ import ccastro.casal.SQLite.ContracteBD.Client;
 import ccastro.casal.SQLite.ContracteBD.Factura;
 import ccastro.casal.SQLite.ContracteBD.Mesa;
 import ccastro.casal.SQLite.ContracteBD.Producte;
-import ccastro.casal.SQLite.ContracteBD.Treballador;
 import ccastro.casal.SQLite.ContracteBD.Reserva_Cliente;
+import ccastro.casal.SQLite.ContracteBD.Treballador;
 import ccastro.casal.SQLite.ContracteBD.Venta;
 
 
@@ -97,6 +97,9 @@ public class DBInterface {
     public Cursor RetornaMesasReservadasDataActual(){
         return bd.rawQuery(consulta.RetornaMesasReservadasDataActual,null);
     }
+    public Cursor RetornaClientsReservadosDataActualMesa(String idMesa){
+        return bd.rawQuery(consulta.RetornaClientsReservadosDataActualMesa(idMesa),null);
+    }
     public Cursor verificarLogin(String userName, String password){
         return bd.rawQuery(consulta.verificarLogin(userName,password),null);
     }
@@ -108,6 +111,23 @@ public class DBInterface {
         String where = Venta._ID + " = ? ";
         String[] selection = {""+idVenta};
         bd.update(Venta.NOM_TAULA, valores, where, selection);
+    }
+    public void ActalitzarPagoReservaDiaActual(String _id) {
+        Integer idCliente = Integer.parseInt(_id);
+        ContentValues valores = new ContentValues();
+        valores.put(Reserva_Cliente.PAGADO, "1");
+        String where = Reserva_Cliente.ID_CLIENTE + " = ? AND "+Reserva_Cliente.DIA_RESERVADO+" LIKE strftime('%Y %m %d','now')";
+        String[] selection = {""+idCliente};
+        bd.update(Reserva_Cliente.NOM_TAULA, valores, where, selection);
+        Log.d("proba", "Actualitzat");
+    }
+    public void ActualitzarAsistenciaReservaDiaActual(String _id) {
+        Integer idCliente = Integer.parseInt(_id);
+        ContentValues valores = new ContentValues();
+        valores.put(Reserva_Cliente.ASISTENCIA, "1");
+        String where = Reserva_Cliente.ID_CLIENTE + " = ? AND "+Reserva_Cliente.DIA_RESERVADO+" LIKE strftime('%Y %m %d','now')";
+        String[] selection = {""+idCliente};
+        bd.update(Reserva_Cliente.NOM_TAULA, valores, where, selection);
         Log.d("proba", "Actualitzat");
     }
 
@@ -172,11 +192,12 @@ public class DBInterface {
         return bd.insert(Mesa.NOM_TAULA, null, initialValues);
     }
 
-    public long InserirReserva_Cliente (String dia_reservado, String asistencia, Integer idCliente, Integer idMesa) {
+    public long InserirReserva_Cliente (String dia_reservado, String asistencia,String pagado, Integer idCliente, Integer idMesa) {
 
         ContentValues initialValues = new ContentValues();
         initialValues.put(Reserva_Cliente.DIA_RESERVADO,dia_reservado);
         initialValues.put(Reserva_Cliente.ASISTENCIA,asistencia);
+        initialValues.put(Reserva_Cliente.PAGADO,pagado);
         initialValues.put(Reserva_Cliente.ID_CLIENTE,idCliente);
         initialValues.put(Reserva_Cliente.ID_MESA,idMesa);
         return bd.insert(Reserva_Cliente.NOM_TAULA, null, initialValues);

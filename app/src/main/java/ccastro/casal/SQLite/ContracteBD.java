@@ -26,7 +26,8 @@ public class ContracteBD {
     public static final class Reserva_Cliente implements BaseColumns {
         public static final String NOM_TAULA = "reserva_cliente";
         public static final String DIA_RESERVADO = "dia_reservado";  // HABRA QUE PONER 2 datePicker y HACER RESERVA POR CADA DIA RESERVADO
-        public static final String ASISTENCIA = "asistencia";     // Si el cliente no viene se anota
+        public static final String ASISTENCIA = "asistencia";  // Si el cliente no viene se anota 0 PRESENTE 1 AUSENTE
+        public static final String PAGADO = "pagado";  // IF (pagado) hacer VENTA a cliente (id_cliente) y crear factura.
         public static final String ID_CLIENTE = "id_cliente";
         public static final String ID_MESA = "id_mesa";  // ESTA ES LA IMPORTANTE, si el cliente tiene mesa por defecto se auto-asigna, pero se puede cambiar
         // UNIQUE (id_cliente, dia_reservado)
