@@ -72,12 +72,12 @@ public class FacturaActivity extends AppCompatActivity {
                                         db.obre();
                                         db.ActalitzaEstatVenta(idVenta);
                                         db.tanca();
-                                        if (actualizarReserva){
-                                            db.obre();
-                                            Log.d("prueba: "," actualizad");
-                                            db.ActalitzarPagoReservaFecha(id_cliente,fechaReserva);
-                                            db.tanca();
-                                        }
+
+                                        // TODO ACTUALIZAR PAGO DE RESERVA, QUIZAS SE PUEDE QUITAR SI SE QUITA RESERVADA_PAGADA Y SE RELACIONA CON ID_VENTA
+                                        db.obre();
+                                        Log.d("prueba: "," actualizad");
+                                        db.ActalitzarPagoReservaFecha(id_cliente,obtenerFechaReserva());
+                                        db.tanca();
                                     }
                                 }
                         );
@@ -121,6 +121,7 @@ public class FacturaActivity extends AppCompatActivity {
                 String data = cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.DATA_VENTA));
                 String dataCorrecta[] = data.split(" ");
                 String dataFormatSpain = dataCorrecta[2]+"/"+dataCorrecta[1]+"/"+dataCorrecta[0];
+
                 dataVenta.setText(dataFormatSpain);
                 horaVenta.setText(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.HORA_VENTA)));
                 estatVenta.setText(verificarEstadoFactura(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.VENTA_COBRADA))));
@@ -145,15 +146,18 @@ public class FacturaActivity extends AppCompatActivity {
         }
         return idVenta;
     }
+    public String obtenerFechaReserva (){
+        Calendar ahoraCal = Calendar.getInstance();
+        // PARECE QUE EL MES EMPIEZA DESDE 0, HAY QUE SUMAR UNO.
+        ahoraCal.getTime();
+        return ahoraCal.get(Calendar.YEAR)+" "+(ahoraCal.get(Calendar.MONTH)+1)+
+                " "+ahoraCal.get(Calendar.DATE);
+    }
     public void cogerIntents(){
         if (getIntent().hasExtra("ID_CLIENT")){   // VIENE DE COMEDOR
             id_cliente = getIntent().getExtras().getString("ID_CLIENT");
             actualizarReserva=true;
-            Calendar ahoraCal = Calendar.getInstance();
-            // PARECE QUE EL MES EMPIEZA DESDE 0, HAY QUE SUMAR UNO.
-            ahoraCal.getTime();
-            fechaReserva = ahoraCal.get(Calendar.YEAR)+" "+(ahoraCal.get(Calendar.MONTH)+1)+
-                    " "+ahoraCal.get(Calendar.DATE);
+            fechaReserva = obtenerFechaReserva();
             Log.d("Fecha", fechaReserva);
             if (getIntent().hasExtra("NOM_CLIENT_RESERVA")){
                nomClient.setText(getIntent().getExtras().getString("NOM_CLIENT_RESERVA"));
@@ -213,6 +217,9 @@ public class FacturaActivity extends AppCompatActivity {
             }
             if (getIntent().hasExtra("HORA_VENTA")){
                 horaVenta.setText(getIntent().getExtras().getString("HORA_VENTA"));
+            }
+            if (getIntent().hasExtra("ID_CLIENT_VENTA")){
+                id_cliente = getIntent().getExtras().getString("ID_CLIENT_VENTA");
             }
             db.obre();
             Cursor cursor = db.RetornaFacturaId_Venta(idVenta);
