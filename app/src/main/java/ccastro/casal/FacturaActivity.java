@@ -14,7 +14,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import ccastro.casal.RecyclerView.HeaderAdapterFactura;
 import ccastro.casal.RecyclerView.HeaderFactura;
@@ -29,8 +32,9 @@ public class FacturaActivity extends AppCompatActivity {
     DBInterface db;
     TextView dataVenta,horaVenta,nomClient,nomTreballador,estatVenta,preuTotalFactura;
     Button buttonPagar;
-    String idVenta;
+    String idVenta,fechaReserva, id_cliente; // id_cliente lo cogemos de la reserva.
     View v;
+    Boolean actualizarReserva = false;
     private HeaderAdapterFactura headerAdapterFactura;
     private ArrayList<HeaderFactura> myDataset;
     private RecyclerView recyclerView;
@@ -71,6 +75,11 @@ public class FacturaActivity extends AppCompatActivity {
                                         db.obre();
                                         db.ActalitzaEstatVenta(idVenta);
                                         db.tanca();
+                                        if (actualizarReserva){
+                                            db.obre();
+                                            db.ActalitzarPagoReservaFecha(id_cliente,fechaReserva);
+                                            db.tanca();
+                                        }
                                     }
                                 }
                         );
@@ -111,7 +120,10 @@ public class FacturaActivity extends AppCompatActivity {
                         * Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)));
                 preuTotal = preuTotal + preuProducteQuantitat;
                 preuTotalFactura.setText(df.format(preuTotal)+"€");
-                dataVenta.setText(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.DATA_VENTA)));
+                String data = cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.DATA_VENTA));
+                String dataCorrecta[] = data.split(" ");
+                String dataFormatSpain = dataCorrecta[2]+"/"+dataCorrecta[1]+"/"+dataCorrecta[0];
+                dataVenta.setText(dataFormatSpain);
                 horaVenta.setText(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.HORA_VENTA)));
                 estatVenta.setText(verificarEstadoFactura(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.VENTA_COBRADA))));
                 nomTreballador.setText(NOM_USUARI);
@@ -137,7 +149,14 @@ public class FacturaActivity extends AppCompatActivity {
     }
     public void cogerIntents(){
         if (getIntent().hasExtra("ID_CLIENT")){   // VIENE DE COMEDOR
-            String id_cliente = getIntent().getExtras().getString("ID_CLIENT");
+            id_cliente = getIntent().getExtras().getString("ID_CLIENT");
+            actualizarReserva=true;
+            Calendar ahoraCal = Calendar.getInstance();
+            // PARECE QUE EL MES EMPIEZA DESDE 0, HAY QUE SUMAR UNO.
+            ahoraCal.getTime();
+            fechaReserva = ahoraCal.get(Calendar.YEAR)+" "+(ahoraCal.get(Calendar.MONTH)+1)+
+                    " "+ahoraCal.get(Calendar.DATE);
+            Log.d("Fecha", fechaReserva);
             if (getIntent().hasExtra("NOM_CLIENT_RESERVA")){
                nomClient.setText(getIntent().getExtras().getString("NOM_CLIENT_RESERVA"));
             }
@@ -147,8 +166,14 @@ public class FacturaActivity extends AppCompatActivity {
             Integer idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
             idVenta = Integer.toString(idVentaFactura);
             Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
-            if (idVentaFactura==-1){                                      //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
-                db.InserirVenta(Integer.parseInt(id_cliente),Integer.parseInt(ID_TREBALLADOR),"2017 11 18","0","23:23");
+            if (idVentaFactura==-1){
+
+
+                Date ahora = new Date();
+                SimpleDateFormat formateador = new SimpleDateFormat("hh:mm");
+                String hora = formateador.format(ahora);
+                                                                    //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
+                db.InserirVenta(Integer.parseInt(id_cliente),Integer.parseInt(ID_TREBALLADOR),fechaReserva,"0",hora);
                 cursorVentaFactura = db.EncontrarId_VentaFactura(id_cliente);
                 idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
                 idVenta = Integer.toString(idVentaFactura);

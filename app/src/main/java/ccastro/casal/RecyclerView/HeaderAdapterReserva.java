@@ -81,7 +81,7 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
     }
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView idClient,nomClient,tipusClient;
+        TextView idClient,nomClient,tipusClient,textViewPagado;
         CheckBox pagado,assistenciaReserva;
         View v;
         Context context;
@@ -97,6 +97,7 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
             assistenciaReserva = (CheckBox) v.findViewById(R.id.assistenciaReserva);
             pagado = (CheckBox) v.findViewById(R.id.pagadoReserva);
             context = itemView.getContext();
+            textViewPagado = (TextView) v.findViewById(R.id.textViewPagado);
             v.setOnClickListener(this);
         }
 

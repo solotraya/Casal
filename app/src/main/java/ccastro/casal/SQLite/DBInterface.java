@@ -138,6 +138,15 @@ public class DBInterface {
         bd.update(Reserva_Cliente.NOM_TAULA, valores, where, selection);
         Log.d("proba", "Actualitzat");
     }
+    public void ActalitzarPagoReservaFecha(String _id,String fecha) {
+        Integer idCliente = Integer.parseInt(_id);
+        ContentValues valores = new ContentValues();
+        valores.put(Reserva_Cliente.PAGADO, "1");
+        String where = Reserva_Cliente.ID_CLIENTE + " = ? AND "+Reserva_Cliente.DIA_RESERVADO+" LIKE '"+fecha+"'";
+        String[] selection = {""+idCliente};
+        bd.update(Reserva_Cliente.NOM_TAULA, valores, where, selection);
+        Log.d("proba ", fecha);
+    }
     public void ActualitzarAsistenciaReservaDiaActual(String _id) {
         Integer idCliente = Integer.parseInt(_id);
         ContentValues valores = new ContentValues();
