@@ -114,7 +114,7 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setMessage("Selecciona la opción a realizar!")
                         .setTitle("Atención!!")
-                        .setNegativeButton("AUSENTE", new DialogInterface.OnClickListener() {
+                        .setNegativeButton("AUSENTAR", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int i) {
                                 dialog.cancel();
@@ -128,19 +128,17 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                 db.tanca();
                             }
                         })
-                        .setPositiveButton("PAGADO",
+                        .setPositiveButton("PAGAR",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
-                                        v.setBackgroundColor(Color.rgb(165, 246, 149));
-                                        pagado.setChecked(true);
                                         Intent intent = new Intent(context,FacturaActivity.class);
                                         intent.putExtra("ID_CLIENT",idClient.getText().toString());
                                         intent.putExtra("NOM_CLIENT_RESERVA",nomClient.getText());
                                         context.startActivity(intent);
                                         Log.d("Proba:", "acces");
 
-                                       /*
+                                        /*
                                         DBInterface db=new DBInterface(v.getContext());
                                         db.obre();
                                         // MARCAR DESDE FACTURA
@@ -162,11 +160,10 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
 
                             }
                         })
-                        .setPositiveButton("AUSENTE",
+                        .setPositiveButton("AUSENTAR",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
-                                        v.setBackgroundColor(Color.rgb(255, 51, 30));                                            Toast.makeText(v.getContext(), "Ausencia Marcada!", Toast.LENGTH_LONG).show();
                                         assistenciaReserva.setChecked(true);
 
                                         DBInterface db = new DBInterface(v.getContext());
@@ -182,7 +179,6 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                 Toast.makeText(v.getContext(), "Un cliente ausente no te puede pagar!", Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(v.getContext(), "No se pueden realizar mas gestiones con esta reserva", Toast.LENGTH_SHORT).show();
-                v.setBackgroundColor(Color.rgb(255, 51, 30));
             }
         }
     }

@@ -41,10 +41,7 @@ public class ReservaActivity extends AppCompatActivity {
         recyclerView.setAdapter(headerAdapterReserva);
 
         cogerIntents();
-        db.obre();
-        Cursor cursor = db.RetornaClientsReservadosDataActualMesa(idMesaReserva);
-        myDataset = CursorBD(cursor);
-        db.tanca();
+
     }
     public void cogerIntents(){
         if (getIntent().hasExtra("ID_MESA")){  // pasado desde HeaderAdapterMesa
@@ -56,6 +53,7 @@ public class ReservaActivity extends AppCompatActivity {
     }
     public ArrayList CursorBD(Cursor cursor) {
         if (cursor.moveToFirst()) {
+            myDataset.clear();
             do {
                 myDataset.add(new HeaderReserva(
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Client._ID)),
@@ -66,5 +64,15 @@ public class ReservaActivity extends AppCompatActivity {
             } while (cursor.moveToNext());
         }
         return myDataset;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        db.obre();
+        Cursor cursor = db.RetornaClientsReservadosDataActualMesa(idMesaReserva);
+        myDataset = CursorBD(cursor);
+        db.tanca();
+        headerAdapterReserva.actualitzaRecycler(myDataset);
     }
 }
