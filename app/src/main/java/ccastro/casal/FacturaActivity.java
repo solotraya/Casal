@@ -147,7 +147,7 @@ public class FacturaActivity extends AppCompatActivity {
             Integer idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
             idVenta = Integer.toString(idVentaFactura);
             Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
-            if (idVentaFactura==-1){
+            if (idVentaFactura==-1){                                      //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
                 db.InserirVenta(Integer.parseInt(id_cliente),Integer.parseInt(ID_TREBALLADOR),"2017 11 18","0","23:23");
                 cursorVentaFactura = db.EncontrarId_VentaFactura(id_cliente);
                 idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
