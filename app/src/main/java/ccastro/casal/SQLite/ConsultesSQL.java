@@ -17,6 +17,9 @@ import ccastro.casal.SQLite.ContracteBD.Venta;
  */
 
 public class ConsultesSQL {
+    String RetornaTodasLasMesas ="Select m."+ Mesa._ID+", m."+ Mesa.NOMBRE_MESA+
+            " FROM "+ Mesa.NOM_TAULA+" m";
+
     String RetornaMesasReservadasDataActual ="Select distinct m."+ Mesa._ID+", m."+ Mesa.NOMBRE_MESA+
             " FROM "+ Mesa.NOM_TAULA+" m"+
             " LEFT JOIN  " + Reserva_Cliente.NOM_TAULA + " r ON m." + Mesa._ID + " = r." + Reserva_Cliente.ID_MESA+

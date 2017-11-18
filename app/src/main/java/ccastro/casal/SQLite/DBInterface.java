@@ -110,6 +110,10 @@ public class DBInterface {
         return bd.rawQuery(consulta.RetornaClientsReservadosDataActualMesa(idMesa),null);
     }
 
+    public Cursor RetornaTodasLasMesas() {
+        return bd.rawQuery(consulta.RetornaTodasLasMesas,null);
+    }
+
     public Cursor verificarLogin(String userName, String password){
         return bd.rawQuery(consulta.verificarLogin(userName,password),null);
     }

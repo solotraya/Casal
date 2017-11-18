@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ccastro.casal.MesaActivity"
-    android:weightSum="10"
     android:orientation="vertical">
 
 
@@ -63,23 +62,22 @@
             android:text="RESERVAR" />
 
     </LinearLayout>
-
-    <LinearLayout
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/filter_toolbarMesa"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"  />
+    <!-- <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="9"
-        android:orientation="vertical">
+        android:orientation="vertical"> -->
 
-        <Button
-            android:id="@+id/buttonAñadirReserva"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="AÑADIR RESERVA" />
-
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recyclerView_consulta"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
-    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView_consulta"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
 </LinearLayout>

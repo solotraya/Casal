@@ -1,15 +1,19 @@
 package ccastro.casal;
 
 import android.database.Cursor;
+import android.database.MatrixCursor;
+import android.database.MergeCursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +30,8 @@ public class MesaActivity extends AppCompatActivity {
     DBInterface db;
     TextView nomMesa;
     EditText dia,pagado,cliente,mesa;
-    Button añadirReserva, reservar;
+    Button  reservar;
+    private Spinner spinnerMesa, spinnerClientes;
     LinearLayout reserva;
     String idMesa;
     View v;
@@ -35,18 +40,26 @@ public class MesaActivity extends AppCompatActivity {
     private ArrayList<HeaderMesa> myDataset;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    private android.widget.SimpleCursorAdapter adapterMesa;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mesa);
         db = new DBInterface(this);
+
+        Toolbar editToolbar = (Toolbar) findViewById(R.id.filter_toolbarMesa);
+        editToolbar.inflateMenu(R.menu.toolbar_menu_mesa);
+        spinnerClientes = (Spinner) findViewById(R.id.spinnerClientes);
+        spinnerMesa = (Spinner)findViewById(R.id.spinnerMesa);
+
+        iniciarSpinnerClientes();
+        iniciarSpinnerMesa();
         nomMesa = (TextView) findViewById(R.id.nomMesa);
         dia = (EditText) findViewById(R.id.editTextDia);
         pagado = (EditText) findViewById(R.id.editTextPagado);
         cliente = (EditText) findViewById(R.id.editTextIDCliente);
         mesa = (EditText) findViewById(R.id.editTextIDMesa);
         reservar = (Button) findViewById(R.id.buttonReservar) ;
-        añadirReserva = (Button) findViewById(R.id.buttonAñadirReserva) ;
         reserva = (LinearLayout) findViewById(R.id.LayoutReserva);
         dia.getText().toString();
         reservar.setOnClickListener( new View.OnClickListener(){
@@ -70,13 +83,13 @@ public class MesaActivity extends AppCompatActivity {
                                               }
                                           }
         );
-        añadirReserva.setOnClickListener( new View.OnClickListener(){
+       /* añadirReserva.setOnClickListener( new View.OnClickListener(){
                                          @Override
                                          public void onClick(View view) {
                                              reserva.setVisibility(View.VISIBLE);
                                          }
                                      }
-        );
+        ); */
         myDataset = new ArrayList<>();
         headerAdapterMesa= new HeaderAdapterMesa(myDataset);
         db = new DBInterface(this);
@@ -88,8 +101,32 @@ public class MesaActivity extends AppCompatActivity {
         actualizarRecyclerView();
 
     }
-    public  void crearFacturaReservaMesa(){
+    public void iniciarSpinnerClientes(){
 
+    }
+
+    public void iniciarSpinnerMesa(){
+        db.obre();
+        Cursor cursor = getCursorSpinnerMesa(db.RetornaTodasLasMesas());
+        adapterMesa = new android.widget.SimpleCursorAdapter(this,
+                android.R.layout.simple_spinner_dropdown_item,
+                cursor,
+                new String[]{"nombre_mesa"}, //Columna del cursor que volem agafar
+                new int[]{android.R.id.text1}, 0);
+        adapterMesa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        //Afegeix l'adapter al Spinner de treballadors
+        spinnerMesa.setAdapter(adapterMesa);
+        db.tanca();
+    }
+    private Cursor getCursorSpinnerMesa(Cursor cursor) {
+        MatrixCursor extras = new MatrixCursor(new String[]{"_id", "nombre_mesa"});
+        //extras.addRow(new String[]{"0", "Tots"});
+        Cursor[] cursors = {extras, cursor};
+        return new MergeCursor(cursors);
+    }
+
+
+    public  void crearFacturaReservaMesa(){
         db.obre();
         Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(cliente.getText().toString());
         Integer idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
