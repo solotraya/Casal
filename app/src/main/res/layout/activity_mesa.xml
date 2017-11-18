@@ -5,12 +5,81 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ccastro.casal.MesaActivity"
+    android:weightSum="10"
     android:orientation="vertical">
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_consulta"
+    <LinearLayout
+        android:id="@+id/LayoutReserva"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/editTextDia"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="dia"
+            />
+
+        <EditText
+            android:id="@+id/editTextPagado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="pagado"
+            />
+
+        <EditText
+            android:id="@+id/editTextIDCliente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="IDCliente"
+            />
+
+        <EditText
+            android:id="@+id/editTextIDMesa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:hint="IDMEsa" />
+
+        <Button
+            android:id="@+id/buttonReservar"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="RESERVAR" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="9"
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/buttonAñadirReserva"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="AÑADIR RESERVA" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_consulta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
+    </LinearLayout>
 
 </LinearLayout>

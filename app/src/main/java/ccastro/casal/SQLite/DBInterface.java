@@ -117,9 +117,10 @@ public class DBInterface {
          bd.rawQuery(consulta.AñadirProductoAFactura(id_cliente,idProducto),null);
          return null;
     }
-    public Cursor EncontrarId_VentaFactura(String id_cliente){
-        return bd.rawQuery(consulta.EncontrarId_VentaFactura(id_cliente),null);
+    public Cursor EncontrarId_VentaFacturaSinPagar(String id_cliente){
+        return bd.rawQuery(consulta.EncontrarId_VentaFacturaSinPagar(id_cliente),null);
     }
+
 
     public void ActalitzaEstatVenta(String _id) {
         Integer idVenta = Integer.parseInt(_id);
@@ -145,7 +146,7 @@ public class DBInterface {
         String where = Reserva_Cliente.ID_CLIENTE + " = ? AND "+Reserva_Cliente.DIA_RESERVADO+" LIKE '"+fecha+"'";
         String[] selection = {""+idCliente};
         bd.update(Reserva_Cliente.NOM_TAULA, valores, where, selection);
-        Log.d("proba ", fecha);
+        Log.d("proba pagdo: ", fecha);
     }
     public void ActualitzarAsistenciaReservaDiaActual(String _id) {
         Integer idCliente = Integer.parseInt(_id);

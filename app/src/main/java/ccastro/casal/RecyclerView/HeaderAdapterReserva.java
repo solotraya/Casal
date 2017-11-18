@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,13 +134,11 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                         dialog.cancel();
                                         v.setBackgroundColor(Color.rgb(165, 246, 149));
                                         pagado.setChecked(true);
-
                                         Intent intent = new Intent(context,FacturaActivity.class);
                                         intent.putExtra("ID_CLIENT",idClient.getText().toString());
                                         intent.putExtra("NOM_CLIENT_RESERVA",nomClient.getText());
                                         context.startActivity(intent);
-
-
+                                        Log.d("Proba:", "acces");
 
                                        /*
                                         DBInterface db=new DBInterface(v.getContext());

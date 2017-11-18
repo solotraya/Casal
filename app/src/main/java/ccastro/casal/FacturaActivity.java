@@ -14,17 +14,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import ccastro.casal.RecyclerView.HeaderAdapterFactura;
 import ccastro.casal.RecyclerView.HeaderFactura;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
 
-import static ccastro.casal.LoginActivity.ID_TREBALLADOR;
 import static ccastro.casal.LoginActivity.NOM_USUARI;
 import static ccastro.casal.R.id.ventaPagada;
 
@@ -77,6 +74,7 @@ public class FacturaActivity extends AppCompatActivity {
                                         db.tanca();
                                         if (actualizarReserva){
                                             db.obre();
+                                            Log.d("prueba: "," actualizad");
                                             db.ActalitzarPagoReservaFecha(id_cliente,fechaReserva);
                                             db.tanca();
                                         }
@@ -161,10 +159,17 @@ public class FacturaActivity extends AppCompatActivity {
                nomClient.setText(getIntent().getExtras().getString("NOM_CLIENT_RESERVA"));
             }
             // AÑADIR PRIMERO MENU A PAGAR
+            // MIRAR SI SE PUEDE HACER LO SIGUIENTE:
+            // UNA VEZ ADJUDICAS RESERVADEMENU EN LA INTERFICE QUE HARE
+            // ABRIR VENTA + FACTURA + SI TIENE COSAS PENDIENTES
+
+            // BUSCAMOS EL ID_VENTA para RELACIONARLO CON LA FACTURA
             db.obre();
-            Cursor cursorVentaFactura = db.EncontrarId_VentaFactura(id_cliente);
+            Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
             Integer idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
             idVenta = Integer.toString(idVentaFactura);
+            db.tanca();
+            /*  YA SE PUEDE BORRAR
             Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
             if (idVentaFactura==-1){
 
@@ -179,7 +184,7 @@ public class FacturaActivity extends AppCompatActivity {
                 idVenta = Integer.toString(idVentaFactura);
             }
             db.InserirFactura(1,idVentaFactura,1);
-            db.tanca();
+            db.tanca(); */
             db.obre();
             Cursor cursor = db.RetornaFacturaIdCliente(id_cliente);
             myDataset = CursorBD(cursor);

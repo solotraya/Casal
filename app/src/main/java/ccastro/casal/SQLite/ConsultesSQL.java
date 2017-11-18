@@ -63,7 +63,7 @@ public class ConsultesSQL {
                     " Select v."+Venta._ID+
                     " FROM "+Venta.NOM_TAULA+" v"+
                     //" LEFT JOIN "+ Reserva_Cliente.NOM_TAULA+" r ON r."+Reserva_Cliente.ID_CLIENTE+" LIKE v."+Venta.ID_CLIENT+
-                    " WHERE v."+Venta.ID_CLIENT+" LIKE "+idCliente+
+                    " WHERE v."+Venta.ID_CLIENT+" LIKE "+idCliente+" AND v."+Venta.VENTA_COBRADA+" LIKE '0'"+
                 ")";
     }
 
@@ -98,10 +98,10 @@ public class ConsultesSQL {
         //INSERT INTO Factura (quantitat_producte,id_producte,id_venta) VALUES (1,1,(Select v._id FROM Venta v LEFT JOIN reserva_cliente r ON r.id_cliente LIKE v.id_client WHERE v.ventaCobrada LIKE '0' AND v.id_client LIKE 1))
         return consulta;
     }
-    public String EncontrarId_VentaFactura(String id_cliente){
+    public String EncontrarId_VentaFacturaSinPagar(String id_cliente){
         return " Select v."+Venta._ID+
                 " FROM "+Venta.NOM_TAULA+" v"+
-                " WHERE v."+Venta.ID_CLIENT+" LIKE "+id_cliente;
+                " WHERE v."+Venta.ID_CLIENT+" LIKE "+id_cliente+" AND v."+Venta.VENTA_COBRADA+" LIKE '0'";
     }
 
     /**

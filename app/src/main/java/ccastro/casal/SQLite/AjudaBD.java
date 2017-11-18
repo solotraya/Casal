@@ -64,7 +64,7 @@ public class AjudaBD extends SQLiteOpenHelper {
             + Reserva_Cliente._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + Reserva_Cliente.DIA_RESERVADO + " TEXT NOT NULL, "
             + Reserva_Cliente.ASISTENCIA+ " TEXT, "
-            + Reserva_Cliente.PAGADO+ " TEXT, "
+            + Reserva_Cliente.PAGADO+ " TEXT, "  // CAMBIAR A FACTURADO. SE PAGAN LAS VENTAS NO LAS RESERVAS.
             + Reserva_Cliente.ID_CLIENTE+ " INTEGER NOT NULL, "
             + Reserva_Cliente.ID_MESA+ " INTEGER NOT NULL, "
             + "FOREIGN KEY("+ Reserva_Cliente.ID_CLIENTE+") REFERENCES " + Client.NOM_TAULA +"(" + Client._ID +"),"
