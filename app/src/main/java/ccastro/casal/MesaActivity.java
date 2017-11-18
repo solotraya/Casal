@@ -29,6 +29,7 @@ public class MesaActivity extends AppCompatActivity {
     LinearLayout reserva;
     String idMesa;
     View v;
+    Long resultatInserirClient;
     private HeaderAdapterMesa headerAdapterMesa;
     private ArrayList<HeaderMesa> myDataset;
     private RecyclerView recyclerView;
@@ -56,12 +57,11 @@ public class MesaActivity extends AppCompatActivity {
                                                   Integer id_mesa = Integer.parseInt(mesa.getText().toString());
                                                   db.obre();
                                                 //  db.InserirReserva_Cliente(diaReservado,"0",pagadoReserva,id_cliente,id_mesa);
-                                                  db.InserirReserva_Cliente("2017 11 18","0",pagadoReserva,id_cliente,id_mesa);
+                                                  resultatInserirClient = db.InserirReserva_Cliente("2017 11 18","0",pagadoReserva,id_cliente,id_mesa);
+                                                  Log.d("Result INSERIR CLIENT: ",Long.toString(resultatInserirClient));
                                                   db.tanca();
                                                   reserva.setVisibility(View.GONE);
                                                   actualizarRecyclerView();
-                                                  headerAdapterMesa.actualitzaRecycler(myDataset);
-
                                                   crearFacturaReservaMesa();
 
                                               }
@@ -86,23 +86,28 @@ public class MesaActivity extends AppCompatActivity {
 
     }
     public  void crearFacturaReservaMesa(){
-        db.obre();
-        Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(cliente.getText().toString());
-        Integer idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
-        String idVenta = Integer.toString(idVentaFactura);
-        Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
-        if (idVentaFactura==-1){ // Si no tienen una factura pendiente por pagar
-            Date ahora = new Date();
-            SimpleDateFormat formateador = new SimpleDateFormat("hh:mm");
-            String hora = formateador.format(ahora);
-            //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
-            db.InserirVenta(Integer.parseInt(cliente.getText().toString()),Integer.parseInt(LoginActivity.ID_TREBALLADOR),"2017 11 18","0",hora);
-            cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(cliente.getText().toString());
-            idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
-            idVenta = Integer.toString(idVentaFactura);
+        // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
+        if (resultatInserirClient!=-1){
+            db.obre();
+            Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(cliente.getText().toString());
+            Integer idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
+            String idVenta = Integer.toString(idVentaFactura);
+            Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
+            if (idVentaFactura==-1){ // Si no tienen una factura pendiente por pagar
+                Date ahora = new Date();
+                SimpleDateFormat formateador = new SimpleDateFormat("hh:mm");
+                String hora = formateador.format(ahora);
+                //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
+                db.InserirVenta(Integer.parseInt(cliente.getText().toString()),Integer.parseInt(LoginActivity.ID_TREBALLADOR),"2017 11 18","0",hora);
+                cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(cliente.getText().toString());
+                idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
+                idVenta = Integer.toString(idVentaFactura);
+            }
+            // CREAMOS FACTURA: AÑADIMOS MENU AL RESERVAR MESA
+            db.InserirFactura(1,idVentaFactura,1);
+            db.tanca();
         }
-        db.InserirFactura(1,idVentaFactura,1);
-        db.tanca();
+
     }
     public  Integer cursorIDVentaFactura(Cursor cursor){
         Integer idVenta=-1;
