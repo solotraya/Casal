@@ -85,23 +85,40 @@ public class DBInterface {
     public Cursor RetornaTotsElsClients() {
         return bd.rawQuery(consulta.RetornaTotsElsClients, null);
     }
+
     public Cursor RetornaVentesDataActual(){
         return bd.rawQuery(consulta.RetornaVentesDataActual,null);
     }
+
     public Cursor RetornaVentesDataActualEstatVenta(String estatVenta){
         return bd.rawQuery(consulta.RetornaVentesDataActualEstatVenta(estatVenta),null);
     }
+
+    public Cursor RetornaFacturaIdCliente(String idCliente){
+        return bd.rawQuery(consulta.RetornaFacturaIdCliente(idCliente),null);
+    }
+
     public Cursor RetornaFacturaId_Venta(String idVenta){
         return bd.rawQuery(consulta.RetornaFacturaId_Venta(idVenta),null);
     }
+
     public Cursor RetornaMesasReservadasDataActual(){
         return bd.rawQuery(consulta.RetornaMesasReservadasDataActual,null);
     }
+
     public Cursor RetornaClientsReservadosDataActualMesa(String idMesa){
         return bd.rawQuery(consulta.RetornaClientsReservadosDataActualMesa(idMesa),null);
     }
+
     public Cursor verificarLogin(String userName, String password){
         return bd.rawQuery(consulta.verificarLogin(userName,password),null);
+    }
+    public Cursor AñadirProductoAFactura(String id_cliente, String idProducto){
+         bd.rawQuery(consulta.AñadirProductoAFactura(id_cliente,idProducto),null);
+         return null;
+    }
+    public Cursor EncontrarId_VentaFactura(String id_cliente){
+        return bd.rawQuery(consulta.EncontrarId_VentaFactura(id_cliente),null);
     }
 
     public void ActalitzaEstatVenta(String _id) {

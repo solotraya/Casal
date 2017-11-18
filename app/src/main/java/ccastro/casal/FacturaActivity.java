@@ -21,6 +21,8 @@ import ccastro.casal.RecyclerView.HeaderFactura;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
 
+import static ccastro.casal.LoginActivity.ID_TREBALLADOR;
+import static ccastro.casal.LoginActivity.NOM_USUARI;
 import static ccastro.casal.R.id.ventaPagada;
 
 public class FacturaActivity extends AppCompatActivity {
@@ -76,7 +78,6 @@ public class FacturaActivity extends AppCompatActivity {
                 alert.show();
             }
         });
-        cogerIntents();
         myDataset = new ArrayList<>();
         headerAdapterFactura= new HeaderAdapterFactura(myDataset);
         db = new DBInterface(this);
@@ -85,11 +86,8 @@ public class FacturaActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(headerAdapterFactura);
+        cogerIntents();
 
-        db.obre();
-        Cursor cursor = db.RetornaFacturaId_Venta(idVenta);
-        myDataset = CursorBD(cursor);
-        db.tanca();
     }
 
     public  ArrayList CursorBD(Cursor cursor){
@@ -113,35 +111,83 @@ public class FacturaActivity extends AppCompatActivity {
                         * Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)));
                 preuTotal = preuTotal + preuProducteQuantitat;
                 preuTotalFactura.setText(df.format(preuTotal)+"€");
+                dataVenta.setText(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.DATA_VENTA)));
+                horaVenta.setText(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.HORA_VENTA)));
+                estatVenta.setText(verificarEstadoFactura(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.VENTA_COBRADA))));
+                nomTreballador.setText(NOM_USUARI);
+
             } while(cursor.moveToNext());
         }
         return myDataset;
     }
-
-
-
+    public String verificarEstadoFactura (String estado){
+        if (estado.equalsIgnoreCase("0")){
+            return "Falta pagar";
+        }
+        else return "Pagado";
+    }
+    public  Integer cursorIDVentaFactura(Cursor cursor){
+        Integer idVenta=-1;
+        if(cursor.moveToFirst()){
+            do {
+                idVenta=Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta._ID)));
+            } while(cursor.moveToNext());
+        }
+        return idVenta;
+    }
     public void cogerIntents(){
-        if (getIntent().hasExtra("ID_VENTA")){  // pasado desde HeaderAdapterVenta
-            idVenta = getIntent().getExtras().getString("ID_VENTA");
-        }
-        if (getIntent().hasExtra("DATA_VENTA")){
-            dataVenta.setText(getIntent().getExtras().getString("DATA_VENTA"));
-        }
-        if (getIntent().hasExtra("NOM_CLIENT")){
-            nomClient.setText(getIntent().getExtras().getString("NOM_CLIENT"));
-        }
-        if (getIntent().hasExtra("NOM_TREBALLADOR")){
-            nomTreballador.setText(getIntent().getExtras().getString("NOM_TREBALLADOR"));
-        }
-        if (getIntent().hasExtra("ESTAT_VENTA")){
-            estatVenta.setText(getIntent().getExtras().getString("ESTAT_VENTA"));
-            Log.d("ESTADO: ",estatVenta.getText().toString());
-            if (estatVenta.getText().toString().equalsIgnoreCase("Pagado")){
-                buttonPagar.setVisibility(View.INVISIBLE);
+        if (getIntent().hasExtra("ID_CLIENT")){   // VIENE DE COMEDOR
+            String id_cliente = getIntent().getExtras().getString("ID_CLIENT");
+            if (getIntent().hasExtra("NOM_CLIENT_RESERVA")){
+               nomClient.setText(getIntent().getExtras().getString("NOM_CLIENT_RESERVA"));
             }
-        }
-        if (getIntent().hasExtra("HORA_VENTA")){
-            horaVenta.setText(getIntent().getExtras().getString("HORA_VENTA"));
+            // AÑADIR PRIMERO MENU A PAGAR
+            db.obre();
+            Cursor cursorVentaFactura = db.EncontrarId_VentaFactura(id_cliente);
+            Integer idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
+            idVenta = Integer.toString(idVentaFactura);
+            Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
+            if (idVentaFactura==-1){
+                db.InserirVenta(Integer.parseInt(id_cliente),Integer.parseInt(ID_TREBALLADOR),"2017 11 18","0","23:23");
+                cursorVentaFactura = db.EncontrarId_VentaFactura(id_cliente);
+                idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
+                idVenta = Integer.toString(idVentaFactura);
+            }
+            db.InserirFactura(1,idVentaFactura,1);
+            db.tanca();
+            db.obre();
+            Cursor cursor = db.RetornaFacturaIdCliente(id_cliente);
+            myDataset = CursorBD(cursor);
+            db.tanca();
+
+
+        } else {  // VIENE DE LISTADO DE VENTAS
+            if (getIntent().hasExtra("ID_VENTA")){  // pasado desde HeaderAdapterVenta
+                idVenta = getIntent().getExtras().getString("ID_VENTA");
+            }
+            if (getIntent().hasExtra("DATA_VENTA")){
+                dataVenta.setText(getIntent().getExtras().getString("DATA_VENTA"));
+            }
+            if (getIntent().hasExtra("NOM_CLIENT")){
+                nomClient.setText(getIntent().getExtras().getString("NOM_CLIENT"));
+            }
+            if (getIntent().hasExtra("NOM_TREBALLADOR")){
+                nomTreballador.setText(getIntent().getExtras().getString("NOM_TREBALLADOR"));
+            }
+            if (getIntent().hasExtra("ESTAT_VENTA")){
+                estatVenta.setText(getIntent().getExtras().getString("ESTAT_VENTA"));
+                Log.d("ESTADO: ",estatVenta.getText().toString());
+                if (estatVenta.getText().toString().equalsIgnoreCase("Pagado")){
+                    buttonPagar.setVisibility(View.INVISIBLE);
+                }
+            }
+            if (getIntent().hasExtra("HORA_VENTA")){
+                horaVenta.setText(getIntent().getExtras().getString("HORA_VENTA"));
+            }
+            db.obre();
+            Cursor cursor = db.RetornaFacturaId_Venta(idVenta);
+            myDataset = CursorBD(cursor);
+            db.tanca();
         }
     }
 }

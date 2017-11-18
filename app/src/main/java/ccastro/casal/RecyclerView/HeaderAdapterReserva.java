@@ -2,6 +2,7 @@ package ccastro.casal.RecyclerView;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ccastro.casal.FacturaActivity;
 import ccastro.casal.R;
 import ccastro.casal.SQLite.DBInterface;
 
@@ -131,10 +133,19 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                         v.setBackgroundColor(Color.rgb(165, 246, 149));
                                         pagado.setChecked(true);
 
+                                        Intent intent = new Intent(context,FacturaActivity.class);
+                                        intent.putExtra("ID_CLIENT",idClient.getText().toString());
+                                        intent.putExtra("NOM_CLIENT_RESERVA",nomClient.getText());
+                                        context.startActivity(intent);
+
+
+
+                                       /*
                                         DBInterface db=new DBInterface(v.getContext());
                                         db.obre();
+                                        // MARCAR DESDE FACTURA
                                         db.ActalitzarPagoReservaDiaActual(idClient.getText().toString());
-                                        db.tanca();
+                                        db.tanca(); */
                                     }
                                 }
                         );

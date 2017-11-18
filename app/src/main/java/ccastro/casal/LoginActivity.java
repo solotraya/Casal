@@ -57,6 +57,9 @@ public class LoginActivity extends AppCompatActivity {
         db.obre();
         // TRABAJADOR admin PARA CUANDO ELIMINE INTRODUCCION DE EJEMPLOS
         db.InserirTreballador("Administrador"," ","admin","xxx");
+
+       // ************* HAY QUE INSERTAR MENU DIARIO en PRODUCTO ID1 y QUE NO SE PUEDA ELIMINAR, SI MODIFICAR *************
+        db.InserirProducte("Menú Diario","5.50","Menu");
         db.tanca();
         cargarPreferencias();
         buttonEntrar = (Button) findViewById(R.id.buttonEntrar);
@@ -169,6 +172,7 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirClient("Juan","Gomez Fuentes","Llevar",3);
 
         // nomProducte, preu, tipus
+        db.InserirProducte("Menú Diario","5.50","Menu");
         db.InserirProducte("Café Solo","1.10","Café");
         db.InserirProducte("Café con leche","1.20","Café");
         db.InserirProducte("Carajillo","1.50","Café");
@@ -178,22 +182,22 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirProducte("Bocadillo pequeño","2","Bocadillos");
 
 
+
         //id_client,id_treballador,dataVenta,Cobrada,TotalVenta
-        db.InserirVenta(1,1,"2017 11 17","0","10:15");  // SIN ID_FACTURA!!
-        db.InserirVenta(2,2,"2017 11 17","1","11:00");
+        db.InserirVenta(1,1,"2017 11 18","0","10:15");  // SIN ID_FACTURA!!
+        db.InserirVenta(2,2,"2017 11 18","1","11:00");
 
                  //id_producte,id_venta/quantitatProducte
         db.InserirFactura(2,1,1);db.InserirFactura(3,1,2);db.InserirFactura(5,1,4);
         db.InserirFactura(1,2,2);db.InserirFactura(4,2,1);db.InserirFactura(6,2,3);
 
 
-
         //dia, assistencia(0 SI por defecto, 1 NO), pagado (0 NO, 1 SI),idCliente, idMesa
 
-        db.InserirReserva_Cliente("2017 11 17","0","1",2,2);
-        db.InserirReserva_Cliente("2017 11 17","0","0",4,2);
-        db.InserirReserva_Cliente("2017 11 17","0","0",1,2);db.InserirReserva_Cliente("2017 11 18","0","0",2,2);
-        db.InserirReserva_Cliente("2017 11 17","0","0",3,2);
+        db.InserirReserva_Cliente("2017 11 18","0","1",2,2);
+        db.InserirReserva_Cliente("2017 11 18","0","0",4,2);
+        db.InserirReserva_Cliente("2017 11 18","0","0",1,2); db.InserirReserva_Cliente("2017 11 19","0","0",2,2);
+        db.InserirReserva_Cliente("2017 11 18","0","0",3,2);
         db.tanca();
     }
 

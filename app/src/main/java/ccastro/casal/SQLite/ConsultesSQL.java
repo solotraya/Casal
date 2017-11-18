@@ -50,6 +50,23 @@ public class ConsultesSQL {
                 " LEFT JOIN  " + Producte.NOM_TAULA + " p ON f." + Factura.ID_PRODUCTE + " = p." + Producte._ID+
                 " WHERE f."+Factura.ID_VENTA+ " = "+id_Venta;
     }
+
+    public String RetornaFacturaIdCliente(String idCliente){
+
+        return " Select p."+ Producte.NOM_PRODUCTE+", p."+ Producte.PREU_PRODUCTE+", p."+ Producte.TIPUS_PRODUCTE+
+                ", f."+ Factura.QUANTITAT_PRODUCTE+", v."+ Venta.DATA_VENTA+ ", v."+ Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+
+                " FROM "+ Factura.NOM_TAULA+" f"+
+                " LEFT JOIN  " + Venta.NOM_TAULA + " v ON f." + Factura.ID_VENTA + " = v." + Venta._ID+
+                " LEFT JOIN  " + Producte.NOM_TAULA + " p ON f." + Factura.ID_PRODUCTE + " = p." + Producte._ID+
+                " WHERE f."+Factura.ID_VENTA+ " = " +
+                "(" +
+                    " Select v."+Venta._ID+
+                    " FROM "+Venta.NOM_TAULA+" v"+
+                    //" LEFT JOIN "+ Reserva_Cliente.NOM_TAULA+" r ON r."+Reserva_Cliente.ID_CLIENTE+" LIKE v."+Venta.ID_CLIENT+
+                    " WHERE v."+Venta.ID_CLIENT+" LIKE "+idCliente+
+                ")";
+    }
+
     public String RetornaVentesDataActualEstatVenta(String estatVenta){
         return  " Select v."+ Venta._ID+", v."+ Venta.DATA_VENTA+
                 ", v." + Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+
@@ -71,6 +88,20 @@ public class ConsultesSQL {
         return  " Select t."+ Treballador._ID+",t."+ Treballador.NOM_TREBALLADOR+",t."+ Treballador.COGNOMS_TREBALLADOR+
                 " FROM "+ Treballador.NOM_TAULA+" t"+
                 " WHERE t."+ Treballador.USER_NAME+" LIKE '"+userName+"' AND t."+ Treballador.PASSWORD+" LIKE '"+password+"'";
+    }
+    public String AñadirProductoAFactura(String id_cliente, String idProducto){
+        String consulta = " INSERT INTO "+Factura.NOM_TAULA+"  ("+Factura.QUANTITAT_PRODUCTE+","+Factura.ID_PRODUCTE+","+Factura.ID_VENTA+")"+
+                " VALUES (1,1,(Select "+Venta._ID+
+                " FROM "+Venta.NOM_TAULA+
+                " WHERE "+Venta.ID_CLIENT+" LIKE "+id_cliente+
+                "))";
+        //INSERT INTO Factura (quantitat_producte,id_producte,id_venta) VALUES (1,1,(Select v._id FROM Venta v LEFT JOIN reserva_cliente r ON r.id_cliente LIKE v.id_client WHERE v.ventaCobrada LIKE '0' AND v.id_client LIKE 1))
+        return consulta;
+    }
+    public String EncontrarId_VentaFactura(String id_cliente){
+        return " Select v."+Venta._ID+
+                " FROM "+Venta.NOM_TAULA+" v"+
+                " WHERE v."+Venta.ID_CLIENT+" LIKE "+id_cliente;
     }
 
     /**
