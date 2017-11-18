@@ -137,13 +137,6 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                         intent.putExtra("NOM_CLIENT_RESERVA",nomClient.getText());
                                         context.startActivity(intent);
                                         Log.d("Proba:", "acces");
-
-                                        /*
-                                        DBInterface db=new DBInterface(v.getContext());
-                                        db.obre();
-                                        // MARCAR DESDE FACTURA
-                                        db.ActalitzarPagoReservaDiaActual(idClient.getText().toString());
-                                        db.tanca(); */
                                     }
                                 }
                         );
