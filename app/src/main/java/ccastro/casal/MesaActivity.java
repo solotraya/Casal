@@ -3,6 +3,7 @@ package ccastro.casal;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -117,12 +119,15 @@ public class MesaActivity extends AppCompatActivity {
         //Afegeix l'adapter al Spinner de treballadors
         spinnerMesa.setAdapter(adapterMesa);
         db.tanca();
+
+        spinnerMesa.setOnItemSelectedListener(new myOnItemSelectedListener());
     }
     private Cursor getCursorSpinnerMesa(Cursor cursor) {
         MatrixCursor extras = new MatrixCursor(new String[]{"_id", "nombre_mesa"});
         //extras.addRow(new String[]{"0", "Tots"});
         Cursor[] cursors = {extras, cursor};
         return new MergeCursor(cursors);
+
     }
 
 
@@ -176,5 +181,37 @@ public class MesaActivity extends AppCompatActivity {
             } while(cursor.moveToNext());
         }
         return myDataset;
+    }
+
+
+    class myOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
+
+        /**
+         * @author Carlos Alberto Castro Cañabate
+         *
+         * Mètode per fer una acció una vegada seleccionat un treballador a l'spinner de treballadors.
+         * @param adapterView adaptador
+         * @param view spinner
+         * @param position posició a l'spinner
+         * @param id correspón a la columna _id de treballadors
+         */
+        @Override
+        public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+            Cursor cursor = null;
+
+            ((TextView) view).setTextColor(Color.WHITE);  // COLOR DEL TEXTO SELECCIONADO DEL TOOLBAR
+
+            // CUANDO SE SELECCIONE CLIENTE, PONER AUTOMATICAMENTE SPINNER CON LA MESA_POR_DEFECTO DEL CLIENTE.
+            // BUSCAR COMO INTRODUCIR UN SEARCHVIEW DENTRO DE EL TOOLBAR PARA QUE SEA UN WIDGET MAS
+        }
+
+        /**
+         * Mètode per realitzar una acció quan no hi ha rés seleccionat. Al nostre cas sempre hi ha selecció.
+         * @param adapterView adaptador
+         */
+        @Override
+        public void onNothingSelected(AdapterView<?> adapterView) {
+        }
+
     }
 }

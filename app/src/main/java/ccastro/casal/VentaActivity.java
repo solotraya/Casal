@@ -118,7 +118,7 @@ public class VentaActivity extends AppCompatActivity   {
          */
         @Override
         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-            ((TextView) view).setTextColor(Color.RED);  // COLOR DEL TEXTO SELECCIONADO DEL TOOLBAR
+            ((TextView) view).setTextColor(Color.WHITE);  // COLOR DEL TEXTO SELECCIONADO DEL TOOLBAR
             Cursor cursor = null;
             String estat="2";
             Log.d("POSICION: ",Integer.toString(position));
