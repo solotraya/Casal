@@ -32,6 +32,7 @@ public class FacturaActivity extends AppCompatActivity {
     String idVenta,fechaReserva, id_cliente; // id_cliente lo cogemos de la reserva.
     View v;
     Boolean actualizarReserva = false;
+    String data;
     private HeaderAdapterFactura headerAdapterFactura;
     private ArrayList<HeaderFactura> myDataset;
     private RecyclerView recyclerView;
@@ -114,11 +115,13 @@ public class FacturaActivity extends AppCompatActivity {
                                 df.format(Float.parseFloat(cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE)))
                                 * Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE))))
                         ));
+                if (!actualizarReserva) id_cliente = cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.ID_CLIENT));
+
                 preuProducteQuantitat = Float.parseFloat(cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE)))
                         * Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)));
                 preuTotal = preuTotal + preuProducteQuantitat;
                 preuTotalFactura.setText(df.format(preuTotal)+"€");
-                String data = cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.DATA_VENTA));
+                data = cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.DATA_VENTA));
                 String dataCorrecta[] = data.split(" ");
                 String dataFormatSpain = dataCorrecta[2]+"/"+dataCorrecta[1]+"/"+dataCorrecta[0];
 
