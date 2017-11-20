@@ -44,6 +44,7 @@ public class MesaActivity extends AppCompatActivity {
     private String fechaInicio;
     private String idCliente,nombreCliente;
     private Integer idMesa;
+    String taulaPerDefecteClient;
     ArrayList<String> clients = null;
     ArrayAdapter<String> adapterClientes;
     Long resultatInserirClient;
@@ -62,7 +63,6 @@ public class MesaActivity extends AppCompatActivity {
         android.support.v7.widget.Toolbar editToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.filter_toolbarMesa);
         editToolbar.inflateMenu(R.menu.toolbar_menu_mesa);
         buttonAceptarReserva = (ImageButton) findViewById(R.id.ImagebButtonAñadirCliente) ;
-
         imageButtonDataInicial = (ImageButton)findViewById(R.id.ImagebButtonDataIniciCliente) ;
         imageButtonDataInicial.setOnClickListener( new View.OnClickListener(){
                                                 @Override
@@ -79,7 +79,6 @@ public class MesaActivity extends AppCompatActivity {
                                                             fechaInicio="" + selectedyear + " " + selectedmonth + " " + selectedday;
                                                             // METODO DE LA BD PARA CARGAR MESA SEGUN FECHA
                                                             // carregarDataTreballador();
-
                                                         }
                                                     }, mYear, mMonth, mDay);
                                                     mDatePicker.setTitle("Selecciona Data");
@@ -101,14 +100,17 @@ public class MesaActivity extends AppCompatActivity {
                 String nombre = (String) listViewClientes.getItemAtPosition(position);
                 String [] cogerIDCliente = nombre.split(" ");
                 idCliente = cogerIDCliente[0];
-                // TODO AHORA ESTARIA GENIA QUE DESPUES DE TENER EL ID
-                // TODO SE HICIERA UNA CONSULTA PARA CONSEGUIR LA MESA POR DEFECTO DEL CLIENTE
-                // TODO Y SELECCIONARLO EN EL SPINNER DE MESA
-                // TODO TAMBIEN ESTARIA BIEN QUE SINO SE AÑADE FECHA, POR DEFECTO SEA LA FECHA DE HOY
+                // TODO CONSULTA PARA CONSEGUIR LA MESA POR DEFECTO DEL CLIENTE
+                obtenirTaulaDefecteClient();
+
+                // TODO AHORA ESTARIA GENIA QUE DESPUES DE TENER EL ID CLIENTE
                 nombreCliente = cogerIDCliente[1];
 
                 Toast.makeText(view.getContext(), cogerIDCliente[0], Toast.LENGTH_SHORT).show();
                 listViewClientes.setVisibility(View.GONE);
+                // TODO Y SELECCIONAR MESA FAVORITA DE ESE CLIENTE EN EL SPINNER DE MESA
+                spinnerMesa.setSelection(Integer.parseInt(taulaPerDefecteClient)-1);
+                adapterMesa.notifyDataSetChanged();
             }
         });
         retornaClients();
@@ -117,7 +119,8 @@ public class MesaActivity extends AppCompatActivity {
         buttonAceptarReserva.setOnClickListener( new View.OnClickListener(){
                                               @Override
                                               public void onClick(View view) {
-
+                                                  // TODO SI NO SE AÑADE FECHA LE PONEMOS FECHA ACTUAL
+                                                  if (fechaInicio==null) fechaInicio=obtenerFechaReserva();
                                                   db.obre();
                                                 //  db.InserirReserva_Cliente(diaReservado,"0",pagadoReserva,id_cliente,id_mesa);
                                                   resultatInserirClient = db.InserirReserva_Cliente(fechaInicio,"0","0",Integer.parseInt(idCliente),idMesa);
@@ -128,9 +131,36 @@ public class MesaActivity extends AppCompatActivity {
                                                       actualizarRecyclerView();
                                                       crearFacturaReservaMesa();
                                                   } else Toast.makeText(view.getContext(), "El cliente ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
+                                                  headerAdapterMesa.actualitzaRecycler(myDataset);
                                               }
-                                          }
+            }
         );
+    }
+
+    public void obtenirTaulaDefecteClient (){
+        if (idCliente!=null){
+            db.obre();
+            Cursor cursorTaulaDefecte = db.RetornaTaulaDefecteClient(idCliente);
+
+            if (cursorTaulaDefecte.moveToFirst()) {
+                do {
+                    taulaPerDefecteClient = cursorTaulaDefecte.getString(cursorTaulaDefecte.getColumnIndex(ContracteBD.Client.MESA_FAVORITA));
+                    Log.d("MESA POR DEFECTO: ", taulaPerDefecteClient);
+                } while (cursorTaulaDefecte.moveToNext());
+            }
+        }
+        db.tanca();
+
+
+
+    }
+
+    public String obtenerFechaReserva (){
+        Calendar ahoraCal = Calendar.getInstance();
+        // PARECE QUE EL MES EMPIEZA DESDE 0, HAY QUE SUMAR UNO.
+        ahoraCal.getTime();
+        return ahoraCal.get(Calendar.YEAR)+" "+(ahoraCal.get(Calendar.MONTH)+1)+
+                " "+ahoraCal.get(Calendar.DATE);
     }
 
     public void retornaClients(){
@@ -238,12 +268,10 @@ public class MesaActivity extends AppCompatActivity {
         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
             Cursor cursor = null;
 
-            ((TextView) view).setTextColor(Color.WHITE);  // COLOR DEL TEXTO SELECCIONADO DEL TOOLBAR
+           ((TextView) view).setTextColor(Color.WHITE);  // COLOR DEL TEXTO SELECCIONADO DEL TOOLBAR
 
             idMesa = new BigDecimal(id).intValueExact();
-            Toast.makeText(view.getContext(),"ID: "+ Long.toString(id), Toast.LENGTH_SHORT).show();
-
-
+//            Toast.makeText(view.getContext(),"ID: "+ Long.toString(id), Toast.LENGTH_SHORT).show();
             // CUANDO SE SELECCIONE CLIENTE, PONER AUTOMATICAMENTE SPINNER CON LA MESA_POR_DEFECTO DEL CLIENTE.
             // BUSCAR COMO INTRODUCIR UN SEARCHVIEW DENTRO DE EL TOOLBAR PARA QUE SEA UN WIDGET MAS
         }
@@ -254,6 +282,7 @@ public class MesaActivity extends AppCompatActivity {
          */
         @Override
         public void onNothingSelected(AdapterView<?> adapterView) {
+
         }
 
     }
@@ -280,37 +309,28 @@ public class MesaActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(headerAdapterMesa);
         actualizarRecyclerView();
+        searchView.setQueryHint("Nombre Cliente...");
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                return false;
+
+                return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
                 // adapter.getFilter().filter(newText);
-                Log.d("FUNCIONA","OLA");
                 listViewClientes.setVisibility(View.VISIBLE);
                 // TODO: MOSTRAMOS TEXTO FILTRADO DE EL ADAPTER DE CLIENTES
                 // TODO: BUSCAR COMO DAR FORMATO AL LISTVIEW DE CLIENTES PARA QUE SEA MAS CHULO
                 adapterClientes.getFilter().filter(newText);
 
-                return false;
-            }
-        });
-        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-            @Override
-            public boolean onSuggestionSelect(int i) {
-                return false;
-            }
-
-            @Override
-            // TODO: MOSTRAMOS CLIENTE SELECCIONADO EN EL TEXTO DEL SEARCH
-            public boolean onSuggestionClick(int position) {
-                searchView.setQuery(nombreCliente, false); //to set the text
                 return true;
             }
+
         });
         return super.onCreateOptionsMenu(menu);
     }
+
 }

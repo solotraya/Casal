@@ -86,6 +86,11 @@ public class ConsultesSQL {
                 " LEFT JOIN  " + Client.NOM_TAULA + " c ON c." + ContracteBD.Client._ID + " = r." + Reserva_Cliente.ID_CLIENTE+
                 " WHERE r."+ Reserva_Cliente.DIA_RESERVADO+" LIKE strftime('%Y %m %d','now') AND r."+Reserva_Cliente.ID_MESA+" LIKE "+idMesa;
     }
+    public String RetornaTaulaDefecteClient(String idCliente){
+        return "Select c."+Client.MESA_FAVORITA+
+                " FROM "+ Client.NOM_TAULA+" c"+
+                " WHERE c."+ Client._ID+" LIKE "+idCliente;
+    }
 
     public String verificarLogin (String userName, String password){
         return  " Select t."+ Treballador._ID+",t."+ Treballador.NOM_TREBALLADOR+",t."+ Treballador.COGNOMS_TREBALLADOR+

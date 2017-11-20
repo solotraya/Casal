@@ -109,6 +109,9 @@ public class DBInterface {
     public Cursor RetornaClientsReservadosDataActualMesa(String idMesa){
         return bd.rawQuery(consulta.RetornaClientsReservadosDataActualMesa(idMesa),null);
     }
+    public Cursor  RetornaTaulaDefecteClient(String idCliente){
+        return bd.rawQuery(consulta.RetornaTaulaDefecteClient(idCliente),null);
+    }
 
     public Cursor RetornaTodasLasMesas() {
         return bd.rawQuery(consulta.RetornaTodasLasMesas,null);
