@@ -16,8 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -39,8 +39,8 @@ public class MesaActivity extends AppCompatActivity {
     DBInterface db;
 
     private Spinner spinnerMesa;
-    ImageButton imageButtonDataInicial;
-    ImageButton buttonAceptarReserva;
+    Button buttonnDataInicial;
+    Button buttonAceptarReserva;
     private String fechaInicio;
     private String idCliente,nombreCliente;
     private Integer idMesa;
@@ -60,31 +60,34 @@ public class MesaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mesa);
         db = new DBInterface(this);
 
-        android.support.v7.widget.Toolbar editToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.filter_toolbarMesa);
-        editToolbar.inflateMenu(R.menu.toolbar_menu_mesa);
-        buttonAceptarReserva = (ImageButton) findViewById(R.id.ImagebButtonAñadirCliente) ;
-        imageButtonDataInicial = (ImageButton)findViewById(R.id.ImagebButtonDataIniciCliente) ;
-        imageButtonDataInicial.setOnClickListener( new View.OnClickListener(){
-                                                @Override
-                                                public void onClick(View view) {
-                                                    Calendar mcurrentDate = Calendar.getInstance();
-                                                    int mYear = mcurrentDate.get(Calendar.YEAR);
-                                                    int mMonth = mcurrentDate.get(Calendar.MONTH);
-                                                    int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+        android.support.v7.widget.Toolbar mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar);
 
-                                                    DatePickerDialog mDatePicker;
-                                                    mDatePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
-                                                        public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                                                            selectedmonth = selectedmonth + 1;
-                                                            fechaInicio="" + selectedyear + " " + selectedmonth + " " + selectedday;
-                                                            // METODO DE LA BD PARA CARGAR MESA SEGUN FECHA
-                                                            // carregarDataTreballador();
-                                                        }
-                                                    }, mYear, mMonth, mDay);
-                                                    mDatePicker.setTitle("Selecciona Data");
-                                                    mDatePicker.show();
-                                                }
-                                            }
+
+        Button button3 = (Button) mToolbar.findViewById(R.id.button3);
+        Button button4 = (Button) mToolbar.findViewById(R.id.button4);
+        buttonAceptarReserva = (Button) mToolbar.findViewById(R.id.buttonAñadirCliente) ;
+        buttonnDataInicial = (Button) mToolbar.findViewById(R.id.buttonDataIniciCliente) ;
+        buttonnDataInicial.setOnClickListener( new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    Calendar mcurrentDate = Calendar.getInstance();
+                    int mYear = mcurrentDate.get(Calendar.YEAR);
+                    int mMonth = mcurrentDate.get(Calendar.MONTH);
+                    int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+
+                    DatePickerDialog mDatePicker;
+                    mDatePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
+                        public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                            selectedmonth = selectedmonth + 1;
+                            fechaInicio="" + selectedyear + " " + selectedmonth + " " + selectedday;
+                            // METODO DE LA BD PARA CARGAR MESA SEGUN FECHA
+                            // carregarDataTreballador();
+                        }
+                    }, mYear, mMonth, mDay);
+                    mDatePicker.setTitle("Selecciona Data");
+                    mDatePicker.show();
+                }
+            }
         );
         listViewClientes = (ListView)findViewById(R.id.listViewClientes);
         clients= new ArrayList();
@@ -117,24 +120,27 @@ public class MesaActivity extends AppCompatActivity {
 
            // TODO ESTO ES PARA EL BOTON DE AÑADIR RESERVA
         buttonAceptarReserva.setOnClickListener( new View.OnClickListener(){
-                                              @Override
-                                              public void onClick(View view) {
-                                                  // TODO SI NO SE AÑADE FECHA LE PONEMOS FECHA ACTUAL
-                                                  if (fechaInicio==null) fechaInicio=obtenerFechaReserva();
-                                                  db.obre();
-                                                //  db.InserirReserva_Cliente(diaReservado,"0",pagadoReserva,id_cliente,id_mesa);
-                                                  resultatInserirClient = db.InserirReserva_Cliente(fechaInicio,"0","0",Integer.parseInt(idCliente),idMesa);
-                                                  Log.d("Result INSERIR CLIENT: ",Long.toString(resultatInserirClient));
-                                                  db.tanca();
-                                                  // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
-                                                  if (resultatInserirClient!=-1){
-                                                      actualizarRecyclerView();
-                                                      crearFacturaReservaMesa();
-                                                  } else Toast.makeText(view.getContext(), "El cliente ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
-                                                  headerAdapterMesa.actualitzaRecycler(myDataset);
-                                              }
+              @Override
+              public void onClick(View view) {
+                  // TODO SI NO SE AÑADE FECHA LE PONEMOS FECHA ACTUAL
+                  if (fechaInicio==null) fechaInicio=obtenerFechaReserva();
+                  if (idCliente!=null){
+                      db.obre();
+                      //  db.InserirReserva_Cliente(diaReservado,"0",pagadoReserva,id_cliente,id_mesa);
+                      resultatInserirClient = db.InserirReserva_Cliente(fechaInicio,"0","0",Integer.parseInt(idCliente),idMesa);
+                      Log.d("Result INSERIR CLIENT: ",Long.toString(resultatInserirClient));
+                      db.tanca();
+                      // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
+                      if (resultatInserirClient!=-1){
+                          actualizarRecyclerView();
+                          crearFacturaReservaMesa();
+                      } else Toast.makeText(view.getContext(), "El cliente ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
+                      headerAdapterMesa.actualitzaRecycler(myDataset);
+                  } else Toast.makeText(MesaActivity.this, "Introduce cliente!", Toast.LENGTH_SHORT).show();
+              }
             }
         );
+
     }
 
     public void obtenirTaulaDefecteClient (){
@@ -332,5 +338,6 @@ public class MesaActivity extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
     }
+
 
 }
