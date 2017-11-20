@@ -59,12 +59,10 @@ public class MesaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mesa);
         db = new DBInterface(this);
+        fechaInicio=obtenerFechaReserva(); // por defecto le metemos la fecha actual (DE HOY)
+        android.support.v7.widget.Toolbar mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_mesa);
 
-        android.support.v7.widget.Toolbar mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar);
 
-
-        Button button3 = (Button) mToolbar.findViewById(R.id.button3);
-        Button button4 = (Button) mToolbar.findViewById(R.id.button4);
         buttonAceptarReserva = (Button) mToolbar.findViewById(R.id.buttonAñadirCliente) ;
         buttonnDataInicial = (Button) mToolbar.findViewById(R.id.buttonDataIniciCliente) ;
         buttonnDataInicial.setOnClickListener( new View.OnClickListener(){
@@ -80,8 +78,11 @@ public class MesaActivity extends AppCompatActivity {
                         public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                             selectedmonth = selectedmonth + 1;
                             fechaInicio="" + selectedyear + " " + selectedmonth + " " + selectedday;
+                            actualizarRecyclerView();
+                            headerAdapterMesa.actualitzaRecycler(myDataset);
                             // METODO DE LA BD PARA CARGAR MESA SEGUN FECHA
-                            // carregarDataTreballador();
+                            //carregarDataTreballador();
+
                         }
                     }, mYear, mMonth, mDay);
                     mDatePicker.setTitle("Selecciona Data");
@@ -123,7 +124,7 @@ public class MesaActivity extends AppCompatActivity {
               @Override
               public void onClick(View view) {
                   // TODO SI NO SE AÑADE FECHA LE PONEMOS FECHA ACTUAL
-                  if (fechaInicio==null) fechaInicio=obtenerFechaReserva();
+
                   if (idCliente!=null){
                       db.obre();
                       //  db.InserirReserva_Cliente(diaReservado,"0",pagadoReserva,id_cliente,id_mesa);
@@ -241,7 +242,7 @@ public class MesaActivity extends AppCompatActivity {
     public void actualizarRecyclerView(){
         myDataset.clear();
         db.obre();
-        Cursor cursor = db.RetornaMesasReservadasDataActual();
+        Cursor cursor = db.RetornaMesasReservadasData(fechaInicio);
         myDataset = CursorBD(cursor);
         db.tanca();
     }

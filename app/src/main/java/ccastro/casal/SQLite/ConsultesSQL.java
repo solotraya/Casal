@@ -20,10 +20,6 @@ public class ConsultesSQL {
     String RetornaTodasLasMesas ="Select m."+ Mesa._ID+", m."+ Mesa.NOMBRE_MESA+
             " FROM "+ Mesa.NOM_TAULA+" m";
 
-    String RetornaMesasReservadasDataActual ="Select distinct m."+ Mesa._ID+", m."+ Mesa.NOMBRE_MESA+
-            " FROM "+ Mesa.NOM_TAULA+" m"+
-            " LEFT JOIN  " + Reserva_Cliente.NOM_TAULA + " r ON m." + Mesa._ID + " = r." + Reserva_Cliente.ID_MESA+
-            " WHERE r."+ Reserva_Cliente.DIA_RESERVADO+" LIKE strftime('%Y %m %d','now')";
 
     String RetornaClientsReservadosDataActual ="Select c."+Client.MESA_FAVORITA+", c."+Client.COGNOMS_CLIENT+", m."+ Mesa.NOMBRE_MESA+
             " FROM "+ Reserva_Cliente.NOM_TAULA+" r"+
@@ -44,6 +40,15 @@ public class ConsultesSQL {
             " LEFT JOIN  " + Treballador.NOM_TAULA + " t ON t." + Treballador._ID + " = v." + Venta.ID_TREBALLADOR+
             " LEFT JOIN  " + Client.NOM_TAULA + " c ON c." + Client._ID + " = v." + Venta.ID_CLIENT+
             " WHERE v."+ Venta.DATA_VENTA+" LIKE strftime('%Y %m %d','now')";
+
+    public String  RetornaMesasReservadasData (String data) {
+        return "Select distinct m." + Mesa._ID + ", m." + Mesa.NOMBRE_MESA +
+                " FROM " + Mesa.NOM_TAULA + " m" +
+                " LEFT JOIN  " + Reserva_Cliente.NOM_TAULA + " r ON m." + Mesa._ID + " = r." + Reserva_Cliente.ID_MESA +
+                " WHERE r." + Reserva_Cliente.DIA_RESERVADO + " LIKE '"+data+"'";
+                // " WHERE r."+ Reserva_Cliente.DIA_RESERVADO+" LIKE strftime('%Y %m %d','now')";
+    }
+
 
     public String RetornaFacturaId_Venta(String id_Venta){
         return " Select p."+ Producte.NOM_PRODUCTE+", p."+ Producte.PREU_PRODUCTE+", p."+ Producte.TIPUS_PRODUCTE+

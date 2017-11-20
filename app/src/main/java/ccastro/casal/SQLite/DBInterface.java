@@ -102,8 +102,8 @@ public class DBInterface {
         return bd.rawQuery(consulta.RetornaFacturaId_Venta(idVenta),null);
     }
 
-    public Cursor RetornaMesasReservadasDataActual(){
-        return bd.rawQuery(consulta.RetornaMesasReservadasDataActual,null);
+    public Cursor RetornaMesasReservadasData(String data){
+        return bd.rawQuery(consulta.RetornaMesasReservadasData(data),null);
     }
 
     public Cursor RetornaClientsReservadosDataActualMesa(String idMesa){
