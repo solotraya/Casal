@@ -76,7 +76,7 @@ public class MesaActivity extends AppCompatActivity {
                                                     mDatePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
                                                         public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                                                             selectedmonth = selectedmonth + 1;
-                                                            fechaInicio="" + selectedday + "/" + selectedmonth + "/" + selectedyear;
+                                                            fechaInicio="" + selectedyear + " " + selectedmonth + " " + selectedday;
                                                             // METODO DE LA BD PARA CARGAR MESA SEGUN FECHA
                                                             // carregarDataTreballador();
 
@@ -101,6 +101,10 @@ public class MesaActivity extends AppCompatActivity {
                 String nombre = (String) listViewClientes.getItemAtPosition(position);
                 String [] cogerIDCliente = nombre.split(" ");
                 idCliente = cogerIDCliente[0];
+                // TODO AHORA ESTARIA GENIA QUE DESPUES DE TENER EL ID
+                // TODO SE HICIERA UNA CONSULTA PARA CONSEGUIR LA MESA POR DEFECTO DEL CLIENTE
+                // TODO Y SELECCIONARLO EN EL SPINNER DE MESA
+                // TODO TAMBIEN ESTARIA BIEN QUE SINO SE AÑADE FECHA, POR DEFECTO SEA LA FECHA DE HOY
                 nombreCliente = cogerIDCliente[1];
 
                 Toast.makeText(view.getContext(), cogerIDCliente[0], Toast.LENGTH_SHORT).show();
@@ -116,7 +120,7 @@ public class MesaActivity extends AppCompatActivity {
 
                                                   db.obre();
                                                 //  db.InserirReserva_Cliente(diaReservado,"0",pagadoReserva,id_cliente,id_mesa);
-                                                  resultatInserirClient = db.InserirReserva_Cliente("2017 11 20","0","0",Integer.parseInt(idCliente),idMesa);
+                                                  resultatInserirClient = db.InserirReserva_Cliente(fechaInicio,"0","0",Integer.parseInt(idCliente),idMesa);
                                                   Log.d("Result INSERIR CLIENT: ",Long.toString(resultatInserirClient));
                                                   db.tanca();
                                                   // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
@@ -177,7 +181,7 @@ public class MesaActivity extends AppCompatActivity {
             SimpleDateFormat formateador = new SimpleDateFormat("hh:mm");
             String hora = formateador.format(ahora);
             //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
-            db.InserirVenta(Integer.parseInt(idCliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),"2017 11 20","0",hora);
+            db.InserirVenta(Integer.parseInt(idCliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),fechaInicio,"0",hora);
             cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idCliente);
             idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
             idVenta = Integer.toString(idVentaFactura);
