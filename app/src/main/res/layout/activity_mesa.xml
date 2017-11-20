@@ -8,13 +8,14 @@
     android:orientation="vertical">
 
 
-    <!--<android.support.v7.widget.Toolbar
-        android:id="@+id/filter_toolbarMesa"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar" /> -->
+<!-- AGREGAR VIEWS PARA:
+            MOSTRAR FECHA SELECCIONADA
+            MOSTRAR CLIENTE ELEGIDO
+            MOSTRAR TOTAL DE CLIENTES LLEVAR  (MESA LLEVAR)
+            MOSTRAR TOTAL DE CLIENTES COMEDOR   (TODAS MESAS - LLEVAR)
+            MOSTRAR TOTAL CLIENTES TOTAL (TODAS MESAS)
+            Y SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER QUE SE EXPANDA CUANDO CLICAS PARA MOSTRAR LOS CLIENTES DE UNA MESA
+    -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -218,7 +218,7 @@ public class MesaActivity extends AppCompatActivity {
             SimpleDateFormat formateador = new SimpleDateFormat("hh:mm");
             String hora = formateador.format(ahora);
             //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
-            db.InserirVenta(Integer.parseInt(idCliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),fechaInicio,"0",hora);
+            db.InserirVenta(Integer.parseInt(idCliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),obtenerFechaReserva(),"0",hora);
             cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idCliente);
             idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
             idVenta = Integer.toString(idVentaFactura);
@@ -252,7 +252,8 @@ public class MesaActivity extends AppCompatActivity {
             do {
                 myDataset.add(new HeaderMesa(
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Mesa._ID)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.Mesa.NOMBRE_MESA))
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Mesa.NOMBRE_MESA)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Reserva_Cliente.DIA_RESERVADO))
                 ));
             } while(cursor.moveToNext());
         }

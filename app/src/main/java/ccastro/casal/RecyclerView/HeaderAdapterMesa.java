@@ -58,7 +58,7 @@ public class HeaderAdapterMesa extends RecyclerView.Adapter<HeaderAdapterMesa.Vi
         // Reemplaça els continguts de la vista amb aquest element
          holder.idMesa.setText(mDataset.get(position).getIdMesa());
          holder.nomMesa.setText(mDataset.get(position).getNombreMesa());
-
+         holder.diaReservado.setText(mDataset.get(position).getDiaReservado());
     }
 
     /**
@@ -71,7 +71,7 @@ public class HeaderAdapterMesa extends RecyclerView.Adapter<HeaderAdapterMesa.Vi
     }
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         // nom,dni,data,qr,localitzacio,email,check;
-        TextView nomMesa, idMesa;
+        TextView nomMesa, idMesa, diaReservado;
         View v;
         Context context;
         /**
@@ -82,6 +82,7 @@ public class HeaderAdapterMesa extends RecyclerView.Adapter<HeaderAdapterMesa.Vi
             super(v);
             nomMesa=(TextView)v.findViewById(R.id.nomMesa);
             idMesa=(TextView) v.findViewById(R.id.idMesa);
+            diaReservado=(TextView)v.findViewById(R.id.diaReservado);
 
             context = itemView.getContext();
             v.setOnClickListener(this);
@@ -97,6 +98,7 @@ public class HeaderAdapterMesa extends RecyclerView.Adapter<HeaderAdapterMesa.Vi
             Intent intent = new Intent(context,ReservaActivity.class);
             intent.putExtra("ID_MESA",idMesa.getText().toString());
             intent.putExtra("NOM_MESA",nomMesa.getText().toString());
+            intent.putExtra("DIA_RESERVADO",diaReservado.getText().toString());
             context.startActivity(intent);
         }
     }

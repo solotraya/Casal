@@ -7,10 +7,12 @@ package ccastro.casal.RecyclerView;
 public class HeaderMesa {
     public String idMesa;
     public String nombreMesa;
+    public String diaReservado;
 
-    public HeaderMesa(String idMesa, String nombreMesa) {
+    public HeaderMesa(String idMesa, String nombreMesa, String diaReservado) {
         this.idMesa = idMesa;
         this.nombreMesa = nombreMesa;
+        this.diaReservado = diaReservado;
     }
 
     public String getIdMesa() {
@@ -27,5 +29,13 @@ public class HeaderMesa {
 
     public void setNombreMesa(String nombreMesa) {
         this.nombreMesa = nombreMesa;
+    }
+
+    public String getDiaReservado() {
+        return diaReservado;
+    }
+
+    public void setDiaReservado(String diaReservado) {
+        this.diaReservado = diaReservado;
     }
 }

@@ -18,6 +18,7 @@ import ccastro.casal.SQLite.DBInterface;
 public class ReservaActivity extends AppCompatActivity {
     TextView nombreMesaReserva;
     String idMesaReserva;
+    String dataReserva;
     DBInterface db;
     View v;
     private HeaderAdapterReserva headerAdapterReserva;
@@ -50,6 +51,9 @@ public class ReservaActivity extends AppCompatActivity {
         if (getIntent().hasExtra("NOM_MESA")){
             nombreMesaReserva.setText(getIntent().getExtras().getString("NOM_MESA"));
         }
+        if (getIntent().hasExtra("DIA_RESERVADO")){
+            dataReserva = getIntent().getExtras().getString("DIA_RESERVADO");
+        }
     }
     public ArrayList CursorBD(Cursor cursor) {
         if (cursor.moveToFirst()) {
@@ -70,7 +74,7 @@ public class ReservaActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         db.obre();
-        Cursor cursor = db.RetornaClientsReservadosDataActualMesa(idMesaReserva);
+        Cursor cursor = db.RetornaClientsReservadosMesa(idMesaReserva,dataReserva);
         myDataset = CursorBD(cursor);
         db.tanca();
         headerAdapterReserva.actualitzaRecycler(myDataset);
