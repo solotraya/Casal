@@ -321,4 +321,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
         if (huella!=null)activarFingerPrint();
     }
+
+    @Override
+    public void onBackPressed() {
+        // PROHIBO CERRAR LA APP AL DARLE ATRAS
+    }
 }

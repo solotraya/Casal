@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-
     <item
-        android:id="@+id/spinnerClientes"
-        android:theme="?attr/actionBarTheme"
-        android:title="spinner de clients"
-        app:actionViewClass="android.widget.Spinner"
+        android:id="@+id/ImagebButtonDataIniciCliente"
+        android:icon="@android:drawable/ic_menu_revert"
+        android:title="boton Data Inici cliente"
+        app:actionViewClass="android.widget.ImageButton"
         app:showAsAction="always" />
     <item
-        android:id="@+id/spinnerMesa"
-        android:theme="?attr/actionBarTheme"
-        android:title="spinner de mesas"
-        app:actionViewClass="android.widget.Spinner"
+        android:id="@+id/ImagebButtonModificarCliente"
+        android:icon="@android:drawable/ic_menu_revert"
+        android:title="boton Modificar cliente"
+        app:actionViewClass="android.widget.ImageButton"
         app:showAsAction="always" />
     <item
-        android:id="@+id/buttonAñadirCliente"
-        android:theme="?attr/actionBarTheme"
+        android:id="@+id/ImagebButtonAñadirCliente"
+        android:icon="@android:drawable/ic_lock_idle_alarm"
         android:title="boton Añadir cliente"
-        android:text="Añadir"
-        app:actionViewClass="android.widget.Button"
+        app:actionViewClass="android.widget.ImageButton"
         app:showAsAction="always" />
+    <item
+        android:id="@+id/ImagebButtonEliminarCliente"
+        android:icon="@android:drawable/ic_menu_delete"
+        android:title="boton ELiminar cliente"
+        app:actionViewClass="android.widget.ImageButton"
+        app:showAsAction="always" />
+¡
 </menu>

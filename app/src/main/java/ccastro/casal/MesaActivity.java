@@ -1,5 +1,6 @@
 package ccastro.casal;
 
+import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
@@ -8,19 +9,25 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
+import android.widget.ImageButton;
+import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import ccastro.casal.RecyclerView.HeaderAdapterMesa;
@@ -30,14 +37,17 @@ import ccastro.casal.SQLite.DBInterface;
 
 public class MesaActivity extends AppCompatActivity {
     DBInterface db;
-    TextView nomMesa;
-    EditText dia,pagado,cliente,mesa;
-    Button  reservar;
-    private Spinner spinnerMesa, spinnerClientes;
-    LinearLayout reserva;
-    String idMesa;
-    View v;
+
+    private Spinner spinnerMesa;
+    ImageButton imageButtonDataInicial;
+    ImageButton buttonAceptarReserva;
+    private String fechaInicio;
+    private String idCliente,nombreCliente;
+    private Integer idMesa;
+    ArrayList<String> clients = null;
+    ArrayAdapter<String> adapterClientes;
     Long resultatInserirClient;
+    ListView listViewClientes;
     private HeaderAdapterMesa headerAdapterMesa;
     private ArrayList<HeaderMesa> myDataset;
     private RecyclerView recyclerView;
@@ -49,63 +59,89 @@ public class MesaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mesa);
         db = new DBInterface(this);
 
-        Toolbar editToolbar = (Toolbar) findViewById(R.id.filter_toolbarMesa);
+        android.support.v7.widget.Toolbar editToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.filter_toolbarMesa);
         editToolbar.inflateMenu(R.menu.toolbar_menu_mesa);
-        spinnerClientes = (Spinner) findViewById(R.id.spinnerClientes);
-        spinnerMesa = (Spinner)findViewById(R.id.spinnerMesa);
+        buttonAceptarReserva = (ImageButton) findViewById(R.id.ImagebButtonAñadirCliente) ;
 
-        iniciarSpinnerClientes();
-        iniciarSpinnerMesa();
-        nomMesa = (TextView) findViewById(R.id.nomMesa);
-        dia = (EditText) findViewById(R.id.editTextDia);
-        pagado = (EditText) findViewById(R.id.editTextPagado);
-        cliente = (EditText) findViewById(R.id.editTextIDCliente);
-        mesa = (EditText) findViewById(R.id.editTextIDMesa);
-        reservar = (Button) findViewById(R.id.buttonReservar) ;
-        reserva = (LinearLayout) findViewById(R.id.LayoutReserva);
-        dia.getText().toString();
-        reservar.setOnClickListener( new View.OnClickListener(){
+        imageButtonDataInicial = (ImageButton)findViewById(R.id.ImagebButtonDataIniciCliente) ;
+        imageButtonDataInicial.setOnClickListener( new View.OnClickListener(){
+                                                @Override
+                                                public void onClick(View view) {
+                                                    Calendar mcurrentDate = Calendar.getInstance();
+                                                    int mYear = mcurrentDate.get(Calendar.YEAR);
+                                                    int mMonth = mcurrentDate.get(Calendar.MONTH);
+                                                    int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+
+                                                    DatePickerDialog mDatePicker;
+                                                    mDatePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
+                                                        public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                                                            selectedmonth = selectedmonth + 1;
+                                                            fechaInicio="" + selectedday + "/" + selectedmonth + "/" + selectedyear;
+                                                            // METODO DE LA BD PARA CARGAR MESA SEGUN FECHA
+                                                            // carregarDataTreballador();
+
+                                                        }
+                                                    }, mYear, mMonth, mDay);
+                                                    mDatePicker.setTitle("Selecciona Data");
+                                                    mDatePicker.show();
+                                                }
+                                            }
+        );
+        listViewClientes = (ListView)findViewById(R.id.listViewClientes);
+        clients= new ArrayList();
+        adapterClientes = new ArrayAdapter<String> (this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, clients);
+        // Assign adapter to ListView
+        listViewClientes.setAdapter(adapterClientes);
+
+
+        listViewClientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String nombre = (String) listViewClientes.getItemAtPosition(position);
+                String [] cogerIDCliente = nombre.split(" ");
+                idCliente = cogerIDCliente[0];
+                nombreCliente = cogerIDCliente[1];
+
+                Toast.makeText(view.getContext(), cogerIDCliente[0], Toast.LENGTH_SHORT).show();
+                listViewClientes.setVisibility(View.GONE);
+            }
+        });
+        retornaClients();
+
+           // TODO ESTO ES PARA EL BOTON DE AÑADIR RESERVA
+        buttonAceptarReserva.setOnClickListener( new View.OnClickListener(){
                                               @Override
                                               public void onClick(View view) {
-                                                  String diaReservado = dia.getText().toString();
-                                                  String pagadoReserva = pagado.getText().toString();
-                                                  Integer id_cliente = Integer.parseInt(cliente.getText().toString());
-                                                  Integer id_mesa = Integer.parseInt(mesa.getText().toString());
+
                                                   db.obre();
                                                 //  db.InserirReserva_Cliente(diaReservado,"0",pagadoReserva,id_cliente,id_mesa);
-                                                  resultatInserirClient = db.InserirReserva_Cliente("2017 11 18","0",pagadoReserva,id_cliente,id_mesa);
+                                                  resultatInserirClient = db.InserirReserva_Cliente("2017 11 20","0","0",Integer.parseInt(idCliente),idMesa);
                                                   Log.d("Result INSERIR CLIENT: ",Long.toString(resultatInserirClient));
                                                   db.tanca();
                                                   // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
                                                   if (resultatInserirClient!=-1){
-                                                      reserva.setVisibility(View.GONE);
                                                       actualizarRecyclerView();
                                                       crearFacturaReservaMesa();
                                                   } else Toast.makeText(view.getContext(), "El cliente ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
                                               }
                                           }
         );
-       /* añadirReserva.setOnClickListener( new View.OnClickListener(){
-                                         @Override
-                                         public void onClick(View view) {
-                                             reserva.setVisibility(View.VISIBLE);
-                                         }
-                                     }
-        ); */
-        myDataset = new ArrayList<>();
-        headerAdapterMesa= new HeaderAdapterMesa(myDataset);
-        db = new DBInterface(this);
-
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_consulta);
-        linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(headerAdapterMesa);
-        actualizarRecyclerView();
-
     }
-    public void iniciarSpinnerClientes(){
 
+    public void retornaClients(){
+        db.obre();
+        Cursor cursor= db.RetornaTotsElsClients();
+        if (cursor.moveToFirst()) {
+            do {
+                clients.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client._ID))+" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))
+                        +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT)));
+            } while (cursor.moveToNext());
+        }
+        db.tanca();
+        //
     }
+
 
     public void iniciarSpinnerMesa(){
         db.obre();
@@ -130,10 +166,9 @@ public class MesaActivity extends AppCompatActivity {
 
     }
 
-
     public  void crearFacturaReservaMesa(){
         db.obre();
-        Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(cliente.getText().toString());
+        Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idCliente);
         Integer idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
         String idVenta = Integer.toString(idVentaFactura);
         Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
@@ -142,8 +177,8 @@ public class MesaActivity extends AppCompatActivity {
             SimpleDateFormat formateador = new SimpleDateFormat("hh:mm");
             String hora = formateador.format(ahora);
             //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
-            db.InserirVenta(Integer.parseInt(cliente.getText().toString()),Integer.parseInt(LoginActivity.ID_TREBALLADOR),"2017 11 18","0",hora);
-            cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(cliente.getText().toString());
+            db.InserirVenta(Integer.parseInt(idCliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),"2017 11 20","0",hora);
+            cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idCliente);
             idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
             idVenta = Integer.toString(idVentaFactura);
         }
@@ -201,6 +236,10 @@ public class MesaActivity extends AppCompatActivity {
 
             ((TextView) view).setTextColor(Color.WHITE);  // COLOR DEL TEXTO SELECCIONADO DEL TOOLBAR
 
+            idMesa = new BigDecimal(id).intValueExact();
+            Toast.makeText(view.getContext(),"ID: "+ Long.toString(id), Toast.LENGTH_SHORT).show();
+
+
             // CUANDO SE SELECCIONE CLIENTE, PONER AUTOMATICAMENTE SPINNER CON LA MESA_POR_DEFECTO DEL CLIENTE.
             // BUSCAR COMO INTRODUCIR UN SEARCHVIEW DENTRO DE EL TOOLBAR PARA QUE SEA UN WIDGET MAS
         }
@@ -213,5 +252,61 @@ public class MesaActivity extends AppCompatActivity {
         public void onNothingSelected(AdapterView<?> adapterView) {
         }
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu_mesa_widgets, menu);
+        MenuItem item = menu.findItem(R.id.searchViewClientes);
+        final SearchView searchView = (SearchView)item.getActionView();
+
+
+        MenuItem itemSpinnerMesa = menu.findItem(R.id.spinnerMesa);
+        spinnerMesa = (Spinner)itemSpinnerMesa.getActionView();
+
+        iniciarSpinnerMesa();
+
+        myDataset = new ArrayList<>();
+        headerAdapterMesa= new HeaderAdapterMesa(myDataset);
+        db = new DBInterface(this);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_consulta);
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(headerAdapterMesa);
+        actualizarRecyclerView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // adapter.getFilter().filter(newText);
+                Log.d("FUNCIONA","OLA");
+                listViewClientes.setVisibility(View.VISIBLE);
+                // TODO: MOSTRAMOS TEXTO FILTRADO DE EL ADAPTER DE CLIENTES
+                // TODO: BUSCAR COMO DAR FORMATO AL LISTVIEW DE CLIENTES PARA QUE SEA MAS CHULO
+                adapterClientes.getFilter().filter(newText);
+
+                return false;
+            }
+        });
+        searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionSelect(int i) {
+                return false;
+            }
+
+            @Override
+            // TODO: MOSTRAMOS CLIENTE SELECCIONADO EN EL TEXTO DEL SEARCH
+            public boolean onSuggestionClick(int position) {
+                searchView.setQuery(nombreCliente, false); //to set the text
+                return true;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 }
