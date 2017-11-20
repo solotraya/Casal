@@ -7,13 +7,7 @@
     android:orientation="vertical"
     tools:context="ccastro.casal.VentaActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/filter_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/colorPrimary"
-        android:minHeight="?attr/actionBarSize"
-        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"  />
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerView_consulta"

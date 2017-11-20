@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
@@ -34,10 +36,7 @@ public class VentaActivity extends AppCompatActivity   {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venta);
-        Toolbar editToolbar = (Toolbar) findViewById(R.id.filter_toolbar);
-        editToolbar.inflateMenu(R.menu.toolbar_menu);
-        spinnerEstatVenta = (Spinner) findViewById(R.id.spinnerEstatVenta);
-        iniciarSpinnerEstatVenta();
+
     }
 
     public ArrayList mouCursor(Cursor cursor) {
@@ -152,5 +151,17 @@ public class VentaActivity extends AppCompatActivity   {
         public void onNothingSelected(AdapterView<?> adapterView) {
 
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+
+        MenuItem item = menu.findItem(R.id.spinnerEstatVenta);
+        spinnerEstatVenta = (Spinner) item.getActionView();
+        iniciarSpinnerEstatVenta();
+
+        return super.onCreateOptionsMenu(menu);
     }
 }
