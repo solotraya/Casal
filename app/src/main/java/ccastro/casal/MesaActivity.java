@@ -38,12 +38,17 @@ import ccastro.casal.SQLite.DBInterface;
 public class MesaActivity extends AppCompatActivity {
     DBInterface db;
 
+    private final String MENU_NORMAL="0";
+    private final String MENU_MITAD="1";
+    private final String MENU_CAURTO="2";
+    private String tipoPago;
     private Spinner spinnerMesa;
     Button buttonnDataInicial;
     Button buttonAceptarReserva;
     private String fechaInicio;
     private String idCliente,nombreCliente;
     private Integer idMesa;
+
     String taulaPerDefecteClient;
     ArrayList<String> clients = null;
     ArrayAdapter<String> adapterClientes;
@@ -104,6 +109,8 @@ public class MesaActivity extends AppCompatActivity {
                 String nombre = (String) listViewClientes.getItemAtPosition(position);
                 String [] cogerIDCliente = nombre.split(" ");
                 idCliente = cogerIDCliente[0];
+                String [] cogerTipoPago = nombre.split(":");
+                tipoPago = cogerTipoPago[1];
                 // TODO CONSULTA PARA CONSEGUIR LA MESA POR DEFECTO DEL CLIENTE
                 obtenirTaulaDefecteClient();
 
@@ -113,35 +120,35 @@ public class MesaActivity extends AppCompatActivity {
                 Toast.makeText(view.getContext(), cogerIDCliente[0], Toast.LENGTH_SHORT).show();
                 listViewClientes.setVisibility(View.GONE);
                 // TODO Y SELECCIONAR MESA FAVORITA DE ESE CLIENTE EN EL SPINNER DE MESA
-                spinnerMesa.setSelection(Integer.parseInt(taulaPerDefecteClient)-1);
+                spinnerMesa.setSelection(Integer.parseInt(taulaPerDefecteClient));
                 adapterMesa.notifyDataSetChanged();
             }
         });
-        retornaClients();
 
-           // TODO ESTO ES PARA EL BOTON DE AÑADIR RESERVA
+        // TODO ESTO ES PARA EL BOTON DE AÑADIR RESERVA
         buttonAceptarReserva.setOnClickListener( new View.OnClickListener(){
-              @Override
-              public void onClick(View view) {
-                  // TODO SI NO SE AÑADE FECHA LE PONEMOS FECHA ACTUAL
+                                                     @Override
+                                                     public void onClick(View view) {
+                                                         // TODO SI NO SE AÑADE FECHA LE PONEMOS FECHA ACTUAL
 
-                  if (idCliente!=null){
-                      db.obre();
-                      //  db.InserirReserva_Cliente(diaReservado,"0",pagadoReserva,id_cliente,id_mesa);
-                      resultatInserirClient = db.InserirReserva_Cliente(fechaInicio,"0","0",Integer.parseInt(idCliente),idMesa);
-                      Log.d("Result INSERIR CLIENT: ",Long.toString(resultatInserirClient));
-                      db.tanca();
-                      // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
-                      if (resultatInserirClient!=-1){
-                          actualizarRecyclerView();
-                          crearFacturaReservaMesa();
-                      } else Toast.makeText(view.getContext(), "El cliente ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
-                      headerAdapterMesa.actualitzaRecycler(myDataset);
-                  } else Toast.makeText(MesaActivity.this, "Introduce cliente!", Toast.LENGTH_SHORT).show();
-              }
-            }
+                                                         if (idCliente!=null){
+                                                             db.obre();
+                                                             //  db.InserirReserva_Cliente(diaReservado,"0",pagadoReserva,id_cliente,id_mesa);
+                                                             resultatInserirClient = db.InserirReserva_Cliente(fechaInicio,"0","0",Integer.parseInt(idCliente),idMesa);
+                                                             Log.d("Result INSERIR CLIENT: ",Long.toString(resultatInserirClient));
+                                                             db.tanca();
+                                                             // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
+                                                             if (resultatInserirClient!=-1){
+                                                                 actualizarRecyclerView();
+                                                                 crearFacturaReservaMesa();
+                                                             } else Toast.makeText(view.getContext(), "El cliente ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
+                                                             headerAdapterMesa.actualitzaRecycler(myDataset);
+                                                         } else Toast.makeText(MesaActivity.this, "Introduce cliente!", Toast.LENGTH_SHORT).show();
+                                                     }
+                                                 }
         );
-
+         // TODO  Retorna tots els clients, l'utilitzarem per a la llista que usa el SEARCH VIEW
+         retornaClients();
     }
 
     public void obtenirTaulaDefecteClient (){
@@ -176,7 +183,7 @@ public class MesaActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             do {
                 clients.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client._ID))+" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))
-                        +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT)));
+                        +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT))+" :"+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.TIPO_PAGO)));
             } while (cursor.moveToNext());
         }
         db.tanca();
@@ -224,7 +231,9 @@ public class MesaActivity extends AppCompatActivity {
             idVenta = Integer.toString(idVentaFactura);
         }
         // CREAMOS FACTURA: AÑADIMOS MENU AL RESERVAR MESA
-        db.InserirFactura(1,idVentaFactura,1);
+        if (tipoPago.equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,1);
+        else if (tipoPago.equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,1);
+        else if (tipoPago.equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,1);
         db.tanca();
 
 
@@ -242,6 +251,7 @@ public class MesaActivity extends AppCompatActivity {
     public void actualizarRecyclerView(){
         myDataset.clear();
         db.obre();
+        // TODO Consulta principal que retorna les dates que es veuen al recycler de mesa
         Cursor cursor = db.RetornaMesasReservadasData(fechaInicio);
         myDataset = CursorBD(cursor);
         db.tanca();

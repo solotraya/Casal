@@ -173,13 +173,17 @@ public class DBInterface {
      * @param tipusClient del Client
      * @return posicio a taula client
      */
-    public long InserirClient(String nom, String cognoms, String tipusClient,Integer mesaFavorita) {
+    public long InserirClient(String nom, String cognoms, String tipusClient,Integer mesaFavorita,
+                              String tipoPago, String tipoComida, String observacions) {
 
         ContentValues initialValues = new ContentValues();
         initialValues.put(Client.NOM_CLIENT, nom);
         initialValues.put(Client.COGNOMS_CLIENT, cognoms);
         initialValues.put(Client.TIPUS_CLIENT, tipusClient);
         initialValues.put(Client.MESA_FAVORITA, mesaFavorita);
+        initialValues.put(Client.TIPO_PAGO, tipoPago);
+        initialValues.put(Client.TIPO_COMIDA, tipoComida);
+        initialValues.put(Client.OBSERVACIONS_CLIENT, observacions);
         return bd.insert(Client.NOM_TAULA, null, initialValues);
     }
 

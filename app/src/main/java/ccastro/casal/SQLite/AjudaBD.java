@@ -77,7 +77,11 @@ public class AjudaBD extends SQLiteOpenHelper {
             + Client.COGNOMS_CLIENT + " TEXT NOT NULL, "
             + Client.TIPUS_CLIENT + " TEXT NOT NULL, "
             + Client.MESA_FAVORITA+ " INTEGER, "
-            + "FOREIGN KEY("+ Client.MESA_FAVORITA+") REFERENCES " + Mesa.NOM_TAULA +"(" + Mesa._ID +"));";
+            + Client.TIPO_PAGO + " TEXT NOT NULL, "
+            + Client.TIPO_COMIDA+ " TEXT NOT NULL, "
+            + Client.OBSERVACIONS_CLIENT + " TEXT NOT NULL, "
+            + "FOREIGN KEY("+ Client.MESA_FAVORITA+") REFERENCES " + Mesa.NOM_TAULA +"(" + Mesa._ID +"), "
+            + "UNIQUE ("+Client.NOM_CLIENT+","+Client.COGNOMS_CLIENT+") ON CONFLICT IGNORE);";
 
     public static final String BD_CREATE_PRODUCTE = "CREATE TABLE IF NOT EXISTS " + Producte.NOM_TAULA + "("
             + Producte._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "

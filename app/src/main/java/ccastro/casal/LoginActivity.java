@@ -58,8 +58,6 @@ public class LoginActivity extends AppCompatActivity {
         // TRABAJADOR admin PARA CUANDO ELIMINE INTRODUCCION DE EJEMPLOS
         db.InserirTreballador("Administrador"," ","admin","xxx");
 
-       // ************* HAY QUE INSERTAR MENU DIARIO en PRODUCTO ID1 y QUE NO SE PUEDA ELIMINAR, SI MODIFICAR *************
-        db.InserirProducte("Menú Diario","5.50","Menu");
         db.tanca();
         cargarPreferencias();
         buttonEntrar = (Button) findViewById(R.id.buttonEntrar);
@@ -157,7 +155,12 @@ public class LoginActivity extends AppCompatActivity {
         db.Esborra();
 
 
-        // nom - cognoms - tipusClient - mesaFavorita
+        // INSERTAMOS MESA LLEVAR EN LA POSICION 0, Y ESTA NUNCA SE PODRA ELIMINAR
+        db.InserirMesa("Llevar");
+        // ************* HAY QUE INSERTAR LOS DIFERENTES TIPOS DE MENU en PRODUCTO  y QUE NO SE PUEDA ELIMINAR, SI MODIFICAR *************
+        db.InserirProducte("Menú Diario","5.50","Menu");   //ID = 1
+        db.InserirProducte("Menú Diario","2.50","Menu 50%");   //ID = 2
+        db.InserirProducte("Menú Diario","1.25","Menu 75%");   //ID = 3
 
 
         // nom, cognoms, username, password
@@ -166,10 +169,11 @@ public class LoginActivity extends AppCompatActivity {
 
         db.InserirMesa("Mesa 1");db.InserirMesa("Mesa 2");db.InserirMesa("Mesa 3");db.InserirMesa("Mesa 4");
 
-        db.InserirClient("Manuela","Torres Cobijo","Comedor",2);
-        db.InserirClient("Manel","Garcia","Comedor",1);
-        db.InserirClient("Remedios","Luque","Ayuntamiento",2);
-        db.InserirClient("Juan","Gomez Fuentes","Llevar",3);
+        db.InserirClient("Manuela","Torres Cobijo","0",2,"0","1","Segundo de poquito y pan integral");
+        db.InserirClient("Manel","Garcia","0",1,"0","1","");
+        db.InserirClient("Remedios","Luque","2",0,"1","2","Vegetariana"); // Ayuntamiento
+        db.InserirClient("Asunción","Rodriguez  Perez","2",0,"2","2","Vegetariana"); // Ayuntamiento
+        db.InserirClient("Juan","Gomez Fuentes","1",0,"0","2","Poquito"); //LLevar
 
         // nomProducte, preu, tipus
         db.InserirProducte("Menú Diario","5.50","Menu");

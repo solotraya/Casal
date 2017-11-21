@@ -63,7 +63,9 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
         holder.idClient.setText(mDataset.get(position).getIdClient());
         holder.nomClient.setText(mDataset.get(position).getNomClient());
         holder.tipusClient.setText(mDataset.get(position).getTipusClient());
-
+        holder.tipoPago.setText(mDataset.get(position).getTipoPago());
+        holder.tipusComida.setText(mDataset.get(position).getTipoComida());
+        holder.observaciones.setText(mDataset.get(position).getObservacions());
         String pagoRealizado = mDataset.get(position).getPagado();
         if (pagoRealizado.equalsIgnoreCase("1")) holder.pagado.setChecked(true);
         String assistenciaChequeada = mDataset.get(position).getAssistencia();
@@ -82,7 +84,7 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
     }
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        TextView idClient,nomClient,tipusClient,textViewPagado;
+        TextView idClient,nomClient,tipusClient,textViewPagado, tipusComida, tipoPago, observaciones;
         CheckBox pagado,assistenciaReserva;
         View v;
         Context context;
@@ -99,6 +101,9 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
             pagado = (CheckBox) v.findViewById(R.id.pagadoReserva);
             context = itemView.getContext();
             textViewPagado = (TextView) v.findViewById(R.id.textViewPagado);
+            tipoPago = (TextView) v.findViewById(R.id.tipoPago);
+            tipusComida = (TextView) v.findViewById(R.id.tipoComida);
+            observaciones = (TextView) v.findViewById(R.id.observaciones);
             v.setOnClickListener(this);
         }
 

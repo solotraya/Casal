@@ -40,6 +40,9 @@ public class ContracteBD {
         public static final String COGNOMS_CLIENT = "cognoms_client";
         public static final String TIPUS_CLIENT = "tipus_client"; // 0 Comedor 1 Llevar 2 Ayuntamiento
         public static final String MESA_FAVORITA = "id_mesa";  // OPCIONAL para guardar la mesa preferida,
+        public static final String TIPO_PAGO = "tipo_pago";   // 0 Completo 1 Mitad 2,5.. 2 1,5... y asi con todos los tipos de pago que haya
+        public static final String TIPO_COMIDA = "tipo_comida";   // 1 Nomal (ID = 1) // 2 Diabates (ID = 2) // 3 Estringente (ID = 3)
+        public static final String OBSERVACIONS_CLIENT = "observacions_client"; // Texto para poner poquito, sin lechuga, solo tomate, etc
         // para que en la Activity venga auto-rellenado con esa mesa (que igualmente se puede cambiar)
     }
 

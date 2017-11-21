@@ -63,8 +63,13 @@ public class ReservaActivity extends AppCompatActivity {
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Client._ID)),
                         (cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))+" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT))),
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Client.TIPUS_CLIENT)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Client.TIPO_PAGO)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Client.TIPO_COMIDA)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Client.OBSERVACIONS_CLIENT)),
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Reserva_Cliente.PAGADO)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.Reserva_Cliente.ASISTENCIA))));
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Reserva_Cliente.ASISTENCIA))
+
+                        ));
             } while (cursor.moveToNext());
         }
         return myDataset;

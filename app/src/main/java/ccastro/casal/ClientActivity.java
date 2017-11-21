@@ -8,6 +8,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.ContracteBD.Client;
 import ccastro.casal.SQLite.DBInterface;
 public class ClientActivity extends AppCompatActivity {
@@ -48,7 +49,10 @@ public class ClientActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             do {
                 clients.add(cursor.getString(cursor.getColumnIndex(Client._ID))+" "+cursor.getString(cursor.getColumnIndex(Client.NOM_CLIENT))
-                        +" "+cursor.getString(cursor.getColumnIndex(Client.COGNOMS_CLIENT))+" "+cursor.getString(cursor.getColumnIndex(Client.TIPUS_CLIENT)));
+                        +" "+cursor.getString(cursor.getColumnIndex(Client.COGNOMS_CLIENT))+" "+cursor.getString(cursor.getColumnIndex(Client.TIPUS_CLIENT))
+                        +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.TIPO_PAGO))+" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.TIPO_COMIDA))
+                        +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.OBSERVACIONS_CLIENT))
+                );
             } while (cursor.moveToNext());
         }
         db.tanca();
