@@ -154,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
         db.obre();
         db.Esborra();
 
-
+        // TODO ESTO HABRA QUE AÑADIRLO A MANO AL ENTRAR A LA APP
         // INSERTAMOS MESA LLEVAR EN LA POSICION 0, Y ESTA NUNCA SE PODRA ELIMINAR
         db.InserirMesa("Llevar");
         // ************* HAY QUE INSERTAR LOS DIFERENTES TIPOS DE MENU en PRODUCTO  y QUE NO SE PUEDA ELIMINAR, SI MODIFICAR *************
@@ -176,7 +176,7 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirClient("Juan","Gomez Fuentes","1",0,"0","2","Poquito"); //LLevar
 
         // nomProducte, preu, tipus
-        db.InserirProducte("Menú Diario","5.50","Menu");
+
         db.InserirProducte("Café Solo","1.10","Café");
         db.InserirProducte("Café con leche","1.20","Café");
         db.InserirProducte("Carajillo","1.50","Café");
@@ -192,8 +192,8 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirVenta(2,2,"2017 11 18","1","11:00");
 
                  //id_producte,id_venta/quantitatProducte
-        db.InserirFactura(2,1,1);db.InserirFactura(3,1,2);db.InserirFactura(5,1,4);
-        db.InserirFactura(1,2,2);db.InserirFactura(4,2,1);db.InserirFactura(6,2,3);
+        db.InserirFactura(4,1,1);db.InserirFactura(5,1,2);db.InserirFactura(7,1,4);
+        db.InserirFactura(5,2,2);db.InserirFactura(6,2,1);db.InserirFactura(8,2,3);
 
 
         //dia, assistencia(0 SI por defecto, 1 NO), pagado (0 NO, 1 SI),idCliente, idMesa
