@@ -31,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="NomProducte"
-                    android:textColor="@android:color/holo_red_dark"
+                    android:textColor="@color/colorPrimary"
                     android:layout_weight="1"
                     android:textSize="18dp"
                     android:textStyle="bold" />
@@ -69,12 +69,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="horizontal">
-                    <TextView
-                        android:id="@+id/textoTipo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:text="Categoria: " />
+
                     <TextView
                         android:id="@+id/tipusProducte"
                         android:layout_width="match_parent"

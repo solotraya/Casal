@@ -19,6 +19,8 @@ public class ReservaActivity extends AppCompatActivity {
     TextView nombreMesaReserva;
     String idMesaReserva;
     String dataReserva;
+    TextView textViewDataReserva;
+
     DBInterface db;
     View v;
     private HeaderAdapterReserva headerAdapterReserva;
@@ -31,7 +33,7 @@ public class ReservaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reserva);
         db = new DBInterface(this);
         nombreMesaReserva = (TextView) findViewById(R.id.nombreMesaReserva);
-
+        textViewDataReserva = (TextView) findViewById(R.id.fechaReservaMesa);
         myDataset = new ArrayList<>();
         headerAdapterReserva = new HeaderAdapterReserva(myDataset);
         db = new DBInterface(this);
@@ -53,6 +55,9 @@ public class ReservaActivity extends AppCompatActivity {
         }
         if (getIntent().hasExtra("DIA_RESERVADO")){
             dataReserva = getIntent().getExtras().getString("DIA_RESERVADO");
+            String dataCorrecta[] = dataReserva.split(" ");
+            String dataFormatSpain = dataCorrecta[2]+"/"+dataCorrecta[1]+"/"+dataCorrecta[0];
+            textViewDataReserva.setText(dataFormatSpain);
         }
     }
     public ArrayList CursorBD(Cursor cursor) {

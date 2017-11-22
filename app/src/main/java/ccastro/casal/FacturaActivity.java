@@ -176,22 +176,7 @@ public class FacturaActivity extends AppCompatActivity {
             Integer idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
             idVenta = Integer.toString(idVentaFactura);
             db.tanca();
-            /*  YA SE PUEDE BORRAR
-            Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
-            if (idVentaFactura==-1){
 
-
-                Date ahora = new Date();
-                SimpleDateFormat formateador = new SimpleDateFormat("hh:mm");
-                String hora = formateador.format(ahora);
-                                                                    //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
-                db.InserirVenta(Integer.parseInt(id_cliente),Integer.parseInt(ID_TREBALLADOR),fechaReserva,"0",hora);
-                cursorVentaFactura = db.EncontrarId_VentaFactura(id_cliente);
-                idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
-                idVenta = Integer.toString(idVentaFactura);
-            }
-            db.InserirFactura(1,idVentaFactura,1);
-            db.tanca(); */
             db.obre();
             Cursor cursor = db.RetornaFacturaIdCliente(id_cliente);
             myDataset = CursorBD(cursor);

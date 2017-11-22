@@ -32,8 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="NomMesa"
-            android:textColor="@android:color/holo_red_dark"
-            android:layout_weight="1"
+            android:textColor="@color/colorPrimary"
             android:textSize="20dp"
             android:textStyle="bold" />
 
