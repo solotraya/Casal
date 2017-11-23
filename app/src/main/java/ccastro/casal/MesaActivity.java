@@ -112,21 +112,25 @@ public class MesaActivity extends AppCompatActivity {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                Toast.makeText(MesaActivity.this, "Selecciona fecha Final", Toast.LENGTH_SHORT).show();
-                Calendar currentDate = Calendar.getInstance();
-                int year = currentDate.get(Calendar.YEAR);
-                int month = currentDate.get(Calendar.MONTH);
-                int day = currentDate.get(Calendar.DAY_OF_MONTH);
-                DatePickerDialog datePicker;
-                datePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
-                    public void onDateSet(DatePicker datepicker, int year, int month, int day) {
-                        month = month + 1;
-                        String fecha = "" + year + " " + month + " " + day;
-                        fechaFinal = fecha;
-                    }
-                }, year, month, day);
-                datePicker.setTitle("Selecciona Fecha");
-                datePicker.show();
+                // TODO SI TENEMOS CLIENTE SELECCIONADO MOSTRAR SELECTOR PARA FECHA FINAL DE RESERVA
+                if (idCliente!=null){
+                    Toast.makeText(MesaActivity.this, "Selecciona fecha Final", Toast.LENGTH_SHORT).show();
+                    Calendar currentDate = Calendar.getInstance();
+                    int year = currentDate.get(Calendar.YEAR);
+                    int month = currentDate.get(Calendar.MONTH);
+                    int day = currentDate.get(Calendar.DAY_OF_MONTH);
+                    DatePickerDialog datePicker;
+                    datePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
+                        public void onDateSet(DatePicker datepicker, int year, int month, int day) {
+                            month = month + 1;
+                            String fecha = "" + year + " " + month + " " + day;
+                            fechaFinal = fecha;
+                        }
+                    }, year, month, day);
+                    datePicker.setTitle("Selecciona Fecha");
+                    datePicker.show();
+                }
+
             }
             @Override
             public void afterTextChanged(Editable editable) {}
