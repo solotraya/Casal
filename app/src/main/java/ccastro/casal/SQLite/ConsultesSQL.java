@@ -43,7 +43,7 @@ public class ConsultesSQL {
             " WHERE v."+ Venta.DATA_VENTA+" LIKE strftime('%Y %m %d','now')";
 
     public String  RetornaMesasReservadasData (String data) {
-        return "Select distinct m." + Mesa._ID + ", m." + Mesa.NOMBRE_MESA + ", r." + Reserva_Cliente.DIA_RESERVADO +
+        return "Select distinct m." + Mesa._ID + ", m." + Mesa.NOMBRE_MESA + ", r." + Reserva_Cliente.DIA_RESERVADO +", (SELECT COUNT (*) FROM " + Reserva_Cliente.NOM_TAULA + " r" + " WHERE r." + Reserva_Cliente.DIA_RESERVADO + " LIKE '"+data+"') as columnaTotal"+
                 " FROM " + Mesa.NOM_TAULA + " m" +
                 " LEFT JOIN  " + Reserva_Cliente.NOM_TAULA + " r ON m." + Mesa._ID + " = r." + Reserva_Cliente.ID_MESA +
                 " WHERE r." + Reserva_Cliente.DIA_RESERVADO + " LIKE '"+data+"'";

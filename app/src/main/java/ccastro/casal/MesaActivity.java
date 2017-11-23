@@ -1,6 +1,7 @@
 package ccastro.casal;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -57,6 +59,7 @@ public class MesaActivity extends AppCompatActivity {
     Long resultatInserirClient;
     ListView listViewClientes;
     TextView textViewFechaInicio,textViewTotalClientes;
+    android.support.v7.widget.Toolbar mToolbar;
     private HeaderAdapterMesa headerAdapterMesa;
     private ArrayList<HeaderMesa> myDataset;
     private RecyclerView recyclerView;
@@ -68,10 +71,12 @@ public class MesaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mesa);
         db = new DBInterface(this);
         fechaInicio = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
-        android.support.v7.widget.Toolbar mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_mesa);
+        fechaFinal = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_mesa);
 
         textViewFechaInicio = (TextView) findViewById(R.id.fechaInicio) ;
         textViewTotalClientes = (TextView) findViewById(R.id.totalClientes) ;
+
         textViewFechaInicio.setText(Utilitats.getFechaFormatSpain(fechaInicio));
         buttonEliminar = (Button) mToolbar.findViewById(R.id.buttonEliminarClienteMesa) ;
         buttonAceptarReserva = (Button) mToolbar.findViewById(R.id.buttonAñadirCliente) ;
@@ -138,6 +143,14 @@ public class MesaActivity extends AppCompatActivity {
         listViewClientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // TODO ESCONDEMOS EL TECLADO DEL MOVIL:
+                view = MesaActivity.this.getCurrentFocus();
+                view.clearFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+
                 String nombre = (String) listViewClientes.getItemAtPosition(position);
                 String [] cogerIDCliente = nombre.split(" ");
                 idCliente = cogerIDCliente[0];
@@ -154,6 +167,7 @@ public class MesaActivity extends AppCompatActivity {
                 // TODO Y SELECCIONAR MESA FAVORITA DE ESE CLIENTE EN EL SPINNER DE MESA
                 spinnerMesa.setSelection(Integer.parseInt(taulaPerDefecteClient));
                 adapterMesa.notifyDataSetChanged();
+
             }
         });
 
@@ -199,8 +213,8 @@ public class MesaActivity extends AppCompatActivity {
                }
            }
         );
-         // TODO  Retorna tots els clients, l'utilitzarem per a la llista que usa el SEARCH VIEW de la RESERVA
-        //  retornaClients(); SE PUEDE QUITAR
+         // TODO  Retorna tots els clients, l'utilitzarem per a la llista que usa el SEARCH VIEW, cuando buscamos cliente!!!
+         retornaClients();
     }
 
     public void obtenirTaulaDefecteClient (){
@@ -221,8 +235,6 @@ public class MesaActivity extends AppCompatActivity {
 
     }
 
-
-    /* SE PUEDE QUITAR
     public void retornaClients(){
         db.obre();
         Cursor cursor= db.RetornaTotsElsClients();
@@ -234,7 +246,7 @@ public class MesaActivity extends AppCompatActivity {
         }
         db.tanca();
         //
-    }  */
+    }
 
 
     public void iniciarSpinnerMesa(){
@@ -305,14 +317,19 @@ public class MesaActivity extends AppCompatActivity {
 
     public  ArrayList CursorBD(Cursor cursor){
         if(cursor.moveToFirst()){
+
             do {
                 myDataset.add(new HeaderMesa(
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Mesa._ID)),
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Mesa.NOMBRE_MESA)),
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Reserva_Cliente.DIA_RESERVADO))
+
                 ));
+                textViewTotalClientes.setText(cursor.getString(cursor.getColumnIndex("columnaTotal")));
             } while(cursor.moveToNext());
-        }
+
+        } else textViewTotalClientes.setText("0");
+
         return myDataset;
     }
 
@@ -378,7 +395,8 @@ public class MesaActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
+                // TODO MOSTRAMOS TOOLBAR:
+                mToolbar.setVisibility(View.VISIBLE);
                 return true;
             }
 
