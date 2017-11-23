@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -34,6 +36,7 @@ import ccastro.casal.RecyclerView.HeaderAdapterMesa;
 import ccastro.casal.RecyclerView.HeaderMesa;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
+import ccastro.casal.Utils.Utilitats;
 
 public class MesaActivity extends AppCompatActivity {
     DBInterface db;
@@ -43,17 +46,17 @@ public class MesaActivity extends AppCompatActivity {
     private final String MENU_CAURTO="2";
     private String tipoPago;
     private Spinner spinnerMesa;
-    Button buttonnDataInicial;
-    Button buttonAceptarReserva;
-    private String fechaInicio;
+    Button buttonnDataInicial, buttonAceptarReserva, buttonEliminar;
+    private String fechaInicio="", fechaFinal="";
     private String idCliente,nombreCliente;
     private Integer idMesa;
-
+    int contadorFechas=0;
     String taulaPerDefecteClient;
     ArrayList<String> clients = null;
     ArrayAdapter<String> adapterClientes;
     Long resultatInserirClient;
     ListView listViewClientes;
+    TextView textViewFechaInicio,textViewTotalClientes;
     private HeaderAdapterMesa headerAdapterMesa;
     private ArrayList<HeaderMesa> myDataset;
     private RecyclerView recyclerView;
@@ -64,37 +67,66 @@ public class MesaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mesa);
         db = new DBInterface(this);
-        fechaInicio=obtenerFechaReserva(); // por defecto le metemos la fecha actual (DE HOY)
+        fechaInicio = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
         android.support.v7.widget.Toolbar mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_mesa);
 
-
+        textViewFechaInicio = (TextView) findViewById(R.id.fechaInicio) ;
+        textViewTotalClientes = (TextView) findViewById(R.id.totalClientes) ;
+        textViewFechaInicio.setText(Utilitats.getFechaFormatSpain(fechaInicio));
+        buttonEliminar = (Button) mToolbar.findViewById(R.id.buttonEliminarClienteMesa) ;
         buttonAceptarReserva = (Button) mToolbar.findViewById(R.id.buttonAñadirCliente) ;
         buttonnDataInicial = (Button) mToolbar.findViewById(R.id.buttonDataIniciCliente) ;
         buttonnDataInicial.setOnClickListener( new View.OnClickListener(){
-                @Override
                 public void onClick(View view) {
+                    Toast.makeText(MesaActivity.this, "Selecciona fecha Inicio", Toast.LENGTH_SHORT).show();
+
                     Calendar mcurrentDate = Calendar.getInstance();
                     int mYear = mcurrentDate.get(Calendar.YEAR);
                     int mMonth = mcurrentDate.get(Calendar.MONTH);
                     int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
-
                     DatePickerDialog mDatePicker;
                     mDatePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
                         public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                             selectedmonth = selectedmonth + 1;
-                            fechaInicio="" + selectedyear + " " + selectedmonth + " " + selectedday;
-                            actualizarRecyclerView();
-                            headerAdapterMesa.actualitzaRecycler(myDataset);
+                                fechaInicio="" + selectedyear + " " + selectedmonth + " " + selectedday;
+                                String dataFormatSpain= Utilitats.getFechaFormatSpain(fechaInicio);
+                                textViewFechaInicio.setText(dataFormatSpain);
+                                actualizarRecyclerView();
+                                headerAdapterMesa.actualitzaRecycler(myDataset);
                             // METODO DE LA BD PARA CARGAR MESA SEGUN FECHA
                             //carregarDataTreballador();
-
                         }
                     }, mYear, mMonth, mDay);
-                    mDatePicker.setTitle("Selecciona Data");
+                    mDatePicker.setTitle("Selecciona Fecha");
                     mDatePicker.show();
                 }
             }
         );
+        textViewFechaInicio.addTextChangedListener ( new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Toast.makeText(MesaActivity.this, "Selecciona fecha Final", Toast.LENGTH_SHORT).show();
+                Calendar currentDate = Calendar.getInstance();
+                int year = currentDate.get(Calendar.YEAR);
+                int month = currentDate.get(Calendar.MONTH);
+                int day = currentDate.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog datePicker;
+                datePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker datepicker, int year, int month, int day) {
+                        month = month + 1;
+                        String fecha = "" + year + " " + month + " " + day;
+                        fechaFinal = fecha;
+                    }
+                }, year, month, day);
+                datePicker.setTitle("Selecciona Fecha");
+                datePicker.show();
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {}
+
+        });
         listViewClientes = (ListView)findViewById(R.id.listViewClientes);
         clients= new ArrayList();
         adapterClientes = new ArrayAdapter<String> (this,
@@ -127,28 +159,48 @@ public class MesaActivity extends AppCompatActivity {
 
         // TODO ESTO ES PARA EL BOTON DE AÑADIR RESERVA
         buttonAceptarReserva.setOnClickListener( new View.OnClickListener(){
-                                                     @Override
-                                                     public void onClick(View view) {
-                                                         // TODO SI NO SE AÑADE FECHA LE PONEMOS FECHA ACTUAL
+             @Override
+             public void onClick(View view) {
+                 // TODO SI NO SE AÑADE FECHA LE PONEMOS FECHA ACTUAL
 
-                                                         if (idCliente!=null){
-                                                             db.obre();
-                                                             //  db.InserirReserva_Cliente(diaReservado,"0",pagadoReserva,id_cliente,id_mesa);
-                                                             resultatInserirClient = db.InserirReserva_Cliente(fechaInicio,"0","0",Integer.parseInt(idCliente),idMesa);
-                                                             Log.d("Result INSERIR CLIENT: ",Long.toString(resultatInserirClient));
-                                                             db.tanca();
-                                                             // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
-                                                             if (resultatInserirClient!=-1){
-                                                                 actualizarRecyclerView();
-                                                                 crearFacturaReservaMesa();
-                                                             } else Toast.makeText(view.getContext(), "El cliente ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
-                                                             headerAdapterMesa.actualitzaRecycler(myDataset);
-                                                         } else Toast.makeText(MesaActivity.this, "Introduce cliente!", Toast.LENGTH_SHORT).show();
-                                                     }
-                                                 }
+
+                 if (idCliente!=null ){
+                     Integer fechaActualInt = Integer.parseInt(Utilitats.obtenerFechaActual().replaceAll("\\s",""));
+                     Integer fechaFinalInt = Integer.parseInt(fechaFinal.replaceAll("\\s",""));
+                     Integer fechaInicialInt = Integer.parseInt(fechaInicio.replaceAll("\\s",""));
+                     if (fechaInicialInt >= fechaActualInt){
+                         if (fechaFinalInt >= fechaInicialInt ){
+                             db.obre();
+                             //  db.InserirReserva_Cliente(diaReservado,"0",pagadoReserva,id_cliente,id_mesa);
+                             resultatInserirClient = db.InserirReserva_Cliente(fechaInicio,"0","0",Integer.parseInt(idCliente),idMesa);
+                             Log.d("Result INSERIR CLIENT: ",Long.toString(resultatInserirClient));
+                             db.tanca();
+                             // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
+                             if (resultatInserirClient!=-1){
+                                 actualizarRecyclerView();
+                                 crearFacturaReservaMesa();
+                                 Toast.makeText(MesaActivity.this, "Reserva realizada!", Toast.LENGTH_SHORT).show();
+                             } else Toast.makeText(view.getContext(), "El cliente ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
+                             headerAdapterMesa.actualitzaRecycler(myDataset);
+                         } else Toast.makeText(MesaActivity.this, "Fecha Final mínima: "+Utilitats.getFechaFormatSpain(fechaInicio), Toast.LENGTH_SHORT).show();
+                     } else Toast.makeText(MesaActivity.this, "Fecha Inicio mínima: "+Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()), Toast.LENGTH_SHORT).show();
+                 } else Toast.makeText(MesaActivity.this, "Introduce cliente!", Toast.LENGTH_SHORT).show();
+             }
+         }
         );
-         // TODO  Retorna tots els clients, l'utilitzarem per a la llista que usa el SEARCH VIEW
-         retornaClients();
+
+        buttonEliminar.setOnClickListener( new View.OnClickListener(){
+               @Override
+               public void onClick(View view) {
+                   // TODO SI NO SE AÑADE FECHA LE PONEMOS FECHA ACTUAL
+                   Toast.makeText(MesaActivity.this, fechaInicio, Toast.LENGTH_SHORT).show();
+                   Toast.makeText(MesaActivity.this, fechaFinal, Toast.LENGTH_SHORT).show();
+
+               }
+           }
+        );
+         // TODO  Retorna tots els clients, l'utilitzarem per a la llista que usa el SEARCH VIEW de la RESERVA
+        //  retornaClients(); SE PUEDE QUITAR
     }
 
     public void obtenirTaulaDefecteClient (){
@@ -169,14 +221,8 @@ public class MesaActivity extends AppCompatActivity {
 
     }
 
-    public String obtenerFechaReserva (){
-        Calendar ahoraCal = Calendar.getInstance();
-        // PARECE QUE EL MES EMPIEZA DESDE 0, HAY QUE SUMAR UNO.
-        ahoraCal.getTime();
-        return ahoraCal.get(Calendar.YEAR)+" "+(ahoraCal.get(Calendar.MONTH)+1)+
-                " "+ahoraCal.get(Calendar.DATE);
-    }
 
+    /* SE PUEDE QUITAR
     public void retornaClients(){
         db.obre();
         Cursor cursor= db.RetornaTotsElsClients();
@@ -188,7 +234,7 @@ public class MesaActivity extends AppCompatActivity {
         }
         db.tanca();
         //
-    }
+    }  */
 
 
     public void iniciarSpinnerMesa(){
@@ -225,7 +271,7 @@ public class MesaActivity extends AppCompatActivity {
             SimpleDateFormat formateador = new SimpleDateFormat("hh:mm");
             String hora = formateador.format(ahora);
             //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
-            db.InserirVenta(Integer.parseInt(idCliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),obtenerFechaReserva(),"0",hora);
+            db.InserirVenta(Integer.parseInt(idCliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),Utilitats.obtenerFechaActual(),"0",hora);
             cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idCliente);
             idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
             idVenta = Integer.toString(idVentaFactura);
