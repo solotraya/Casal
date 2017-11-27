@@ -103,6 +103,9 @@ public class MesaActivity extends AppCompatActivity {
                                     fechaInicio="" + selectedyear + " " +0+selectedmonth + " " +0+selectedday;
                                 }
                             } else {
+                                if (Integer.toString(selectedmonth).length()==1){
+                                    fechaInicio="" + selectedyear + " " +0+selectedmonth + " " +0+selectedday;
+                                }
                                 fechaInicio="" + selectedyear + " " + selectedmonth + " " + selectedday;
                             }
 
@@ -150,6 +153,9 @@ public class MesaActivity extends AppCompatActivity {
                                     fechaFinal = "" + year + " " +0+month + " " +0+day;
                                 }
                             } else {
+                                if (Integer.toString(month).length()==1){
+                                    fechaFinal = "" + year + " " +0+month + " " +0+day;
+                                }
                                 fechaFinal = "" + year + " " + month + " " + day;
                             }
 
