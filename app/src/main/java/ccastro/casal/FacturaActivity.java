@@ -77,7 +77,8 @@ public class FacturaActivity extends AppCompatActivity {
                                         // TODO ACTUALIZAR PAGO DE RESERVA, QUIZAS SE PUEDE QUITAR SI SE QUITA RESERVADA_PAGADA Y SE RELACIONA CON ID_VENTA
                                         db.obre();
                                         Log.d("prueba: "," actualizad");
-                                        db.ActalitzarPagoReservaFecha(id_cliente,obtenerFechaReserva());
+                                      //  db.ActalitzarPagoReservaFecha(id_cliente,obtenerFechaReserva());
+                                        db.ActalitzarPagoReservaFecha(id_cliente);
                                         db.tanca();
                                     }
                                 }

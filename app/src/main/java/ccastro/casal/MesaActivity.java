@@ -50,7 +50,8 @@ public class MesaActivity extends AppCompatActivity {
     private Spinner spinnerMesa;
     Button buttonnDataInicial, buttonAceptarReserva, buttonEliminar;
     private String fechaInicio="", fechaFinal="0";
-    private String fechasSeleccionadas[] = new String[31];
+    private Integer diaInicio, diaFinal = null, mesInicio,mesFinal,añoInicio,añoFinal;
+    private ArrayList<String> fechasSeleccionadas;
     private String idCliente,nombreCliente;
     private Integer idMesa;
 
@@ -97,7 +98,7 @@ public class MesaActivity extends AppCompatActivity {
                     mDatePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
                         public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                             selectedmonth = selectedmonth + 1;
-
+                            diaInicio = selectedday; mesInicio = selectedmonth; añoInicio=selectedyear;
                             if (Integer.toString(selectedday).length()==1) {
                                 fechaInicio="" + selectedyear + " " + selectedmonth + " " +0+selectedday;
                                 if (Integer.toString(selectedmonth).length()==1){
@@ -146,6 +147,7 @@ public class MesaActivity extends AppCompatActivity {
                     datePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
                         public void onDateSet(DatePicker datepicker, int year, int month, int day) {
                             month = month + 1;
+                            diaFinal = day; mesFinal = month; añoFinal = year;
                             if (Integer.toString(day).length()==1) {
                                 fechaFinal = "" + year + " " + month + " " +0+day;
                                 if (Integer.toString(month).length()==1){
@@ -160,12 +162,13 @@ public class MesaActivity extends AppCompatActivity {
                             textViewFechaFinal.setText(Utilitats.getFechaFormatSpain(fechaFinal));
                             textViewFechaFinal.setVisibility(View.VISIBLE);
                             textViewFechaFinalTexto.setVisibility(View.VISIBLE);
+
                         }
                     }, year, month, day);
                     datePicker.setTitle("Selecciona Fecha");
                     datePicker.show();
-                }
 
+                }
 
             }
             @Override
@@ -238,24 +241,60 @@ public class MesaActivity extends AppCompatActivity {
 
                      Integer fechaFinalInt = Integer.parseInt(fechaFinal.replaceAll("\\s",""));
                      Integer fechaInicialInt = Integer.parseInt(fechaInicio.replaceAll("\\s",""));
+
+                     if (fechaFinalInt == 0) fechaFinalInt = fechaInicialInt;
+                     /*
                      Log.d("FECHA FINAL: ",Integer.toString(fechaFinalInt));
                      Log.d("FECHA INICIAL: ",Integer.toString(fechaInicialInt));
                      Log.d("FECHA INICIO: ",fechaInicio);
                      Log.d("FECHA FIN: ",fechaFinal);
-                     Log.d("FECHA ACTUAL INT: ",Integer.toString(fechaActualInt));
-                     if (fechaFinalInt == 0) fechaFinalInt = fechaInicialInt;
-                     if (fechaInicialInt >= fechaActualInt){
+                     Log.d("FECHA ACTUAL INT: ",Integer.toString(fechaActualInt)); */
 
-                         if (fechaInicialInt <= fechaFinalInt){
+                     if (fechaInicialInt >= fechaActualInt){ // SI LA FECHA INICIAL ES MAS GRANDE O IGUAL QUE LA FECHA ACTUAL
+
+                         if (fechaInicialInt <= fechaFinalInt){   // SI LA FECHA INICIAL ES MAS PEQUEÑA O IGUAL QUE LA FECHA FINAL
                              db.obre();
-                             //  db.InserirReserva_Cliente(diaReservado,"0",pagadoReserva,id_cliente,id_mesa);
-                             resultatInserirClient = db.InserirReserva_Cliente(fechaInicio,"0","0",Integer.parseInt(idCliente),idMesa);
-                             Log.d("Result INSERIR CLIENT: ",Long.toString(resultatInserirClient));
-                             db.tanca();
+
+                             // TODO, BUCLE NUEVO PARA AÑADIR TODOS LOS DIAS SELECCIONADOS
+                             fechasSeleccionadas = new ArrayList();
+                             int totalDias = 0;
+                             if (diaFinal == null ){  // SI SOLO TENEMOS UN DIA ELEGIDO
+                                 fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio);
+                                 resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
+                                 Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
+                                 totalDias++;
+                             } else {
+                                 while (diaInicio <= diaFinal){
+                                     fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio);
+                                     // Log.d("FECHA SELECCIOANADA ", fechasSeleccionadas[totalDias] );
+                                     resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
+                                     Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
+                                     totalDias = totalDias +1;
+                                     diaInicio++;
+                                 }
+                             }
+
+
                              // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
                              if (resultatInserirClient!=-1){
                                  actualizarRecyclerView();
-                                 crearFacturaReservaMesa();
+                                 crearFacturaReservaMesa(totalDias);
+                                 Toast.makeText(MesaActivity.this, "Reserva realizada!", Toast.LENGTH_SHORT).show();
+                                 if (idCliente != null){
+                                     idCliente=null;
+                                     fechaFinal="0";fechaInicio="0";
+                                     diaInicio=null;mesInicio=null;añoInicio=null;diaFinal=null;mesFinal=null;añoFinal=null;
+                                 }
+                             } else Toast.makeText(view.getContext(), nombreCliente+" ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
+
+                          //   resultatInserirClient = db.InserirReserva_Cliente(fechaInicio,"0","0",Integer.parseInt(idCliente),idMesa);
+                             Log.d("Result INSERIR CLIENT: ",Long.toString(resultatInserirClient));
+                             db.tanca();
+                             // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
+                             /*
+                             if (resultatInserirClient!=-1){
+                                 actualizarRecyclerView();
+                                 crearFacturaReservaMesa(totalDias);
                                  Toast.makeText(MesaActivity.this, "Reserva realizada!", Toast.LENGTH_SHORT).show();
                                  if (idCliente != null){
                                      idCliente=null;
@@ -263,6 +302,7 @@ public class MesaActivity extends AppCompatActivity {
                                  }
 
                              } else Toast.makeText(view.getContext(), nombreCliente+" ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
+                              */
                              headerAdapterMesa.actualitzaRecycler(myDataset);
                          } else Toast.makeText(MesaActivity.this, "Fecha Final mínima: "+Utilitats.getFechaFormatSpain(fechaInicio), Toast.LENGTH_SHORT).show();
                      } else Toast.makeText(MesaActivity.this, "Fecha Inicio mínima: "+Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()), Toast.LENGTH_SHORT).show();
@@ -340,11 +380,11 @@ public class MesaActivity extends AppCompatActivity {
 
     }
 
-    public  void crearFacturaReservaMesa(){
+    public  void crearFacturaReservaMesa(int quantitat){
         db.obre();
         Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idCliente);
         Integer idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
-        String idVenta = Integer.toString(idVentaFactura);
+        //String idVenta = Integer.toString(idVentaFactura);
         Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
         if (idVentaFactura==-1){ // Si no tienen una factura pendiente por pagar
             Date ahora = new Date();
@@ -354,13 +394,14 @@ public class MesaActivity extends AppCompatActivity {
             db.InserirVenta(Integer.parseInt(idCliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),Utilitats.obtenerFechaActual(),"0",hora);
             cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idCliente);
             idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
-            idVenta = Integer.toString(idVentaFactura);
+           // idVenta = Integer.toString(idVentaFactura);
         }
         // CREAMOS FACTURA: AÑADIMOS MENU AL RESERVAR MESA
-        if (tipoPago.equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,1);
-        else if (tipoPago.equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,1);
-        else if (tipoPago.equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,1);
-        db.tanca();
+
+        if (tipoPago.equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,quantitat);
+        else if (tipoPago.equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,quantitat);
+        else if (tipoPago.equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,quantitat);
+        //db.tanca();
 
 
     }

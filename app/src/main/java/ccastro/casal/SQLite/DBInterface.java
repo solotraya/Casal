@@ -155,6 +155,15 @@ public class DBInterface {
         bd.update(Reserva_Cliente.NOM_TAULA, valores, where, selection);
         Log.d("proba pagdo: ", fecha);
     }
+    public void ActalitzarPagoReservaFecha(String _id) {
+        Integer idCliente = Integer.parseInt(_id);
+        ContentValues valores = new ContentValues();
+        valores.put(Reserva_Cliente.PAGADO, "1");
+        String where = Reserva_Cliente.ID_CLIENTE + " = ? ";
+        String[] selection = {""+idCliente};
+        bd.update(Reserva_Cliente.NOM_TAULA, valores, where, selection);
+
+    }
     public void ActualitzarAsistenciaReservaDiaActual(String _id) {
         Integer idCliente = Integer.parseInt(_id);
         ContentValues valores = new ContentValues();
