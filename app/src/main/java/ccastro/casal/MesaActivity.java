@@ -49,7 +49,7 @@ public class MesaActivity extends AppCompatActivity {
     private String tipoPago;
     private Spinner spinnerMesa;
     Button buttonnDataInicial, buttonAceptarReserva, buttonEliminar;
-    private String fechaInicio="", fechaFinal="0";
+    private String fechaInicio="", fechaFinal="0", fechaInicioConsulta;
     private Integer diaInicio, diaFinal = null, mesInicio,mesFinal,añoInicio,añoFinal;
     private ArrayList<String> fechasSeleccionadas;
     private String idCliente,nombreCliente;
@@ -98,6 +98,7 @@ public class MesaActivity extends AppCompatActivity {
                     mDatePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
                         public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                             selectedmonth = selectedmonth + 1;
+                            fechaInicioConsulta = "" + selectedyear + " " + selectedmonth + " " + selectedday;
                             diaInicio = selectedday; mesInicio = selectedmonth; añoInicio=selectedyear;
                             if (Integer.toString(selectedday).length()==1) {
                                 fechaInicio="" + selectedyear + " " + selectedmonth + " " +0+selectedday;
@@ -279,6 +280,7 @@ public class MesaActivity extends AppCompatActivity {
                              if (resultatInserirClient!=-1){
                                  actualizarRecyclerView();
                                  crearFacturaReservaMesa(totalDias);
+                                 headerAdapterMesa.actualitzaRecycler(myDataset);
                                  Toast.makeText(MesaActivity.this, "Reserva realizada!", Toast.LENGTH_SHORT).show();
                                  if (idCliente != null){
                                      idCliente=null;
@@ -303,7 +305,7 @@ public class MesaActivity extends AppCompatActivity {
 
                              } else Toast.makeText(view.getContext(), nombreCliente+" ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
                               */
-                             headerAdapterMesa.actualitzaRecycler(myDataset);
+                            // headerAdapterMesa.actualitzaRecycler(myDataset);
                          } else Toast.makeText(MesaActivity.this, "Fecha Final mínima: "+Utilitats.getFechaFormatSpain(fechaInicio), Toast.LENGTH_SHORT).show();
                      } else Toast.makeText(MesaActivity.this, "Fecha Inicio mínima: "+Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()), Toast.LENGTH_SHORT).show();
                  } else Toast.makeText(MesaActivity.this, "Introduce cliente!", Toast.LENGTH_SHORT).show();
@@ -419,7 +421,8 @@ public class MesaActivity extends AppCompatActivity {
         myDataset.clear();
         db.obre();
         // TODO Consulta principal que retorna les dates que es veuen al recycler de mesa
-        Cursor cursor = db.RetornaMesasReservadasData(fechaInicio);
+        Log.d("FECHA INICIO VIEW ",fechaInicio);
+        Cursor cursor = db.RetornaMesasReservadasData(fechaInicioConsulta);
         myDataset = CursorBD(cursor);
         db.tanca();
     }
