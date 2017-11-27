@@ -50,6 +50,7 @@ public class MesaActivity extends AppCompatActivity {
     private Spinner spinnerMesa;
     Button buttonnDataInicial, buttonAceptarReserva, buttonEliminar;
     private String fechaInicio="", fechaFinal="0";
+    private String fechasSeleccionadas[] = new String[31];
     private String idCliente,nombreCliente;
     private Integer idMesa;
 
@@ -104,9 +105,8 @@ public class MesaActivity extends AppCompatActivity {
                                 }
                             } else {
                                 if (Integer.toString(selectedmonth).length()==1){
-                                    fechaInicio="" + selectedyear + " " +0+selectedmonth + " " +0+selectedday;
-                                }
-                                fechaInicio="" + selectedyear + " " + selectedmonth + " " + selectedday;
+                                    fechaInicio="" + selectedyear + " " +0+selectedmonth + " " +selectedday;
+                                } else fechaInicio="" + selectedyear + " " + selectedmonth + " " + selectedday;
                             }
 
 
@@ -146,7 +146,6 @@ public class MesaActivity extends AppCompatActivity {
                     datePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
                         public void onDateSet(DatePicker datepicker, int year, int month, int day) {
                             month = month + 1;
-
                             if (Integer.toString(day).length()==1) {
                                 fechaFinal = "" + year + " " + month + " " +0+day;
                                 if (Integer.toString(month).length()==1){
@@ -154,9 +153,8 @@ public class MesaActivity extends AppCompatActivity {
                                 }
                             } else {
                                 if (Integer.toString(month).length()==1){
-                                    fechaFinal = "" + year + " " +0+month + " " +0+day;
-                                }
-                                fechaFinal = "" + year + " " + month + " " + day;
+                                    fechaFinal = "" + year + " " +0+month + " " +day;
+                                } else fechaFinal = "" + year + " " + month + " " + day;
                             }
 
                             textViewFechaFinal.setText(Utilitats.getFechaFormatSpain(fechaFinal));
@@ -167,6 +165,7 @@ public class MesaActivity extends AppCompatActivity {
                     datePicker.setTitle("Selecciona Fecha");
                     datePicker.show();
                 }
+
 
             }
             @Override
