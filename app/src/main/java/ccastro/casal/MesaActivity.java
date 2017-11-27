@@ -77,6 +77,7 @@ public class MesaActivity extends AppCompatActivity {
         textViewFechaInicio = (TextView) findViewById(R.id.fechaInicio) ;
         textViewTotalClientes = (TextView) findViewById(R.id.totalClientes) ;
         textViewClienteSeleccionado = (TextView) findViewById (R.id.ClienteSeleccionado);
+        textViewTextoCliente = (TextView)findViewById(R.id.TextViewClienteSeleccionado );
         textViewFechaFinal = (TextView) findViewById(R.id.fechaFinal);
         textViewFechaFinalTexto =(TextView) findViewById(R.id.TextViewFechaFinal);
         textViewFechaInicio.setText(Utilitats.getFechaFormatSpain(fechaInicio));
@@ -85,8 +86,8 @@ public class MesaActivity extends AppCompatActivity {
         buttonnDataInicial = (Button) mToolbar.findViewById(R.id.buttonDataIniciCliente) ;
         buttonnDataInicial.setOnClickListener( new View.OnClickListener(){
                 public void onClick(View view) {
-                    Toast.makeText(MesaActivity.this, "Selecciona fecha Inicio", Toast.LENGTH_SHORT).show();
 
+                    Toast.makeText(MesaActivity.this, "Selecciona fecha Inicio", Toast.LENGTH_SHORT).show();
                     Calendar mcurrentDate = Calendar.getInstance();
                     int mYear = mcurrentDate.get(Calendar.YEAR);
                     int mMonth = mcurrentDate.get(Calendar.MONTH);
@@ -113,6 +114,12 @@ public class MesaActivity extends AppCompatActivity {
                                 headerAdapterMesa.actualitzaRecycler(myDataset);
                             // METODO DE LA BD PARA CARGAR MESA SEGUN FECHA
                             //carregarDataTreballador();
+                            if (idCliente == null){
+                                textViewClienteSeleccionado.setVisibility(View.GONE);
+                                textViewTextoCliente.setVisibility(View.GONE);
+                                textViewFechaFinalTexto.setVisibility(View.GONE);
+                                textViewFechaFinal.setVisibility(View.GONE);
+                            }
                         }
                     }, mYear, mMonth, mDay);
                     mDatePicker.setTitle("Selecciona Fecha");
@@ -186,7 +193,7 @@ public class MesaActivity extends AppCompatActivity {
                 tipoPago = cogerTipoPago[1];
                 nombreCliente = cogerTipoPago[0].split(" ",2)[1];
                 textViewClienteSeleccionado.setText(nombreCliente);
-                textViewTextoCliente = (TextView)findViewById(R.id.TextViewClienteSeleccionado );
+
                 textViewTextoCliente.setVisibility(View.VISIBLE);
                 textViewClienteSeleccionado.setVisibility(View.VISIBLE);
                 Log.d("NOMBRE CLIENTE: ",nombreCliente);
@@ -245,6 +252,11 @@ public class MesaActivity extends AppCompatActivity {
                                  actualizarRecyclerView();
                                  crearFacturaReservaMesa();
                                  Toast.makeText(MesaActivity.this, "Reserva realizada!", Toast.LENGTH_SHORT).show();
+                                 if (idCliente != null){
+                                     idCliente=null;
+                                     fechaFinal="0";
+                                 }
+
                              } else Toast.makeText(view.getContext(), nombreCliente+" ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
                              headerAdapterMesa.actualitzaRecycler(myDataset);
                          } else Toast.makeText(MesaActivity.this, "Fecha Final mínima: "+Utilitats.getFechaFormatSpain(fechaInicio), Toast.LENGTH_SHORT).show();
