@@ -49,16 +49,16 @@ public class MesaActivity extends AppCompatActivity {
     private String tipoPago;
     private Spinner spinnerMesa;
     Button buttonnDataInicial, buttonAceptarReserva, buttonEliminar;
-    private String fechaInicio="", fechaFinal="";
+    private String fechaInicio="", fechaFinal="0";
     private String idCliente,nombreCliente;
     private Integer idMesa;
-    int contadorFechas=0;
+
     String taulaPerDefecteClient;
     ArrayList<String> clients = null;
     ArrayAdapter<String> adapterClientes;
     Long resultatInserirClient;
     ListView listViewClientes;
-    TextView textViewFechaInicio,textViewTotalClientes;
+    TextView textViewFechaInicio,textViewTotalClientes, textViewClienteSeleccionado, textViewTextoCliente, textViewFechaFinal, textViewFechaFinalTexto;
     android.support.v7.widget.Toolbar mToolbar;
     private HeaderAdapterMesa headerAdapterMesa;
     private ArrayList<HeaderMesa> myDataset;
@@ -71,12 +71,14 @@ public class MesaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mesa);
         db = new DBInterface(this);
         fechaInicio = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
-        fechaFinal = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
+       // fechaFinal = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_mesa);
 
         textViewFechaInicio = (TextView) findViewById(R.id.fechaInicio) ;
         textViewTotalClientes = (TextView) findViewById(R.id.totalClientes) ;
-
+        textViewClienteSeleccionado = (TextView) findViewById (R.id.ClienteSeleccionado);
+        textViewFechaFinal = (TextView) findViewById(R.id.fechaFinal);
+        textViewFechaFinalTexto =(TextView) findViewById(R.id.TextViewFechaFinal);
         textViewFechaInicio.setText(Utilitats.getFechaFormatSpain(fechaInicio));
         buttonEliminar = (Button) mToolbar.findViewById(R.id.buttonEliminarClienteMesa) ;
         buttonAceptarReserva = (Button) mToolbar.findViewById(R.id.buttonAñadirCliente) ;
@@ -93,7 +95,18 @@ public class MesaActivity extends AppCompatActivity {
                     mDatePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
                         public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
                             selectedmonth = selectedmonth + 1;
+
+                            if (Integer.toString(selectedday).length()==1) {
+                                fechaInicio="" + selectedyear + " " + selectedmonth + " " +0+selectedday;
+                                if (Integer.toString(selectedmonth).length()==1){
+                                    fechaInicio="" + selectedyear + " " +0+selectedmonth + " " +0+selectedday;
+                                }
+                            } else {
                                 fechaInicio="" + selectedyear + " " + selectedmonth + " " + selectedday;
+                            }
+
+
+                                Log.d("FECHA MOSTRAR",fechaInicio);
                                 String dataFormatSpain= Utilitats.getFechaFormatSpain(fechaInicio);
                                 textViewFechaInicio.setText(dataFormatSpain);
                                 actualizarRecyclerView();
@@ -123,8 +136,19 @@ public class MesaActivity extends AppCompatActivity {
                     datePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
                         public void onDateSet(DatePicker datepicker, int year, int month, int day) {
                             month = month + 1;
-                            String fecha = "" + year + " " + month + " " + day;
-                            fechaFinal = fecha;
+
+                            if (Integer.toString(day).length()==1) {
+                                fechaFinal = "" + year + " " + month + " " +0+day;
+                                if (Integer.toString(month).length()==1){
+                                    fechaFinal = "" + year + " " +0+month + " " +0+day;
+                                }
+                            } else {
+                                fechaFinal = "" + year + " " + month + " " + day;
+                            }
+
+                            textViewFechaFinal.setText(Utilitats.getFechaFormatSpain(fechaFinal));
+                            textViewFechaFinal.setVisibility(View.VISIBLE);
+                            textViewFechaFinalTexto.setVisibility(View.VISIBLE);
                         }
                     }, year, month, day);
                     datePicker.setTitle("Selecciona Fecha");
@@ -160,6 +184,12 @@ public class MesaActivity extends AppCompatActivity {
                 idCliente = cogerIDCliente[0];
                 String [] cogerTipoPago = nombre.split(":");
                 tipoPago = cogerTipoPago[1];
+                nombreCliente = cogerTipoPago[0].split(" ",2)[1];
+                textViewClienteSeleccionado.setText(nombreCliente);
+                textViewTextoCliente = (TextView)findViewById(R.id.TextViewClienteSeleccionado );
+                textViewTextoCliente.setVisibility(View.VISIBLE);
+                textViewClienteSeleccionado.setVisibility(View.VISIBLE);
+                Log.d("NOMBRE CLIENTE: ",nombreCliente);
                 // TODO CONSULTA PARA CONSEGUIR LA MESA POR DEFECTO DEL CLIENTE
                 obtenirTaulaDefecteClient();
 
@@ -175,6 +205,15 @@ public class MesaActivity extends AppCompatActivity {
             }
         });
 
+
+        /**
+         * FALTA AHORA QUE HAGA RESERVA DE MESA A LOS CLIENTES DESDE FECHA INICIAL A FECHA FINAL. EXCEPTO FINES DE SEMANA
+         * HAY QUE INTENTAR CONTROLARLO, Y SINO HACERLO DE MAXIMO 5 EN 5. EL LIMITE DE SELECCION
+         * HABRA QUE CAMBIARLO
+         */
+
+
+
         // TODO ESTO ES PARA EL BOTON DE AÑADIR RESERVA
         buttonAceptarReserva.setOnClickListener( new View.OnClickListener(){
              @Override
@@ -184,10 +223,18 @@ public class MesaActivity extends AppCompatActivity {
 
                  if (idCliente!=null ){
                      Integer fechaActualInt = Integer.parseInt(Utilitats.obtenerFechaActual().replaceAll("\\s",""));
+
                      Integer fechaFinalInt = Integer.parseInt(fechaFinal.replaceAll("\\s",""));
                      Integer fechaInicialInt = Integer.parseInt(fechaInicio.replaceAll("\\s",""));
+                     Log.d("FECHA FINAL: ",Integer.toString(fechaFinalInt));
+                     Log.d("FECHA INICIAL: ",Integer.toString(fechaInicialInt));
+                     Log.d("FECHA INICIO: ",fechaInicio);
+                     Log.d("FECHA FIN: ",fechaFinal);
+                     Log.d("FECHA ACTUAL INT: ",Integer.toString(fechaActualInt));
+                     if (fechaFinalInt == 0) fechaFinalInt = fechaInicialInt;
                      if (fechaInicialInt >= fechaActualInt){
-                         if (fechaFinalInt >= fechaInicialInt ){
+
+                         if (fechaInicialInt <= fechaFinalInt){
                              db.obre();
                              //  db.InserirReserva_Cliente(diaReservado,"0",pagadoReserva,id_cliente,id_mesa);
                              resultatInserirClient = db.InserirReserva_Cliente(fechaInicio,"0","0",Integer.parseInt(idCliente),idMesa);
@@ -198,7 +245,7 @@ public class MesaActivity extends AppCompatActivity {
                                  actualizarRecyclerView();
                                  crearFacturaReservaMesa();
                                  Toast.makeText(MesaActivity.this, "Reserva realizada!", Toast.LENGTH_SHORT).show();
-                             } else Toast.makeText(view.getContext(), "El cliente ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
+                             } else Toast.makeText(view.getContext(), nombreCliente+" ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
                              headerAdapterMesa.actualitzaRecycler(myDataset);
                          } else Toast.makeText(MesaActivity.this, "Fecha Final mínima: "+Utilitats.getFechaFormatSpain(fechaInicio), Toast.LENGTH_SHORT).show();
                      } else Toast.makeText(MesaActivity.this, "Fecha Inicio mínima: "+Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()), Toast.LENGTH_SHORT).show();
@@ -238,7 +285,7 @@ public class MesaActivity extends AppCompatActivity {
 
 
     }
-
+    // TODO ESTO ES LO QUE SE VE EN EL SEARCH VIEW, CUANDO EMPEZAMOS A ESCRIBIR CLIENTE
     public void retornaClients(){
         db.obre();
         Cursor cursor= db.RetornaTotsElsClients();

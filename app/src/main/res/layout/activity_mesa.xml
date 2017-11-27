@@ -20,21 +20,64 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/TextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha seleccionada: " />
+
+            <TextView
+                android:id="@+id/fechaInicio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/TextViewFechaFinal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:text="Hasta: " />
+
+            <TextView
+                android:id="@+id/fechaFinal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="TextView"
+                android:visibility="gone"
+                android:textStyle="bold" />
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
             <TextView
-                android:id="@+id/TextView"
+                android:id="@+id/TextViewClienteSeleccionado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Mesas  " />
+                android:visibility="gone"
+                android:text="Cliente selecionado: " />
             <TextView
-                android:id="@+id/fechaInicio"
+                android:id="@+id/ClienteSeleccionado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
-                android:text="TextView" />
+                android:visibility="gone"
+                android:text="" />
         </LinearLayout>
 
     </LinearLayout>
