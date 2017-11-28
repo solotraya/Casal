@@ -62,7 +62,7 @@ public class MesaActivity extends AppCompatActivity {
     ArrayAdapter<String> adapterClientes;
     Long resultatInserirClient;
     ListView listViewClientes;
-    TextView textViewFechaInicio,textViewTotalClientes,textViewTotalClientesLlevar, textViewClienteSeleccionado, textViewTextoCliente, textViewFechaFinal, textViewFechaFinalTexto;
+    TextView textViewFechaInicio,textViewTotalClientes,textViewTotalClientesComedor,textViewTotalClientesLlevar, textViewClienteSeleccionado, textViewTextoCliente, textViewFechaFinal, textViewFechaFinalTexto;
     android.support.v7.widget.Toolbar mToolbar;
     private HeaderAdapterMesa headerAdapterMesa;
     private ArrayList<HeaderMesa> myDataset;
@@ -79,9 +79,11 @@ public class MesaActivity extends AppCompatActivity {
        // fechaFinal = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_mesa);
 
+        textViewTotalClientesComedor = (TextView) findViewById(R.id.totalClientesComedor);
         textViewFechaInicio = (TextView) findViewById(R.id.fechaInicio);
         textViewTotalClientesLlevar = (TextView) findViewById(R.id.totalClientesLlevar);
         textViewTotalClientes = (TextView) findViewById(R.id.totalClientes);
+
         textViewClienteSeleccionado = (TextView) findViewById (R.id.ClienteSeleccionado);
         textViewTextoCliente = (TextView)findViewById(R.id.TextViewClienteSeleccionado );
         textViewFechaFinal = (TextView) findViewById(R.id.fechaFinal);
@@ -196,7 +198,7 @@ public class MesaActivity extends AppCompatActivity {
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }  
+                }
 
                 String nombre = (String) listViewClientes.getItemAtPosition(position);
                 String [] cogerIDCliente = nombre.split(" ");
@@ -471,13 +473,18 @@ public class MesaActivity extends AppCompatActivity {
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Reserva_Cliente.DIA_RESERVADO))
 
                 ));
-                textViewTotalClientesLlevar.setText(cursor.getString(cursor.getColumnIndex("columnaLlevar")));
-                textViewTotalClientes.setText(cursor.getString(cursor.getColumnIndex("columnaTotal")));
+                String llevar = cursor.getString(cursor.getColumnIndex("columnaLlevar"));
+                String total = cursor.getString(cursor.getColumnIndex("columnaTotal"));
+                int comedor = Integer.parseInt(total)-Integer.parseInt(llevar);
+                textViewTotalClientesLlevar.setText(llevar);
+                textViewTotalClientes.setText(total);
+                textViewTotalClientesComedor.setText(Integer.toString(comedor));
             } while(cursor.moveToNext());
 
         } else {
             textViewTotalClientesLlevar.setText("0");
             textViewTotalClientes.setText("0");
+            textViewTotalClientesComedor.setText("0");
         }
 
         return myDataset;
