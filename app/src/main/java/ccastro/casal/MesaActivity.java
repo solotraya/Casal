@@ -62,7 +62,7 @@ public class MesaActivity extends AppCompatActivity {
     ArrayAdapter<String> adapterClientes;
     Long resultatInserirClient;
     ListView listViewClientes;
-    TextView textViewFechaInicio,textViewTotalClientes, textViewClienteSeleccionado, textViewTextoCliente, textViewFechaFinal, textViewFechaFinalTexto;
+    TextView textViewFechaInicio,textViewTotalClientes,textViewTotalClientesLlevar, textViewClienteSeleccionado, textViewTextoCliente, textViewFechaFinal, textViewFechaFinalTexto;
     android.support.v7.widget.Toolbar mToolbar;
     private HeaderAdapterMesa headerAdapterMesa;
     private ArrayList<HeaderMesa> myDataset;
@@ -75,11 +75,13 @@ public class MesaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_mesa);
         db = new DBInterface(this);
         fechaInicio = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
+
        // fechaFinal = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_mesa);
 
-        textViewFechaInicio = (TextView) findViewById(R.id.fechaInicio) ;
-        textViewTotalClientes = (TextView) findViewById(R.id.totalClientes) ;
+        textViewFechaInicio = (TextView) findViewById(R.id.fechaInicio);
+        textViewTotalClientesLlevar = (TextView) findViewById(R.id.totalClientesLlevar);
+        textViewTotalClientes = (TextView) findViewById(R.id.totalClientes);
         textViewClienteSeleccionado = (TextView) findViewById (R.id.ClienteSeleccionado);
         textViewTextoCliente = (TextView)findViewById(R.id.TextViewClienteSeleccionado );
         textViewFechaFinal = (TextView) findViewById(R.id.fechaFinal);
@@ -113,14 +115,12 @@ public class MesaActivity extends AppCompatActivity {
                                 } else fechaInicio="" + selectedyear + " " + selectedmonth + " " + selectedday;
                             }
 
+                            Log.d("FECHA MOSTRAR",fechaInicio);
+                            String dataFormatSpain= Utilitats.getFechaFormatSpain(fechaInicio);
+                            textViewFechaInicio.setText(dataFormatSpain);
+                            actualizarRecyclerView();
+                            headerAdapterMesa.actualitzaRecycler(myDataset);
 
-                                Log.d("FECHA MOSTRAR",fechaInicio);
-                                String dataFormatSpain= Utilitats.getFechaFormatSpain(fechaInicio);
-                                textViewFechaInicio.setText(dataFormatSpain);
-                                actualizarRecyclerView();
-                                headerAdapterMesa.actualitzaRecycler(myDataset);
-                            // METODO DE LA BD PARA CARGAR MESA SEGUN FECHA
-                            //carregarDataTreballador();
                             if (idCliente == null){
                                 textViewClienteSeleccionado.setVisibility(View.GONE);
                                 textViewTextoCliente.setVisibility(View.GONE);
@@ -221,6 +221,7 @@ public class MesaActivity extends AppCompatActivity {
                 adapterMesa.notifyDataSetChanged();
 
             }
+
         });
 
 
@@ -257,13 +258,18 @@ public class MesaActivity extends AppCompatActivity {
 
                              int totalDias = 0;
                              if (diaFinal == null ){  // SI SOLO TENEMOS UN DIA ELEGIDO
+                                 obtenerAñoMesDiaInicio();  // De serie buscamos cuales son los años mes y dia inico
                                  if (diaHabil(añoInicio+"-"+mesInicio+"-"+diaInicio)){
+                                     Log.d("INICIO RESERVA:",Integer.toString(añoInicio)+" "+ Integer.toString(mesInicio)+" "+Integer.toString(diaInicio));
                                      fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio);
                                      resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
                                      Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
-                                     if (resultatInserirClient!= -1) clientInserit = true;
-                                     else Toast.makeText(view.getContext(), nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
-                                     quantitat++;
+                                     if (resultatInserirClient!= -1) {
+                                         clientInserit = true;
+                                         quantitat++;
+                                         fechaInicioConsulta = añoInicio+" "+mesInicio+" "+diaInicio;
+                                     } else Toast.makeText(view.getContext(), nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
+
                                  } else Toast.makeText(MesaActivity.this, "Fin de semana cerrado", Toast.LENGTH_SHORT).show();
 
                              } else { // SI HAY VARIOS DIAS ELEGIDOS
@@ -286,7 +292,6 @@ public class MesaActivity extends AppCompatActivity {
                                      diaInicio++;
                                  }
                              }
-
 
                              // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
                              if (clientInserit){
@@ -321,6 +326,7 @@ public class MesaActivity extends AppCompatActivity {
         );
          // TODO  Retorna tots els clients, l'utilitzarem per a la llista que usa el SEARCH VIEW, cuando buscamos cliente!!!
          retornaClients();
+
     }
 
     public boolean diaHabil(String fechaString){
@@ -340,7 +346,13 @@ public class MesaActivity extends AppCompatActivity {
         }
         return diaHabil;
     }
-
+    public void obtenerAñoMesDiaInicio(){
+        Log.d("FECHA INICIO: ",fechaInicio);
+        String [] fecha = fechaInicio.split(" ");
+        añoInicio = Integer.parseInt(fecha[0]);
+        mesInicio = Integer.parseInt(fecha[1]);
+        diaInicio = Integer.parseInt(fecha[2]);
+    }
     public void obtenirTaulaDefecteClient (){
         if (idCliente!=null){
             db.obre();
@@ -451,10 +463,14 @@ public class MesaActivity extends AppCompatActivity {
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Reserva_Cliente.DIA_RESERVADO))
 
                 ));
+                textViewTotalClientesLlevar.setText(cursor.getString(cursor.getColumnIndex("columnaLlevar")));
                 textViewTotalClientes.setText(cursor.getString(cursor.getColumnIndex("columnaTotal")));
             } while(cursor.moveToNext());
 
-        } else textViewTotalClientes.setText("0");
+        } else {
+            textViewTotalClientesLlevar.setText("0");
+            textViewTotalClientes.setText("0");
+        }
 
         return myDataset;
     }
