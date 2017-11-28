@@ -242,7 +242,8 @@ public class MesaActivity extends AppCompatActivity {
 
                      Integer fechaFinalInt = Integer.parseInt(fechaFinal.replaceAll("\\s",""));
                      Integer fechaInicialInt = Integer.parseInt(fechaInicio.replaceAll("\\s",""));
-
+                     int quantitat = 0;
+                     boolean clientInserit = false;
                      if (fechaFinalInt == 0) fechaFinalInt = fechaInicialInt;
                      /*
                      Log.d("FECHA FINAL: ",Integer.toString(fechaFinalInt));
@@ -263,13 +264,22 @@ public class MesaActivity extends AppCompatActivity {
                                  fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio);
                                  resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
                                  Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
-                                 totalDias++;
+                                 if (resultatInserirClient!= -1) clientInserit = true;
+                                 quantitat++;
                              } else {
+
                                  while (diaInicio <= diaFinal){
                                      fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio);
                                      // Log.d("FECHA SELECCIOANADA ", fechasSeleccionadas[totalDias] );
                                      resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
                                      Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
+
+                                     if (resultatInserirClient==-1){
+                                         Toast.makeText(MesaActivity.this, nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
+                                     } else {
+                                         quantitat++;
+                                         clientInserit = true;
+                                     }
                                      totalDias = totalDias +1;
                                      diaInicio++;
                                  }
@@ -277,9 +287,9 @@ public class MesaActivity extends AppCompatActivity {
 
 
                              // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
-                             if (resultatInserirClient!=-1){
+                             if (clientInserit){
                                  actualizarRecyclerView();
-                                 crearFacturaReservaMesa(totalDias);
+                                 crearFacturaReservaMesa(quantitat);
                                  headerAdapterMesa.actualitzaRecycler(myDataset);
                                  Toast.makeText(MesaActivity.this, "Reserva realizada!", Toast.LENGTH_SHORT).show();
                                  if (idCliente != null){
