@@ -189,13 +189,14 @@ public class MesaActivity extends AppCompatActivity {
         listViewClientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
                 // TODO ESCONDEMOS EL TECLADO DEL MOVIL:
                 view = MesaActivity.this.getCurrentFocus();
                 view.clearFocus();
                 if (view != null) {
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
+                }  
 
                 String nombre = (String) listViewClientes.getItemAtPosition(position);
                 String [] cogerIDCliente = nombre.split(" ");
@@ -301,7 +302,7 @@ public class MesaActivity extends AppCompatActivity {
                                  Toast.makeText(MesaActivity.this, "Reserva realizada!", Toast.LENGTH_SHORT).show();
                                  if (idCliente != null){
                                      idCliente=null;
-                                     fechaFinal="0";fechaInicio="0";
+                                     fechaFinal="0";
                                      diaInicio=null;mesInicio=null;añoInicio=null;diaFinal=null;mesFinal=null;añoFinal=null;
                                  }
                              }
@@ -448,7 +449,14 @@ public class MesaActivity extends AppCompatActivity {
         db.obre();
         // TODO Consulta principal que retorna les dates que es veuen al recycler de mesa
         Log.d("FECHA INICIO VIEW ",fechaInicio);
-        Cursor cursor = db.RetornaMesasReservadasData(fechaInicioConsulta);
+        Cursor cursor;
+        if (diaInicio==null){
+            cursor = db.RetornaMesasReservadasData(fechaInicio);
+        } else {
+            cursor = db.RetornaMesasReservadasData(fechaInicioConsulta);
+        }
+
+
         myDataset = CursorBD(cursor);
         db.tanca();
     }
