@@ -29,10 +29,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import ccastro.casal.RecyclerView.HeaderAdapterMesa;
 import ccastro.casal.RecyclerView.HeaderMesa;
@@ -236,7 +238,6 @@ public class MesaActivity extends AppCompatActivity {
              public void onClick(View view) {
                  // TODO SI NO SE AÑADE FECHA LE PONEMOS FECHA ACTUAL
 
-
                  if (idCliente!=null ){
                      Integer fechaActualInt = Integer.parseInt(Utilitats.obtenerFechaActual().replaceAll("\\s",""));
 
@@ -245,12 +246,6 @@ public class MesaActivity extends AppCompatActivity {
                      int quantitat = 0;
                      boolean clientInserit = false;
                      if (fechaFinalInt == 0) fechaFinalInt = fechaInicialInt;
-                     /*
-                     Log.d("FECHA FINAL: ",Integer.toString(fechaFinalInt));
-                     Log.d("FECHA INICIAL: ",Integer.toString(fechaInicialInt));
-                     Log.d("FECHA INICIO: ",fechaInicio);
-                     Log.d("FECHA FIN: ",fechaFinal);
-                     Log.d("FECHA ACTUAL INT: ",Integer.toString(fechaActualInt)); */
 
                      if (fechaInicialInt >= fechaActualInt){ // SI LA FECHA INICIAL ES MAS GRANDE O IGUAL QUE LA FECHA ACTUAL
 
@@ -259,28 +254,35 @@ public class MesaActivity extends AppCompatActivity {
 
                              // TODO, BUCLE NUEVO PARA AÑADIR TODOS LOS DIAS SELECCIONADOS
                              fechasSeleccionadas = new ArrayList();
+
                              int totalDias = 0;
                              if (diaFinal == null ){  // SI SOLO TENEMOS UN DIA ELEGIDO
-                                 fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio);
-                                 resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
-                                 Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
-                                 if (resultatInserirClient!= -1) clientInserit = true;
-                                 quantitat++;
-                             } else {
-
-                                 while (diaInicio <= diaFinal){
+                                 if (diaHabil(añoInicio+"-"+mesInicio+"-"+diaInicio)){
                                      fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio);
-                                     // Log.d("FECHA SELECCIOANADA ", fechasSeleccionadas[totalDias] );
                                      resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
                                      Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
+                                     if (resultatInserirClient!= -1) clientInserit = true;
+                                     else Toast.makeText(view.getContext(), nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
+                                     quantitat++;
+                                 } else Toast.makeText(MesaActivity.this, "Fin de semana cerrado", Toast.LENGTH_SHORT).show();
 
-                                     if (resultatInserirClient==-1){
-                                         Toast.makeText(MesaActivity.this, nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
-                                     } else {
-                                         quantitat++;
-                                         clientInserit = true;
+                             } else { // SI HAY VARIOS DIAS ELEGIDOS
+
+                                 while (diaInicio <= diaFinal){
+                                     if (diaHabil(añoInicio+"-"+mesInicio+"-"+diaInicio)){
+                                         fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio); // diaInicio ++
+                                         // Log.d("FECHA SELECCIOANADA ", fechasSeleccionadas[totalDias] );
+                                         resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
+                                         Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
+
+                                         if (resultatInserirClient==-1){
+                                             Toast.makeText(MesaActivity.this, nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
+                                         } else {
+                                             quantitat++;
+                                             clientInserit = true;
+                                         }
+                                         totalDias = totalDias +1;
                                      }
-                                     totalDias = totalDias +1;
                                      diaInicio++;
                                  }
                              }
@@ -297,25 +299,9 @@ public class MesaActivity extends AppCompatActivity {
                                      fechaFinal="0";fechaInicio="0";
                                      diaInicio=null;mesInicio=null;añoInicio=null;diaFinal=null;mesFinal=null;añoFinal=null;
                                  }
-                             } else Toast.makeText(view.getContext(), nombreCliente+" ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
+                             }
 
-                          //   resultatInserirClient = db.InserirReserva_Cliente(fechaInicio,"0","0",Integer.parseInt(idCliente),idMesa);
-                             Log.d("Result INSERIR CLIENT: ",Long.toString(resultatInserirClient));
                              db.tanca();
-                             // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
-                             /*
-                             if (resultatInserirClient!=-1){
-                                 actualizarRecyclerView();
-                                 crearFacturaReservaMesa(totalDias);
-                                 Toast.makeText(MesaActivity.this, "Reserva realizada!", Toast.LENGTH_SHORT).show();
-                                 if (idCliente != null){
-                                     idCliente=null;
-                                     fechaFinal="0";
-                                 }
-
-                             } else Toast.makeText(view.getContext(), nombreCliente+" ya tiene mesa reservada!", Toast.LENGTH_SHORT).show();
-                              */
-                            // headerAdapterMesa.actualitzaRecycler(myDataset);
                          } else Toast.makeText(MesaActivity.this, "Fecha Final mínima: "+Utilitats.getFechaFormatSpain(fechaInicio), Toast.LENGTH_SHORT).show();
                      } else Toast.makeText(MesaActivity.this, "Fecha Inicio mínima: "+Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()), Toast.LENGTH_SHORT).show();
                  } else Toast.makeText(MesaActivity.this, "Introduce cliente!", Toast.LENGTH_SHORT).show();
@@ -335,6 +321,24 @@ public class MesaActivity extends AppCompatActivity {
         );
          // TODO  Retorna tots els clients, l'utilitzarem per a la llista que usa el SEARCH VIEW, cuando buscamos cliente!!!
          retornaClients();
+    }
+
+    public boolean diaHabil(String fechaString){
+        boolean diaHabil = false;
+
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+        Date fecha = null;
+        try {
+            fecha = formatoDelTexto.parse(fechaString);
+            GregorianCalendar cal = new GregorianCalendar();
+            cal.setTime(fecha);
+            if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ) {
+                diaHabil= false;
+            } else diaHabil = true;
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return diaHabil;
     }
 
     public void obtenirTaulaDefecteClient (){
