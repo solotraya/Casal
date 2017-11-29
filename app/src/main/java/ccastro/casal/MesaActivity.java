@@ -293,6 +293,18 @@ public class MesaActivity extends AppCompatActivity {
                                                  introducirClienteMesaMesFinal();
                                              }
                                              reservasHechas = true;
+                                         }  else if (mesInicio==2){  // TODO SI EL AÑO ES BISIESTO TIENE 29 dias
+                                             if (añoInicio % 4 == 0 && añoInicio % 100 != 0 || añoInicio % 400 == 0) {
+                                                 while (diaInicio <= 29){ introducirClienteMesa(); }  // Llegamos hasta al finals de mes
+                                                 contadorDia=1;     // Y luego empezamos desde el dia 1 hasta el diaFinal de mesFinal
+                                                 while (contadorDia <= diaFinal){ introducirClienteMesaMesFinal(); }
+                                                 reservasHechas = true;
+                                             } else {  // TODO SI EL AÑO NO ES BISIESTO TIENE 28 dias
+                                                 while (diaInicio <= 28){ introducirClienteMesa(); }  // Llegamos hasta al finals de mes
+                                                 contadorDia=1;     // Y luego empezamos desde el dia 1 hasta el diaFinal de mesFinal
+                                                 while (contadorDia <= diaFinal){ introducirClienteMesaMesFinal(); }
+                                                 reservasHechas = true;
+                                             }
                                          }
                                      }
                                  }
