@@ -274,10 +274,10 @@ public class MesaActivity extends AppCompatActivity {
                                          fechaInicioConsulta = añoInicio+" "+mesInicio+" "+diaInicio;
                                      } else Toast.makeText(view.getContext(), nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
                                  } else Toast.makeText(MesaActivity.this, "Fin de semana cerrado", Toast.LENGTH_SHORT).show();
-                             } else { // TODO SI HAY VARIOS DIAS ELEGIDOS
+                             } else  { // TODO SI HAY VARIOS DIAS ELEGIDOS
                                  if (mesInicio == mesFinal){    // TODO SI LOS DIAS SON DEL MISMO MES Y AÑO
                                      while (diaInicio <= diaFinal){ introducirClienteMesa(); }
-                                 } else {  // TODO SI LOS MESES NO SON IGUALES
+                                 } else if (mesFinal-mesInicio==1 || (mesFinal==1 && mesInicio==12)) {  // TODO SI LOS MESES NO SON IGUALES, PERO SON CONSECUTIVOS!!!
                                      boolean reservasHechas= false;
                                      while (reservasHechas==false){   // TODO SI EL MES INICIAL TIENE 30 DIAS
                                          if (mesInicio==4 || mesInicio==6 || mesInicio==9 || mesInicio==11){
@@ -307,10 +307,9 @@ public class MesaActivity extends AppCompatActivity {
                                              }
                                          }
                                      }
-                                 }
+                                 } else Toast.makeText(MesaActivity.this, "No se pueden hacer reservas para mas de 2 meses!", Toast.LENGTH_SHORT).show();
                              }
-
-                             // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
+                             // TODO: SI HEMOS INSERTADO UN CLIENTE, CREAMOS FACTURA
                              if (clientInserit){
                                  actualizarRecyclerView();
                                  crearFacturaReservaMesa(quantitat);
