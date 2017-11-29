@@ -22,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -50,7 +51,8 @@ public class MesaActivity extends AppCompatActivity {
     private final String MENU_CAURTO="2";
     private String tipoPago;
     private Spinner spinnerMesa;
-    Button buttonnDataInicial, buttonAceptarReserva, buttonEliminar;
+    private Button buttonnDataInicial, buttonAceptarReserva, buttonEliminar, buttonImagenMesas;
+    private ImageView imageViewMesas;
     private String fechaInicio="", fechaFinal="0", fechaInicioConsulta;
     private Integer diaInicio, diaFinal = null, mesInicio,mesFinal,añoInicio,añoFinal;
     private ArrayList<String> fechasSeleccionadas;
@@ -86,7 +88,7 @@ public class MesaActivity extends AppCompatActivity {
         textViewFechaInicio = (TextView) findViewById(R.id.fechaInicio);
         textViewTotalClientesLlevar = (TextView) findViewById(R.id.totalClientesLlevar);
         textViewTotalClientes = (TextView) findViewById(R.id.totalClientes);
-
+        buttonImagenMesas = (Button) findViewById(R.id.buttonImagenMesas);
         textViewClienteSeleccionado = (TextView) findViewById (R.id.ClienteSeleccionado);
         textViewTextoCliente = (TextView)findViewById(R.id.TextViewClienteSeleccionado );
         textViewFechaFinal = (TextView) findViewById(R.id.fechaFinal);
@@ -329,7 +331,18 @@ public class MesaActivity extends AppCompatActivity {
              }
          }
         );
-
+        buttonImagenMesas.setOnClickListener( new View.OnClickListener(){
+              @Override
+              public void onClick(View view) {
+                  imageViewMesas = (ImageView) findViewById(R.id.imageViewMesasBar);
+                  if (imageViewMesas.getVisibility()==View.VISIBLE){
+                      imageViewMesas.setVisibility(View.GONE);
+                  } else {
+                      imageViewMesas.setVisibility(View.VISIBLE);
+                  }
+              }
+          }
+        );
         buttonEliminar.setOnClickListener( new View.OnClickListener(){
                @Override
                public void onClick(View view) {
