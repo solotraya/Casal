@@ -129,8 +129,10 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@drawable/mesa"
-                        android:textColor="@android:color/holo_red_dark"
                         android:text="8"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         android:visibility="invisible" />
 
                     <Button
@@ -141,6 +143,8 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                         android:background="@drawable/mesa"
                         android:textColor="@android:color/holo_red_dark"
                         android:text="9"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         android:visibility="invisible" />
 
                     <Button
@@ -151,6 +155,8 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                         android:background="@drawable/mesa"
                         android:textColor="@android:color/holo_red_dark"
                         android:text="10"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         android:visibility="invisible" />
 
                     <Button
@@ -161,6 +167,8 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                         android:background="@drawable/mesa"
                         android:textColor="@android:color/holo_red_dark"
                         android:text="11"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         android:visibility="invisible" />
 
                     <Button
@@ -171,6 +179,8 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                         android:background="@drawable/mesa"
                         android:textColor="@android:color/holo_red_dark"
                         android:text="12"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         android:visibility="invisible" />
                 </LinearLayout>
                 <LinearLayout
@@ -186,6 +196,8 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                         android:background="@drawable/mesa"
                         android:textColor="@android:color/holo_red_dark"
                         android:text="3"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         android:visibility="invisible" />
 
                     <Button
@@ -196,6 +208,8 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                         android:background="@drawable/mesa"
                         android:textColor="@android:color/holo_red_dark"
                         android:text="4"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         android:visibility="invisible" />
 
                     <Button
@@ -206,6 +220,8 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                         android:background="@drawable/mesa"
                         android:textColor="@android:color/holo_red_dark"
                         android:text="5"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         android:visibility="invisible" />
 
                     <Button
@@ -216,6 +232,8 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                         android:textColor="@android:color/holo_red_dark"
                         android:background="@drawable/mesa"
                         android:text="6"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         android:visibility="invisible" />
 
                     <Button
@@ -226,6 +244,8 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                         android:textColor="@android:color/holo_red_dark"
                         android:background="@drawable/mesa"
                         android:text="7"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         android:visibility="invisible" />
                 </LinearLayout>
                 <LinearLayout
@@ -240,6 +260,8 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                         android:layout_weight="1"
                         android:background="@drawable/mesa"
                         android:text="1"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         android:textColor="@android:color/holo_red_dark"
                         android:visibility="invisible" />
 
@@ -250,6 +272,8 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                         android:layout_weight="1"
                         android:background="@drawable/mesa"
                         android:text="2"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
                         android:textColor="@android:color/holo_red_dark"
                         android:visibility="invisible" />
                 </LinearLayout>
@@ -265,8 +289,10 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@drawable/mesa"
+                        android:background="@drawable/bolsa"
                         android:text="Llevar"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
                         android:textColor="@android:color/holo_red_dark"
                         android:visibility="invisible" />
                 </LinearLayout>
