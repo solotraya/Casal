@@ -107,7 +107,7 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                 android:id="@+id/recyclerView_consulta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
+
                 android:layout_weight="9" />
             <!--  android:visibility="gone" LAYOUT CON MAPA BOTONES SIMULACION DE MESAS -->
             <LinearLayout
@@ -115,7 +115,7 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-
+                android:visibility="gone"
                 android:layout_weight="9" >
 
                 <LinearLayout

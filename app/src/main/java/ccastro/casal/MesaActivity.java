@@ -91,7 +91,7 @@ public class MesaActivity extends AppCompatActivity{
         setContentView(R.layout.activity_mesa);
         db = new DBInterface(this);
         fechaInicio = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
-
+        fechaInicioConsulta = Utilitats.obtenerFechaActual();
        // fechaFinal = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_mesa);
         buttonsMesas = new ArrayList<Button>();
@@ -388,7 +388,7 @@ public class MesaActivity extends AppCompatActivity{
             intent.putExtra("ID_MESA",Integer.toString(numMesa));
             intent.putExtra("NOM_MESA","Mesa "+mesa.toString());
         }
-        fechaInicioConsulta = Utilitats.obtenerFechaActual();
+
         intent.putExtra("DIA_RESERVADO",fechaInicioConsulta);
         startActivity(intent);
     }
