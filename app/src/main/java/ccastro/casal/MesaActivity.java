@@ -266,7 +266,7 @@ public class MesaActivity extends AppCompatActivity {
                                      Log.d("INICIO RESERVA:",Integer.toString(añoInicio)+" "+ Integer.toString(mesInicio)+" "+Integer.toString(diaInicio));
                                      fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio);
                                      resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
-                                     Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
+                                     //Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
                                      if (resultatInserirClient!= -1) {
                                          clientInserit = true;
                                          quantitat++;
@@ -276,24 +276,112 @@ public class MesaActivity extends AppCompatActivity {
                                  } else Toast.makeText(MesaActivity.this, "Fin de semana cerrado", Toast.LENGTH_SHORT).show();
 
                              } else { // SI HAY VARIOS DIAS ELEGIDOS
+                                 if (mesInicio == mesFinal){
+                                     while (diaInicio <= diaFinal){
+                                         if (diaHabil(añoInicio+"-"+mesInicio+"-"+diaInicio)){
+                                             fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio); // diaInicio ++
+                                             // Log.d("FECHA SELECCIOANADA ", fechasSeleccionadas[totalDias] );
+                                             resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
+                                             Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
 
-                                 while (diaInicio <= diaFinal){
-                                     if (diaHabil(añoInicio+"-"+mesInicio+"-"+diaInicio)){
-                                         fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio); // diaInicio ++
-                                         // Log.d("FECHA SELECCIOANADA ", fechasSeleccionadas[totalDias] );
-                                         resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
-                                         Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
-
-                                         if (resultatInserirClient==-1){
-                                             Toast.makeText(MesaActivity.this, nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
-                                         } else {
-                                             quantitat++;
-                                             clientInserit = true;
+                                             if (resultatInserirClient==-1){
+                                                 Toast.makeText(MesaActivity.this, nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
+                                             } else {
+                                                 quantitat++;
+                                                 clientInserit = true;
+                                             }
+                                             totalDias = totalDias +1;
                                          }
-                                         totalDias = totalDias +1;
+                                         diaInicio++;
                                      }
-                                     diaInicio++;
+                                 } else {  // SI LOS MESES NO SON IGUALES
+                                    // TODO CONTINUAR POR AKI
+                                     boolean reservasHechas= false;
+                                     while (reservasHechas==false){
+                                         if (mesInicio==4 || mesInicio==6 || mesInicio==9 || mesInicio==11){
+                                             while (diaInicio <= 30){
+                                                 if (diaHabil(añoInicio+"-"+mesInicio+"-"+diaInicio)){
+                                                     fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio); // diaInicio ++
+                                                     // Log.d("FECHA SELECCIOANADA ", fechasSeleccionadas[totalDias] );
+                                                     resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
+                                                     Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
+
+                                                     if (resultatInserirClient==-1){
+                                                         Toast.makeText(MesaActivity.this, nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
+                                                     } else {
+                                                         quantitat++;
+                                                         clientInserit = true;
+                                                     }
+                                                     totalDias = totalDias +1;
+                                                 }
+                                                 diaInicio++;
+
+                                             }
+                                             int contadorDia=1;
+                                             while (contadorDia <= diaFinal){
+                                                 if (diaHabil(añoInicio+"-"+mesFinal+"-"+contadorDia)){
+                                                     fechasSeleccionadas.add(añoInicio+" "+mesFinal+" "+contadorDia); // diaInicio ++
+                                                     Log.d("FECHA SELECCIOANADA ",añoInicio+"-"+mesFinal+"-"+contadorDia  );
+                                                     resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
+                                                     Log.d("INSERCIO: ",fechasSeleccionadas.get(totalDias));
+                                                     Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
+
+                                                     if (resultatInserirClient==-1){
+                                                         Toast.makeText(MesaActivity.this, nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
+                                                     } else {
+                                                         quantitat++;
+                                                         clientInserit = true;
+                                                     }
+                                                     totalDias = totalDias +1;
+                                                 }
+                                                 contadorDia++;
+                                             }
+                                             reservasHechas = true;
+                                         } else if (mesInicio==1 || mesInicio==3 || mesInicio==5 || mesInicio==7 || mesInicio==8 || mesInicio==10 || mesInicio==12){
+                                             while (diaInicio <= 31){
+                                                 if (diaHabil(añoInicio+"-"+mesInicio+"-"+diaInicio)){
+                                                     fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio); // diaInicio ++
+                                                     // Log.d("FECHA SELECCIOANADA ", fechasSeleccionadas[totalDias] );
+                                                     resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
+                                                     Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
+
+                                                     if (resultatInserirClient==-1){
+                                                         Toast.makeText(MesaActivity.this, nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
+                                                     } else {
+                                                         quantitat++;
+                                                         clientInserit = true;
+                                                     }
+                                                     totalDias = totalDias +1;
+                                                 }
+                                                 diaInicio++;
+
+                                             }
+                                             int contadorDia=1;
+                                             while (contadorDia <= diaFinal){
+                                                 if(mesInicio==12) añoInicio = añoFinal;
+                                                 if (diaHabil(añoInicio+"-"+mesFinal+"-"+contadorDia)){
+                                                     fechasSeleccionadas.add(añoInicio+" "+mesFinal+" "+contadorDia); // diaInicio ++
+                                                     Log.d("FECHA SELECCIOANADA ",añoInicio+"-"+mesFinal+"-"+contadorDia  );
+                                                     resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
+                                                     Log.d("INSERCIO: ",fechasSeleccionadas.get(totalDias));
+                                                     Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
+
+                                                     if (resultatInserirClient==-1){
+                                                         Toast.makeText(MesaActivity.this, nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
+                                                     } else {
+                                                         quantitat++;
+                                                         clientInserit = true;
+                                                     }
+                                                     totalDias = totalDias +1;
+                                                 }
+                                                 contadorDia++;
+                                             }
+                                             reservasHechas = true;
+
+                                         }
+                                     }
                                  }
+
                              }
 
                              // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
