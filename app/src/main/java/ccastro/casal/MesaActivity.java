@@ -261,7 +261,6 @@ public class MesaActivity extends AppCompatActivity {
 
                              // TODO, BUCLE NUEVO PARA AÑADIR TODOS LOS DIAS SELECCIONADOS
                              fechasSeleccionadas = new ArrayList();
-
                              totalDias = 0;
                              if (diaFinal == null ){  // SI SOLO TENEMOS UN DIA ELEGIDO
                                  obtenerAñoMesDiaInicio();  // De serie buscamos cuales son los años mes y dia inico
@@ -269,30 +268,26 @@ public class MesaActivity extends AppCompatActivity {
                                      Log.d("INICIO RESERVA:",Integer.toString(añoInicio)+" "+ Integer.toString(mesInicio)+" "+Integer.toString(diaInicio));
                                      fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio);
                                      resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
-                                     //Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
                                      if (resultatInserirClient!= -1) {
                                          clientInserit = true;
                                          quantitat++;
                                          fechaInicioConsulta = añoInicio+" "+mesInicio+" "+diaInicio;
                                      } else Toast.makeText(view.getContext(), nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
-
                                  } else Toast.makeText(MesaActivity.this, "Fin de semana cerrado", Toast.LENGTH_SHORT).show();
-
-                             } else { // SI HAY VARIOS DIAS ELEGIDOS
-                                 if (mesInicio == mesFinal){
+                             } else { // TODO SI HAY VARIOS DIAS ELEGIDOS
+                                 if (mesInicio == mesFinal){    // TODO SI LOS DIAS SON DEL MISMO MES Y AÑO
                                      while (diaInicio <= diaFinal){ introducirClienteMesa(); }
-                                 } else {  // SI LOS MESES NO SON IGUALES
-                                    // TODO CONTINUAR POR AKI
+                                 } else {  // TODO SI LOS MESES NO SON IGUALES
                                      boolean reservasHechas= false;
-                                     while (reservasHechas==false){
+                                     while (reservasHechas==false){   // TODO SI EL MES INICIAL TIENE 30 DIAS
                                          if (mesInicio==4 || mesInicio==6 || mesInicio==9 || mesInicio==11){
-                                             while (diaInicio <= 30){ introducirClienteMesa(); }
-                                             contadorDia=1;
+                                             while (diaInicio <= 30){ introducirClienteMesa(); }  // Llegamos hasta al finals de mes
+                                             contadorDia=1;     // Y luego empezamos desde el dia 1 hasta el diaFinal de mesFinal
                                              while (contadorDia <= diaFinal){ introducirClienteMesaMesFinal(); }
-                                             reservasHechas = true;
+                                             reservasHechas = true;   // TODO SI EL MES INICIAL TENE 31 DIAS
                                          } else if (mesInicio==1 || mesInicio==3 || mesInicio==5 || mesInicio==7 || mesInicio==8 || mesInicio==10 || mesInicio==12){
-                                             while (diaInicio <= 31){ introducirClienteMesa(); }
-                                             contadorDia=1;
+                                             while (diaInicio <= 31){ introducirClienteMesa(); } // Llegamos hasta al finals de mes
+                                             contadorDia=1;  // Y luego empezamos desde el dia 1 hasta el diaFinal de mesFinal
                                              while (contadorDia <= diaFinal){
                                                  if(mesInicio==12) añoInicio = añoFinal;
                                                  introducirClienteMesaMesFinal();
@@ -301,7 +296,6 @@ public class MesaActivity extends AppCompatActivity {
                                          }
                                      }
                                  }
-
                              }
 
                              // SI EL CLIENTE TIENE YA MESA RESERVADA: CREAMOS FACTURA
