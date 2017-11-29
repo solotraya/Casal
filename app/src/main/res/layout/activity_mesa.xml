@@ -8,7 +8,12 @@
     android:orientation="vertical">
 
 
-<!--  SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER QUE SE EXPANDA CUANDO CLICAS PARA MOSTRAR LOS CLIENTES DE UNA MESA
+<!--
+CONTINUAR POR AQUI.
+CREAR LAYOUT DEBAJO DE RECYCLER VIEW, QUE SEA UN CONTENEDOR DE BOTONES, CON LA DISTRIBUCION DE LAS MESAS! Y QUE LOS BOTONES ESTEN
+VISIBLES / ACTIVOS SOLO CUANDO ESA MESA TENGA CLIENTE ESE DIA.
+EL BOTON ELIMINAR QUE SIRVA PARA HACER UN CAMBIO DE VISTA (VISTA LISTA O VISTA MAPA)
+ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER QUE SE EXPANDA CUANDO CLICAS PARA MOSTRAR LOS CLIENTES DE UNA MESA
     -->
     <LinearLayout
         android:layout_width="match_parent"
@@ -102,8 +107,170 @@
                 android:id="@+id/recyclerView_consulta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:layout_weight="9" />
+            <!--  android:visibility="gone" LAYOUT CON MAPA BOTONES SIMULACION DE MESAS -->
+            <LinearLayout
+                android:id="@+id/layoutVistaMesas"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
 
+                android:layout_weight="9" >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/mesa8"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/mesa"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:text="8"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/mesa9"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/mesa"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:text="9"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/mesa10"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/mesa"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:text="10"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/mesa11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/mesa"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:text="11"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/mesa12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/mesa"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:text="12"
+                        android:visibility="invisible" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/mesa3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/mesa"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:text="3"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/mesa4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/mesa"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:text="4"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/mesa5"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/mesa"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:text="5"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/mesa6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:background="@drawable/mesa"
+                        android:text="6"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/mesa7"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:background="@drawable/mesa"
+                        android:text="7"
+                        android:visibility="invisible" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/mesa1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/mesa"
+                        android:text="1"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="invisible" />
+
+                    <Button
+                        android:id="@+id/mesa2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/mesa"
+                        android:text="2"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="invisible" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+
+                    <Button
+                        android:id="@+id/buttonLlevar"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/mesa"
+                        android:text="Llevar"
+                        android:textColor="@android:color/holo_red_dark"
+                        android:visibility="invisible" />
+                </LinearLayout>
+            </LinearLayout>
             <ImageView
                 android:id="@+id/imageViewMesasBar"
                 android:layout_width="match_parent"

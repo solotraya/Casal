@@ -156,7 +156,9 @@ public class LoginActivity extends AppCompatActivity {
 
         // TODO ESTO HABRA QUE AÑADIRLO A MANO AL ENTRAR A LA APP
         // INSERTAMOS MESA LLEVAR EN LA POSICION 0, Y ESTA NUNCA SE PODRA ELIMINAR
-        db.InserirMesa("Llevar");
+        db.InserirMesa("Llevar");db.InserirMesa("Mesa 1");db.InserirMesa("Mesa 2");db.InserirMesa("Mesa 3");db.InserirMesa("Mesa 4");
+        db.InserirMesa("Mesa 5");db.InserirMesa("Mesa 6");db.InserirMesa("Mesa 7");db.InserirMesa("Mesa 8");
+        db.InserirMesa("Mesa 9");db.InserirMesa("Mesa 10");db.InserirMesa("Mesa 11");db.InserirMesa("Mesa 12");
         // ************* HAY QUE INSERTAR LOS DIFERENTES TIPOS DE MENU en PRODUCTO  y QUE NO SE PUEDA ELIMINAR, SI MODIFICAR *************
         db.InserirProducte("Menú Diario","5.50","Menu");   //ID = 1
         db.InserirProducte("Menú Diario","2.50","Menu 50%");   //ID = 2
@@ -167,7 +169,6 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirTreballador("Diego","Castro Hurtado","diego","1986");
         db.InserirTreballador("Maria","Cañabate Méndez","maria","1986");
 
-        db.InserirMesa("Mesa 1");db.InserirMesa("Mesa 2");db.InserirMesa("Mesa 3");db.InserirMesa("Mesa 4");
 
         db.InserirClient("Manuela","Torres Cobijo","0",2,"0","1","Segundo de poquito y pan integral");
         db.InserirClient("Manel","Garcia","0",1,"0","1","");

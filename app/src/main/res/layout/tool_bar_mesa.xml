@@ -63,11 +63,11 @@
             android:background="@android:color/transparent" />
 
         <Button
-            android:id="@+id/buttonEliminarClienteMesa"
+            android:id="@+id/buttonVistaMesas"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@android:drawable/ic_menu_delete" />
+            android:background="@android:drawable/ic_menu_view" />
 
     </LinearLayout>
 </android.support.v7.widget.Toolbar>

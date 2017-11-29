@@ -2,6 +2,7 @@ package ccastro.casal;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.database.MergeCursor;
@@ -23,6 +24,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SearchView;
 import android.widget.Spinner;
@@ -36,6 +38,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import ccastro.casal.RecyclerView.HeaderAdapterMesa;
 import ccastro.casal.RecyclerView.HeaderMesa;
@@ -43,7 +46,7 @@ import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
 import ccastro.casal.Utils.Utilitats;
 
-public class MesaActivity extends AppCompatActivity {
+public class MesaActivity extends AppCompatActivity{
     DBInterface db;
 
     private final String MENU_NORMAL="0";
@@ -51,7 +54,9 @@ public class MesaActivity extends AppCompatActivity {
     private final String MENU_CAURTO="2";
     private String tipoPago;
     private Spinner spinnerMesa;
-    private Button buttonnDataInicial, buttonAceptarReserva, buttonEliminar, buttonImagenMesas;
+    private LinearLayout layoutVistaMesas;
+    private Button buttonnDataInicial, buttonAceptarReserva, buttonVistaMesas, buttonImagenMesas;
+    private Button button2; // Button de
     private ImageView imageViewMesas;
     private String fechaInicio="", fechaFinal="0", fechaInicioConsulta;
     private Integer diaInicio, diaFinal = null, mesInicio,mesFinal,añoInicio,añoFinal;
@@ -62,6 +67,12 @@ public class MesaActivity extends AppCompatActivity {
     private Integer quantitat; // LO USAMOS PARA SABER LA CANTIDAD DE DIAS QUE HAY QUE FACTURAR UNA VEZ RESERVADOS LOS DIAS DE MESA.
     private Integer contadorDia; // LO USAMOS PARA EMPEZAR LA CUENTA DEL DIA EN EL MES FINAL, HASTA LLEGAR A DIA FINAL.
     private boolean clientInserit; // LO USAMOS PARA SABER SI HA HABIDO INSERCION DE CLIENTE EN MESA
+    private List<Button> buttonsMesas;
+    private static final int[] BUTTON_IDS = {
+            R.id.buttonLlevar, R.id.mesa1, R.id.mesa2, R.id.mesa3, R.id.mesa4, R.id.mesa5, R.id.mesa6, R.id.mesa7,
+            R.id.mesa8,R.id.mesa9, R.id.mesa10, R.id.mesa11, R.id.mesa12,
+    };
+
     String taulaPerDefecteClient;
     ArrayList<String> clients = null;
     ArrayAdapter<String> adapterClientes;
@@ -83,6 +94,8 @@ public class MesaActivity extends AppCompatActivity {
 
        // fechaFinal = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_mesa);
+        buttonsMesas = new ArrayList<Button>();
+        iniciarMesas();
 
         textViewTotalClientesComedor = (TextView) findViewById(R.id.totalClientesComedor);
         textViewFechaInicio = (TextView) findViewById(R.id.fechaInicio);
@@ -94,7 +107,7 @@ public class MesaActivity extends AppCompatActivity {
         textViewFechaFinal = (TextView) findViewById(R.id.fechaFinal);
         textViewFechaFinalTexto =(TextView) findViewById(R.id.TextViewFechaFinal);
         textViewFechaInicio.setText(Utilitats.getFechaFormatSpain(fechaInicio));
-        buttonEliminar = (Button) mToolbar.findViewById(R.id.buttonEliminarClienteMesa) ;
+        buttonVistaMesas = (Button) mToolbar.findViewById(R.id.buttonVistaMesas) ;
         buttonAceptarReserva = (Button) mToolbar.findViewById(R.id.buttonAñadirCliente) ;
         buttonnDataInicial = (Button) mToolbar.findViewById(R.id.buttonDataIniciCliente) ;
         buttonnDataInicial.setOnClickListener( new View.OnClickListener(){
@@ -343,12 +356,19 @@ public class MesaActivity extends AppCompatActivity {
               }
           }
         );
-        buttonEliminar.setOnClickListener( new View.OnClickListener(){
+        buttonVistaMesas.setOnClickListener( new View.OnClickListener(){
                @Override
                public void onClick(View view) {
-                   // TODO SI NO SE AÑADE FECHA LE PONEMOS FECHA ACTUAL
-                   Toast.makeText(MesaActivity.this, fechaInicio, Toast.LENGTH_SHORT).show();
-                   Toast.makeText(MesaActivity.this, fechaFinal, Toast.LENGTH_SHORT).show();
+
+                   layoutVistaMesas = (LinearLayout) findViewById(R.id.layoutVistaMesas);
+                   if (recyclerView.getVisibility()==View.VISIBLE){
+                       recyclerView.setVisibility(View.GONE);
+                       layoutVistaMesas.setVisibility(View.VISIBLE);
+                   } else {
+                       recyclerView.setVisibility(View.VISIBLE);
+                       layoutVistaMesas.setVisibility(View.GONE);
+                   }
+
 
                }
            }
@@ -357,6 +377,23 @@ public class MesaActivity extends AppCompatActivity {
          retornaClients();
 
     }
+    public void listenersMesas (Button button) {
+        CharSequence mesa = button.getText();
+        Intent intent = new Intent(MesaActivity.this,ReservaActivity.class);
+        if (mesa.toString().equalsIgnoreCase("LLEVAR")){
+            intent.putExtra("ID_MESA","1");
+            intent.putExtra("NOM_MESA","Mesa llevar");
+        } else {
+            Integer numMesa = Integer.parseInt(mesa.toString())+1;
+            intent.putExtra("ID_MESA",Integer.toString(numMesa));
+            intent.putExtra("NOM_MESA","Mesa "+mesa.toString());
+        }
+        fechaInicioConsulta = Utilitats.obtenerFechaActual();
+        intent.putExtra("DIA_RESERVADO",fechaInicioConsulta);
+        startActivity(intent);
+    }
+
+
     public void introducirClienteMesa(){
         if (diaHabil(añoInicio+"-"+mesInicio+"-"+diaInicio)){
             fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio); // diaInicio ++
@@ -445,7 +482,6 @@ public class MesaActivity extends AppCompatActivity {
             } while (cursor.moveToNext());
         }
         db.tanca();
-        //
     }
 
 
@@ -525,6 +561,7 @@ public class MesaActivity extends AppCompatActivity {
     }
 
     public  ArrayList CursorBD(Cursor cursor){
+        ocultarMesas();
         if(cursor.moveToFirst()){
 
             do {
@@ -536,6 +573,11 @@ public class MesaActivity extends AppCompatActivity {
                 ));
                 String llevar = cursor.getString(cursor.getColumnIndex("columnaLlevar"));
                 String total = cursor.getString(cursor.getColumnIndex("columnaTotal"));
+                String mesas = cursor.getString(cursor.getColumnIndex("columnaMesas"));
+                Log.d("MESAS: ",mesas);
+                mostrarMesas(Integer.parseInt(mesas));
+
+
                 int comedor = Integer.parseInt(total)-Integer.parseInt(llevar);
                 textViewTotalClientesLlevar.setText(llevar);
                 textViewTotalClientes.setText(total);
@@ -550,7 +592,14 @@ public class MesaActivity extends AppCompatActivity {
 
         return myDataset;
     }
-
+    public void ocultarMesas(){
+        for( Button mesa : buttonsMesas) {
+            mesa.setVisibility(View.INVISIBLE);
+        }
+    }
+    public void mostrarMesas(Integer mesas){
+        buttonsMesas.get(mesas-1).setVisibility(View.VISIBLE);
+    }
 
     class myOnItemSelectedListener implements AdapterView.OnItemSelectedListener {
 
@@ -632,6 +681,50 @@ public class MesaActivity extends AppCompatActivity {
         });
         return super.onCreateOptionsMenu(menu);
     }
-
+    public void iniciarMesas(){
+        for(int id : BUTTON_IDS) {
+            Button button = (Button)findViewById(id);
+            buttonsMesas.add(button);
+        }
+        buttonsMesas.get(0).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) { listenersMesas(buttonsMesas.get(0)); }
+        });
+        buttonsMesas.get(1).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) { listenersMesas(buttonsMesas.get(1)); }
+        });
+        buttonsMesas.get(2).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) { listenersMesas(buttonsMesas.get(2)); }
+        });
+        buttonsMesas.get(3).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) { listenersMesas(buttonsMesas.get(3)); }
+        });
+        buttonsMesas.get(4).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) { listenersMesas(buttonsMesas.get(4)); }
+        });
+        buttonsMesas.get(5).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) { listenersMesas(buttonsMesas.get(5)); }
+        });
+        buttonsMesas.get(6).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) { listenersMesas(buttonsMesas.get(6)); }
+        });
+        buttonsMesas.get(7).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) { listenersMesas(buttonsMesas.get(7)); }
+        });
+        buttonsMesas.get(8).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) { listenersMesas(buttonsMesas.get(8)); }
+        });
+        buttonsMesas.get(9).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) { listenersMesas(buttonsMesas.get(9)); }
+        });
+        buttonsMesas.get(10).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) { listenersMesas(buttonsMesas.get(10)); }
+        });
+        buttonsMesas.get(11).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) { listenersMesas(buttonsMesas.get(11)); }
+        });
+        buttonsMesas.get(12).setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view) { listenersMesas(buttonsMesas.get(12)); }
+        });
+    }
 
 }
