@@ -86,12 +86,12 @@ public class DBInterface {
         return bd.rawQuery(consulta.RetornaTotsElsClients, null);
     }
 
-    public Cursor RetornaVentesDataActual(){
-        return bd.rawQuery(consulta.RetornaVentesDataActual,null);
+    public Cursor RetornaVentes(String data){
+        return bd.rawQuery(consulta.RetornaVentes(data),null);
     }
 
-    public Cursor RetornaVentesDataActualEstatVenta(String estatVenta){
-        return bd.rawQuery(consulta.RetornaVentesDataActualEstatVenta(estatVenta),null);
+    public Cursor RetornaVentesDataEstatVenta(String estatVenta, String fecha){
+        return bd.rawQuery(consulta.RetornaVentesDataEstatVenta(estatVenta,fecha),null);
     }
 
     public Cursor RetornaFacturaIdCliente(String idCliente){

@@ -32,13 +32,15 @@ public class ConsultesSQL {
             +  Producte.TIPUS_PRODUCTE+", p."+  Producte.PREU_PRODUCTE+
             " FROM "+ Producte.NOM_TAULA+" p";
 
-    String RetornaVentesDataActual ="Select v."+ Venta._ID+", v."+ Venta.DATA_VENTA+
-            ", v." + Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+
-            ", t."+  Treballador.NOM_TREBALLADOR+", t."+ Treballador.COGNOMS_TREBALLADOR+
-            " FROM "+ Venta.NOM_TAULA+" v"+
-            " LEFT JOIN  " + Treballador.NOM_TAULA + " t ON t." + Treballador._ID + " = v." + Venta.ID_TREBALLADOR+
-            " LEFT JOIN  " + Client.NOM_TAULA + " c ON c." + Client._ID + " = v." + Venta.ID_CLIENT+
-            " WHERE v."+ Venta.DATA_VENTA+" LIKE strftime('%Y %m %d','now')";
+    public String RetornaVentes(String fecha){
+        return " Select v."+ Venta._ID+", v."+ Venta.DATA_VENTA+
+                ", v." + Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+
+                ", t."+  Treballador.NOM_TREBALLADOR+", t."+ Treballador.COGNOMS_TREBALLADOR+
+                " FROM "+ Venta.NOM_TAULA+" v"+
+                " LEFT JOIN  " + Treballador.NOM_TAULA + " t ON t." + Treballador._ID + " = v." + Venta.ID_TREBALLADOR+
+                " LEFT JOIN  " + Client.NOM_TAULA + " c ON c." + Client._ID + " = v." + Venta.ID_CLIENT+
+                " WHERE v."+ Venta.DATA_VENTA+" LIKE '"+fecha+"'";
+    }
 
     public String  RetornaMesasReservadasData (String data) {
         return "Select distinct m." + Mesa._ID + ", m." + Mesa.NOMBRE_MESA + ", r." + Reserva_Cliente.DIA_RESERVADO +
@@ -77,14 +79,14 @@ public class ConsultesSQL {
                 ")";
     }
 
-    public String RetornaVentesDataActualEstatVenta(String estatVenta){
+    public String RetornaVentesDataEstatVenta(String estatVenta,String fecha){
         return  " Select v."+ Venta._ID+", v."+ Venta.DATA_VENTA+
                 ", v." + Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+
                 ", t."+  Treballador.NOM_TREBALLADOR+", t."+  Treballador.COGNOMS_TREBALLADOR+
                 " FROM "+ Venta.NOM_TAULA+" v"+
                 " LEFT JOIN  " + Treballador.NOM_TAULA + " t ON t." + Treballador._ID + " = v." + Venta.ID_TREBALLADOR+
                 " LEFT JOIN  " + Client.NOM_TAULA + " c ON c." + Client._ID + " = v." + Venta.ID_CLIENT+
-                " WHERE v."+ Venta.DATA_VENTA+" LIKE strftime('%Y %m %d','now') AND v."+ Venta.VENTA_COBRADA+" LIKE "+estatVenta;
+                " WHERE v."+ Venta.DATA_VENTA+" LIKE '"+fecha+"' AND v."+ Venta.VENTA_COBRADA+" LIKE "+estatVenta;
     }
 
     public String RetornaClientsReservadosMesa(String idMesa, String data){

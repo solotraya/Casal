@@ -1,5 +1,6 @@
 package ccastro.casal;
 
+import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.graphics.Color;
@@ -13,15 +14,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import ccastro.casal.RecyclerView.HeaderAdapterVenta;
 import ccastro.casal.RecyclerView.HeaderVenta;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
+import ccastro.casal.Utils.Utilitats;
 
 public class VentaActivity extends AppCompatActivity   {
     DBInterface db;
@@ -31,12 +35,15 @@ public class VentaActivity extends AppCompatActivity   {
     private LinearLayoutManager linearLayoutManager;
     private Spinner spinnerEstatVenta;
     private android.widget.SimpleCursorAdapter adapter;
-
+    private String fechaVenta;
+    private TextView textViewFechaVenta;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venta);
-
+        textViewFechaVenta = (TextView) findViewById(R.id.fechaVenta);
+        fechaVenta = Utilitats.obtenerFechaActual();
+        textViewFechaVenta.setText(Utilitats.getFechaFormatSpain(fechaVenta));
     }
 
     public ArrayList mouCursor(Cursor cursor) {
@@ -68,7 +75,9 @@ public class VentaActivity extends AppCompatActivity   {
         /**
          * Instanciació del Recycler i de l'arrayList
          */
-
+        actualizarRecyclerView();
+    }
+    public void actualizarRecyclerView(){
         myDataset = new ArrayList<>();
         headerAdapterVenta= new HeaderAdapterVenta(myDataset);
 
@@ -78,12 +87,11 @@ public class VentaActivity extends AppCompatActivity   {
         recyclerView.setAdapter(headerAdapterVenta);
         db = new DBInterface(this);
         db.obre();
-        Cursor cursor = db.RetornaVentesDataActual();
+        Cursor cursor = db.RetornaVentes(fechaVenta);
         myDataset = mouCursor(cursor);
         db.tanca();
 
     }
-
     public MatrixCursor getFakeCursor() {
         String[] columns = new String[]{"_id", "estatVenta"};
         MatrixCursor matrixCursor = new MatrixCursor(columns);
@@ -127,7 +135,7 @@ public class VentaActivity extends AppCompatActivity   {
             if (position == 0) { // mostrar TOT, tant PAGAT COM NO PAGAT
                 db.obre();
                 myDataset = new ArrayList<HeaderVenta>();
-                cursor = db.RetornaVentesDataActual();
+                cursor = db.RetornaVentes(fechaVenta);
                 myDataset = mouCursor(cursor);
                 headerAdapterVenta.actualitzaRecycler(myDataset);
                 db.tanca();
@@ -141,7 +149,7 @@ public class VentaActivity extends AppCompatActivity   {
             if (estat.equals("0") || estat.equals("1") || estat.equals("2")){
                 db.obre();
                 myDataset = new ArrayList<HeaderVenta>();
-                cursor = db.RetornaVentesDataActualEstatVenta(estat);
+                cursor = db.RetornaVentesDataEstatVenta(estat,fechaVenta);
                 myDataset = mouCursor(cursor);
                 headerAdapterVenta.actualitzaRecycler(myDataset);
                 db.tanca();
@@ -166,7 +174,29 @@ public class VentaActivity extends AppCompatActivity   {
         MenuItem item = menu.findItem(R.id.spinnerEstatVenta);
         spinnerEstatVenta = (Spinner) item.getActionView();
         iniciarSpinnerEstatVenta();
+        menu.findItem(R.id.buttonDataVenta).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener(){
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Calendar mcurrentDate = Calendar.getInstance();
+                int mYear = mcurrentDate.get(Calendar.YEAR);
+                int mMonth = mcurrentDate.get(Calendar.MONTH);
+                int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog mDatePicker;
+                mDatePicker = new DatePickerDialog(VentaActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                        selectedmonth = selectedmonth + 1;
+                        fechaVenta = "" + selectedyear + " " + selectedmonth + " " + selectedday;
 
+                        textViewFechaVenta.setText(Utilitats.getFechaFormatSpain(fechaVenta));
+                        actualizarRecyclerView();
+                        headerAdapterVenta.actualitzaRecycler(myDataset);
+                    }
+                }, mYear, mMonth, mDay);
+                mDatePicker.setTitle("Selecciona Fecha");
+                mDatePicker.show();
+                return false;
+            }
+        });
         return super.onCreateOptionsMenu(menu);
     }
 }
