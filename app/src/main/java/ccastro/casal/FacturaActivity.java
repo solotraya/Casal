@@ -71,7 +71,7 @@ public class FacturaActivity extends AppCompatActivity {
                                         buttonPagar.setVisibility(View.INVISIBLE);
                                         DBInterface db=new DBInterface(v.getContext());
                                         db.obre();
-                                        db.ActalitzaEstatVenta(idVenta);
+                                        db.ActalitzaEstatVenta(idVenta,"1");
                                         db.tanca();
 
                                         // TODO ACTUALIZAR PAGO DE RESERVA, QUIZAS SE PUEDE QUITAR SI SE QUITA RESERVADA_PAGADA Y SE RELACIONA CON ID_VENTA
@@ -139,7 +139,13 @@ public class FacturaActivity extends AppCompatActivity {
         if (estado.equalsIgnoreCase("0")){
             return "Falta pagar";
         }
-        else return "Pagado";
+        else if (estado.equalsIgnoreCase("1")){
+            return "Pagado";
+        }
+        else if (estado.equalsIgnoreCase("2")){
+            return "Anulado";
+        }
+        return "";
     }
     public  Integer cursorIDVentaFactura(Cursor cursor){
         Integer idVenta=-1;
@@ -200,7 +206,7 @@ public class FacturaActivity extends AppCompatActivity {
             if (getIntent().hasExtra("ESTAT_VENTA")){
                 estatVenta.setText(getIntent().getExtras().getString("ESTAT_VENTA"));
                 Log.d("ESTADO: ",estatVenta.getText().toString());
-                if (estatVenta.getText().toString().equalsIgnoreCase("Pagado")){
+                if (estatVenta.getText().toString().equalsIgnoreCase("Pagado") || estatVenta.getText().toString().equalsIgnoreCase("Anulado") ){
                     buttonPagar.setVisibility(View.INVISIBLE);
                 }
             }

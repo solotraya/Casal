@@ -44,6 +44,7 @@ import ccastro.casal.RecyclerView.HeaderAdapterMesa;
 import ccastro.casal.RecyclerView.HeaderMesa;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
+import ccastro.casal.Utils.Cursors;
 import ccastro.casal.Utils.Utilitats;
 
 public class MesaActivity extends AppCompatActivity{
@@ -511,7 +512,7 @@ public class MesaActivity extends AppCompatActivity{
     public  void crearFacturaReservaMesa(int quantitat){
         db.obre();
         Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idCliente);
-        Integer idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
+        Integer idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
         //String idVenta = Integer.toString(idVentaFactura);
         Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
         if (idVentaFactura==-1){ // Si no tienen una factura pendiente por pagar
@@ -521,7 +522,7 @@ public class MesaActivity extends AppCompatActivity{
             //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
             db.InserirVenta(Integer.parseInt(idCliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),Utilitats.obtenerFechaActual(),"0",hora);
             cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idCliente);
-            idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
+            idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
            // idVenta = Integer.toString(idVentaFactura);
         }
         // CREAMOS FACTURA: AÑADIMOS MENU AL RESERVAR MESA
@@ -533,15 +534,7 @@ public class MesaActivity extends AppCompatActivity{
 
 
     }
-    public  Integer cursorIDVentaFactura(Cursor cursor){
-        Integer idVenta=-1;
-        if(cursor.moveToFirst()){
-            do {
-                idVenta=Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta._ID)));
-            } while(cursor.moveToNext());
-        }
-        return idVenta;
-    }
+
 
     public void actualizarRecyclerView(){
         myDataset.clear();

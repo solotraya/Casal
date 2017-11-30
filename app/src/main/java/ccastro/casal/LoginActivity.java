@@ -173,8 +173,13 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirClient("Manuela","Torres Cobijo","0",2,"0","1","Segundo de poquito y pan integral");
         db.InserirClient("Manel","Garcia","0",1,"0","1","");
         db.InserirClient("Remedios","Luque","2",0,"1","2","Vegetariana"); // Ayuntamiento
-        db.InserirClient("Asunción","Rodriguez  Perez","2",0,"2","2","Vegetariana"); // Ayuntamiento
-        db.InserirClient("Juan","Gomez Fuentes","1",0,"0","2","Poquito"); //LLevar
+        db.InserirClient("Asunción","Rodriguez  Perez","2",3,"2","2","Vegetariana");
+        db.InserirClient("Juan","Gomez Fuentes","1",4,"0","2","Poquito"); //LLevar
+        db.InserirClient("Ramon","Pardo","1",5,"0","2","Normal");
+        db.InserirClient("Manolo","Lopez","2",6,"0","0","Poquito");
+        db.InserirClient("Ana","Tarres","0",10,"0","0","Poquito");
+        db.InserirClient("Marta","Gonzalez","0",7,"0","1","Poquito");
+        db.InserirClient("Nicanor","Sanchez","0",8,"0","0","Poquito");
 
         // nomProducte, preu, tipus
 

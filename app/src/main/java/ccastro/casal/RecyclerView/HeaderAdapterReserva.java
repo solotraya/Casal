@@ -3,6 +3,7 @@ package ccastro.casal.RecyclerView;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -19,6 +20,7 @@ import java.util.ArrayList;
 import ccastro.casal.FacturaActivity;
 import ccastro.casal.R;
 import ccastro.casal.SQLite.DBInterface;
+import ccastro.casal.Utils.Cursors;
 
 /**
  * Created by Carlos on 17/11/2017.
@@ -130,7 +132,18 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                 DBInterface db=new DBInterface(v.getContext());
                                 db.obre();
                                 db.ActualitzarAsistenciaReservaDiaActual(idClient.getText().toString());
+                                // TODO: Hay que descontar un menu en caso de tener varios, o eliminar factura si no tiene ninguno.
+                                Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idClient.getText().toString());
+                                Integer idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+                                Log.d("TIPO PAGO: ",tipoPago.getText().toString());
+                                if (tipoPago.getText().toString().equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,-1);
+                                else if (tipoPago.getText().toString().equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,-1);
+                                else if (tipoPago.getText().toString().equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,-1);
+                                db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"2");
                                 db.tanca();
+
+
+
                             }
                         })
                         .setPositiveButton("PAGAR",

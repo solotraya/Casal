@@ -55,8 +55,11 @@ public class VentaActivity extends AppCompatActivity   {
     }
 
     public String ventaPagada(String ventaPagada){
+        Log.d("VENTA PAGADA: ",ventaPagada);
         if (ventaPagada.equalsIgnoreCase("0")) return "Falta Pagar";
-        else return "Pagado";
+        else if (ventaPagada.equalsIgnoreCase("1"))return "Pagado";
+        else if (ventaPagada.equalsIgnoreCase("2"))return "Anulado";
+        return "";
     }
 
     @Override
@@ -88,7 +91,7 @@ public class VentaActivity extends AppCompatActivity   {
         matrixCursor.addRow(new Object[]{0, "Todo"});
         matrixCursor.addRow(new Object[]{1, "Pagado"});
         matrixCursor.addRow(new Object[]{2, "Falta Pagar"});
-
+        matrixCursor.addRow(new Object[]{3, "Anulado"});
         return matrixCursor;
     }
     public void iniciarSpinnerEstatVenta(){
@@ -119,7 +122,7 @@ public class VentaActivity extends AppCompatActivity   {
         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
             ((TextView) view).setTextColor(Color.WHITE);  // COLOR DEL TEXTO SELECCIONADO DEL TOOLBAR
             Cursor cursor = null;
-            String estat="2";
+            String estat="3";
             Log.d("POSICION: ",Integer.toString(position));
             if (position == 0) { // mostrar TOT, tant PAGAT COM NO PAGAT
                 db.obre();
@@ -132,8 +135,10 @@ public class VentaActivity extends AppCompatActivity   {
                 estat = "1";
             } else if (position == 2) {  // MOSTRAR VENTAS QUE FALTA PAGAR
                 estat = "0";
+            } else if (position ==3) {  // MOSTRAR VENTAS ANULADAS
+                estat = "2";
             }
-            if (estat.equals("0") || estat.equals("1")){
+            if (estat.equals("0") || estat.equals("1") || estat.equals("2")){
                 db.obre();
                 myDataset = new ArrayList<HeaderVenta>();
                 cursor = db.RetornaVentesDataActualEstatVenta(estat);

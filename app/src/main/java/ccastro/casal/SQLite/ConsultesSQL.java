@@ -1,7 +1,5 @@
 package ccastro.casal.SQLite;
 
-import android.database.Cursor;
-
 import ccastro.casal.SQLite.ContracteBD.Client;
 import ccastro.casal.SQLite.ContracteBD.Factura;
 import ccastro.casal.SQLite.ContracteBD.Mesa;
@@ -124,33 +122,13 @@ public class ConsultesSQL {
                 " WHERE v."+Venta.ID_CLIENT+" LIKE "+id_cliente+" AND v."+Venta.VENTA_COBRADA+" LIKE '0'";
     }
 
-    /**
-     *
-     * Metode per retonar el query que recollirà tots els treballadors junt amb la data i hora del
-     * servei al qual estàn lligats.
-     *
-     * Mitjançant un HashMap definim quines columnes es vol agafar entre les dues taules, i amb
-     * el mètode setTables, amb quines taules volem fer un Join
-     *
-     * @return SQLiteQueryBuilder creat
-     */
-
-
-
-    /**
-     *
-     * Created by Maria Remedios Ortega
-     * Metode per moure el cursor a la primera posició
-     * @param cursor a moure
-     * @return cursor a retornar
-     */
-    public Cursor mouCursor(Cursor cursor){
-        if (cursor != null) {
-            cursor.moveToFirst();
-        }
-
-        return cursor;
+    public String ActualitzarVenta(String idVenta){
+        return  " UPDATE "+Venta.NOM_TAULA+
+                " SET "+Venta.VENTA_COBRADA + " = '1'"+
+                " WHERE "+Venta._ID+" = "+idVenta;
     }
+
+
 }
 
 

@@ -127,12 +127,15 @@ public class DBInterface {
     public Cursor EncontrarId_VentaFacturaSinPagar(String id_cliente){
         return bd.rawQuery(consulta.EncontrarId_VentaFacturaSinPagar(id_cliente),null);
     }
+    public Cursor ActualizarVenta (String idVenta){
+        return bd.rawQuery(consulta.ActualitzarVenta(idVenta),null);
+    }
 
 
-    public void ActalitzaEstatVenta(String _id) {
+    public void ActalitzaEstatVenta(String _id,String estatVenta) {
         Integer idVenta = Integer.parseInt(_id);
         ContentValues valores = new ContentValues();
-        valores.put(Venta.VENTA_COBRADA, "1");
+        valores.put(Venta.VENTA_COBRADA, estatVenta);
         String where = Venta._ID + " = ? ";
         String[] selection = {""+idVenta};
         bd.update(Venta.NOM_TAULA, valores, where, selection);
