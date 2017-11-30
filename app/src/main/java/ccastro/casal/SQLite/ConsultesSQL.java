@@ -122,10 +122,10 @@ public class ConsultesSQL {
                 " WHERE v."+Venta.ID_CLIENT+" LIKE "+id_cliente+" AND v."+Venta.VENTA_COBRADA+" LIKE '0'";
     }
 
-    public String ActualitzarVenta(String idVenta){
-        return  " UPDATE "+Venta.NOM_TAULA+
-                " SET "+Venta.VENTA_COBRADA + " = '1'"+
-                " WHERE "+Venta._ID+" = "+idVenta;
+    public String ObtenirQuantitatProductesFactura(String idVenta){
+        return  " SELECT SUM (f."+Factura.QUANTITAT_PRODUCTE+") as QuantitatProductes"+
+                " FROM "+Factura.NOM_TAULA+" f"+
+                " WHERE f."+Factura.ID_VENTA+" = "+idVenta;
     }
 
 

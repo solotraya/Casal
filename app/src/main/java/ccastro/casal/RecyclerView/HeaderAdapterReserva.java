@@ -139,7 +139,12 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                 if (tipoPago.getText().toString().equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,-1);
                                 else if (tipoPago.getText().toString().equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,-1);
                                 else if (tipoPago.getText().toString().equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,-1);
-                                db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"2");
+                                // TODO: SI EL TOTAL DE LOS PRODUCTOS ES 0
+                                Cursor cursorQuantitatProducteFactura = db.ObtenirQuantitatProductesFactura(Integer.toString(idVentaFactura));
+                                Integer quantitatProductesFactura = Cursors.cursorQuantitatProducteFactura(cursorQuantitatProducteFactura);
+                                if (quantitatProductesFactura == 0){ // SI SOLO HAY UN PRODUCTO EN LA FACTURA, ANULAMOS VENTA.
+                                    db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"2");
+                                }
                                 db.tanca();
 
 

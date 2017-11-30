@@ -127,8 +127,8 @@ public class DBInterface {
     public Cursor EncontrarId_VentaFacturaSinPagar(String id_cliente){
         return bd.rawQuery(consulta.EncontrarId_VentaFacturaSinPagar(id_cliente),null);
     }
-    public Cursor ActualizarVenta (String idVenta){
-        return bd.rawQuery(consulta.ActualitzarVenta(idVenta),null);
+    public Cursor ObtenirQuantitatProductesFactura(String idVenta){
+        return bd.rawQuery(consulta.ObtenirQuantitatProductesFactura(idVenta),null);
     }
 
 
@@ -140,6 +140,7 @@ public class DBInterface {
         String[] selection = {""+idVenta};
         bd.update(Venta.NOM_TAULA, valores, where, selection);
     }
+
     public void ActalitzarPagoReservaDiaActual(String _id) {
         Integer idCliente = Integer.parseInt(_id);
         ContentValues valores = new ContentValues();

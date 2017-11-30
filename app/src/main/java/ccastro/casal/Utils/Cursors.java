@@ -18,4 +18,14 @@ public class Cursors {
         }
         return idVenta;
     }
+
+    public  static Integer cursorQuantitatProducteFactura(Cursor cursor){
+        Integer quantitatProdcutes=-1;
+        if(cursor.moveToFirst()){
+            do {
+                quantitatProdcutes=Integer.parseInt(cursor.getString(cursor.getColumnIndex("QuantitatProductes")));
+            } while(cursor.moveToNext());
+        }
+        return quantitatProdcutes;
+    }
 }
