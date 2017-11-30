@@ -168,11 +168,11 @@ public class DBInterface {
         bd.update(Reserva_Cliente.NOM_TAULA, valores, where, selection);
 
     }
-    public void ActualitzarAsistenciaReservaDiaActual(String _id) {
+    public void ActualitzarAsistenciaReserva(String _id, String data) {
         Integer idCliente = Integer.parseInt(_id);
         ContentValues valores = new ContentValues();
         valores.put(Reserva_Cliente.ASISTENCIA, "1");
-        String where = Reserva_Cliente.ID_CLIENTE + " = ? AND "+Reserva_Cliente.DIA_RESERVADO+" LIKE strftime('%Y %m %d','now')";
+        String where = Reserva_Cliente.ID_CLIENTE + " = ? AND "+Reserva_Cliente.DIA_RESERVADO+" LIKE '"+data+"'";
         String[] selection = {""+idCliente};
         bd.update(Reserva_Cliente.NOM_TAULA, valores, where, selection);
         Log.d("proba", "Actualitzat");

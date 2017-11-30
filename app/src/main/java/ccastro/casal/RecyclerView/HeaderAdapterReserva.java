@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import ccastro.casal.FacturaActivity;
 import ccastro.casal.R;
+import ccastro.casal.ReservaActivity;
 import ccastro.casal.SQLite.DBInterface;
 import ccastro.casal.Utils.Cursors;
 
@@ -128,10 +129,10 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                 v.setBackgroundColor(Color.rgb(255, 51, 30));
                                 Toast.makeText(v.getContext(), "Ausencia Marcada!", Toast.LENGTH_LONG).show();
                                 assistenciaReserva.setChecked(true);
-
+                                Log.d("FECHA RESERVA_ ",ReservaActivity.dataReserva);
                                 DBInterface db=new DBInterface(v.getContext());
                                 db.obre();
-                                db.ActualitzarAsistenciaReservaDiaActual(idClient.getText().toString());
+                                db.ActualitzarAsistenciaReserva(idClient.getText().toString(), ReservaActivity.dataReserva);
                                 // TODO: Hay que descontar un menu en caso de tener varios, o eliminar factura si no tiene ninguno.
                                 Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idClient.getText().toString());
                                 Integer idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
@@ -184,7 +185,7 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
 
                                         DBInterface db = new DBInterface(v.getContext());
                                         db.obre();
-                                        db.ActualitzarAsistenciaReservaDiaActual(idClient.getText().toString());
+                                        db.ActualitzarAsistenciaReserva(idClient.getText().toString(),ReservaActivity.dataReserva);
                                         db.tanca();
                                     }
                                 }

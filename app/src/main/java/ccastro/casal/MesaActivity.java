@@ -334,10 +334,9 @@ public class MesaActivity extends AppCompatActivity{
                                  if (idCliente != null){
                                      idCliente=null;
                                      fechaFinal="0";
-                                     diaInicio=null;mesInicio=null;añoInicio=null;diaFinal=null;mesFinal=null;añoFinal=null;
+                                    // diaInicio=null;mesInicio=null;añoInicio=null;diaFinal=null;mesFinal=null;añoFinal=null;
                                  }
                              }
-
                              db.tanca();
                          } else Toast.makeText(MesaActivity.this, "Fecha Final mínima: "+Utilitats.getFechaFormatSpain(fechaInicio), Toast.LENGTH_SHORT).show();
                      } else Toast.makeText(MesaActivity.this, "Fecha Inicio mínima: "+Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()), Toast.LENGTH_SHORT).show();
@@ -459,7 +458,6 @@ public class MesaActivity extends AppCompatActivity{
         if (idCliente!=null){
             db.obre();
             Cursor cursorTaulaDefecte = db.RetornaTaulaDefecteClient(idCliente);
-
             if (cursorTaulaDefecte.moveToFirst()) {
                 do {
                     taulaPerDefecteClient = cursorTaulaDefecte.getString(cursorTaulaDefecte.getColumnIndex(ContracteBD.Client.MESA_FAVORITA));
@@ -567,8 +565,9 @@ public class MesaActivity extends AppCompatActivity{
                 String llevar = cursor.getString(cursor.getColumnIndex("columnaLlevar"));
                 String total = cursor.getString(cursor.getColumnIndex("columnaTotal"));
                 String mesas = cursor.getString(cursor.getColumnIndex("columnaMesas"));
-                Log.d("MESAS: ",mesas);
-                mostrarMesas(Integer.parseInt(mesas));
+//                Log.d("MESAS: ",mesas);
+                //TODO METODO PARA MOSTRAR LAS MESAS GRAFICAMENTAS
+                if (mesas!=null) mostrarMesas(Integer.parseInt(mesas));
 
 
                 int comedor = Integer.parseInt(total)-Integer.parseInt(llevar);
@@ -641,15 +640,7 @@ public class MesaActivity extends AppCompatActivity{
 
         iniciarSpinnerMesa();
 
-        myDataset = new ArrayList<>();
-        headerAdapterMesa= new HeaderAdapterMesa(myDataset);
-        db = new DBInterface(this);
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_consulta);
-        linearLayoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.setAdapter(headerAdapterMesa);
-        actualizarRecyclerView();
         searchView.setQueryHint("Nombre Cliente...");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -718,6 +709,19 @@ public class MesaActivity extends AppCompatActivity{
         buttonsMesas.get(12).setOnClickListener(new View.OnClickListener(){
             public void onClick(View view) { listenersMesas(buttonsMesas.get(12)); }
         });
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        myDataset = new ArrayList<>();
+        headerAdapterMesa= new HeaderAdapterMesa(myDataset);
+        db = new DBInterface(this);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerView_consulta);
+        linearLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.setAdapter(headerAdapterMesa);
+        actualizarRecyclerView();
     }
 
 }

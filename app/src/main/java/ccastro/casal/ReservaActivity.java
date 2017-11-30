@@ -18,7 +18,7 @@ import ccastro.casal.SQLite.DBInterface;
 public class ReservaActivity extends AppCompatActivity {
     TextView nombreMesaReserva;
     String idMesaReserva;
-    String dataReserva;
+    public static String dataReserva;
     TextView textViewDataReserva;
 
     DBInterface db;
@@ -73,7 +73,6 @@ public class ReservaActivity extends AppCompatActivity {
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Client.OBSERVACIONS_CLIENT)),
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Reserva_Cliente.PAGADO)),
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Reserva_Cliente.ASISTENCIA))
-
                         ));
             } while (cursor.moveToNext());
         }

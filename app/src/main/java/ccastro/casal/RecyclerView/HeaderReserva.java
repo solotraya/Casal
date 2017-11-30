@@ -15,6 +15,7 @@ public class HeaderReserva {
     public String tipoPago;
     public String tipoComida;
     public String observacions;
+    public String dataReserva;
 
     public HeaderReserva(String idClient, String nomClient, String tipusClient, String tipoPago, String tipoComida, String observacions, String pagado, String assistencia) {
         this.idClient = idClient;

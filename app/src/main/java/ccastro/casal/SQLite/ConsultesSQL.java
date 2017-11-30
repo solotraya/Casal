@@ -42,9 +42,9 @@ public class ConsultesSQL {
 
     public String  RetornaMesasReservadasData (String data) {
         return "Select distinct m." + Mesa._ID + ", m." + Mesa.NOMBRE_MESA + ", r." + Reserva_Cliente.DIA_RESERVADO +
-                ", (SELECT COUNT (*) FROM " + Reserva_Cliente.NOM_TAULA + " r" + " WHERE r." + Reserva_Cliente.DIA_RESERVADO + " LIKE '"+data+"') as columnaTotal"+
-                ", (SELECT COUNT (*) FROM " + Reserva_Cliente.NOM_TAULA + " r" + " WHERE r." + Reserva_Cliente.DIA_RESERVADO+ " LIKE '"+data+"' AND r."+Reserva_Cliente.ID_MESA+" LIKE 1) as columnaLlevar"+
-                ", (SELECT distinct m." + Mesa._ID + " FROM " + Mesa.NOM_TAULA + " r" + " WHERE r." + Reserva_Cliente.DIA_RESERVADO+ " LIKE '"+data+"') as columnaMesas"+
+                ", (SELECT COUNT (*) FROM " + Reserva_Cliente.NOM_TAULA + " r" + " WHERE r." + Reserva_Cliente.DIA_RESERVADO + " LIKE '"+data+"' AND r."+Reserva_Cliente.ASISTENCIA+" LIKE '0') as columnaTotal"+
+                ", (SELECT COUNT (*) FROM " + Reserva_Cliente.NOM_TAULA + " r" + " WHERE r." + Reserva_Cliente.DIA_RESERVADO+ " LIKE '"+data+"' AND r."+Reserva_Cliente.ID_MESA+" LIKE 1 AND r."+Reserva_Cliente.ASISTENCIA+" LIKE '0') as columnaLlevar"+
+                ", (SELECT distinct m." + Mesa._ID + " FROM " + Mesa.NOM_TAULA + " r" + " WHERE r." + Reserva_Cliente.DIA_RESERVADO+ " LIKE '"+data+"' AND r."+Reserva_Cliente.ASISTENCIA+" LIKE '0') as columnaMesas"+
                 " FROM " + Mesa.NOM_TAULA + " m" +
                 " LEFT JOIN  " + Reserva_Cliente.NOM_TAULA + " r ON m." + Mesa._ID + " = r." + Reserva_Cliente.ID_MESA +
                 " WHERE r." + Reserva_Cliente.DIA_RESERVADO + " LIKE '"+data+"'";
