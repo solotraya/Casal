@@ -33,6 +33,8 @@ public class FacturaActivity extends AppCompatActivity {
     View v;
     Boolean actualizarReserva = false;
     String data;
+    String pagar = "pagar", pagada= "pagada";
+    boolean reembolsar = false;
     private HeaderAdapterFactura headerAdapterFactura;
     private ArrayList<HeaderFactura> myDataset;
     private RecyclerView recyclerView;
@@ -49,12 +51,14 @@ public class FacturaActivity extends AppCompatActivity {
         estatVenta = (TextView) findViewById(ventaPagada);
         preuTotalFactura = (TextView) findViewById(R.id.precioTotalFactura);
         buttonPagar = (Button) findViewById(R.id.buttonPagar);
+
+
         buttonPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 v=view;
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setMessage("Verifica que quieras pagar la factura antes de aceptar")
+                builder.setMessage("Verifica que quieras "+pagar+" la factura antes de aceptar")
                         .setTitle("Atenció!!")
                         .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                             @Override
@@ -66,12 +70,18 @@ public class FacturaActivity extends AppCompatActivity {
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
-                                        Toast.makeText(FacturaActivity.this, "Factura Pagada", Toast.LENGTH_LONG).show();
-                                        estatVenta.setText("Pagado");
+                                        Toast.makeText(FacturaActivity.this, "Factura "+pagada, Toast.LENGTH_LONG).show();
+
                                         buttonPagar.setVisibility(View.INVISIBLE);
                                         DBInterface db=new DBInterface(v.getContext());
                                         db.obre();
-                                        db.ActalitzaEstatVenta(idVenta,"1");
+                                        if (reembolsar){
+                                            db.ActalitzaEstatVenta(idVenta,"4");
+                                            estatVenta.setText("Reembolsado");
+                                        } else {
+                                            db.ActalitzaEstatVenta(idVenta,"1");
+                                            estatVenta.setText("Pagado");
+                                        }
                                         db.tanca();
 
                                         // TODO ACTUALIZAR PAGO DE RESERVA, QUIZAS SE PUEDE QUITAR SI SE QUITA RESERVADA_PAGADA Y SE RELACIONA CON ID_VENTA
@@ -146,6 +156,9 @@ public class FacturaActivity extends AppCompatActivity {
             return "Anulado";
         }
         else if (estado.equalsIgnoreCase("3")){
+            buttonPagar.setText("Reembolsar Factura");
+            pagar =  "reembolsar"; pagada = "reembolsada";
+            reembolsar = true;
             return "Reembolsar";
         }
         else if (estado.equalsIgnoreCase("4")){
@@ -212,7 +225,8 @@ public class FacturaActivity extends AppCompatActivity {
             if (getIntent().hasExtra("ESTAT_VENTA")){
                 estatVenta.setText(getIntent().getExtras().getString("ESTAT_VENTA"));
                 Log.d("ESTADO: ",estatVenta.getText().toString());
-                if (estatVenta.getText().toString().equalsIgnoreCase("Pagado") || estatVenta.getText().toString().equalsIgnoreCase("Anulado") ){
+                if (estatVenta.getText().toString().equalsIgnoreCase("Pagado") || estatVenta.getText().toString().equalsIgnoreCase("Anulado")
+                        || estatVenta.getText().toString().equalsIgnoreCase("Reembolsado")){
                     buttonPagar.setVisibility(View.INVISIBLE);
                 }
             }
