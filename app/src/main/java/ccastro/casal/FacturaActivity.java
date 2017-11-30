@@ -59,14 +59,14 @@ public class FacturaActivity extends AppCompatActivity {
                 v=view;
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setMessage("Verifica que quieras "+pagar+" la factura antes de aceptar")
-                        .setTitle("Atenció!!")
+                        .setTitle("Atencion!!")
                         .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int i) {
                                 dialog.cancel();
                             }
                         })
-                        .setPositiveButton("Acceptar",
+                        .setPositiveButton("Aceptar",
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();

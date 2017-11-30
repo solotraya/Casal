@@ -75,7 +75,7 @@ public class ConsultesSQL {
                     " Select v."+Venta._ID+
                     " FROM "+Venta.NOM_TAULA+" v"+
                     //" LEFT JOIN "+ Reserva_Cliente.NOM_TAULA+" r ON r."+Reserva_Cliente.ID_CLIENTE+" LIKE v."+Venta.ID_CLIENT+
-                    " WHERE v."+Venta.ID_CLIENT+" LIKE "+idCliente+" AND v."+Venta.VENTA_COBRADA+" LIKE '0'"+
+                    " WHERE v."+Venta.ID_CLIENT+" LIKE "+idCliente+" AND (v."+Venta.VENTA_COBRADA+" LIKE '0' OR v."+Venta.VENTA_COBRADA+" LIKE '3')"+
                 ")";
     }
 
@@ -129,7 +129,12 @@ public class ConsultesSQL {
                 " FROM "+Factura.NOM_TAULA+" f"+
                 " WHERE f."+Factura.ID_VENTA+" = "+idVenta;
     }
-
+    public String ObtenirQuantitatReservesSenseIDVenta(String id_cliente){
+        return  " SELECT COUNT (r."+Reserva_Cliente._ID+") as QuantitatProductes"+
+                " FROM "+Reserva_Cliente.NOM_TAULA+" r"+
+                " WHERE r."+Reserva_Cliente.ID_CLIENTE+" LIKE "+id_cliente+
+                " AND (r."+Reserva_Cliente.ASISTENCIA+" LIKE '0' AND r."+Reserva_Cliente.PAGADO+" LIKE '0')";
+    }
 
 }
 

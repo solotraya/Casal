@@ -120,6 +120,7 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
          */
         @Override
         public void onClick(View view) {
+
             v = view;
             if  (!pagado.isChecked() && !assistenciaReserva.isChecked()) {   // Si no tiene ausencia ni pago.
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
@@ -141,20 +142,42 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                 Integer idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
                                 Log.d("VENTA SIN PAGAR: ",Integer.toString(idVentaFactura));
                                 Log.d("TIPO PAGO: ",tipoPago.getText().toString());
+                                Boolean restarProducte = true;
+                                Cursor cursorQuantitatReservesSenseIDVenta = db.ObtenirQuantitatReservesSenseIDVenta(idClient.getText().toString());
+                                Integer quantitatReservesAbiertasCliente = Cursors.cursorQuantitatProducteFactura(cursorQuantitatReservesSenseIDVenta);
+                                Log.d("CANTIDAD RESERVAS_",Integer.toString(quantitatReservesAbiertasCliente));
+                                if (quantitatReservesAbiertasCliente > 0){
+                                    if (restarProducte){
+                                        if (tipoPago.getText().toString().equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,-1);
+                                        else if (tipoPago.getText().toString().equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,-1);
+                                        else if (tipoPago.getText().toString().equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,-1);
+                                    }
+                                    Cursor cursorQuantitatProducteFactura = db.ObtenirQuantitatProductesFactura(Integer.toString(idVentaFactura));
+                                    Integer quantitatProductesFactura = Cursors.cursorQuantitatProducteFactura(cursorQuantitatProducteFactura);
+                                    if (quantitatProductesFactura <= 0){
+                                        db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"2");
 
-                                if (tipoPago.getText().toString().equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,-1);
-                                else if (tipoPago.getText().toString().equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,-1);
-                                else if (tipoPago.getText().toString().equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,-1);
-                                // TODO: SI EL TOTAL DE LOS PRODUCTOS ES 0
-                                Cursor cursorQuantitatProducteFactura = db.ObtenirQuantitatProductesFactura(Integer.toString(idVentaFactura));
-                                Integer quantitatProductesFactura = Cursors.cursorQuantitatProducteFactura(cursorQuantitatProducteFactura);
-                                if (quantitatProductesFactura == 0){ // SI SOLO HAY UN PRODUCTO EN LA FACTURA, ANULAMOS VENTA.
-                                    db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"2");
+                                        cursorQuantitatReservesSenseIDVenta = db.ObtenirQuantitatReservesSenseIDVenta(idClient.getText().toString());
+                                        quantitatReservesAbiertasCliente = Cursors.cursorQuantitatProducteFactura(cursorQuantitatReservesSenseIDVenta);
+                                        Log.d("CANTIDAD RESERVAS 2_",Integer.toString(quantitatReservesAbiertasCliente));
+                                        if (quantitatReservesAbiertasCliente > 0){
+                                            Date ahora = new Date();
+                                            SimpleDateFormat formateador = new SimpleDateFormat("hh:mm");
+                                            String hora = formateador.format(ahora);
+                                            //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
+                                            db.InserirVenta(Integer.parseInt(idClient.getText().toString()),Integer.parseInt(LoginActivity.ID_TREBALLADOR), Utilitats.obtenerFechaActual(),"0",hora);
+                                            cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idClient.getText().toString());
+                                            idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+                                            // idVenta = Integer.toString(idVentaFactura);
+                                            // AÑADIMOS EL PRODUCTO QUE DEBEREMOS
+                                            if (tipoPago.getText().toString().equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,-1);
+                                            else if (tipoPago.getText().toString().equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,-1);
+                                            else if (tipoPago.getText().toString().equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,-1);
+                                            db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"3"); // TODO PONEMOS ESTADO DE VENTA EN REEMBOLSAR (estat 3)
+                                        }
+                                    }
                                 }
                                 db.tanca();
-
-
-
                             }
                         })
                         .setPositiveButton("PAGAR",

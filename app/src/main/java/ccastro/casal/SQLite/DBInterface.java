@@ -130,6 +130,10 @@ public class DBInterface {
     public Cursor ObtenirQuantitatProductesFactura(String idVenta){
         return bd.rawQuery(consulta.ObtenirQuantitatProductesFactura(idVenta),null);
     }
+    public Cursor ObtenirQuantitatReservesSenseIDVenta(String id_cliente){
+        return bd.rawQuery(consulta.ObtenirQuantitatReservesSenseIDVenta(id_cliente),null);
+
+    }
 
 
     public void ActalitzaEstatVenta(String _id,String estatVenta) {

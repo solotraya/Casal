@@ -537,7 +537,6 @@ public class MesaActivity extends AppCompatActivity{
         } else if (quantitatProductesFactura>0){
             db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"0");
         }
-
     }
 
 
