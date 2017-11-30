@@ -121,7 +121,7 @@ public class ConsultesSQL {
     public String EncontrarId_VentaFacturaSinPagar(String id_cliente){
         return " Select v."+Venta._ID+
                 " FROM "+Venta.NOM_TAULA+" v"+
-                " WHERE v."+Venta.ID_CLIENT+" LIKE "+id_cliente+" AND v."+Venta.VENTA_COBRADA+" LIKE '0'";
+                " WHERE v."+Venta.ID_CLIENT+" LIKE "+id_cliente+" AND ( v."+Venta.VENTA_COBRADA+" LIKE '0' OR v."+Venta.VENTA_COBRADA+" LIKE '3')";
     }
 
     public String ObtenirQuantitatProductesFactura(String idVenta){

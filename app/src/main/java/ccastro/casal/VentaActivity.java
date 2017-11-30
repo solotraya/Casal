@@ -66,6 +66,8 @@ public class VentaActivity extends AppCompatActivity   {
         if (ventaPagada.equalsIgnoreCase("0")) return "Falta Pagar";
         else if (ventaPagada.equalsIgnoreCase("1"))return "Pagado";
         else if (ventaPagada.equalsIgnoreCase("2"))return "Anulado";
+        else if (ventaPagada.equalsIgnoreCase("3"))return "Reembolsar";
+        else if (ventaPagada.equalsIgnoreCase("4"))return "Reembolsado";
         return "";
     }
 
@@ -100,6 +102,8 @@ public class VentaActivity extends AppCompatActivity   {
         matrixCursor.addRow(new Object[]{1, "Pagado"});
         matrixCursor.addRow(new Object[]{2, "Falta Pagar"});
         matrixCursor.addRow(new Object[]{3, "Anulado"});
+        matrixCursor.addRow(new Object[]{3, "Reembolsar"});
+        matrixCursor.addRow(new Object[]{3, "Reembolsado"});
         return matrixCursor;
     }
     public void iniciarSpinnerEstatVenta(){
@@ -130,7 +134,7 @@ public class VentaActivity extends AppCompatActivity   {
         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
             ((TextView) view).setTextColor(Color.WHITE);  // COLOR DEL TEXTO SELECCIONADO DEL TOOLBAR
             Cursor cursor = null;
-            String estat="3";
+            String estat="5";
             Log.d("POSICION: ",Integer.toString(position));
             if (position == 0) { // mostrar TOT, tant PAGAT COM NO PAGAT
                 db.obre();
@@ -145,8 +149,12 @@ public class VentaActivity extends AppCompatActivity   {
                 estat = "0";
             } else if (position ==3) {  // MOSTRAR VENTAS ANULADAS
                 estat = "2";
+            } else if (position ==4) {  // MOSTRAR VENTAS ANULADAS
+                estat = "3";
+            } else if (position ==5) {  // MOSTRAR VENTAS ANULADAS
+                estat = "4";
             }
-            if (estat.equals("0") || estat.equals("1") || estat.equals("2")){
+            if (estat.equals("0") || estat.equals("1") || estat.equals("2") || estat.equals("3") || estat.equals("4")){
                 db.obre();
                 myDataset = new ArrayList<HeaderVenta>();
                 cursor = db.RetornaVentesDataEstatVenta(estat,fechaVenta);

@@ -145,6 +145,12 @@ public class FacturaActivity extends AppCompatActivity {
         else if (estado.equalsIgnoreCase("2")){
             return "Anulado";
         }
+        else if (estado.equalsIgnoreCase("3")){
+            return "Reembolsar";
+        }
+        else if (estado.equalsIgnoreCase("4")){
+            return "Reembolsado";
+        }
         return "";
     }
     public  Integer cursorIDVentaFactura(Cursor cursor){

@@ -529,7 +529,14 @@ public class MesaActivity extends AppCompatActivity{
         else if (tipoPago.equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,quantitat);
         else if (tipoPago.equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,quantitat);
         //db.tanca();
-
+        Cursor cursorQuantitatProducteFactura = db.ObtenirQuantitatProductesFactura(Integer.toString(idVentaFactura));
+        Integer quantitatProductesFactura = Cursors.cursorQuantitatProducteFactura(cursorQuantitatProducteFactura);
+        Log.d("QUANTITAT PRODUCTES ",Integer.toString(quantitatProductesFactura));
+        if (quantitatProductesFactura == 0){ // SI SOLO HAY UN PRODUCTO EN LA FACTURA, ANULAMOS VENTA.
+            db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"4");
+        } else if (quantitatProductesFactura>0){
+            db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"0");
+        }
 
     }
 

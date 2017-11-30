@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,13 +14,17 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import ccastro.casal.FacturaActivity;
+import ccastro.casal.LoginActivity;
 import ccastro.casal.R;
 import ccastro.casal.ReservaActivity;
 import ccastro.casal.SQLite.DBInterface;
 import ccastro.casal.Utils.Cursors;
+import ccastro.casal.Utils.Utilitats;
 
 /**
  * Created by Carlos on 17/11/2017.
@@ -126,7 +129,7 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                             @Override
                             public void onClick(DialogInterface dialog, int i) {
                                 dialog.cancel();
-                                v.setBackgroundColor(Color.rgb(255, 51, 30));
+                               // v.setBackgroundColor(Color.rgb(255, 51, 30));
                                 Toast.makeText(v.getContext(), "Ausencia Marcada!", Toast.LENGTH_LONG).show();
                                 assistenciaReserva.setChecked(true);
                                 Log.d("FECHA RESERVA_ ",ReservaActivity.dataReserva);
@@ -136,7 +139,9 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                 // TODO: Hay que descontar un menu en caso de tener varios, o eliminar factura si no tiene ninguno.
                                 Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idClient.getText().toString());
                                 Integer idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+                                Log.d("VENTA SIN PAGAR: ",Integer.toString(idVentaFactura));
                                 Log.d("TIPO PAGO: ",tipoPago.getText().toString());
+
                                 if (tipoPago.getText().toString().equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,-1);
                                 else if (tipoPago.getText().toString().equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,-1);
                                 else if (tipoPago.getText().toString().equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,-1);
@@ -186,6 +191,24 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                         DBInterface db = new DBInterface(v.getContext());
                                         db.obre();
                                         db.ActualitzarAsistenciaReserva(idClient.getText().toString(),ReservaActivity.dataReserva);
+                                        Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idClient.getText().toString());
+                                        Integer idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+                                        Log.d("VENTA SIN PAGAR: ",Integer.toString(idVentaFactura));
+                                        // TODO ESTA VENTA SE LE DEBERA AL CLIENTE
+                                        if (idVentaFactura==-1){ // Si no tienen una factura pendiente por pagar
+                                            Date ahora = new Date();
+                                            SimpleDateFormat formateador = new SimpleDateFormat("hh:mm");
+                                            String hora = formateador.format(ahora);
+                                            //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
+                                            db.InserirVenta(Integer.parseInt(idClient.getText().toString()),Integer.parseInt(LoginActivity.ID_TREBALLADOR), Utilitats.obtenerFechaActual(),"0",hora);
+                                            cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idClient.getText().toString());
+                                            idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+                                            // idVenta = Integer.toString(idVentaFactura);
+                                        }
+                                        if (tipoPago.getText().toString().equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,-1);
+                                        else if (tipoPago.getText().toString().equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,-1);
+                                        else if (tipoPago.getText().toString().equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,-1);
+                                        db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"3"); // TODO PONEMOS ESTADO DE VENTA EN REEMBOLSAR (estat 3)
                                         db.tanca();
                                     }
                                 }
