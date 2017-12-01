@@ -621,9 +621,11 @@ public class MesaActivity extends AppCompatActivity{
         Cursor cursorQuantitatProducteFactura = db.ObtenirQuantitatProductesFactura(Integer.toString(idVentaFactura));
         Integer quantitatProductesFactura = Cursors.cursorQuantitatProducteFactura(cursorQuantitatProducteFactura);
         Log.d("QUANTITAT PRODUCTES ",Integer.toString(quantitatProductesFactura));
-        if (quantitatProductesFactura == 0){ // SI SOLO HAY UN PRODUCTO EN LA FACTURA, ANULAMOS VENTA.
+        if (quantitatProductesFactura == 0){ // SI NO HAY PRODUCTOS EN LA VENTA, LA REEMBOLSAMOS.
             db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"4");
-        } else if (quantitatProductesFactura>0){
+            db.ActalitzarPagoReservaFecha(idCliente); // Ponemos el estado de la factura en pagado. Porque ha sido reembolsado.
+
+        } else if (quantitatProductesFactura>0){  // SI AUN HAY MAS PRODUCTOS EN LA VENTA, FALTA PAGAR.
             db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"0");
         }
     }
