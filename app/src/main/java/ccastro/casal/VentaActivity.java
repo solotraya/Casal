@@ -40,6 +40,7 @@ public class VentaActivity extends AppCompatActivity   {
     private TextView textViewFechaVenta;
     private Button buttonFechaAnterior, buttonFechaPosterior;
     private Integer diaInicio=null, diaFinal = null, mesInicio,mesFinal,añoInicio,añoFinal;
+    private String estat=null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -162,7 +163,14 @@ public class VentaActivity extends AppCompatActivity   {
         recyclerView.setAdapter(headerAdapterVenta);
         db = new DBInterface(this);
         db.obre();
-        Cursor cursor = db.RetornaVentes(fechaVenta);
+        Cursor cursor;
+
+        if (estat==null){
+            cursor = db.RetornaVentes(fechaVenta);
+        } else {
+            Log.d("ESTADO ACTUAL",estat);
+            cursor = db.RetornaVentesDataEstatVenta(estat,fechaVenta);
+        }
         myDataset = mouCursor(cursor);
         db.tanca();
 
@@ -207,9 +215,9 @@ public class VentaActivity extends AppCompatActivity   {
         public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
             ((TextView) view).setTextColor(Color.WHITE);  // COLOR DEL TEXTO SELECCIONADO DEL TOOLBAR
             Cursor cursor = null;
-            String estat="5";
+            estat = null;
             Log.d("POSICION: ",Integer.toString(position));
-            if (position == 0) { // mostrar TOT, tant PAGAT COM NO PAGAT
+            if (position == 0) { // mostrar TOT
                 db.obre();
                 myDataset = new ArrayList<HeaderVenta>();
                 cursor = db.RetornaVentes(fechaVenta);
@@ -217,17 +225,17 @@ public class VentaActivity extends AppCompatActivity   {
                 headerAdapterVenta.actualitzaRecycler(myDataset);
                 db.tanca();
             } else if (position == 1) { // MOSTRAR VENTADAS PAGADAS
-                estat = "1";
+                estat = "1";  // estat 0 es pagado
             } else if (position == 2) {  // MOSTRAR VENTAS QUE FALTA PAGAR
-                estat = "0";
+                estat = "0"; // estat 0 es falta pagar
             } else if (position ==3) {  // MOSTRAR VENTAS ANULADAS
-                estat = "2";
-            } else if (position ==4) {  // MOSTRAR VENTAS ANULADAS
+                estat = "2";  // estat 2 anuladas
+            } else if (position ==4) {  // MOSTRAR VENTAS A REEMBOLSAR
                 estat = "3";
-            } else if (position ==5) {  // MOSTRAR VENTAS ANULADAS
+            } else if (position ==5) {  // MOSTRAR VENTAS REEMBOLSADAS
                 estat = "4";
             }
-            if (estat.equals("0") || estat.equals("1") || estat.equals("2") || estat.equals("3") || estat.equals("4")){
+            if ( estat!=null && (estat.equals("0") || estat.equals("1") || estat.equals("2") || estat.equals("3") || estat.equals("4"))){
                 db.obre();
                 myDataset = new ArrayList<HeaderVenta>();
                 cursor = db.RetornaVentesDataEstatVenta(estat,fechaVenta);
