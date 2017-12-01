@@ -19,19 +19,43 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/TextView"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/buttonFechaAnterior"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:text="Ventas de la fecha: " />
+                android:layout_weight="1"
+                android:background="@android:drawable/ic_media_previous" />
+
+
+            <Button
+                android:id="@+id/button2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/cardview_shadow_end_color" />
 
             <TextView
                 android:id="@+id/fechaVenta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text="Fecha seleccionada"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
                 android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/button3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/cardview_shadow_end_color" />
+
+            <Button
+                android:id="@+id/buttonFechaPosterior"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@android:drawable/ic_media_next" />
         </LinearLayout>
     </LinearLayout>
 
