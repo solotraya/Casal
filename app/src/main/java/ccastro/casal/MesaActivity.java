@@ -452,8 +452,6 @@ public class MesaActivity extends AppCompatActivity{
                        recyclerView.setVisibility(View.VISIBLE);
                        layoutVistaMesas.setVisibility(View.GONE);
                    }
-
-
                }
            }
         );
@@ -604,7 +602,7 @@ public class MesaActivity extends AppCompatActivity{
         Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
         if (idVentaFactura==-1){ // Si no tienen una factura pendiente por pagar
             Date ahora = new Date();
-            SimpleDateFormat formateador = new SimpleDateFormat("hh:mm");
+            SimpleDateFormat formateador = new SimpleDateFormat("HH:mm");   // HH formato 24 horas. hh formato 12 horas.
             String hora = formateador.format(ahora);
             //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
             db.InserirVenta(Integer.parseInt(idCliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),Utilitats.obtenerFechaActual(),"0",hora);
