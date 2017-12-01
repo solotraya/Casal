@@ -51,24 +51,29 @@ public class VentaActivity extends AppCompatActivity   {
         buttonFechaPosterior = (Button) findViewById(R.id.buttonFechaPosterior) ;
         buttonFechaAnterior.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                obtenerAñoMesDiaInicio(fechaVenta);
-                if (diaInicio!=1){
-                    diaInicio = diaInicio - 1;
-                } else if ( mesInicio==2 || mesInicio==4 || mesInicio==6 || mesInicio==8 ||  mesInicio==9 || mesInicio==11){
-                    diaInicio=31; mesInicio--;
-                } else if ( mesInicio==5 || mesInicio==7 || mesInicio==10 || mesInicio==12){
-                    diaInicio=30; mesInicio--;
-                } else if (mesInicio==3){
-                    if (añoInicio % 4 == 0 && añoInicio % 100 != 0 || añoInicio % 400 == 0) {
-                        diaInicio=29; mesInicio--;
-                    } else diaInicio=28; mesInicio--;
+                String fecha;
+                do {
+                    obtenerAñoMesDiaInicio(fechaVenta);
+                    if (diaInicio!=1){
+                        diaInicio = diaInicio - 1;
+                    } else if ( mesInicio==2 || mesInicio==4 || mesInicio==6 || mesInicio==8 ||  mesInicio==9 || mesInicio==11){
+                        diaInicio=31; mesInicio--;
+                    } else if ( mesInicio==5 || mesInicio==7 || mesInicio==10 || mesInicio==12){
+                        diaInicio=30; mesInicio--;
+                    } else if (mesInicio==3){
+                        if (añoInicio % 4 == 0 && añoInicio % 100 != 0 || añoInicio % 400 == 0) {
+                            diaInicio=29; mesInicio--;
+                        } else diaInicio=28; mesInicio--;
 
-                } else if (mesInicio==1){
-                    diaInicio = 31;
-                    mesInicio = 12;
-                    añoInicio = añoInicio -1;
-                }
-                fechaVenta= añoInicio + " "+ mesInicio + " " + diaInicio;
+                    } else if (mesInicio==1){
+                        diaInicio = 31;
+                        mesInicio = 12;
+                        añoInicio = añoInicio -1;
+                    }
+                    fechaVenta= añoInicio + " "+ mesInicio + " " + diaInicio;
+                    fecha = añoInicio + "-"+ mesInicio + "-" + diaInicio;
+                    // TODO: PARA VENTAS SOLO INHABILITAMOS EL SABADO, DOMINGO PERMITIDO.
+                } while (!Utilitats.diaHabil(fecha,Calendar.SATURDAY));
                 textViewFechaVenta.setText(Utilitats.getFechaFormatSpain(fechaVenta));
                 actualizarRecyclerView();
                 headerAdapterVenta.actualitzaRecycler(myDataset);
@@ -76,27 +81,31 @@ public class VentaActivity extends AppCompatActivity   {
         });
         buttonFechaPosterior.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                obtenerAñoMesDiaInicio(fechaVenta);
-                if (mesInicio==4 || mesInicio==6 || mesInicio==9 || mesInicio==11){
-                    if (diaInicio!=30){ diaInicio++;
-                    } else { diaInicio = 1; mesInicio++; }
-                } else if (mesInicio==1 || mesInicio==3 || mesInicio==5 || mesInicio==7 || mesInicio==8 || mesInicio==10 || mesInicio==12) {
-                    if (diaInicio!=31){ diaInicio++; }
-                    else {
-                        diaInicio = 1;
-                        if (mesInicio!=12){ mesInicio++; }
-                        else { mesInicio=1; añoInicio++; }
+                String fecha;
+                do {
+                    obtenerAñoMesDiaInicio(fechaVenta);
+                    if (mesInicio==4 || mesInicio==6 || mesInicio==9 || mesInicio==11){
+                        if (diaInicio!=30){ diaInicio++;
+                        } else { diaInicio = 1; mesInicio++; }
+                    } else if (mesInicio==1 || mesInicio==3 || mesInicio==5 || mesInicio==7 || mesInicio==8 || mesInicio==10 || mesInicio==12) {
+                        if (diaInicio!=31){ diaInicio++; }
+                        else {
+                            diaInicio = 1;
+                            if (mesInicio!=12){ mesInicio++; }
+                            else { mesInicio=1; añoInicio++; }
+                        }
+                    } else if (mesInicio==2){
+                        if (añoInicio % 4 == 0 && añoInicio % 100 != 0 || añoInicio % 400 == 0) {
+                            if (diaInicio!=29){  diaInicio++; }
+                            else { diaInicio =1; mesInicio++; }
+                        } else {
+                            if (diaInicio!=28){ diaInicio++; }
+                            else { diaInicio =1; mesInicio++; }
+                        }
                     }
-                } else if (mesInicio==2){
-                    if (añoInicio % 4 == 0 && añoInicio % 100 != 0 || añoInicio % 400 == 0) {
-                        if (diaInicio!=29){  diaInicio++; }
-                        else { diaInicio =1; mesInicio++; }
-                    } else {
-                        if (diaInicio!=28){ diaInicio++; }
-                        else { diaInicio =1; mesInicio++; }
-                    }
-                }
-                fechaVenta = añoInicio + " "+ mesInicio + " " + diaInicio;
+                    fechaVenta = añoInicio + " "+ mesInicio + " " + diaInicio;
+                    fecha = añoInicio + "-"+ mesInicio + "-" + diaInicio;
+                } while (!Utilitats.diaHabil(fecha,Calendar.SATURDAY));
                 textViewFechaVenta.setText(Utilitats.getFechaFormatSpain(fechaVenta));
                 actualizarRecyclerView();
                 headerAdapterVenta.actualitzaRecycler(myDataset);

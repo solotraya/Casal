@@ -1,6 +1,10 @@
 package ccastro.casal.Utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 /**
  * Created by Carlos on 23/11/2017.
@@ -21,5 +25,22 @@ public class Utilitats {
                 " "+ahoraCal.get(Calendar.DATE);
 
         return fecha;
+    }
+    public static Boolean diaHabil(String fechaString, Integer domingo){
+        boolean diaHabil = false;
+
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+        Date fecha = null;
+        try {
+            fecha = formatoDelTexto.parse(fechaString);
+            GregorianCalendar cal = new GregorianCalendar();
+            cal.setTime(fecha);
+            if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || cal.get(Calendar.DAY_OF_WEEK) == domingo ) {
+                diaHabil= false;
+            } else diaHabil = true;
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return diaHabil;
     }
 }

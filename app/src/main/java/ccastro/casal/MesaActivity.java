@@ -30,12 +30,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.math.BigDecimal;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import ccastro.casal.RecyclerView.HeaderAdapterMesa;
@@ -135,7 +133,7 @@ public class MesaActivity extends AppCompatActivity{
                     }
                     fechaInicioConsulta = añoInicio + " "+ mesInicio + " " + diaInicio;
                     fecha = añoInicio + "-"+ mesInicio + "-" + diaInicio;
-                } while (!diaHabil(fecha));
+                } while (!Utilitats.diaHabil(fecha,Calendar.SUNDAY));
                 fechaInicio = fechaInicioConsulta;
                 textViewFechaInicio.setText(Utilitats.getFechaFormatSpain(fechaInicioConsulta));
                 actualizarRecyclerView();
@@ -171,7 +169,7 @@ public class MesaActivity extends AppCompatActivity{
                     }
                     fechaInicioConsulta = añoInicio + " "+ mesInicio + " " + diaInicio;
                     fecha = añoInicio + "-"+ mesInicio + "-" + diaInicio;
-                } while (!diaHabil(fecha));
+                } while (!Utilitats.diaHabil(fecha,Calendar.SUNDAY));
                     fechaInicio = fechaInicioConsulta;
                     textViewFechaInicio.setText(Utilitats.getFechaFormatSpain(fechaInicioConsulta));
                     actualizarRecyclerView();
@@ -354,7 +352,7 @@ public class MesaActivity extends AppCompatActivity{
                              totalDias = 0;
                              if (diaFinal == null ){  // SI SOLO TENEMOS UN DIA ELEGIDO
                                  obtenerAñoMesDiaInicio(fechaInicio);  // De serie buscamos cuales son los años mes y dia inico
-                                 if (diaHabil(añoInicio+"-"+mesInicio+"-"+diaInicio)){
+                                 if (Utilitats.diaHabil(añoInicio+"-"+mesInicio+"-"+diaInicio,Calendar.SUNDAY)){
                                      Log.d("INICIO RESERVA:",Integer.toString(añoInicio)+" "+ Integer.toString(mesInicio)+" "+Integer.toString(diaInicio));
                                      fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio);
                                      resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
@@ -491,7 +489,7 @@ public class MesaActivity extends AppCompatActivity{
 
 
     public void introducirClienteMesa(){
-        if (diaHabil(añoInicio+"-"+mesInicio+"-"+diaInicio)){
+        if (Utilitats.diaHabil(añoInicio+"-"+mesInicio+"-"+diaInicio,Calendar.SUNDAY)){
             fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio); // diaInicio ++
             // Log.d("FECHA SELECCIOANADA ", fechasSeleccionadas[totalDias] );
             resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
@@ -508,7 +506,7 @@ public class MesaActivity extends AppCompatActivity{
         diaInicio++;
     }
     public void introducirClienteMesaMesFinal(){
-        if (diaHabil(añoInicio+"-"+mesFinal+"-"+contadorDia)){
+        if (Utilitats.diaHabil(añoInicio+"-"+mesFinal+"-"+contadorDia,Calendar.SUNDAY)){
             fechasSeleccionadas.add(añoInicio+" "+mesFinal+" "+contadorDia); // diaInicio ++
             Log.d("FECHA SELECCIOANADA ",añoInicio+"-"+mesFinal+"-"+contadorDia  );
             resultatInserirClient = db.InserirReserva_Cliente(fechasSeleccionadas.get(totalDias),"0","0",Integer.parseInt(idCliente),idMesa);
@@ -526,23 +524,7 @@ public class MesaActivity extends AppCompatActivity{
         contadorDia++;
     }
 
-    public boolean diaHabil(String fechaString){
-        boolean diaHabil = false;
 
-        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
-        Date fecha = null;
-        try {
-            fecha = formatoDelTexto.parse(fechaString);
-            GregorianCalendar cal = new GregorianCalendar();
-            cal.setTime(fecha);
-            if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ) {
-                diaHabil= false;
-            } else diaHabil = true;
-        } catch (ParseException ex) {
-            ex.printStackTrace();
-        }
-        return diaHabil;
-    }
     public void obtenerAñoMesDiaInicio(String fechaInicio){
         String [] fecha = fechaInicio.split(" ");
         añoInicio = Integer.parseInt(fecha[0]);
