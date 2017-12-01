@@ -57,10 +57,9 @@ public class MesaActivity extends AppCompatActivity{
     private Spinner spinnerMesa;
     private LinearLayout layoutVistaMesas;
     private Button buttonnDataInicial, buttonAceptarReserva, buttonVistaMesas, buttonImagenMesas;
-    private Button button2; // Button de
     private ImageView imageViewMesas;
     private String fechaInicio="", fechaFinal="0", fechaInicioConsulta;
-    private Integer diaInicio, diaFinal = null, mesInicio,mesFinal,añoInicio,añoFinal;
+    private Integer diaInicio=null, diaFinal = null, mesInicio,mesFinal,añoInicio,añoFinal;
     private ArrayList<String> fechasSeleccionadas;
     private String idCliente,nombreCliente;
     private Integer idMesa;
@@ -93,6 +92,7 @@ public class MesaActivity extends AppCompatActivity{
         db = new DBInterface(this);
         fechaInicio = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
         fechaInicioConsulta = Utilitats.obtenerFechaActual();
+        obtenerAñoMesDiaInicio();
        // fechaFinal = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_mesa);
         buttonsMesas = new ArrayList<Button>();
@@ -375,7 +375,6 @@ public class MesaActivity extends AppCompatActivity{
         );
          // TODO  Retorna tots els clients, l'utilitzarem per a la llista que usa el SEARCH VIEW, cuando buscamos cliente!!!
          retornaClients();
-
     }
     public void listenersMesas (Button button) {
         CharSequence mesa = button.getText();
@@ -448,11 +447,11 @@ public class MesaActivity extends AppCompatActivity{
         return diaHabil;
     }
     public void obtenerAñoMesDiaInicio(){
-        Log.d("FECHA INICIO: ",fechaInicio);
         String [] fecha = fechaInicio.split(" ");
         añoInicio = Integer.parseInt(fecha[0]);
         mesInicio = Integer.parseInt(fecha[1]);
         diaInicio = Integer.parseInt(fecha[2]);
+        Log.d("FECHA INICIO: ",fechaInicio);
     }
     public void obtenirTaulaDefecteClient (){
         if (idCliente!=null){
@@ -544,11 +543,13 @@ public class MesaActivity extends AppCompatActivity{
         myDataset.clear();
         db.obre();
         // TODO Consulta principal que retorna les dates que es veuen al recycler de mesa
-        Log.d("FECHA INICIO VIEW ",fechaInicio);
+
         Cursor cursor;
         if (diaInicio==null){
+            Log.d("FECHA INICIO VIEW 1",fechaInicio);
             cursor = db.RetornaMesasReservadasData(fechaInicio);
         } else {
+            Log.d("FECHA INICIO VIEW 2",fechaInicio);
             cursor = db.RetornaMesasReservadasData(fechaInicioConsulta);
         }
 
@@ -645,8 +646,6 @@ public class MesaActivity extends AppCompatActivity{
         spinnerMesa = (Spinner)itemSpinnerMesa.getActionView();
 
         iniciarSpinnerMesa();
-
-
         searchView.setQueryHint("Nombre Cliente...");
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -717,8 +716,8 @@ public class MesaActivity extends AppCompatActivity{
         });
     }
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
         myDataset = new ArrayList<>();
         headerAdapterMesa= new HeaderAdapterMesa(myDataset);
         db = new DBInterface(this);
@@ -727,7 +726,12 @@ public class MesaActivity extends AppCompatActivity{
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(headerAdapterMesa);
+
         actualizarRecyclerView();
+        headerAdapterMesa.actualitzaRecycler(myDataset);
+        Log.d("FECHA INICIO 2: ",fechaInicio);
+
     }
+
 
 }
