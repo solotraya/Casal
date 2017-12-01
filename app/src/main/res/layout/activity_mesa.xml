@@ -44,7 +44,7 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                 android:id="@+id/fechaInicio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
+                android:text="Fecha seleccionada"
                 android:textSize="16sp"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />
@@ -56,7 +56,7 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                 android:background="@color/cardview_shadow_end_color" />
 
             <Button
-                android:id="@+id/buttonFechaSiguiente"
+                android:id="@+id/buttonFechaPosterior"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

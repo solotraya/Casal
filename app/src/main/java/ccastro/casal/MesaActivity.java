@@ -56,7 +56,7 @@ public class MesaActivity extends AppCompatActivity{
     private String tipoPago;
     private Spinner spinnerMesa;
     private LinearLayout layoutVistaMesas;
-    private Button buttonnDataInicial, buttonAceptarReserva, buttonVistaMesas, buttonImagenMesas;
+    private Button buttonnDataInicial, buttonAceptarReserva, buttonVistaMesas, buttonImagenMesas, buttonFechaAnterior, buttonFechaPosterior;
     private ImageView imageViewMesas;
     private String fechaInicio="", fechaFinal="0", fechaInicioConsulta;
     private Integer diaInicio=null, diaFinal = null, mesInicio,mesFinal,añoInicio,añoFinal;
@@ -92,7 +92,7 @@ public class MesaActivity extends AppCompatActivity{
         db = new DBInterface(this);
         fechaInicio = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
         fechaInicioConsulta = Utilitats.obtenerFechaActual();
-        obtenerAñoMesDiaInicio();
+        obtenerAñoMesDiaInicio(fechaInicio);
        // fechaFinal = Utilitats.obtenerFechaActual(); // por defecto le metemos la fecha actual (DE HOY)
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_mesa);
         buttonsMesas = new ArrayList<Button>();
@@ -111,6 +111,61 @@ public class MesaActivity extends AppCompatActivity{
         buttonVistaMesas = (Button) mToolbar.findViewById(R.id.buttonVistaMesas) ;
         buttonAceptarReserva = (Button) mToolbar.findViewById(R.id.buttonAñadirCliente) ;
         buttonnDataInicial = (Button) mToolbar.findViewById(R.id.buttonDataIniciCliente) ;
+        buttonFechaAnterior = (Button) findViewById(R.id.buttonFechaAnterior) ;
+        buttonFechaPosterior = (Button) findViewById(R.id.buttonFechaPosterior) ;
+        buttonFechaAnterior.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                obtenerAñoMesDiaInicio(fechaInicioConsulta);
+                if (diaInicio!=1){
+                    diaInicio = diaInicio - 1;
+                } else if ( mesInicio==2 || mesInicio==4 || mesInicio==6 || mesInicio==8 ||  mesInicio==9 || mesInicio==11){
+                    diaInicio=31; mesInicio--;
+                } else if ( mesInicio==5 || mesInicio==7 || mesInicio==10 || mesInicio==12){
+                    diaInicio=30; mesInicio--;
+                } else if (mesInicio==3){
+                    if (añoInicio % 4 == 0 && añoInicio % 100 != 0 || añoInicio % 400 == 0) {
+                        diaInicio=29; mesInicio--;
+                    } else diaInicio=28; mesInicio--;
+
+                } else if (mesInicio==1){
+                    diaInicio = 31;
+                    mesInicio = 12;
+                    añoInicio = añoInicio -1;
+                }
+                fechaInicioConsulta = añoInicio + " "+ mesInicio + " " + diaInicio;
+                textViewFechaInicio.setText(Utilitats.getFechaFormatSpain(fechaInicioConsulta));
+                actualizarRecyclerView();
+                headerAdapterMesa.actualitzaRecycler(myDataset);
+            }
+        });
+        buttonFechaPosterior.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                obtenerAñoMesDiaInicio(fechaInicioConsulta);
+                if (mesInicio==4 || mesInicio==6 || mesInicio==9 || mesInicio==11){
+                    if (diaInicio!=30){ diaInicio++;
+                    } else { diaInicio = 1; mesInicio++; }
+                } else if (mesInicio==1 || mesInicio==3 || mesInicio==5 || mesInicio==7 || mesInicio==8 || mesInicio==10 || mesInicio==12) {
+                    if (diaInicio!=31){ diaInicio++; }
+                    else {
+                        diaInicio = 1;
+                        if (mesInicio!=12){ mesInicio++; }
+                        else { mesInicio=1; añoInicio++; }
+                    }
+                } else if (mesInicio==2){
+                    if (añoInicio % 4 == 0 && añoInicio % 100 != 0 || añoInicio % 400 == 0) {
+                        if (diaInicio!=29){  diaInicio++; }
+                        else { diaInicio =1; mesInicio++; }
+                    } else {
+                        if (diaInicio!=28){ diaInicio++; }
+                        else { diaInicio =1; mesInicio++; }
+                    }
+                }
+                fechaInicioConsulta = añoInicio + " "+ mesInicio + " " + diaInicio;
+                textViewFechaInicio.setText(Utilitats.getFechaFormatSpain(fechaInicioConsulta));
+                actualizarRecyclerView();
+                headerAdapterMesa.actualitzaRecycler(myDataset);
+            }
+        });
         buttonnDataInicial.setOnClickListener( new View.OnClickListener(){
                 public void onClick(View view) {
 
@@ -279,7 +334,7 @@ public class MesaActivity extends AppCompatActivity{
                              fechasSeleccionadas = new ArrayList();
                              totalDias = 0;
                              if (diaFinal == null ){  // SI SOLO TENEMOS UN DIA ELEGIDO
-                                 obtenerAñoMesDiaInicio();  // De serie buscamos cuales son los años mes y dia inico
+                                 obtenerAñoMesDiaInicio(fechaInicio);  // De serie buscamos cuales son los años mes y dia inico
                                  if (diaHabil(añoInicio+"-"+mesInicio+"-"+diaInicio)){
                                      Log.d("INICIO RESERVA:",Integer.toString(añoInicio)+" "+ Integer.toString(mesInicio)+" "+Integer.toString(diaInicio));
                                      fechasSeleccionadas.add(añoInicio+" "+mesInicio+" "+diaInicio);
@@ -446,7 +501,7 @@ public class MesaActivity extends AppCompatActivity{
         }
         return diaHabil;
     }
-    public void obtenerAñoMesDiaInicio(){
+    public void obtenerAñoMesDiaInicio(String fechaInicio){
         String [] fecha = fechaInicio.split(" ");
         añoInicio = Integer.parseInt(fecha[0]);
         mesInicio = Integer.parseInt(fecha[1]);
