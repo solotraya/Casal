@@ -145,15 +145,17 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                 Boolean restarProducte = true;
                                 Cursor cursorQuantitatReservesSenseIDVenta = db.ObtenirQuantitatReservesSenseIDVenta(idClient.getText().toString());
                                 Integer quantitatReservesAbiertasCliente = Cursors.cursorQuantitatProducteFactura(cursorQuantitatReservesSenseIDVenta);
-                                Log.d("CANTIDAD RESERVAS_",Integer.toString(quantitatReservesAbiertasCliente));
-                                if (quantitatReservesAbiertasCliente > 0){
+                                Cursor cursorQuantitatProducteFactura = db.ObtenirQuantitatProductesFactura(Integer.toString(idVentaFactura));
+                                Integer quantitatProductesFactura = Cursors.cursorQuantitatProducteFactura(cursorQuantitatProducteFactura);
+                                Log.d("NUM_PROD",Integer.toString(quantitatProductesFactura));
+                                if (quantitatReservesAbiertasCliente >= 0 && quantitatProductesFactura>0){
                                     if (restarProducte){
                                         if (tipoPago.getText().toString().equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,-1);
                                         else if (tipoPago.getText().toString().equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,-1);
                                         else if (tipoPago.getText().toString().equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,-1);
+                                        quantitatProductesFactura--;
                                     }
-                                    Cursor cursorQuantitatProducteFactura = db.ObtenirQuantitatProductesFactura(Integer.toString(idVentaFactura));
-                                    Integer quantitatProductesFactura = Cursors.cursorQuantitatProducteFactura(cursorQuantitatProducteFactura);
+
                                     if (quantitatProductesFactura <= 0){
                                         db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"2");
 

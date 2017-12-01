@@ -71,7 +71,8 @@ public class MesaActivity extends AppCompatActivity{
     boolean fechaInicialEscogida = false, fechaFinalEscogida=false;
     boolean dataFinal = true;
     String taulaPerDefecteClient;
-    ArrayList<String> clients = null;
+    List<String> clientes = null;
+    List<String> clientesSoloNombres = null;
     ArrayAdapter<String> adapterClientes;
     Long resultatInserirClient;
     ListView listViewClientes;
@@ -261,9 +262,10 @@ public class MesaActivity extends AppCompatActivity{
         );
 
         listViewClientes = (ListView)findViewById(R.id.listViewClientes);
-        clients= new ArrayList();
+        clientes= new ArrayList();
+        clientesSoloNombres = new ArrayList();
         adapterClientes = new ArrayAdapter<String> (this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, clients);
+                android.R.layout.simple_list_item_1, android.R.id.text1, clientesSoloNombres);
         // Assign adapter to ListView
         listViewClientes.setAdapter(adapterClientes);
 
@@ -279,8 +281,13 @@ public class MesaActivity extends AppCompatActivity{
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 }
-
-                String nombre = (String) listViewClientes.getItemAtPosition(position);
+                String nombre =(String) listViewClientes.getItemAtPosition(position);
+                for (String client: clientes){
+                    if (client.contains(nombre)){
+                    nombre = client;
+                    break;
+                    }
+                }
                 String [] cogerIDCliente = nombre.split(" ");
                 idCliente = cogerIDCliente[0];
                 String [] cogerTipoPago = nombre.split(":");
@@ -551,11 +558,15 @@ public class MesaActivity extends AppCompatActivity{
     // TODO ESTO ES LO QUE SE VE EN EL SEARCH VIEW, CUANDO EMPEZAMOS A ESCRIBIR CLIENTE
     public void retornaClients(){
         db.obre();
+        clientes.clear();
+        clientesSoloNombres.clear();
         Cursor cursor= db.RetornaTotsElsClients();
         if (cursor.moveToFirst()) {
             do {
-                clients.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client._ID))+" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))
+                clientes.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client._ID))+" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))
                         +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT))+" :"+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.TIPO_PAGO)));
+                clientesSoloNombres.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))
+                        +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT)));
             } while (cursor.moveToNext());
         }
         db.tanca();
