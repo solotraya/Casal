@@ -11,8 +11,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -72,7 +70,8 @@ public class MesaActivity extends AppCompatActivity{
             R.id.buttonLlevar, R.id.mesa1, R.id.mesa2, R.id.mesa3, R.id.mesa4, R.id.mesa5, R.id.mesa6, R.id.mesa7,
             R.id.mesa8,R.id.mesa9, R.id.mesa10, R.id.mesa11, R.id.mesa12,
     };
-
+    boolean fechaInicialEscogida = false, fechaFinalEscogida=false;
+    boolean dataFinal = true;
     String taulaPerDefecteClient;
     ArrayList<String> clients = null;
     ArrayAdapter<String> adapterClientes;
@@ -133,9 +132,13 @@ public class MesaActivity extends AppCompatActivity{
                     añoInicio = añoInicio -1;
                 }
                 fechaInicioConsulta = añoInicio + " "+ mesInicio + " " + diaInicio;
+                fechaInicio = fechaInicioConsulta;
                 textViewFechaInicio.setText(Utilitats.getFechaFormatSpain(fechaInicioConsulta));
                 actualizarRecyclerView();
                 headerAdapterMesa.actualitzaRecycler(myDataset);
+                dataFinal = false; fechaInicialEscogida = false;
+                if (idCliente!=null) dataFinal=true;
+
             }
         });
         buttonFechaPosterior.setOnClickListener(new View.OnClickListener() {
@@ -161,99 +164,94 @@ public class MesaActivity extends AppCompatActivity{
                     }
                 }
                 fechaInicioConsulta = añoInicio + " "+ mesInicio + " " + diaInicio;
+                fechaInicio = fechaInicioConsulta;
                 textViewFechaInicio.setText(Utilitats.getFechaFormatSpain(fechaInicioConsulta));
                 actualizarRecyclerView();
                 headerAdapterMesa.actualitzaRecycler(myDataset);
+                dataFinal=false; fechaInicialEscogida = false;
+                if (idCliente!=null) dataFinal=true;
             }
         });
         buttonnDataInicial.setOnClickListener( new View.OnClickListener(){
                 public void onClick(View view) {
-
-                    Toast.makeText(MesaActivity.this, "Selecciona fecha Inicio", Toast.LENGTH_SHORT).show();
-                    Calendar mcurrentDate = Calendar.getInstance();
-                    int mYear = mcurrentDate.get(Calendar.YEAR);
-                    int mMonth = mcurrentDate.get(Calendar.MONTH);
-                    int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
-                    DatePickerDialog mDatePicker;
-                    mDatePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
-                        public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
-                            selectedmonth = selectedmonth + 1;
-                            fechaInicioConsulta = "" + selectedyear + " " + selectedmonth + " " + selectedday;
-                            diaInicio = selectedday; mesInicio = selectedmonth; añoInicio=selectedyear;
-                            if (Integer.toString(selectedday).length()==1) {
-                                fechaInicio="" + selectedyear + " " + selectedmonth + " " +0+selectedday;
-                                if (Integer.toString(selectedmonth).length()==1){
-                                    fechaInicio="" + selectedyear + " " +0+selectedmonth + " " +0+selectedday;
+                    if (idCliente==null){
+                        Toast.makeText(MesaActivity.this, "Selecciona fecha Inicio", Toast.LENGTH_SHORT).show();
+                        Calendar mcurrentDate = Calendar.getInstance();
+                        int mYear = mcurrentDate.get(Calendar.YEAR);
+                        int mMonth = mcurrentDate.get(Calendar.MONTH);
+                        int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+                        DatePickerDialog mDatePicker;
+                        mDatePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
+                            public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                                selectedmonth = selectedmonth + 1;
+                                fechaInicioConsulta = "" + selectedyear + " " + selectedmonth + " " + selectedday;
+                                diaInicio = selectedday; mesInicio = selectedmonth; añoInicio=selectedyear;
+                                if (Integer.toString(selectedday).length()==1) {
+                                    fechaInicio="" + selectedyear + " " + selectedmonth + " " +0+selectedday;
+                                    if (Integer.toString(selectedmonth).length()==1){
+                                        fechaInicio="" + selectedyear + " " +0+selectedmonth + " " +0+selectedday;
+                                    }
+                                } else {
+                                    if (Integer.toString(selectedmonth).length()==1){
+                                        fechaInicio="" + selectedyear + " " +0+selectedmonth + " " +selectedday;
+                                    } else fechaInicio="" + selectedyear + " " + selectedmonth + " " + selectedday;
                                 }
-                            } else {
-                                if (Integer.toString(selectedmonth).length()==1){
-                                    fechaInicio="" + selectedyear + " " +0+selectedmonth + " " +selectedday;
-                                } else fechaInicio="" + selectedyear + " " + selectedmonth + " " + selectedday;
-                            }
 
-                            Log.d("FECHA MOSTRAR",fechaInicio);
-                            String dataFormatSpain= Utilitats.getFechaFormatSpain(fechaInicio);
-                            textViewFechaInicio.setText(dataFormatSpain);
-                            actualizarRecyclerView();
-                            headerAdapterMesa.actualitzaRecycler(myDataset);
-
-                            if (idCliente == null){
-                                textViewClienteSeleccionado.setVisibility(View.GONE);
-                                textViewTextoCliente.setVisibility(View.GONE);
-                                textViewFechaFinalTexto.setVisibility(View.GONE);
-                                textViewFechaFinal.setVisibility(View.GONE);
+                                Log.d("FECHA MOSTRAR",fechaInicio);
+                                String dataFormatSpain= Utilitats.getFechaFormatSpain(fechaInicio);
+                                textViewFechaInicio.setText(dataFormatSpain);
+                                actualizarRecyclerView();
+                                headerAdapterMesa.actualitzaRecycler(myDataset);
+                                fechaInicialEscogida = true;
+                                if (idCliente == null){
+                                    textViewClienteSeleccionado.setVisibility(View.GONE);
+                                    textViewTextoCliente.setVisibility(View.GONE);
+                                    textViewFechaFinalTexto.setVisibility(View.GONE);
+                                    textViewFechaFinal.setVisibility(View.GONE);
+                                } else dataFinal = true;
                             }
-                        }
-                    }, mYear, mMonth, mDay);
-                    mDatePicker.setTitle("Selecciona Fecha");
-                    mDatePicker.show();
+                        }, mYear, mMonth, mDay);
+                        mDatePicker.setTitle("Selecciona Fecha");
+                        mDatePicker.show();
+                    }
+                    else {
+                        // TODO: SELECCION DE FECHA FINAL!
+
+                            Toast.makeText(MesaActivity.this, "Selecciona fecha Final", Toast.LENGTH_SHORT).show();
+                            Calendar currentDate = Calendar.getInstance();
+                            int year = currentDate.get(Calendar.YEAR);
+                            int month = currentDate.get(Calendar.MONTH);
+                            int day = currentDate.get(Calendar.DAY_OF_MONTH);
+                            DatePickerDialog datePicker;
+                            datePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
+                                public void onDateSet(DatePicker datepicker, int year, int month, int day) {
+                                    month = month + 1;
+                                    diaFinal = day; mesFinal = month; añoFinal = year;
+                                    if (Integer.toString(day).length()==1) {
+                                        fechaFinal = "" + year + " " + month + " " +0+day;
+                                        if (Integer.toString(month).length()==1){
+                                            fechaFinal = "" + year + " " +0+month + " " +0+day;
+                                        }
+                                    } else {
+                                        if (Integer.toString(month).length()==1){
+                                            fechaFinal = "" + year + " " +0+month + " " +day;
+                                        } else fechaFinal = "" + year + " " + month + " " + day;
+                                    }
+
+                                    textViewFechaFinal.setText(Utilitats.getFechaFormatSpain(fechaFinal));
+                                    textViewFechaFinal.setVisibility(View.VISIBLE);
+                                    textViewFechaFinalTexto.setVisibility(View.VISIBLE);
+                                    fechaFinalEscogida=true;
+
+                                }
+                            }, year, month, day);
+                            datePicker.setTitle("Selecciona Fecha");
+                            datePicker.show();
+                    }
                 }
             }
         );
-        textViewFechaInicio.addTextChangedListener ( new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                // TODO SI TENEMOS CLIENTE SELECCIONADO MOSTRAR SELECTOR PARA FECHA FINAL DE RESERVA
-                if (idCliente!=null){
-                    Toast.makeText(MesaActivity.this, "Selecciona fecha Final", Toast.LENGTH_SHORT).show();
-                    Calendar currentDate = Calendar.getInstance();
-                    int year = currentDate.get(Calendar.YEAR);
-                    int month = currentDate.get(Calendar.MONTH);
-                    int day = currentDate.get(Calendar.DAY_OF_MONTH);
-                    DatePickerDialog datePicker;
-                    datePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
-                        public void onDateSet(DatePicker datepicker, int year, int month, int day) {
-                            month = month + 1;
-                            diaFinal = day; mesFinal = month; añoFinal = year;
-                            if (Integer.toString(day).length()==1) {
-                                fechaFinal = "" + year + " " + month + " " +0+day;
-                                if (Integer.toString(month).length()==1){
-                                    fechaFinal = "" + year + " " +0+month + " " +0+day;
-                                }
-                            } else {
-                                if (Integer.toString(month).length()==1){
-                                    fechaFinal = "" + year + " " +0+month + " " +day;
-                                } else fechaFinal = "" + year + " " + month + " " + day;
-                            }
 
-                            textViewFechaFinal.setText(Utilitats.getFechaFormatSpain(fechaFinal));
-                            textViewFechaFinal.setVisibility(View.VISIBLE);
-                            textViewFechaFinalTexto.setVisibility(View.VISIBLE);
-
-                        }
-                    }, year, month, day);
-                    datePicker.setTitle("Selecciona Fecha");
-                    datePicker.show();
-
-                }
-
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {}
-
-        });
         listViewClientes = (ListView)findViewById(R.id.listViewClientes);
         clients= new ArrayList();
         adapterClientes = new ArrayAdapter<String> (this,
@@ -296,9 +294,7 @@ public class MesaActivity extends AppCompatActivity{
                 // TODO Y SELECCIONAR MESA FAVORITA DE ESE CLIENTE EN EL SPINNER DE MESA
                 spinnerMesa.setSelection(Integer.parseInt(taulaPerDefecteClient));
                 adapterMesa.notifyDataSetChanged();
-
             }
-
         });
 
 
@@ -319,8 +315,21 @@ public class MesaActivity extends AppCompatActivity{
                  if (idCliente!=null ){
                      Integer fechaActualInt = Integer.parseInt(Utilitats.obtenerFechaActual().replaceAll("\\s",""));
 
+
+                     Integer fechaInicialInt;
+                     if (fechaInicialEscogida) fechaInicialInt = Integer.parseInt(fechaInicio.replaceAll("\\s",""));
+                     else {
+                         fechaInicialInt = obtenerFechaInicioNumerico();  // Nos sirve para comparar con fecha final
+                     }
+                     if (fechaFinalEscogida){
+                         Integer fechaFinalInt = Integer.parseInt(fechaFinal.replaceAll("\\s",""));
+                     } else {
+                         fechaFinal = fechaInicio;
+                     }
                      Integer fechaFinalInt = Integer.parseInt(fechaFinal.replaceAll("\\s",""));
-                     Integer fechaInicialInt = Integer.parseInt(fechaInicio.replaceAll("\\s",""));
+                     Log.d("FECHA INICIAL",Integer.toString(fechaInicialInt));
+                     Log.d("FECHA FINAL",Integer.toString(fechaFinalInt));
+
                      quantitat = 0;
                      clientInserit = false;
                      if (fechaFinalInt == 0) fechaFinalInt = fechaInicialInt;
@@ -388,7 +397,12 @@ public class MesaActivity extends AppCompatActivity{
                                  Toast.makeText(MesaActivity.this, "Reserva realizada!", Toast.LENGTH_SHORT).show();
                                  if (idCliente != null){
                                      idCliente=null;
-                                     fechaFinal="0";
+                                     diaFinal=null;mesFinal=null;añoFinal=null;
+                                     textViewTextoCliente.setVisibility(View.GONE);
+                                     textViewClienteSeleccionado.setVisibility(View.GONE);
+                                     textViewFechaFinal.setVisibility(View.GONE);
+                                     textViewFechaFinalTexto.setVisibility(View.GONE);
+                                     fechaInicialEscogida = false; fechaFinalEscogida=false;
                                     // diaInicio=null;mesInicio=null;añoInicio=null;diaFinal=null;mesFinal=null;añoFinal=null;
                                  }
                              }
@@ -430,6 +444,24 @@ public class MesaActivity extends AppCompatActivity{
         );
          // TODO  Retorna tots els clients, l'utilitzarem per a la llista que usa el SEARCH VIEW, cuando buscamos cliente!!!
          retornaClients();
+    }
+    public Integer obtenerFechaInicioNumerico(){
+        String [] fecha = fechaInicio.split(" ");
+        añoInicio = Integer.parseInt(fecha[0]);
+        mesInicio = Integer.parseInt(fecha[1]);
+        diaInicio = Integer.parseInt(fecha[2]);
+
+        if (Integer.toString(diaInicio).length()==1) {
+            fechaInicio="" + añoInicio+ " " + mesInicio + " " +0+diaInicio;
+            if (Integer.toString(mesInicio).length()==1){
+                fechaInicio="" + añoInicio + " " +0+mesInicio + " " +0+diaInicio;
+            }
+        } else {
+            if (Integer.toString(mesInicio).length()==1){
+                fechaInicio="" + añoInicio + " " +0+mesInicio + " " +diaInicio;
+            } else fechaInicio="" + añoInicio + " " + mesInicio + " " + diaInicio;
+        }
+        return Integer.parseInt(fechaInicio.replaceAll("\\s",""));
     }
     public void listenersMesas (Button button) {
         CharSequence mesa = button.getText();
