@@ -130,16 +130,8 @@ public class FacturaActivity extends AppCompatActivity {
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK){
-                String quantitat="";
-                String id_producte="";
-
-                    id_producte = data.getStringExtra("ID_PRODUCTE");
-                    Log.d("IDPRODCUTE: ", id_producte);
-
-                    quantitat = data.getStringExtra("QUANTITAT");
-                    Log.d("QUANTITAT: ", quantitat);
-
-                Log.d("CANTIDAD: ",quantitat);
+                String id_producte = data.getStringExtra("ID_PRODUCTE");
+                String quantitat = data.getStringExtra("QUANTITAT");
                 actualizarReserva = true;
                 if (idVentaFactura==null){
                     // TODO: BUSCAMOS QUE EL CLIENTE TENGA ALGUNA FACTURA ABIERTA SIN PAGAR
@@ -172,6 +164,11 @@ public class FacturaActivity extends AppCompatActivity {
             }
             else if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
+                // TODO: ESTO LO IMPLEMENTAREMOS CUANDO EN EL ACTIVITY DE PRODUCTOS NO SELECCIONE NINGUNO!
+                // SEGUIR POR AQUI:
+                // HACER QUE SI EL CLIENTE ES BARRA NO APAREZCA EN LA LISTA DE MESA
+                // HACER QUE SI EL CLIENTE ES BARRA PUEDA TENER VARIAS FACTURAS EN NO PAGAR (VARIOS CLIENTES BARRA, UN ID)
+
             }
         }
         if (requestCode == 2) {
