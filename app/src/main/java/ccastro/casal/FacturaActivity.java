@@ -214,6 +214,7 @@ public class FacturaActivity extends AppCompatActivity {
                 preuProducteQuantitat = Float.parseFloat(cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE)))
                         * Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)));
                 preuTotal = preuTotal + preuProducteQuantitat;
+
                 preuTotalFactura.setText(df.format(preuTotal)+"€");
                 data = cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.DATA_VENTA));
                 String dataCorrecta[] = data.split(" ");
@@ -222,6 +223,17 @@ public class FacturaActivity extends AppCompatActivity {
                 dataVenta.setText(dataFormatSpain);
                 horaVenta.setText(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.HORA_VENTA)));
                 estatVenta.setText(verificarEstadoFactura(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.VENTA_COBRADA))));
+                if (preuTotal>0 && estatVenta.getText().toString().equalsIgnoreCase("Reembolsar")){
+                    estatVenta.setText("Falta Pagar");
+                    db.obre();
+                    db.ActalitzaEstatVenta(idVenta,"0");
+                    db.tanca();
+                } else if (preuTotal==0 && estatVenta.getText().toString().equalsIgnoreCase("Reembolsar")){
+                    estatVenta.setText("Reembolsado");
+                    db.obre();
+                    db.ActalitzaEstatVenta(idVenta,"4");
+                    db.tanca();
+                }
                 nomTreballador.setText(NOM_USUARI);
 
             } while(cursor.moveToNext());
