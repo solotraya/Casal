@@ -34,7 +34,7 @@ public class FacturaActivity extends AppCompatActivity {
     Button buttonPagar,buttonAñadirProducto;
     String idVenta,fechaReserva, id_cliente; // id_cliente lo cogemos de la reserva.
     View v;
-    Boolean actualizarReserva = false;
+    Boolean actualizarReserva = false, idVentaFalta = true;
     String data;
     Integer idVentaFactura;
     String pagar = "pagar", pagada= "pagada";
@@ -130,12 +130,20 @@ public class FacturaActivity extends AppCompatActivity {
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK){
-                String id_producte = data.getStringExtra("ID_PRODUCTE");
-                String quantitat = data.getStringExtra("QUANTITAT");
+                String quantitat="";
+                String id_producte="";
+
+                    id_producte = data.getStringExtra("ID_PRODUCTE");
+                    Log.d("IDPRODCUTE: ", id_producte);
+
+                    quantitat = data.getStringExtra("QUANTITAT");
+                    Log.d("QUANTITAT: ", quantitat);
+
                 Log.d("CANTIDAD: ",quantitat);
                 actualizarReserva = true;
                 if (idVentaFactura==null){
                     // TODO: BUSCAMOS QUE EL CLIENTE TENGA ALGUNA FACTURA ABIERTA SIN PAGAR
+                    Log.d("IDCLIENTE",id_cliente);
                     db.obre();
                     Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
                     idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
@@ -143,7 +151,6 @@ public class FacturaActivity extends AppCompatActivity {
                     Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
                     db.tanca();
                 }
-
                 db.obre();
                 Log.d("IDVENTAFACTURA",Integer.toString(idVentaFactura));
                 if (idVentaFactura==-1){ // Si no tienen una factura pendiente por pagar
@@ -157,24 +164,32 @@ public class FacturaActivity extends AppCompatActivity {
                     db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
                 } else {  // SI EL CLIENTE YA TIENE FACTURA SIN CERRAR
                     db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
-                    db.ActualitzarFechaFactura(idVentaFactura,Utilitats.obtenerFechaActual());
+                    db.ActualitzarFechaHoraFactura(idVentaFactura,Utilitats.obtenerFechaActual(),Utilitats.obtenerHoraActual());
                 }
                 db.tanca();
                 actualizarRecyclerView();
                 headerAdapterFactura.actualitzaRecycler(myDataset);
             }
-            if (resultCode == Activity.RESULT_CANCELED) {
+            else if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
             }
         }
         if (requestCode == 2) {
-            id_cliente = data.getStringExtra("ID_CLIENTE");
-            nomClient.setText(data.getStringExtra("NOMBRE_CLIENTE"));
-            idVenta = data.getStringExtra("ID_VENTA");
-            idVentaFactura = Integer.parseInt(idVenta);
-            actualizarReserva = true;
-            actualizarRecyclerView();
-            headerAdapterFactura.actualitzaRecycler(myDataset);
+            if (resultCode == Activity.RESULT_OK){
+                id_cliente = data.getStringExtra("ID_CLIENTE");
+                nomClient.setText(data.getStringExtra("NOMBRE_CLIENTE"));
+                idVenta = data.getStringExtra("ID_VENTA");
+                idVentaFactura = Integer.parseInt(idVenta);
+                idVentaFalta = false;
+                actualizarReserva = true;
+                actualizarRecyclerView();
+                headerAdapterFactura.actualitzaRecycler(myDataset);
+            }  else if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+                Toast.makeText(this, "Selecciona cliente", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+
         }
     }
     public  ArrayList CursorBD(Cursor cursor){
@@ -272,7 +287,7 @@ public class FacturaActivity extends AppCompatActivity {
             // BUSCAMOS EL ID_VENTA para RELACIONARLO CON LA FACTURA
             db.obre();
             Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
-            Integer idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
+            idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
             idVenta = Integer.toString(idVentaFactura);
             db.tanca();
 

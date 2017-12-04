@@ -168,7 +168,8 @@ public class LoginActivity extends AppCompatActivity {
         // nom, cognoms, username, password
         db.InserirTreballador("Diego","Castro Hurtado","diego","1986");
         db.InserirTreballador("Maria","Cañabate Méndez","maria","1986");
-
+// ************* HAY QUE INSERTAR CLIENTE BARRAy QUE NO SE PUEDA ELIMINAR, SI MODIFICAR *************
+        db.InserirClient("Cliente barra","","0",0,"0","0","Cliente de barra sin determinar");
 
         db.InserirClient("Manuela","Torres Cobijo","0",2,"0","1","Segundo de poquito y pan integral");
         db.InserirClient("Manel","Garcia","0",1,"0","1","");

@@ -597,6 +597,7 @@ public class MesaActivity extends AppCompatActivity{
         db.obre();
         Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idCliente);
         Integer idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+        db.ActualitzarFechaHoraFactura(idVentaFactura,Utilitats.obtenerFechaActual(),Utilitats.obtenerHoraActual());
         //String idVenta = Integer.toString(idVentaFactura);
         Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
         if (idVentaFactura==-1){ // Si no tienen una factura pendiente por pagar

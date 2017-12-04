@@ -145,4 +145,11 @@ public class ClientActivity extends AppCompatActivity {
         return super.onCreateOptionsMenu(menu);
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent returnIntent = new Intent();
+        setResult(Activity.RESULT_CANCELED,returnIntent);
+        finish();
+    }
 }
