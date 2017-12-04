@@ -44,7 +44,7 @@ public class FacturaActivity extends AppCompatActivity {
     Button buttonPagar,buttonAñadirProducto;
     String idVenta,fechaReserva, id_cliente; // id_cliente lo cogemos de la reserva.
     View v;
-    Boolean actualizarReserva = false, primerProducto=true;
+    Boolean actualizarReserva = false;
     String data;
     Integer idVentaFactura;
     String pagar = "pagar", pagada= "pagada";
@@ -164,6 +164,18 @@ public class FacturaActivity extends AppCompatActivity {
 
                 Toast.makeText(view.getContext(), cogerIDCliente[0], Toast.LENGTH_SHORT).show();
                 listViewClientes.setVisibility(View.GONE);
+
+                // TODO: BUSCAMOS QUE EL CLIENTE TENGA ALGUNA FACTURA ABIERTA SIN PAGAR
+                db.obre();
+                Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
+                idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+                idVenta = Integer.toString(idVentaFactura);
+                //String idVenta = Integer.toString(idVentaFactura);
+                Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
+                db.tanca();
+                actualizarReserva = true;
+                actualizarRecyclerView();
+                headerAdapterFactura.actualitzaRecycler(myDataset);
             }
         });
 
@@ -173,14 +185,7 @@ public class FacturaActivity extends AppCompatActivity {
                 Intent intent = new Intent(FacturaActivity.this,ProductoActivity.class);
                 startActivityForResult(intent,1);
                 buttonPagar.setVisibility(View.VISIBLE);
-                if (primerProducto){
-                    db.obre();
-                    Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
-                    idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
-                    //String idVenta = Integer.toString(idVentaFactura);
-                    Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
-                    db.tanca();
-                }
+
             }
         });
         cogerIntents();
@@ -192,14 +197,26 @@ public class FacturaActivity extends AppCompatActivity {
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK){
-                primerProducto=false;
                 String id_producte = data.getStringExtra("ID_PRODUCTE");
                 String quantitat = data.getStringExtra("QUANTITAT");
                 Log.d("CANTIDAD: ",quantitat);
                 actualizarReserva = true;
+
                 db.obre();
-                db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
-                db.ActualitzarFechaFactura(idVentaFactura,Utilitats.obtenerFechaActual());
+                Log.d("IDVENTAFACTURA",Integer.toString(idVentaFactura));
+                if (idVentaFactura==-1){ // Si no tienen una factura pendiente por pagar
+                    String hora = Utilitats.obtenerHoraActual();
+                    //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
+                    db.InserirVenta(Integer.parseInt(id_cliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),Utilitats.obtenerFechaActual(),"0",hora);
+                    Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
+                    idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+                    idVenta = Integer.toString(idVentaFactura);
+                    // idVenta = Integer.toString(idVentaFactura);
+                    db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
+                } else {  // SI EL CLIENTE YA TIENE FACTURA SIN CERRAR
+                    db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
+                    db.ActualitzarFechaFactura(idVentaFactura,Utilitats.obtenerFechaActual());
+                }
                 db.tanca();
                 actualizarRecyclerView();
                 headerAdapterFactura.actualitzaRecycler(myDataset);
