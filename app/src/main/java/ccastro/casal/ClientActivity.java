@@ -31,6 +31,7 @@ public class ClientActivity extends AppCompatActivity {
     ArrayAdapter<String> adapterClientes;
     String id_cliente,nombreCliente;
     Integer idVentaFactura;
+    boolean clienteFactura = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,60 +56,50 @@ public class ClientActivity extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 } */
-                String nombre =(String) listView.getItemAtPosition(position);
-                for (String client: clientes){
-                    if (client.contains(nombre)){
-                        nombre = client;
-                        break;
+                if (clienteFactura){
+                    String nombre =(String) listView.getItemAtPosition(position);
+                    for (String client: clientes){
+                        if (client.contains(nombre)){
+                            nombre = client;
+                            break;
+                        }
                     }
+                    String [] cogerIDCliente = nombre.split(" ");
+                    id_cliente = cogerIDCliente[0];
+                    String [] cogerTipoPago = nombre.split(":");
+                    nombreCliente = cogerTipoPago[0].split(" ",2)[1];
+
+                    Log.d("NOMBRE CLIENTE: ",nombreCliente);
+
+                    Toast.makeText(view.getContext(), cogerIDCliente[0], Toast.LENGTH_SHORT).show();
+
+                    // TODO: BUSCAMOS QUE EL CLIENTE TENGA ALGUNA FACTURA ABIERTA SIN PAGAR
+                    db.obre();
+                    Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
+                    idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+
+                    Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
+                    db.tanca();
+
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("ID_CLIENTE",id_cliente);
+                    returnIntent.putExtra("NOMBRE_CLIENTE",nombreCliente);
+                    returnIntent.putExtra("ID_VENTA",Integer.toString(idVentaFactura));
+                    setResult(Activity.RESULT_OK,returnIntent);
+                    finish();
+                } else {
+                    // TODO AQUI HAREMOS QUE SE PUEDA ENTRAR AL CLIENTE PARA MODIFICARLO O ELIMINARLO.
                 }
-                String [] cogerIDCliente = nombre.split(" ");
-                id_cliente = cogerIDCliente[0];
-                String [] cogerTipoPago = nombre.split(":");
-                nombreCliente = cogerTipoPago[0].split(" ",2)[1];
-                //nomClient.setText(nombreCliente);
-
-                Log.d("NOMBRE CLIENTE: ",nombreCliente);
-
-                // TODO AHORA ESTARIA GENIA QUE DESPUES DE TENER EL ID CLIENTE
-                // nombreCliente = cogerIDCliente[1];
-
-                Toast.makeText(view.getContext(), cogerIDCliente[0], Toast.LENGTH_SHORT).show();
-
-
-                // TODO: BUSCAMOS QUE EL CLIENTE TENGA ALGUNA FACTURA ABIERTA SIN PAGAR
-                db.obre();
-                Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
-                idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
-                //   idVenta = Integer.toString(idVentaFactura); TODO HABRA QUE HACER ESTO EN FACTURA ACTIVITY
-                //String idVenta = Integer.toString(idVentaFactura);
-                Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
-                db.tanca();
-                /*  TODO HABRA QUE HACER ESTO EN FACTURA ACTIVITY
-                actualizarReserva = true;
-                actualizarRecyclerView();
-                headerAdapterFactura.actualitzaRecycler(myDataset); */
-                Intent returnIntent = new Intent();
-                returnIntent.putExtra("ID_CLIENTE",id_cliente);
-                returnIntent.putExtra("NOMBRE_CLIENTE",nombreCliente);
-                returnIntent.putExtra("ID_VENTA",Integer.toString(idVentaFactura));
-                setResult(Activity.RESULT_OK,returnIntent);
-                finish();
             }
         });
+        getIntents();
         retornaClients();
     }
-    /*
-    public List<String> CursorBD(Cursor cursor){
-        if(cursor.moveToFirst()){
-            do {
-                System.out.println( cursor.getString(cursor.getColumnIndex(Client.NOM_CLIENT)));
-
-
-            }while(cursor.moveToNext());
+    public void getIntents(){
+        if (getIntent().hasExtra("CLIENTE_FACTURA")){  // pasado desde HeaderAdapterVenta
+            clienteFactura = getIntent().getExtras().getBoolean("CLIENTE_FACTURA");
         }
-        return clientes;
-    } */
+    }
     public void retornaClients(){
         db.obre();
         clientes.clear();

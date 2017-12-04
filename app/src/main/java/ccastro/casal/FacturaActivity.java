@@ -244,7 +244,7 @@ public class FacturaActivity extends AppCompatActivity {
         Log.d("COGER INTENTS","true");
         if (getIntent().hasExtra("NUEVO_PEDIDO")){   // VIENE DE VENTAS, ES UN PEDIDO NUEVO:
             seleccionarCliente();
-           crearNuevoPedido();  // TODO: Desde Ventas entramos a crear nuevo pedido
+            crearNuevoPedido();  // TODO: Desde Ventas entramos a crear nuevo pedido
         }  else if (getIntent().hasExtra("ID_CLIENT")){   // VIENE DE COMEDOR
             Log.d("COMEDOR","true");
             id_cliente = getIntent().getExtras().getString("ID_CLIENT");
@@ -305,7 +305,9 @@ public class FacturaActivity extends AppCompatActivity {
     }
     public void seleccionarCliente(){
         Intent intent = new Intent(FacturaActivity.this, ClientActivity.class);
+        intent.putExtra("CLIENTE_FACTURA",true);
         startActivityForResult(intent,2);
+
     }
     public void crearNuevoPedido(){
         // dataVenta,horaVenta,nomClient,nomTreballador,estatVenta,preuTotalFactura;
