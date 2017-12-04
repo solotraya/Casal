@@ -78,4 +78,5 @@ public class ContracteBD {
         public static final String VENTA_COBRADA = "ventaCobrada";  // 0 NO 1 SI
         public static final String HORA_VENTA = "horaVenta";
     }
+
 }

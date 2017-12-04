@@ -21,6 +21,7 @@ import ccastro.casal.RecyclerView.HeaderAdapterFactura;
 import ccastro.casal.RecyclerView.HeaderFactura;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
+import ccastro.casal.Utils.Utilitats;
 
 import static ccastro.casal.LoginActivity.NOM_USUARI;
 import static ccastro.casal.R.id.ventaPagada;
@@ -183,7 +184,15 @@ public class FacturaActivity extends AppCompatActivity {
                 " "+ahoraCal.get(Calendar.DATE);
     }
     public void cogerIntents(){
-        if (getIntent().hasExtra("ID_CLIENT")){   // VIENE DE COMEDOR
+        Log.d("COGER INTENTS","true");
+        if (getIntent().hasExtra("NUEVO_PEDIDO")){   // VIENE DE VENTAS, ES UN PEDIDO NUEVO:
+           // dataVenta,horaVenta,nomClient,nomTreballador,estatVenta,preuTotalFactura;
+            Log.d("NUEVO PEDIDO","true");
+            dataVenta.setText(Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()));
+           //    horaVenta.setText();   CONTINUAR POR AQUI
+            
+        }  else if (getIntent().hasExtra("ID_CLIENT")){   // VIENE DE COMEDOR
+            Log.d("COEMDOR","true");
             id_cliente = getIntent().getExtras().getString("ID_CLIENT");
             actualizarReserva=true;
             fechaReserva = obtenerFechaReserva();
@@ -210,6 +219,7 @@ public class FacturaActivity extends AppCompatActivity {
 
 
         } else {  // VIENE DE LISTADO DE VENTAS
+            Log.d("VENTAS","true");
             if (getIntent().hasExtra("ID_VENTA")){  // pasado desde HeaderAdapterVenta
                 idVenta = getIntent().getExtras().getString("ID_VENTA");
             }

@@ -88,6 +88,7 @@ public class AjudaBD extends SQLiteOpenHelper {
             + Producte.NOM_PRODUCTE + " TEXT NOT NULL, "
             + Producte.PREU_PRODUCTE + " TEXT NOT NULL, "
             + Producte.TIPUS_PRODUCTE + " TEXT NOT NULL);";
+            // TIPUS DE PRODCUTE 0: CAFE / INFUSIONES  1: REFRESCOS  2: ALIMENTOS
 
     public static final String BD_CREATE_TREBALLADOR = "CREATE TABLE IF NOT EXISTS " + Treballador.NOM_TAULA + "("
             + Treballador._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "

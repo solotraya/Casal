@@ -1,6 +1,7 @@
 package ccastro.casal;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.graphics.Color;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,7 +41,7 @@ public class VentaActivity extends AppCompatActivity   {
     private android.widget.SimpleCursorAdapter adapter;
     private String fechaVenta;
     private TextView textViewFechaVenta;
-    private Button buttonFechaAnterior, buttonFechaPosterior;
+    private Button buttonFechaAnterior, buttonFechaPosterior, buttonCrearPedido;
     private Integer diaInicio=null, diaFinal = null, mesInicio,mesFinal,añoInicio,añoFinal;
     private String estat=null;
     @Override
@@ -48,6 +51,7 @@ public class VentaActivity extends AppCompatActivity   {
         textViewFechaVenta = (TextView) findViewById(R.id.fechaVenta);
         fechaVenta = Utilitats.obtenerFechaActual();
         textViewFechaVenta.setText(Utilitats.getFechaFormatSpain(fechaVenta));
+        buttonCrearPedido =  (Button) findViewById(R.id.buttonCrearPedido) ;
         buttonFechaAnterior = (Button) findViewById(R.id.buttonFechaAnterior) ;
         buttonFechaPosterior = (Button) findViewById(R.id.buttonFechaPosterior) ;
         buttonFechaAnterior.setOnClickListener(new View.OnClickListener() {
@@ -110,6 +114,26 @@ public class VentaActivity extends AppCompatActivity   {
                 textViewFechaVenta.setText(Utilitats.getFechaFormatSpain(fechaVenta));
                 actualizarRecyclerView();
                 headerAdapterVenta.actualitzaRecycler(myDataset);
+            }
+        });
+        textViewFechaVenta.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (textViewFechaVenta.getText().toString().equalsIgnoreCase(Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()))){
+                    buttonCrearPedido.setVisibility(View.VISIBLE);
+                } else buttonCrearPedido.setVisibility(View.GONE);
+            }
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+        });
+        buttonCrearPedido.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View view) {
+                Intent intent = new Intent(VentaActivity.this, FacturaActivity.class);
+                intent.putExtra("NUEVO_PEDIDO",true);
+                startActivity(intent);
             }
         });
     }

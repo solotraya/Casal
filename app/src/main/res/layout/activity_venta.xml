@@ -59,11 +59,24 @@
         </LinearLayout>
     </LinearLayout>
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_consulta"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent"
+        android:gravity="right"
+        android:orientation="vertical">
 
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_consulta"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9" />
+
+        <Button
+            android:id="@+id/buttonCrearPedido"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:text="crear pedido" />
+    </LinearLayout>
 </LinearLayout>
 
