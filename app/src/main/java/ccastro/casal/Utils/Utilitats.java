@@ -43,4 +43,9 @@ public class Utilitats {
         }
         return diaHabil;
     }
+    public static String obtenerHoraActual (){
+        Date ahora = new Date();
+        SimpleDateFormat formateador = new SimpleDateFormat("HH:mm");   // HH formato 24 horas. hh formato 12 horas.
+        return formateador.format(ahora);
+    }
 }

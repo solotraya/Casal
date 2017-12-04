@@ -1,26 +1,38 @@
 package ccastro.casal;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.List;
 
 import ccastro.casal.RecyclerView.HeaderAdapterFactura;
 import ccastro.casal.RecyclerView.HeaderFactura;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
+import ccastro.casal.Utils.Cursors;
 import ccastro.casal.Utils.Utilitats;
 
 import static ccastro.casal.LoginActivity.NOM_USUARI;
@@ -29,17 +41,22 @@ import static ccastro.casal.R.id.ventaPagada;
 public class FacturaActivity extends AppCompatActivity {
     DBInterface db;
     TextView dataVenta,horaVenta,nomClient,nomTreballador,estatVenta,preuTotalFactura;
-    Button buttonPagar;
+    Button buttonPagar,buttonAñadirProducto;
     String idVenta,fechaReserva, id_cliente; // id_cliente lo cogemos de la reserva.
     View v;
-    Boolean actualizarReserva = false;
+    Boolean actualizarReserva = false, primerProducto=true;
     String data;
+    Integer idVentaFactura;
     String pagar = "pagar", pagada= "pagada";
     boolean reembolsar = false;
     private HeaderAdapterFactura headerAdapterFactura;
     private ArrayList<HeaderFactura> myDataset;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
+    List<String> clientes = null;
+    List<String> clientesSoloNombres = null;
+    ArrayAdapter<String> adapterClientes;
+    ListView listViewClientes;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,7 +69,7 @@ public class FacturaActivity extends AppCompatActivity {
         estatVenta = (TextView) findViewById(ventaPagada);
         preuTotalFactura = (TextView) findViewById(R.id.precioTotalFactura);
         buttonPagar = (Button) findViewById(R.id.buttonPagar);
-
+        buttonAñadirProducto = (Button) findViewById(R.id.buttonAñadirProducto);
 
         buttonPagar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,10 +123,92 @@ public class FacturaActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(headerAdapterFactura);
+
+        listViewClientes = (ListView)findViewById(R.id.listViewClientes);
+        clientes= new ArrayList();
+        clientesSoloNombres = new ArrayList();
+        adapterClientes = new ArrayAdapter<String> (this,
+                android.R.layout.simple_list_item_1, android.R.id.text1, clientesSoloNombres);
+        // Assign adapter to ListView
+        listViewClientes.setAdapter(adapterClientes);
+
+
+        listViewClientes.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                // TODO ESCONDEMOS EL TECLADO DEL MOVIL:
+                view = FacturaActivity.this.getCurrentFocus();
+                view.clearFocus();
+                if (view != null) {
+                    InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+                }
+                String nombre =(String) listViewClientes.getItemAtPosition(position);
+                for (String client: clientes){
+                    if (client.contains(nombre)){
+                        nombre = client;
+                        break;
+                    }
+                }
+                String [] cogerIDCliente = nombre.split(" ");
+                id_cliente = cogerIDCliente[0];
+                String [] cogerTipoPago = nombre.split(":");
+                String nombreCliente = cogerTipoPago[0].split(" ",2)[1];
+                nomClient.setText(nombreCliente);
+
+                Log.d("NOMBRE CLIENTE: ",nombreCliente);
+
+                // TODO AHORA ESTARIA GENIA QUE DESPUES DE TENER EL ID CLIENTE
+                nombreCliente = cogerIDCliente[1];
+
+                Toast.makeText(view.getContext(), cogerIDCliente[0], Toast.LENGTH_SHORT).show();
+                listViewClientes.setVisibility(View.GONE);
+            }
+        });
+
+        buttonAñadirProducto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FacturaActivity.this,ProductoActivity.class);
+                startActivityForResult(intent,1);
+                buttonPagar.setVisibility(View.VISIBLE);
+                if (primerProducto){
+                    db.obre();
+                    Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
+                    idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+                    //String idVenta = Integer.toString(idVentaFactura);
+                    Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
+                    db.tanca();
+                }
+            }
+        });
         cogerIntents();
-
+        // TODO  Retorna tots els clients, l'utilitzarem per a la llista que usa el SEARCH VIEW, cuando buscamos cliente!!!
+        retornaClients();
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
+        if (requestCode == 1) {
+            if (resultCode == Activity.RESULT_OK){
+                primerProducto=false;
+                String id_producte = data.getStringExtra("ID_PRODUCTE");
+                String quantitat = data.getStringExtra("QUANTITAT");
+                Log.d("CANTIDAD: ",quantitat);
+                actualizarReserva = true;
+                db.obre();
+                db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
+                db.ActualitzarFechaFactura(idVentaFactura,Utilitats.obtenerFechaActual());
+                db.tanca();
+                actualizarRecyclerView();
+                headerAdapterFactura.actualitzaRecycler(myDataset);
+            }
+            if (resultCode == Activity.RESULT_CANCELED) {
+                //Write your code if there's no result
+            }
+        }
+    }
     public  ArrayList CursorBD(Cursor cursor){
         float preuProducteQuantitat=0;
         float preuTotal=0;
@@ -176,26 +275,22 @@ public class FacturaActivity extends AppCompatActivity {
         }
         return idVenta;
     }
-    public String obtenerFechaReserva (){
-        Calendar ahoraCal = Calendar.getInstance();
-        // PARECE QUE EL MES EMPIEZA DESDE 0, HAY QUE SUMAR UNO.
-        ahoraCal.getTime();
-        return ahoraCal.get(Calendar.YEAR)+" "+(ahoraCal.get(Calendar.MONTH)+1)+
-                " "+ahoraCal.get(Calendar.DATE);
+    public void actualizarRecyclerView(){
+        myDataset.clear();
+        db.obre();
+        Cursor cursor = db.RetornaFacturaIdCliente(id_cliente);
+        myDataset = CursorBD(cursor);
+        db.tanca();
     }
     public void cogerIntents(){
         Log.d("COGER INTENTS","true");
         if (getIntent().hasExtra("NUEVO_PEDIDO")){   // VIENE DE VENTAS, ES UN PEDIDO NUEVO:
-           // dataVenta,horaVenta,nomClient,nomTreballador,estatVenta,preuTotalFactura;
-            Log.d("NUEVO PEDIDO","true");
-            dataVenta.setText(Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()));
-           //    horaVenta.setText();   CONTINUAR POR AQUI
-            
+           crearNuevoPedido();  // TODO: Desde Ventas entramos a crear nuevo pedido
         }  else if (getIntent().hasExtra("ID_CLIENT")){   // VIENE DE COMEDOR
             Log.d("COEMDOR","true");
             id_cliente = getIntent().getExtras().getString("ID_CLIENT");
             actualizarReserva=true;
-            fechaReserva = obtenerFechaReserva();
+            fechaReserva = Utilitats.obtenerFechaActual();
             Log.d("Fecha", fechaReserva);
             if (getIntent().hasExtra("NOM_CLIENT_RESERVA")){
                nomClient.setText(getIntent().getExtras().getString("NOM_CLIENT_RESERVA"));
@@ -212,10 +307,7 @@ public class FacturaActivity extends AppCompatActivity {
             idVenta = Integer.toString(idVentaFactura);
             db.tanca();
 
-            db.obre();
-            Cursor cursor = db.RetornaFacturaIdCliente(id_cliente);
-            myDataset = CursorBD(cursor);
-            db.tanca();
+            actualizarRecyclerView();
 
 
         } else {  // VIENE DE LISTADO DE VENTAS
@@ -251,5 +343,65 @@ public class FacturaActivity extends AppCompatActivity {
             myDataset = CursorBD(cursor);
             db.tanca();
         }
+    }
+    public void crearNuevoPedido(){
+        // dataVenta,horaVenta,nomClient,nomTreballador,estatVenta,preuTotalFactura;
+        Log.d("NUEVO PEDIDO","true");
+        dataVenta.setText(Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()));
+        horaVenta.setText(Utilitats.obtenerHoraActual());
+        estatVenta.setText("Falta Pagar");
+        buttonPagar.setVisibility(View.GONE);
+        /*
+        Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
+        Integer idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+        //String idVenta = Integer.toString(idVentaFactura);
+        Log.d("IDVENTA: ", Integer.toString(idVentaFactura)); */
+    }
+    // TODO ESTO ES LO QUE SE VE EN EL SEARCH VIEW, CUANDO EMPEZAMOS A ESCRIBIR CLIENTE
+    public void retornaClients(){
+        db.obre();
+        clientes.clear();
+        clientesSoloNombres.clear();
+        Cursor cursor= db.RetornaTotsElsClients();
+        if (cursor.moveToFirst()) {
+            do {
+                clientes.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client._ID))+" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))
+                        +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT))+" :"+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.TIPO_PAGO)));
+                clientesSoloNombres.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))
+                        +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT)));
+            } while (cursor.moveToNext());
+        }
+        db.tanca();
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu_mesa_widgets, menu);
+        MenuItem item = menu.findItem(R.id.searchViewClientes);
+        final SearchView searchView = (SearchView)item.getActionView();
+
+
+        searchView.setQueryHint("Nombre Cliente...");
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // adapter.getFilter().filter(newText);
+                listViewClientes.setVisibility(View.VISIBLE);
+                // TODO: MOSTRAMOS TEXTO FILTRADO DE EL ADAPTER DE CLIENTES
+                // TODO: BUSCAR COMO DAR FORMATO AL LISTVIEW DE CLIENTES PARA QUE SEA MAS CHULO
+                adapterClientes.getFilter().filter(newText);
+                return true;
+            }
+
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 }

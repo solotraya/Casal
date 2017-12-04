@@ -181,6 +181,15 @@ public class DBInterface {
         bd.update(Reserva_Cliente.NOM_TAULA, valores, where, selection);
         Log.d("proba", "Actualitzat");
     }
+    public void ActualitzarFechaFactura (Integer idVenta, String data){
+
+        ContentValues valores = new ContentValues();
+        valores.put(Venta.DATA_VENTA, data);
+        String where = Venta._ID+ " = ?";
+        String[] selection = {""+idVenta};
+        bd.update(Venta.NOM_TAULA, valores, where, selection);
+        Log.d("proba", "Actualitzat");
+    }
 
 
     /**

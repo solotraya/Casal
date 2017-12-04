@@ -30,10 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.math.BigDecimal;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import ccastro.casal.RecyclerView.HeaderAdapterMesa;
@@ -458,6 +456,7 @@ public class MesaActivity extends AppCompatActivity{
          // TODO  Retorna tots els clients, l'utilitzarem per a la llista que usa el SEARCH VIEW, cuando buscamos cliente!!!
          retornaClients();
     }
+
     public Integer obtenerFechaInicioNumerico(){
         String [] fecha = fechaInicio.split(" ");
         añoInicio = Integer.parseInt(fecha[0]);
@@ -601,9 +600,7 @@ public class MesaActivity extends AppCompatActivity{
         //String idVenta = Integer.toString(idVentaFactura);
         Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
         if (idVentaFactura==-1){ // Si no tienen una factura pendiente por pagar
-            Date ahora = new Date();
-            SimpleDateFormat formateador = new SimpleDateFormat("HH:mm");   // HH formato 24 horas. hh formato 12 horas.
-            String hora = formateador.format(ahora);
+            String hora = Utilitats.obtenerHoraActual();
             //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
             db.InserirVenta(Integer.parseInt(idCliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),Utilitats.obtenerFechaActual(),"0",hora);
             cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idCliente);
