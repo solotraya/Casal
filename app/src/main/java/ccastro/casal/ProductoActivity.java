@@ -13,7 +13,7 @@ public class ProductoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_producto);
 
         Intent returnIntent = new Intent();
-        returnIntent.putExtra("ID_PRODUCTE","1");
+        returnIntent.putExtra("ID_PRODUCTE","6");
         returnIntent.putExtra("QUANTITAT","2");
         setResult(Activity.RESULT_OK,returnIntent);
         finish();
