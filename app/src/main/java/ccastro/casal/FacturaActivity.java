@@ -78,6 +78,7 @@ public class FacturaActivity extends AppCompatActivity {
                                         Toast.makeText(FacturaActivity.this, "Factura "+pagada, Toast.LENGTH_LONG).show();
 
                                         buttonPagar.setVisibility(View.INVISIBLE);
+                                        buttonAñadirProducto.setVisibility(View.INVISIBLE);
                                         DBInterface db=new DBInterface(v.getContext());
                                         db.obre();
                                         if (reembolsar){
@@ -133,6 +134,15 @@ public class FacturaActivity extends AppCompatActivity {
                 String quantitat = data.getStringExtra("QUANTITAT");
                 Log.d("CANTIDAD: ",quantitat);
                 actualizarReserva = true;
+                if (idVentaFactura==null){
+                    // TODO: BUSCAMOS QUE EL CLIENTE TENGA ALGUNA FACTURA ABIERTA SIN PAGAR
+                    db.obre();
+                    Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
+                    idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+                    idVenta = Integer.toString(idVentaFactura);
+                    Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
+                    db.tanca();
+                }
 
                 db.obre();
                 Log.d("IDVENTAFACTURA",Integer.toString(idVentaFactura));
@@ -289,6 +299,7 @@ public class FacturaActivity extends AppCompatActivity {
                 if (estatVenta.getText().toString().equalsIgnoreCase("Pagado") || estatVenta.getText().toString().equalsIgnoreCase("Anulado")
                         || estatVenta.getText().toString().equalsIgnoreCase("Reembolsado")){
                     buttonPagar.setVisibility(View.INVISIBLE);
+                    buttonAñadirProducto.setVisibility(View.INVISIBLE);
                 }
             }
             if (getIntent().hasExtra("HORA_VENTA")){
@@ -316,11 +327,10 @@ public class FacturaActivity extends AppCompatActivity {
         horaVenta.setText(Utilitats.obtenerHoraActual());
         estatVenta.setText("Falta Pagar");
         buttonPagar.setVisibility(View.GONE);
-        /*
-        Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
-        Integer idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
-        //String idVenta = Integer.toString(idVentaFactura);
-        Log.d("IDVENTA: ", Integer.toString(idVentaFactura)); */
+        if (idVentaFactura==null){
+            nomTreballador.setText(LoginActivity.NOM_USUARI);
+
+        }
     }
 
 
