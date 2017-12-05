@@ -138,6 +138,14 @@ public class DBInterface {
         return bd.rawQuery(consulta.obtenirNumClienteBarra(),null);
     }
 
+    public Cursor obtenirCuantitatClienteBarraSinPagar(){
+        return bd.rawQuery(consulta.obtenirCuantitatClienteBarraSinPagar(),null);
+    }
+    public void EliminarTotsElsClientsDeBarra(){
+        String where = Client.NOM_CLIENT + " = 'Cliente Barra'";
+        String[] selection = {};
+        bd.delete(Client.NOM_TAULA,where,selection);
+    }
     public void ActalitzaEstatVenta(String _id,String estatVenta) {
         Integer idVenta = Integer.parseInt(_id);
         ContentValues valores = new ContentValues();

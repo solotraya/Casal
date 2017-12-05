@@ -30,6 +30,7 @@ public class HeaderVenta {
     }
 
     public String getNomClient() {
+        if (nomClient.equalsIgnoreCase("null null")) return "Cliente Barra";
         return nomClient;
     }
 

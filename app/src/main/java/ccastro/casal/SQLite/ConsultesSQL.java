@@ -141,6 +141,13 @@ public class ConsultesSQL {
                 " WHERE c."+Client.NOM_CLIENT+" LIKE 'Cliente barra'";
     }
 
+    public String obtenirCuantitatClienteBarraSinPagar(){
+        return " SELECT COUNT (v."+Venta._ID+") as Quantitat"+
+                " FROM "+Venta.NOM_TAULA+" v"+
+                " LEFT JOIN "+Client.NOM_TAULA+" c ON c." + Client._ID + " = v."+Venta.ID_CLIENT+""+
+                " WHERE c."+Client.NOM_CLIENT+" LIKE 'Cliente Barra'"+
+                " AND v."+Venta.VENTA_COBRADA+" LIKE '0'";
+    }
 }
 
 

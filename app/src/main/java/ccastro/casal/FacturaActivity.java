@@ -87,6 +87,13 @@ public class FacturaActivity extends AppCompatActivity {
                                         } else {
                                             db.ActalitzaEstatVenta(idVenta,"1");
                                             estatVenta.setText("Pagado");
+                                            //TODO: Si todos los clientes de barra han pagado, los borramos y empezaremos de cero
+                                            Cursor cursor = db.obtenirCuantitatClienteBarraSinPagar();
+                                            int quantitat = Cursors.cursorQuantitat(cursor);
+                                            Log.d("QUANTITAT C.BARRA PAGAT",Integer.toString(quantitat));
+                                            if (quantitat==0){
+                                                db.EliminarTotsElsClientsDeBarra();
+                                            }
                                         }
                                         db.tanca();
 
