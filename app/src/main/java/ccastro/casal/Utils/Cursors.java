@@ -19,13 +19,13 @@ public class Cursors {
         return idVenta;
     }
 
-    public  static Integer cursorQuantitatProducteFactura(Cursor cursor){
-        Integer quantitatProdcutes=-1;
+    public  static Integer cursorQuantitat(Cursor cursor){
+        Integer quantitat=-1;
         if(cursor.moveToFirst()){
             do {
-                quantitatProdcutes=Integer.parseInt(cursor.getString(cursor.getColumnIndex("QuantitatProductes")));
+                quantitat=Integer.parseInt(cursor.getString(cursor.getColumnIndex("Quantitat")));
             } while(cursor.moveToNext());
         }
-        return quantitatProdcutes;
+        return quantitat;
     }
 }

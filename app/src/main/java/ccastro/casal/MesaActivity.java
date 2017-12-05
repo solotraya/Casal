@@ -559,11 +559,16 @@ public class MesaActivity extends AppCompatActivity{
         clientesSoloNombres.clear();
         Cursor cursor= db.RetornaTotsElsClients();
         if (cursor.moveToFirst()) {
-            do {
-                clientes.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client._ID))+" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))
-                        +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT))+" :"+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.TIPO_PAGO)));
-                clientesSoloNombres.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))
-                        +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT)));
+            do {    // Hacemos que no se pueda escoger a los cliente barra
+                if (cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT)).contains("Cliente barra")){
+                    cursor.moveToNext();
+                } else {
+                    clientes.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client._ID))+" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))
+                            +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT))+" :"+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.TIPO_PAGO)));
+                    clientesSoloNombres.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))
+                            +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT)));
+                }
+
             } while (cursor.moveToNext());
         }
         db.tanca();
@@ -615,7 +620,7 @@ public class MesaActivity extends AppCompatActivity{
         else if (tipoPago.equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,quantitat);
         //db.tanca();
         Cursor cursorQuantitatProducteFactura = db.ObtenirQuantitatProductesFactura(Integer.toString(idVentaFactura));
-        Integer quantitatProductesFactura = Cursors.cursorQuantitatProducteFactura(cursorQuantitatProducteFactura);
+        Integer quantitatProductesFactura = Cursors.cursorQuantitat(cursorQuantitatProducteFactura);
         Log.d("QUANTITAT PRODUCTES ",Integer.toString(quantitatProductesFactura));
         if (quantitatProductesFactura == 0){ // SI NO HAY PRODUCTOS EN LA VENTA, LA REEMBOLSAMOS.
             db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"4");

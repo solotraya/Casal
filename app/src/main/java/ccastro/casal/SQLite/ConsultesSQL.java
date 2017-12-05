@@ -125,15 +125,20 @@ public class ConsultesSQL {
     }
 
     public String ObtenirQuantitatProductesFactura(String idVenta){
-        return  " SELECT SUM (f."+Factura.QUANTITAT_PRODUCTE+") as QuantitatProductes"+
+        return  " SELECT SUM (f."+Factura.QUANTITAT_PRODUCTE+") as Quantitat"+
                 " FROM "+Factura.NOM_TAULA+" f"+
                 " WHERE f."+Factura.ID_VENTA+" = "+idVenta;
     }
     public String ObtenirQuantitatReservesSenseIDVenta(String id_cliente){
-        return  " SELECT COUNT (r."+Reserva_Cliente._ID+") as QuantitatProductes"+
+        return  " SELECT COUNT (r."+Reserva_Cliente._ID+") as Quantitat"+
                 " FROM "+Reserva_Cliente.NOM_TAULA+" r"+
                 " WHERE r."+Reserva_Cliente.ID_CLIENTE+" LIKE "+id_cliente+
                 " AND (r."+Reserva_Cliente.ASISTENCIA+" LIKE '0' AND r."+Reserva_Cliente.PAGADO+" LIKE '0')";
+    }
+    public String obtenirNumClienteBarra(){
+        return " SELECT COUNT (c."+Client._ID+") as Quantitat"+
+                " FROM "+Client.NOM_TAULA+" c"+
+                " WHERE c."+Client.NOM_CLIENT+" LIKE 'Cliente barra'";
     }
 
 }

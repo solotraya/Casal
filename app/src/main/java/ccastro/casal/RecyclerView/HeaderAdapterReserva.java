@@ -144,9 +144,9 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                 Log.d("TIPO PAGO: ",tipoPago.getText().toString());
                                 Boolean restarProducte = true;
                                 Cursor cursorQuantitatReservesSenseIDVenta = db.ObtenirQuantitatReservesSenseIDVenta(idClient.getText().toString());
-                                Integer quantitatReservesAbiertasCliente = Cursors.cursorQuantitatProducteFactura(cursorQuantitatReservesSenseIDVenta);
+                                Integer quantitatReservesAbiertasCliente = Cursors.cursorQuantitat(cursorQuantitatReservesSenseIDVenta);
                                 Cursor cursorQuantitatProducteFactura = db.ObtenirQuantitatProductesFactura(Integer.toString(idVentaFactura));
-                                Integer quantitatProductesFactura = Cursors.cursorQuantitatProducteFactura(cursorQuantitatProducteFactura);
+                                Integer quantitatProductesFactura = Cursors.cursorQuantitat(cursorQuantitatProducteFactura);
                                 Log.d("NUM_PROD",Integer.toString(quantitatProductesFactura));
                                 if (quantitatReservesAbiertasCliente >= 0 && quantitatProductesFactura>0){
                                     if (restarProducte){
@@ -160,7 +160,7 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                         db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"2");
 
                                         cursorQuantitatReservesSenseIDVenta = db.ObtenirQuantitatReservesSenseIDVenta(idClient.getText().toString());
-                                        quantitatReservesAbiertasCliente = Cursors.cursorQuantitatProducteFactura(cursorQuantitatReservesSenseIDVenta);
+                                        quantitatReservesAbiertasCliente = Cursors.cursorQuantitat(cursorQuantitatReservesSenseIDVenta);
                                         Log.d("CANTIDAD RESERVAS 2_",Integer.toString(quantitatReservesAbiertasCliente));
                                         if (quantitatReservesAbiertasCliente > 0){
                                             Date ahora = new Date();

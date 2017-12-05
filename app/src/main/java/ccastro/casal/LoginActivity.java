@@ -195,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
         //id_client,id_treballador,dataVenta,Cobrada,TotalVenta
-        db.InserirVenta(1,1,"2017 11 18","0","10:15");  // SIN ID_FACTURA!!
+        db.InserirVenta(3,1,"2017 11 18","0","10:15");  // SIN ID_FACTURA!!
         db.InserirVenta(2,2,"2017 11 18","1","11:00");
 
                  //id_producte,id_venta/quantitatProducte

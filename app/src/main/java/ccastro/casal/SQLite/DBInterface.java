@@ -134,7 +134,9 @@ public class DBInterface {
         return bd.rawQuery(consulta.ObtenirQuantitatReservesSenseIDVenta(id_cliente),null);
 
     }
-
+    public Cursor obtenirNumClienteBarra(){
+        return bd.rawQuery(consulta.obtenirNumClienteBarra(),null);
+    }
 
     public void ActalitzaEstatVenta(String _id,String estatVenta) {
         Integer idVenta = Integer.parseInt(_id);

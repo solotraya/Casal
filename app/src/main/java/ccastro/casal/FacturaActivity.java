@@ -146,13 +146,7 @@ public class FacturaActivity extends AppCompatActivity {
                 db.obre();
                 Log.d("IDVENTAFACTURA",Integer.toString(idVentaFactura));
                 if (idVentaFactura==-1){ // Si no tienen una factura pendiente por pagar
-                    String hora = Utilitats.obtenerHoraActual();
-                    //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
-                    db.InserirVenta(Integer.parseInt(id_cliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),Utilitats.obtenerFechaActual(),"0",hora);
-                    Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
-                    idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
-                    idVenta = Integer.toString(idVentaFactura);
-                    // idVenta = Integer.toString(idVentaFactura);
+                    crearNuevaVenta();
                     db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
                 } else {  // SI EL CLIENTE YA TIENE FACTURA SIN CERRAR
                     db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
@@ -175,12 +169,28 @@ public class FacturaActivity extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK){
                 id_cliente = data.getStringExtra("ID_CLIENTE");
                 nomClient.setText(data.getStringExtra("NOMBRE_CLIENTE"));
-                idVenta = data.getStringExtra("ID_VENTA");
-                idVentaFactura = Integer.parseInt(idVenta);
-                idVentaFalta = false;
-                actualizarReserva = true;
-                actualizarRecyclerView();
-                headerAdapterFactura.actualitzaRecycler(myDataset);
+                if (id_cliente.equalsIgnoreCase("1")){
+                    //TODO: SI el cliente elegido es cliente barra creamos un nuevo cliente
+                    db.obre();
+                    Cursor cursor = db.obtenirNumClienteBarra();
+                    Integer quantitat = Cursors.cursorQuantitat(cursor);
+                    Log.d("QUANTITAT CLIENTBARRA",Integer.toString(quantitat));
+                    long idCliente = db.InserirClient("Cliente Barra",Integer.toString(quantitat),"",0,"","","Cliente de barra sin identificar");
+                    String nombreCliente = "Cliente Barra "+Integer.toString(quantitat);
+                    id_cliente = Long.toString(idCliente);
+                    Log.d("ID_CLIENTE_BARRA",Long.toString(idCliente));
+                    nomClient.setText(nombreCliente);
+                    idVentaFactura=null;
+                    db.tanca();
+                } if (!id_cliente.equalsIgnoreCase("1")){
+                    idVenta = data.getStringExtra("ID_VENTA");
+                    idVentaFactura = Integer.parseInt(idVenta);
+                    idVentaFalta = false;
+                    actualizarReserva = true;
+                    actualizarRecyclerView();
+                    headerAdapterFactura.actualitzaRecycler(myDataset);
+                }
+
             }  else if (resultCode == Activity.RESULT_CANCELED) {
                 //Write your code if there's no result
                 Toast.makeText(this, "Selecciona cliente", Toast.LENGTH_SHORT).show();
@@ -188,6 +198,17 @@ public class FacturaActivity extends AppCompatActivity {
             }
 
         }
+    }
+    public void crearNuevaVenta(){
+        String hora = Utilitats.obtenerHoraActual();
+        //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
+        db.InserirVenta(Integer.parseInt(id_cliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),Utilitats.obtenerFechaActual(),"0",hora);
+        Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
+        idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+        idVenta = Integer.toString(idVentaFactura);
+        Log.d("IDCLIENTEDEBARRAA",id_cliente);
+        Log.d("IDVENTACLIENTEBARRA",idVenta);
+        // idVenta = Integer.toString(idVentaFactura);
     }
     public  ArrayList CursorBD(Cursor cursor){
         float preuProducteQuantitat=0;
