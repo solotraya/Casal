@@ -10,8 +10,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import ccastro.casal.PedidoActivity;
@@ -64,7 +67,7 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
 
         holder.idProducte.setText(mDataset.get(position).getIdProducte());
         holder.nomProducte.setText(mDataset.get(position).getNomProducte());
-        holder.preuProducte.setText(mDataset.get(position).getPreuProducte()+"€");
+        holder.preuProducte.setText(mDataset.get(position).getPreuProducte());
     }
 
     /**
@@ -76,9 +79,12 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
         return mDataset.size();
     }
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView idProducte,nomProducte,preuProducte;
+        LinearLayout layoutProducte;
+        TextView total, idProducte,nomProducte,preuProducte, quantitatProducte;
+        Button seleccionarProducte;
         View v;
         Context context;
+
         /**
          * Constructor de classe statica View Holder
          * @param v view
@@ -88,9 +94,52 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
             idProducte=(TextView)v.findViewById(R.id.idProducte);
             nomProducte=(TextView)v.findViewById(R.id.nomProducte);
             preuProducte=(TextView) v.findViewById(R.id.preuProducte);
+            layoutProducte = (LinearLayout) v.findViewById(R.id.layoutButtonsProducte);
+            seleccionarProducte = (Button) v.findViewById(R.id.seleccionarProducte);
+            quantitatProducte = (TextView) v.findViewById(R.id.quantitatProducte);
+            total = (TextView) v.findViewById(R.id.preuTotalProductes);
+            total.setText(preuProducte.getText().toString());
             idProducte.setVisibility(View.GONE);
+            layoutProducte.setVisibility(View.GONE);
             context = itemView.getContext();
+
             v.setOnClickListener(this);
+            v.findViewById(R.id.masProducte).setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    Integer quantitat = Integer.parseInt(quantitatProducte.getText().toString());
+                    if (quantitat<100){
+                        quantitat++;
+                        quantitatProducte.setText(Integer.toString(quantitat));
+                        DecimalFormat df = new DecimalFormat("0.00");
+                        df.setMaximumFractionDigits(2);
+                        Float preuTotal = quantitat*Float.parseFloat(preuProducte.getText().toString());
+                        total.setText(df.format(preuTotal));
+                    }
+                }
+            });
+            v.findViewById(R.id.menosProducte).setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    Integer quantitat = Integer.parseInt(quantitatProducte.getText().toString());
+                    if (quantitat>1){
+                        quantitat--;
+                        quantitatProducte.setText(Integer.toString(quantitat));
+                        quantitatProducte.setText(Integer.toString(quantitat));
+                        DecimalFormat df = new DecimalFormat("0.00");
+                        df.setMaximumFractionDigits(2);
+                        Float preuTotal = quantitat*Float.parseFloat(preuProducte.getText().toString());
+                        total.setText(df.format(preuTotal));
+                    }
+                }
+            });
+            seleccionarProducte.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, PedidoActivity.class);
+                    intent.putExtra("ID_PRODUCTE",idProducte.getText().toString());
+                    intent.putExtra("QUANTITAT",quantitatProducte.getText().toString());
+                    context.startActivity(intent);
+                    ((ProductoActivity)context).finish();
+                }
+            });
         }
 
         /**
@@ -99,11 +148,9 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
          */
         @Override
         public void onClick(View view) {
-            Intent intent = new Intent(context, PedidoActivity.class);
-            intent.putExtra("ID_PRODUCTE",idProducte.getText().toString());
-            intent.putExtra("QUANTITAT",idProducte.getText().toString());
-            context.startActivity(intent);
-            ((ProductoActivity)context).finish();
+            layoutProducte.setVisibility(View.VISIBLE);
+            //  HACER QUE AL CLICAR SE PONGA EN VISIBLE EL LAYOUT CON LOS BOTONES PARA CANTIDAD Y AÑADIR
+
         }
     }
 

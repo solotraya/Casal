@@ -84,7 +84,7 @@ public class PedidoActivity extends AppCompatActivity implements View.OnClickLis
     public void getIntents(){
         if(getIntent().hasExtra("ID_PRODUCTE")) {
             id_producte = (getIntent().getExtras().getString("ID_PRODUCTE"));
-            quantitat = "1";
+            quantitat = (getIntent().getExtras().getString("QUANTITAT"));
         }
     }
 }

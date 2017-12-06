@@ -46,13 +46,6 @@ public class ProductoActivity extends AppCompatActivity {
             // PRUEBA DE ENVIO DE CARAJILLOS
 
         }
-        /*else if(getIntent().hasExtra("ID_PRODUCTE")){
-            Intent returnIntent = new Intent();
-            returnIntent.putExtra("ID_PRODUCTE",getIntent().getExtras().getInt("ID_PRODUCTE"));
-            returnIntent.putExtra("QUANTITAT","2");
-            setResult(Activity.RESULT_OK,returnIntent);
-            finish();
-        }*/
     }
     public void retornarProductes(){
         db.obre();
