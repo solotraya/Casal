@@ -117,6 +117,10 @@ public class DBInterface {
         return bd.rawQuery(consulta.RetornaTodasLasMesas,null);
     }
 
+    public Cursor RetornaProductes(String tipusProducte){
+        return bd.rawQuery(consulta.RetornaProductes(tipusProducte),null);
+    }
+
     public Cursor verificarLogin(String userName, String password){
         return bd.rawQuery(consulta.verificarLogin(userName,password),null);
     }

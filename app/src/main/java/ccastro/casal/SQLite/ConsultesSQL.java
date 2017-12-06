@@ -103,7 +103,11 @@ public class ConsultesSQL {
                 " FROM "+ Client.NOM_TAULA+" c"+
                 " WHERE c."+ Client._ID+" LIKE "+idCliente;
     }
-
+    public String RetornaProductes(String tipusProducte){
+        return "Select p."+Producte._ID+", p."+Producte.NOM_PRODUCTE+", p."+Producte.PREU_PRODUCTE+
+                " FROM "+ Producte.NOM_TAULA+" p"+
+                " WHERE p."+ Producte.TIPUS_PRODUCTE+" LIKE '"+tipusProducte+"'";
+    }
     public String verificarLogin (String userName, String password){
         return  " Select t."+ Treballador._ID+",t."+ Treballador.NOM_TREBALLADOR+",t."+ Treballador.COGNOMS_TREBALLADOR+
                 " FROM "+ Treballador.NOM_TAULA+" t"+

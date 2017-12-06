@@ -184,13 +184,14 @@ public class LoginActivity extends AppCompatActivity {
 
         // nomProducte, preu, tipus
 
-        db.InserirProducte("Café Solo","1.10","Café");
-        db.InserirProducte("Café con leche","1.20","Café");
-        db.InserirProducte("Carajillo","1.50","Café");
-        db.InserirProducte("Cocacola","1.30","Bebidas");
-        db.InserirProducte("Agua","0.90","Bebidas");
-        db.InserirProducte("Bocadillo grande","2.50","Bocadillos");
-        db.InserirProducte("Bocadillo pequeño","2","Bocadillos");
+        db.InserirProducte("Café Solo","1.10","0");
+        db.InserirProducte("Café con leche","1.20","0");
+        db.InserirProducte("Carajillo","1.50","0");
+        db.InserirProducte("Cocacola","1.30","1");
+        db.InserirProducte("Agua","0.90","1");
+        db.InserirProducte("Bocadillo grande","2.50","2");
+        db.InserirProducte("Bocadillo pequeño","2","2");
+        db.InserirProducte("Whisky cola","5","3");
 
 
 

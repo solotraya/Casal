@@ -36,6 +36,10 @@ public class HeaderFactura {
     }
 
     public String getTipoProducto() {
+        if (tipoProducto.equalsIgnoreCase("0")) return "Cafes/Infunsiones";
+        else if (tipoProducto.equalsIgnoreCase("1")) return "Refrescos/Cervezas";
+        else if (tipoProducto.equalsIgnoreCase("2")) return "Alimentación";
+        else if (tipoProducto.equalsIgnoreCase("3")) return "Otros productos";
         return tipoProducto;
     }
 

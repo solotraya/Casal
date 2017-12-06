@@ -32,7 +32,10 @@ public class FacturaActivity extends AppCompatActivity {
     DBInterface db;
     TextView dataVenta,horaVenta,nomClient,nomTreballador,estatVenta,preuTotalFactura;
     Button buttonPagar,buttonAñadirProducto;
-    String idVenta,fechaReserva, id_cliente; // id_cliente lo cogemos de la reserva.
+    String idVenta,fechaReserva;
+    public static String id_cliente; // id_cliente lo cogemos de la reserva.
+    public static String nombreCliente; // id_cliente lo cogemos de la reserva.
+
     View v;
     Boolean actualizarReserva = false, idVentaFalta = true;
     String data;
@@ -123,7 +126,9 @@ public class FacturaActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(FacturaActivity.this,PedidoActivity.class);
-                startActivityForResult(intent,1);
+                startActivity(intent);
+                finish();
+            //    startActivityForResult(intent,1);
 
 
             }
@@ -134,45 +139,6 @@ public class FacturaActivity extends AppCompatActivity {
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (requestCode == 1) {
-            if (resultCode == Activity.RESULT_OK){
-                buttonPagar.setVisibility(View.VISIBLE);
-                String id_producte = data.getStringExtra("ID_PRODUCTE");
-                String quantitat = data.getStringExtra("QUANTITAT");
-                actualizarReserva = true;
-                if (idVentaFactura==null){
-                    // TODO: BUSCAMOS QUE EL CLIENTE TENGA ALGUNA FACTURA ABIERTA SIN PAGAR
-                    Log.d("IDCLIENTE",id_cliente);
-                    db.obre();
-                    Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
-                    idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
-                    idVenta = Integer.toString(idVentaFactura);
-                    Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
-                    db.tanca();
-                }
-                db.obre();
-                Log.d("IDVENTAFACTURA",Integer.toString(idVentaFactura));
-                if (idVentaFactura==-1){ // Si no tienen una factura pendiente por pagar
-                    crearNuevaVenta();
-                    db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
-                } else {  // SI EL CLIENTE YA TIENE FACTURA SIN CERRAR
-                    db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
-                    db.ActualitzarFechaHoraFactura(idVentaFactura,Utilitats.obtenerFechaActual(),Utilitats.obtenerHoraActual());
-                }
-                db.tanca();
-                actualizarRecyclerView();
-                headerAdapterFactura.actualitzaRecycler(myDataset);
-            }
-            else if (resultCode == Activity.RESULT_CANCELED) {
-                //Write your code if there's no result
-                // TODO: ESTO LO IMPLEMENTAREMOS CUANDO EN EL ACTIVITY DE PRODUCTOS NO SELECCIONE NINGUNO!
-                // SEGUIR POR AQUI:
-                // HACER QUE SI EL CLIENTE ES BARRA NO APAREZCA EN LA LISTA DE MESA
-                // HACER QUE SI EL CLIENTE ES BARRA PUEDA TENER VARIAS FACTURAS EN NO PAGAR (VARIOS CLIENTES BARRA, UN ID)
-
-            }
-        }
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK){
                 id_cliente = data.getStringExtra("ID_CLIENTE");
@@ -206,6 +172,35 @@ public class FacturaActivity extends AppCompatActivity {
             }
 
         }
+    }
+    public void recibirProducto(){
+        buttonPagar.setVisibility(View.VISIBLE);
+        String id_producte =  getIntent().getExtras().getString("ID_PRODUCTO");
+        String quantitat = getIntent().getExtras().getString("QUANTITAT");
+        actualizarReserva = true;
+        if (idVentaFactura==null){
+            // TODO: BUSCAMOS QUE EL CLIENTE TENGA ALGUNA FACTURA ABIERTA SIN PAGAR
+
+            Log.d("IDCLIENTE",id_cliente);
+            db.obre();
+            Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
+            idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+            idVenta = Integer.toString(idVentaFactura);
+            Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
+            db.tanca();
+        }
+        db.obre();
+        Log.d("IDVENTAFACTURA",Integer.toString(idVentaFactura));
+        if (idVentaFactura==-1){ // Si no tienen una factura pendiente por pagar
+            crearNuevaVenta();
+            db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
+        } else {  // SI EL CLIENTE YA TIENE FACTURA SIN CERRAR
+            db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
+            db.ActualitzarFechaHoraFactura(idVentaFactura,Utilitats.obtenerFechaActual(),Utilitats.obtenerHoraActual());
+        }
+        db.tanca();
+        actualizarRecyclerView();
+        headerAdapterFactura.actualitzaRecycler(myDataset);
     }
     public void crearNuevaVenta(){
         String hora = Utilitats.obtenerHoraActual();
@@ -245,7 +240,7 @@ public class FacturaActivity extends AppCompatActivity {
                 data = cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.DATA_VENTA));
                 String dataCorrecta[] = data.split(" ");
                 String dataFormatSpain = dataCorrecta[2]+"/"+dataCorrecta[1]+"/"+dataCorrecta[0];
-
+                nomClient.setText(nombreCliente);
                 dataVenta.setText(dataFormatSpain);
                 horaVenta.setText(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.HORA_VENTA)));
                 estatVenta.setText(verificarEstadoFactura(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.VENTA_COBRADA))));
@@ -305,7 +300,10 @@ public class FacturaActivity extends AppCompatActivity {
     }
     public void cogerIntents(){
         Log.d("COGER INTENTS","true");
-        if (getIntent().hasExtra("NUEVO_PEDIDO")){   // VIENE DE VENTAS, ES UN PEDIDO NUEVO:
+        if (getIntent().hasExtra("ID_PRODUCTO")){
+            recibirProducto();
+        }
+        else if (getIntent().hasExtra("NUEVO_PEDIDO")){   // VIENE DE VENTAS, ES UN PEDIDO NUEVO:
             seleccionarCliente();
             crearNuevoPedido();  // TODO: Desde Ventas entramos a crear nuevo pedido
         }  else if (getIntent().hasExtra("ID_CLIENT")){   // VIENE DE COMEDOR
@@ -315,7 +313,8 @@ public class FacturaActivity extends AppCompatActivity {
             fechaReserva = Utilitats.obtenerFechaActual();
             Log.d("Fecha", fechaReserva);
             if (getIntent().hasExtra("NOM_CLIENT_RESERVA")){
-               nomClient.setText(getIntent().getExtras().getString("NOM_CLIENT_RESERVA"));
+                nombreCliente = (getIntent().getExtras().getString("NOM_CLIENT_RESERVA"));
+                nomClient.setText(nombreCliente);
             }
             // AÑADIR PRIMERO MENU A PAGAR
             // MIRAR SI SE PUEDE HACER LO SIGUIENTE:
@@ -341,7 +340,8 @@ public class FacturaActivity extends AppCompatActivity {
                 dataVenta.setText(getIntent().getExtras().getString("DATA_VENTA"));
             }
             if (getIntent().hasExtra("NOM_CLIENT")){
-                nomClient.setText(getIntent().getExtras().getString("NOM_CLIENT"));
+                nombreCliente = (getIntent().getExtras().getString("NOM_CLIENT"));
+                nomClient.setText(nombreCliente);
             }
             if (getIntent().hasExtra("NOM_TREBALLADOR")){
                 nomTreballador.setText(getIntent().getExtras().getString("NOM_TREBALLADOR"));
