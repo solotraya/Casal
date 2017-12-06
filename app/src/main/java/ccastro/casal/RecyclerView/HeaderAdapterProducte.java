@@ -98,7 +98,7 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
             seleccionarProducte = (Button) v.findViewById(R.id.seleccionarProducte);
             quantitatProducte = (TextView) v.findViewById(R.id.quantitatProducte);
             total = (TextView) v.findViewById(R.id.preuTotalProductes);
-            total.setText(preuProducte.getText().toString());
+
             idProducte.setVisibility(View.GONE);
             layoutProducte.setVisibility(View.GONE);
             context = itemView.getContext();
@@ -150,7 +150,9 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
         public void onClick(View view) {
             layoutProducte.setVisibility(View.VISIBLE);
             //  HACER QUE AL CLICAR SE PONGA EN VISIBLE EL LAYOUT CON LOS BOTONES PARA CANTIDAD Y AÑADIR
-
+            if (quantitatProducte.getText().toString().equals("1")){
+                total.setText(preuProducte.getText().toString());
+            }
         }
     }
 
