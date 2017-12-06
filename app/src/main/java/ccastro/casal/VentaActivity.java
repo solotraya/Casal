@@ -44,14 +44,16 @@ public class VentaActivity extends AppCompatActivity   {
     private Button buttonFechaAnterior, buttonFechaPosterior, buttonCrearPedido;
     private Integer diaInicio=null, diaFinal = null, mesInicio,mesFinal,añoInicio,añoFinal;
     private String estat=null;
+    private android.support.v7.widget.Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venta);
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_venta);
         textViewFechaVenta = (TextView) findViewById(R.id.fechaVenta);
         fechaVenta = Utilitats.obtenerFechaActual();
         textViewFechaVenta.setText(Utilitats.getFechaFormatSpain(fechaVenta));
-        buttonCrearPedido =  (Button) findViewById(R.id.buttonCrearPedido) ;
+        buttonCrearPedido =  (Button) mToolbar.findViewById(R.id.buttonCrearPedido) ;
         buttonFechaAnterior = (Button) findViewById(R.id.buttonFechaAnterior) ;
         buttonFechaPosterior = (Button) findViewById(R.id.buttonFechaPosterior) ;
         buttonFechaAnterior.setOnClickListener(new View.OnClickListener() {
@@ -122,8 +124,8 @@ public class VentaActivity extends AppCompatActivity   {
             @Override
             public void afterTextChanged(Editable s) {
                 if (textViewFechaVenta.getText().toString().equalsIgnoreCase(Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()))){
-                    buttonCrearPedido.setVisibility(View.VISIBLE);
-                } else buttonCrearPedido.setVisibility(View.GONE);
+                    mToolbar.setVisibility(View.VISIBLE);
+                } else mToolbar.setVisibility(View.GONE);
             }
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

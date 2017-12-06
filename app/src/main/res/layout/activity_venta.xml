@@ -71,12 +71,19 @@
             android:layout_height="match_parent"
             android:layout_weight="0.9" />
 
-        <Button
-            android:id="@+id/buttonCrearPedido"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.1"
-            android:text="crear pedido" />
+
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/tool_bar_venta"
+                layout="@layout/tool_bar_venta"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
 

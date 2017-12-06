@@ -122,9 +122,9 @@ public class FacturaActivity extends AppCompatActivity {
         buttonAñadirProducto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(FacturaActivity.this,ProductoActivity.class);
+                Intent intent = new Intent(FacturaActivity.this,PedidoActivity.class);
                 startActivityForResult(intent,1);
-                buttonPagar.setVisibility(View.VISIBLE);
+
 
             }
         });
@@ -137,6 +137,7 @@ public class FacturaActivity extends AppCompatActivity {
 
         if (requestCode == 1) {
             if (resultCode == Activity.RESULT_OK){
+                buttonPagar.setVisibility(View.VISIBLE);
                 String id_producte = data.getStringExtra("ID_PRODUCTE");
                 String quantitat = data.getStringExtra("QUANTITAT");
                 actualizarReserva = true;
