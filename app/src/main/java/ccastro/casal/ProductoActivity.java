@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -42,7 +41,6 @@ public class ProductoActivity extends AppCompatActivity {
     public void getIntents(){
         if (getIntent().hasExtra("TIPO_PRODUCTO")){
             tipoProducto = (getIntent().getExtras().getInt("TIPO_PRODUCTO"));
-            Toast.makeText(this, "Producto tipo "+Integer.toString(tipoProducto), Toast.LENGTH_SHORT).show();
             // PRUEBA DE ENVIO DE CARAJILLOS
 
         }

@@ -136,6 +136,8 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
                     Intent intent = new Intent(context, PedidoActivity.class);
                     intent.putExtra("ID_PRODUCTE",idProducte.getText().toString());
                     intent.putExtra("QUANTITAT",quantitatProducte.getText().toString());
+                    intent.putExtra("NOM_PRODUCTE",nomProducte.getText().toString());
+                    intent.putExtra("TOTAL_PRODUCTE",total.getText().toString());
                     context.startActivity(intent);
                     ((ProductoActivity)context).finish();
                 }

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class PedidoActivity extends AppCompatActivity implements View.OnClickListener {
@@ -85,6 +86,12 @@ public class PedidoActivity extends AppCompatActivity implements View.OnClickLis
         if(getIntent().hasExtra("ID_PRODUCTE")) {
             id_producte = (getIntent().getExtras().getString("ID_PRODUCTE"));
             quantitat = (getIntent().getExtras().getString("QUANTITAT"));
+            TextView textViewQuantitat = (TextView) mToolbar.findViewById(R.id.textViewNumProductes);
+            textViewQuantitat.setText(quantitat);
+            TextView textViewNomProducte = (TextView) mToolbar.findViewById(R.id.textViewNombreProducto);
+            textViewNomProducte.setText((getIntent().getExtras().getString("NOM_PRODUCTE")));
+            TextView textViewTotalProducte = (TextView) mToolbar.findViewById(R.id.textViewTotal);
+            textViewTotalProducte.setText((getIntent().getExtras().getString("TOTAL_PRODUCTE")));
         }
     }
 }

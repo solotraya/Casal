@@ -5,11 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import ccastro.casal.SQLite.DBInterface;
-
-import static ccastro.casal.LoginActivity.NOM_USUARI;
 
 public class MainActivity extends AppCompatActivity {
     DBInterface db;
@@ -19,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toast.makeText(this,NOM_USUARI, Toast.LENGTH_SHORT).show();
 
         db = new DBInterface(this);
 

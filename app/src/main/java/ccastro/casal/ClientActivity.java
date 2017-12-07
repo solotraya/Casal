@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,7 +70,7 @@ public class ClientActivity extends AppCompatActivity {
 
                     Log.d("NOMBRE CLIENTE: ",nombreCliente);
 
-                    Toast.makeText(view.getContext(), cogerIDCliente[0], Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(view.getContext(), cogerIDCliente[0], Toast.LENGTH_SHORT).show();
 
                     // TODO: BUSCAMOS QUE EL CLIENTE TENGA ALGUNA FACTURA ABIERTA SIN PAGAR
                     db.obre();
