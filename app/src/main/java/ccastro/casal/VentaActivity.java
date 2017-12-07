@@ -154,6 +154,7 @@ public class VentaActivity extends AppCompatActivity   {
                 myDataset.add(new HeaderVenta(
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Venta._ID)),
                         (cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))+" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT))),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Client._ID)),
                         (cursor.getString(cursor.getColumnIndex(ContracteBD.Treballador.NOM_TREBALLADOR))+" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Treballador.COGNOMS_TREBALLADOR))),
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.DATA_VENTA)),
                         ventaPagada(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.VENTA_COBRADA))),

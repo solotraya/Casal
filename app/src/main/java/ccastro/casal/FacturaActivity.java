@@ -38,7 +38,7 @@ public class FacturaActivity extends AppCompatActivity {
     public static String nombreCliente; // id_cliente lo cogemos de la reserva.
     private android.support.v7.widget.Toolbar mToolbar;
     View v;
-    static Boolean actualizarReserva = false; Boolean idVentaFalta = true;
+     Boolean idVentaFalta = true;
     String data;
     static Integer idVentaFactura;
     String pagar = "pagar", pagada= "pagada";
@@ -163,7 +163,6 @@ public class FacturaActivity extends AppCompatActivity {
                     idVenta = data.getStringExtra("ID_VENTA");
                     idVentaFactura = Integer.parseInt(idVenta);
                     idVentaFalta = false;
-                    actualizarReserva = true;
                     actualizarRecyclerView();
                     headerAdapterFactura.actualitzaRecycler(myDataset);
                 }
@@ -194,7 +193,7 @@ public class FacturaActivity extends AppCompatActivity {
                                 df.format(Float.parseFloat(cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE)))
                                 * Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE))))
                         ));
-                if (!actualizarReserva) id_cliente = cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.ID_CLIENT));
+
 
                 preuProducteQuantitat = Float.parseFloat(cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE)))
                         * Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)));
@@ -270,7 +269,6 @@ public class FacturaActivity extends AppCompatActivity {
         }  else if (getIntent().hasExtra("ID_CLIENT")){   // VIENE DE COMEDOR
             Log.d("COMEDOR","true");
             id_cliente = getIntent().getExtras().getString("ID_CLIENT");
-            actualizarReserva=true;
             fechaReserva = Utilitats.obtenerFechaActual();
             Log.d("Fecha", fechaReserva);
             if (getIntent().hasExtra("NOM_CLIENT_RESERVA")){
@@ -288,8 +286,9 @@ public class FacturaActivity extends AppCompatActivity {
 
         } else {  // VIENE DE LISTADO DE VENTAS
             Log.d("VENTAS","true");
-            if (getIntent().hasExtra("ID_VENTA")){  // pasado desde HeaderAdapterVenta
-                idVenta = getIntent().getExtras().getString("ID_VENTA");
+            if (getIntent().hasExtra("ID_CLIENT_VENTA")){
+                id_cliente = getIntent().getExtras().getString("ID_CLIENT_VENTA");
+                Toast.makeText(this, id_cliente, Toast.LENGTH_SHORT).show();
             }
             if (getIntent().hasExtra("DATA_VENTA")){
                 dataVenta.setText(getIntent().getExtras().getString("DATA_VENTA"));
@@ -312,9 +311,12 @@ public class FacturaActivity extends AppCompatActivity {
             if (getIntent().hasExtra("HORA_VENTA")){
                 horaVenta.setText(getIntent().getExtras().getString("HORA_VENTA"));
             }
-            if (getIntent().hasExtra("ID_CLIENT_VENTA")){
-                id_cliente = getIntent().getExtras().getString("ID_CLIENT_VENTA");
-            }
+
+            db.obre();
+            Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
+            idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
+            idVenta = Integer.toString(idVentaFactura);
+            db.tanca();
             db.obre();
             Cursor cursor = db.RetornaFacturaId_Venta(idVenta);
             myDataset = CursorBD(cursor);

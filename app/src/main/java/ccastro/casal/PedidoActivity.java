@@ -85,7 +85,6 @@ public class PedidoActivity extends AppCompatActivity implements View.OnClickLis
             TextView textViewTotalProducte = (TextView) mToolbar.findViewById(R.id.textViewTotal);
             textViewTotalProducte.setText((getIntent().getExtras().getString("TOTAL_PRODUCTE"))+"€");
 
-            FacturaActivity.actualizarReserva = true;
             if (FacturaActivity.idVentaFactura==null){
                 // TODO: BUSCAMOS QUE EL CLIENTE TENGA ALGUNA FACTURA ABIERTA SIN PAGAR
 

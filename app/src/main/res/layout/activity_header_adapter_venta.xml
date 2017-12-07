@@ -17,10 +17,16 @@
 
 
         <TextView
-            android:id="@+id/idVenta"
+            android:id="@+id/idVentaFactura"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="idVenta"
+            android:visibility="gone" />
+        <TextView
+            android:id="@+id/idClienteVenta"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="idCliente"
             android:visibility="gone" />
 
         <LinearLayout

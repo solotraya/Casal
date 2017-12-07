@@ -34,7 +34,7 @@ public class ConsultesSQL {
 
     public String RetornaVentes(String fecha){
         return " Select v."+ Venta._ID+", v."+ Venta.DATA_VENTA+
-                ", v." + Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+
+                ", v." + Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+", c."+  Client._ID+
                 ", t."+  Treballador.NOM_TREBALLADOR+", t."+ Treballador.COGNOMS_TREBALLADOR+
                 " FROM "+ Venta.NOM_TAULA+" v"+
                 " LEFT JOIN  " + Treballador.NOM_TAULA + " t ON t." + Treballador._ID + " = v." + Venta.ID_TREBALLADOR+
@@ -81,7 +81,7 @@ public class ConsultesSQL {
 
     public String RetornaVentesDataEstatVenta(String estatVenta,String fecha){
         return  " Select v."+ Venta._ID+", v."+ Venta.DATA_VENTA+
-                ", v." + Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+
+                ", v." + Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+", c."+  Client._ID+
                 ", t."+  Treballador.NOM_TREBALLADOR+", t."+  Treballador.COGNOMS_TREBALLADOR+
                 " FROM "+ Venta.NOM_TAULA+" v"+
                 " LEFT JOIN  " + Treballador.NOM_TAULA + " t ON t." + Treballador._ID + " = v." + Venta.ID_TREBALLADOR+

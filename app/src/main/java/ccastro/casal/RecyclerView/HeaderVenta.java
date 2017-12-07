@@ -8,17 +8,27 @@ public class HeaderVenta {
     public String idVenta;
     public String nomClient;
     public String nomTreballador;
+    public String idCliente;
     public String dataVenta;
     public String ventaPagada;
     public String horaVenta;
 
-    public HeaderVenta(String idVenta, String nomClient, String nomTreballador, String dataVenta, String ventaPagada, String horaVenta) {
+    public HeaderVenta(String idVenta, String nomClient, String idCliente,String nomTreballador, String dataVenta, String ventaPagada, String horaVenta) {
         this.idVenta = idVenta;
         this.nomClient = nomClient;
         this.nomTreballador = nomTreballador;
+        this.idCliente = idCliente;
         this.dataVenta = dataVenta;
         this.ventaPagada = ventaPagada;
         this.horaVenta = horaVenta;
+    }
+
+    public String getIdCliente() {
+        return idCliente;
+    }
+
+    public void setIdCliente(String idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getIdVenta() {
