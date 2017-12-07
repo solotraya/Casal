@@ -36,7 +36,7 @@ public class FacturaActivity extends AppCompatActivity {
     String fechaReserva;
     public static String id_cliente; // id_cliente lo cogemos de la reserva.
     public static String nombreCliente; // id_cliente lo cogemos de la reserva.
-
+    private android.support.v7.widget.Toolbar mToolbar;
     View v;
     static Boolean actualizarReserva = false; Boolean idVentaFalta = true;
     String data;
@@ -53,14 +53,15 @@ public class FacturaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_factura);
         db = new DBInterface(this);
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_factura);
         dataVenta = (TextView) findViewById(R.id.dataVenta);
         horaVenta = (TextView) findViewById(R.id.horaVenta);
         nomClient = (TextView) findViewById(R.id.nomClient);
         nomTreballador = (TextView) findViewById(R.id.nomTreballadorF);
         estatVenta = (TextView) findViewById(ventaPagada);
         preuTotalFactura = (TextView) findViewById(R.id.precioTotalFactura);
-        buttonPagar = (Button) findViewById(R.id.buttonPagar);
-        buttonAñadirProducto = (Button) findViewById(R.id.buttonAñadirProducto);
+        buttonPagar = (Button) mToolbar.findViewById(R.id.buttonPagar);
+        buttonAñadirProducto = (Button) mToolbar.findViewById(R.id.buttonAñadirProducto);
 
         buttonPagar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,47 +176,7 @@ public class FacturaActivity extends AppCompatActivity {
 
         }
     }
-    public void recibirProducto(){
-        buttonPagar.setVisibility(View.VISIBLE);/*
-        String id_producte =  getIntent().getExtras().getString("ID_PRODUCTO");
-        String quantitat = getIntent().getExtras().getString("QUANTITAT");
 
-        actualizarReserva = true;
-        if (idVentaFactura==null){
-            // TODO: BUSCAMOS QUE EL CLIENTE TENGA ALGUNA FACTURA ABIERTA SIN PAGAR
-
-            Log.d("IDCLIENTE",id_cliente);
-            db.obre();
-            Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
-            idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
-            idVenta = Integer.toString(idVentaFactura);
-            Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
-            db.tanca();
-        }
-        db.obre();
-        Log.d("IDVENTAFACTURA",Integer.toString(idVentaFactura));
-        if (idVentaFactura==-1){ // Si no tienen una factura pendiente por pagar
-            crearNuevaVenta();
-            db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
-        } else {  // SI EL CLIENTE YA TIENE FACTURA SIN CERRAR
-            db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
-            db.ActualitzarFechaHoraFactura(idVentaFactura,Utilitats.obtenerFechaActual(),Utilitats.obtenerHoraActual());
-        }
-        db.tanca(); */
-        actualizarRecyclerView();
-        headerAdapterFactura.actualitzaRecycler(myDataset);
-    }
-    public void crearNuevaVenta(){
-        String hora = Utilitats.obtenerHoraActual();
-        //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
-        db.InserirVenta(Integer.parseInt(id_cliente),Integer.parseInt(LoginActivity.ID_TREBALLADOR),Utilitats.obtenerFechaActual(),"0",hora);
-        Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
-        idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
-        idVenta = Integer.toString(idVentaFactura);
-        Log.d("IDCLIENTEDEBARRAA",id_cliente);
-        Log.d("IDVENTACLIENTEBARRA",idVenta);
-        // idVenta = Integer.toString(idVentaFactura);
-    }
     public  ArrayList CursorBD(Cursor cursor){
         float preuProducteQuantitat=0;
         float preuTotal=0;
@@ -302,11 +263,8 @@ public class FacturaActivity extends AppCompatActivity {
         db.tanca();
     }
     public void cogerIntents(){
-        Log.d("COGER INTENTS","true");
-        if (getIntent().hasExtra("ID_PRODUCTO")){
-            recibirProducto();
-        }
-        else if (getIntent().hasExtra("NUEVO_PEDIDO")){   // VIENE DE VENTAS, ES UN PEDIDO NUEVO:
+
+        if (getIntent().hasExtra("NUEVO_PEDIDO")){   // VIENE DE VENTAS, ES UN PEDIDO NUEVO:
             seleccionarCliente();
             crearNuevoPedido();  // TODO: Desde Ventas entramos a crear nuevo pedido
         }  else if (getIntent().hasExtra("ID_CLIENT")){   // VIENE DE COMEDOR
@@ -319,12 +277,7 @@ public class FacturaActivity extends AppCompatActivity {
                 nombreCliente = (getIntent().getExtras().getString("NOM_CLIENT_RESERVA"));
                 nomClient.setText(nombreCliente);
             }
-            // AÑADIR PRIMERO MENU A PAGAR
-            // MIRAR SI SE PUEDE HACER LO SIGUIENTE:
-            // UNA VEZ ADJUDICAS RESERVADEMENU EN LA INTERFICE QUE HARE
-            // ABRIR VENTA + FACTURA + SI TIENE COSAS PENDIENTES
 
-            // BUSCAMOS EL ID_VENTA para RELACIONARLO CON LA FACTURA
             db.obre();
             Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
             idVentaFactura = cursorIDVentaFactura(cursorVentaFactura);
@@ -332,7 +285,6 @@ public class FacturaActivity extends AppCompatActivity {
             db.tanca();
 
             actualizarRecyclerView();
-
 
         } else {  // VIENE DE LISTADO DE VENTAS
             Log.d("VENTAS","true");
@@ -354,8 +306,7 @@ public class FacturaActivity extends AppCompatActivity {
                 Log.d("ESTADO: ",estatVenta.getText().toString());
                 if (estatVenta.getText().toString().equalsIgnoreCase("Pagado") || estatVenta.getText().toString().equalsIgnoreCase("Anulado")
                         || estatVenta.getText().toString().equalsIgnoreCase("Reembolsado")){
-                    buttonPagar.setVisibility(View.INVISIBLE);
-                    buttonAñadirProducto.setVisibility(View.INVISIBLE);
+                    mToolbar.setVisibility(View.GONE);
                 }
             }
             if (getIntent().hasExtra("HORA_VENTA")){

@@ -131,26 +131,7 @@
             android:gravity="bottom"
             android:orientation="horizontal">
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="bottom"
-                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/buttonAñadirProducto"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Añadir Producto" />
-
-                <Button
-                    android:id="@+id/buttonPagar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="Pagar Factura" />
-            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -202,6 +183,18 @@
                         android:textStyle="bold|italic" />
                 </LinearLayout>
             </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/tool_bar_factura"
+                layout="@layout/tool_bar_factura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

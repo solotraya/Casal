@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import ccastro.casal.SQLite.DBInterface;
@@ -15,7 +14,6 @@ import ccastro.casal.Utils.Utilitats;
 
 public class PedidoActivity extends AppCompatActivity implements View.OnClickListener {
     private android.support.v7.widget.Toolbar mToolbar;
-    private Button buttonAñadirProductoFactura;
     private String id_producte, quantitat;
     private Integer tipoProducto=-1;
     DBInterface db;
