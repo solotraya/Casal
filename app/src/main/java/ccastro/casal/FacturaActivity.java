@@ -32,14 +32,15 @@ public class FacturaActivity extends AppCompatActivity {
     DBInterface db;
     TextView dataVenta,horaVenta,nomClient,nomTreballador,estatVenta,preuTotalFactura;
     Button buttonPagar,buttonAñadirProducto;
-    String idVenta,fechaReserva;
+    static String idVenta;
+    String fechaReserva;
     public static String id_cliente; // id_cliente lo cogemos de la reserva.
     public static String nombreCliente; // id_cliente lo cogemos de la reserva.
 
     View v;
-    Boolean actualizarReserva = false, idVentaFalta = true;
+    static Boolean actualizarReserva = false; Boolean idVentaFalta = true;
     String data;
-    Integer idVentaFactura;
+    static Integer idVentaFactura;
     String pagar = "pagar", pagada= "pagada";
     boolean reembolsar = false;
     private HeaderAdapterFactura headerAdapterFactura;
@@ -142,7 +143,8 @@ public class FacturaActivity extends AppCompatActivity {
         if (requestCode == 2) {
             if (resultCode == Activity.RESULT_OK){
                 id_cliente = data.getStringExtra("ID_CLIENTE");
-                nomClient.setText(data.getStringExtra("NOMBRE_CLIENTE"));
+                nombreCliente = (data.getStringExtra("NOMBRE_CLIENTE"));
+                nomClient.setText(nombreCliente);
                 if (id_cliente.equalsIgnoreCase("1")){
                     //TODO: SI el cliente elegido es cliente barra creamos un nuevo cliente
                     db.obre();
@@ -174,9 +176,10 @@ public class FacturaActivity extends AppCompatActivity {
         }
     }
     public void recibirProducto(){
-        buttonPagar.setVisibility(View.VISIBLE);
+        buttonPagar.setVisibility(View.VISIBLE);/*
         String id_producte =  getIntent().getExtras().getString("ID_PRODUCTO");
         String quantitat = getIntent().getExtras().getString("QUANTITAT");
+
         actualizarReserva = true;
         if (idVentaFactura==null){
             // TODO: BUSCAMOS QUE EL CLIENTE TENGA ALGUNA FACTURA ABIERTA SIN PAGAR
@@ -198,7 +201,7 @@ public class FacturaActivity extends AppCompatActivity {
             db.InserirFactura(Integer.parseInt(id_producte),idVentaFactura,Integer.parseInt(quantitat));
             db.ActualitzarFechaHoraFactura(idVentaFactura,Utilitats.obtenerFechaActual(),Utilitats.obtenerHoraActual());
         }
-        db.tanca();
+        db.tanca(); */
         actualizarRecyclerView();
         headerAdapterFactura.actualitzaRecycler(myDataset);
     }

@@ -41,8 +41,6 @@ public class ProductoActivity extends AppCompatActivity {
     public void getIntents(){
         if (getIntent().hasExtra("TIPO_PRODUCTO")){
             tipoProducto = (getIntent().getExtras().getInt("TIPO_PRODUCTO"));
-            // PRUEBA DE ENVIO DE CARAJILLOS
-
         }
     }
     public void retornarProductes(){
