@@ -211,8 +211,8 @@ public class VentaActivity extends AppCompatActivity   {
         matrixCursor.addRow(new Object[]{1, "Pagado"});
         matrixCursor.addRow(new Object[]{2, "Falta Pagar"});
         matrixCursor.addRow(new Object[]{3, "Anulado"});
-        matrixCursor.addRow(new Object[]{3, "Reembolsar"});
-        matrixCursor.addRow(new Object[]{3, "Reembolsado"});
+        matrixCursor.addRow(new Object[]{4, "Reembolsar"});
+        matrixCursor.addRow(new Object[]{5, "Reembolsado"});
         return matrixCursor;
     }
     public void iniciarSpinnerEstatVenta(){

@@ -13,12 +13,9 @@
         android:layout_weight="1"
         android:text="Añadir Clientes" />
 
-    <EditText
-        android:id="@+id/editTextNumClientes"
+    <Spinner
+        android:id="@+id/spinnerNumClientes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="0" />
+        android:layout_weight="1" />
 </LinearLayout>

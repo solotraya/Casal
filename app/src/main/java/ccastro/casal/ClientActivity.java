@@ -24,6 +24,7 @@ import ccastro.casal.Utils.Cursors;
 
 public class ClientActivity extends AppCompatActivity {
     DBInterface db;
+
     ListView listView ;
     List<String> clientes = null;
     List<String> clientesSoloNombres = null;
@@ -31,19 +32,26 @@ public class ClientActivity extends AppCompatActivity {
     String id_cliente,nombreCliente, tipoPago;
     Integer idVentaFactura;
     boolean seleccionaCliente = false;
+    private android.support.v7.widget.Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_client);
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_cliente);
         db = new DBInterface(this);
         listView = (ListView) findViewById(R.id.listView);
         clientes= new ArrayList();
         clientesSoloNombres = new ArrayList();
         adapterClientes = new ArrayAdapter<String> (this,
                 android.R.layout.simple_list_item_1, android.R.id.text1, clientesSoloNombres);
-        // Assign adapter to ListView
         listView.setAdapter(adapterClientes);
-
+        mToolbar.findViewById(R.id.buttonAñadir).setOnClickListener( new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(ClientActivity.this, InsertarClienteActivity.class));
+                }
+            }
+        );
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -100,6 +108,7 @@ public class ClientActivity extends AppCompatActivity {
     public void getIntents(){
         if (getIntent().hasExtra("SELECCIONA_CLIENTE")){  // pasado desde HeaderAdapterVenta
             seleccionaCliente = getIntent().getExtras().getBoolean("SELECCIONA_CLIENTE");
+            mToolbar.setVisibility(View.GONE);
         }
     }
     public void retornaClients(){
@@ -121,6 +130,7 @@ public class ClientActivity extends AppCompatActivity {
         }
         db.tanca();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -158,4 +168,5 @@ public class ClientActivity extends AppCompatActivity {
         setResult(Activity.RESULT_CANCELED,returnIntent);
         finish();
     }
+
 }

@@ -6,8 +6,35 @@
     android:layout_height="match_parent"
     tools:context="ccastro.casal.ClientActivity">
 
-    <ListView
-        android:id="@+id/listView"
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:gravity="right"
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.9" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/tool_bar_cliente"
+                layout="@layout/tool_bar_cliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>
+
+
