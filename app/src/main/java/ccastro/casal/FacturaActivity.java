@@ -286,7 +286,9 @@ public class FacturaActivity extends AppCompatActivity {
         } else {  // VIENE DE LISTADO DE VENTAS
             Log.d("VENTAS","true");
             if (getIntent().hasExtra("ID_VENTA")){  // pasado desde HeaderAdapterVenta
+                Log.d("ID_VENTA_TEST",getIntent().getExtras().getString("ID_VENTA"));
                 idVenta = getIntent().getExtras().getString("ID_VENTA");
+                idVentaFactura = Integer.parseInt(idVenta);
             }
             if (getIntent().hasExtra("DATA_VENTA")){
                 dataVenta.setText(getIntent().getExtras().getString("DATA_VENTA"));
@@ -338,6 +340,9 @@ public class FacturaActivity extends AppCompatActivity {
     }
 
 
-
-
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 }
