@@ -66,7 +66,6 @@ public class HeaderAdapterVenta extends RecyclerView.Adapter<HeaderAdapterVenta.
         holder.ventaPagada.setText(mDataset.get(position).getVentaPagada());
         holder.idVenta.setText(mDataset.get(position).getIdVenta());
         holder.horaVenta.setText(mDataset.get(position).getHoraVenta());
-        holder.idCliente.setText(mDataset.get(position).getIdCliente());
     }
 
     /**
@@ -79,7 +78,7 @@ public class HeaderAdapterVenta extends RecyclerView.Adapter<HeaderAdapterVenta.
     }
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         // nom,dni,data,qr,localitzacio,email,check;
-        TextView idVenta,idCliente,nomClient,nomTreballador,dataVenta,ventaPagada,horaVenta;
+        TextView idVenta,nomClient,nomTreballador,dataVenta,ventaPagada,horaVenta;
         View v;
         Context context;
         /**
@@ -91,8 +90,7 @@ public class HeaderAdapterVenta extends RecyclerView.Adapter<HeaderAdapterVenta.
             nomClient=(TextView)v.findViewById(R.id.nomClient);
             nomTreballador=(TextView)v.findViewById(R.id.nomTreballador);
             dataVenta=(TextView) v.findViewById(R.id.dataVenta);
-            idVenta = (TextView) v.findViewById(R.id.idVentaFactura);
-            idCliente = (TextView) v.findViewById(R.id.idClienteVenta);
+            idVenta = (TextView) v.findViewById(R.id.idVenta);
             ventaPagada = (TextView) v.findViewById(R.id.ventaPagada);
             horaVenta = (TextView) v.findViewById(R.id.horaVenta);
 
@@ -109,12 +107,12 @@ public class HeaderAdapterVenta extends RecyclerView.Adapter<HeaderAdapterVenta.
         @Override
         public void onClick(View view) {
             Intent intent = new Intent(context,FacturaActivity.class);
+            intent.putExtra("ID_VENTA",idVenta.getText().toString());
             intent.putExtra("DATA_VENTA",dataVenta.getText().toString());
             intent.putExtra("HORA_VENTA",horaVenta.getText().toString());
             intent.putExtra("ESTAT_VENTA",ventaPagada.getText().toString());
             intent.putExtra("NOM_CLIENT",nomClient.getText().toString());
             intent.putExtra("NOM_TREBALLADOR",nomTreballador.getText().toString());
-            intent.putExtra("ID_CLIENT_VENTA",idCliente.getText().toString());
             context.startActivity(intent);
         }
     }

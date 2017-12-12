@@ -68,17 +68,30 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:weightSum="3">
-
-                <Button
-                    android:id="@+id/seleccionarProducte"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@android:drawable/checkbox_on_background"
-                    android:textAlignment="viewStart"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
+                    android:orientation="horizontal">
+                    <Button
+                        android:id="@+id/seleccionarProducte"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@android:drawable/checkbox_on_background"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="horizontal">
+                    </LinearLayout>
+
+                </LinearLayout>
+
 
 
                 <LinearLayout

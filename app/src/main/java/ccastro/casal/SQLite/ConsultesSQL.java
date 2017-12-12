@@ -34,7 +34,7 @@ public class ConsultesSQL {
 
     public String RetornaVentes(String fecha){
         return " Select v."+ Venta._ID+", v."+ Venta.DATA_VENTA+
-                ", v." + Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+", c."+  Client._ID+
+                ", v." + Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+
                 ", t."+  Treballador.NOM_TREBALLADOR+", t."+ Treballador.COGNOMS_TREBALLADOR+
                 " FROM "+ Venta.NOM_TAULA+" v"+
                 " LEFT JOIN  " + Treballador.NOM_TAULA + " t ON t." + Treballador._ID + " = v." + Venta.ID_TREBALLADOR+
@@ -81,7 +81,7 @@ public class ConsultesSQL {
 
     public String RetornaVentesDataEstatVenta(String estatVenta,String fecha){
         return  " Select v."+ Venta._ID+", v."+ Venta.DATA_VENTA+
-                ", v." + Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+", c."+  Client._ID+
+                ", v." + Venta.VENTA_COBRADA+", v." + Venta.HORA_VENTA+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT+
                 ", t."+  Treballador.NOM_TREBALLADOR+", t."+  Treballador.COGNOMS_TREBALLADOR+
                 " FROM "+ Venta.NOM_TAULA+" v"+
                 " LEFT JOIN  " + Treballador.NOM_TAULA + " t ON t." + Treballador._ID + " = v." + Venta.ID_TREBALLADOR+
@@ -139,10 +139,10 @@ public class ConsultesSQL {
                 " WHERE r."+Reserva_Cliente.ID_CLIENTE+" LIKE "+id_cliente+
                 " AND (r."+Reserva_Cliente.ASISTENCIA+" LIKE '0' AND r."+Reserva_Cliente.PAGADO+" LIKE '0')";
     }
-    public String obtenirNumClienteBarra(){
+    public String obtenirNumeroDeClients(String cadenaClient){
         return " SELECT COUNT (c."+Client._ID+") as Quantitat"+
                 " FROM "+Client.NOM_TAULA+" c"+
-                " WHERE c."+Client.NOM_CLIENT+" LIKE 'Cliente barra'";
+                " WHERE c."+Client.NOM_CLIENT+" LIKE '"+cadenaClient+"'";
     }
 
     public String obtenirCuantitatClienteBarraSinPagar(){

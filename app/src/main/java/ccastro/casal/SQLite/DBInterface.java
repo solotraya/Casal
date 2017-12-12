@@ -138,8 +138,8 @@ public class DBInterface {
         return bd.rawQuery(consulta.ObtenirQuantitatReservesSenseIDVenta(id_cliente),null);
 
     }
-    public Cursor obtenirNumClienteBarra(){
-        return bd.rawQuery(consulta.obtenirNumClienteBarra(),null);
+    public Cursor obtenirNumeroDeClients(String cadenaClient){
+        return bd.rawQuery(consulta.obtenirNumeroDeClients(cadenaClient),null);
     }
 
     public Cursor obtenirCuantitatClienteBarraSinPagar(){

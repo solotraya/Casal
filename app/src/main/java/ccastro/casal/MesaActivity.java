@@ -291,27 +291,18 @@ public class MesaActivity extends AppCompatActivity{
                 String [] cogerTipoPago = nombre.split(":");
                 tipoPago = cogerTipoPago[1];
                 nombreCliente = cogerTipoPago[0].split(" ",2)[1];
-
-                if (idCliente.equalsIgnoreCase("1")){
-                    //TODO: SI el cliente elegido es cliente barra creamos un nuevo cliente
-                    db.obre();
-                    Cursor cursor = db.obtenirNumClienteBarra();
-                    Integer quantitat = Cursors.cursorQuantitat(cursor);
-                    Log.d("QUANTITAT CLIENTBARRA",Integer.toString(quantitat));
-                    long idClienteLong = db.InserirClient("Cliente Barra",Integer.toString(quantitat),"0",12,"0","0","Cliente de barra sin identificar");
-                    nombreCliente = "Cliente Barra "+Integer.toString(quantitat);
-                    idCliente = Long.toString(idClienteLong);
-
-                    db.tanca();
-                }
-
                 textViewClienteSeleccionado.setText(nombreCliente);
+
                 textViewTextoCliente.setVisibility(View.VISIBLE);
                 textViewClienteSeleccionado.setVisibility(View.VISIBLE);
                 Log.d("NOMBRE CLIENTE: ",nombreCliente);
                 // TODO CONSULTA PARA CONSEGUIR LA MESA POR DEFECTO DEL CLIENTE
                 obtenirTaulaDefecteClient();
 
+                // TODO AHORA ESTARIA GENIA QUE DESPUES DE TENER EL ID CLIENTE
+                nombreCliente = cogerIDCliente[1];
+
+                Toast.makeText(view.getContext(), cogerIDCliente[0], Toast.LENGTH_SHORT).show();
                 listViewClientes.setVisibility(View.GONE);
                 // TODO Y SELECCIONAR MESA FAVORITA DE ESE CLIENTE EN EL SPINNER DE MESA
                 spinnerMesa.setSelection(Integer.parseInt(taulaPerDefecteClient));
@@ -569,7 +560,7 @@ public class MesaActivity extends AppCompatActivity{
         Cursor cursor= db.RetornaTotsElsClients();
         if (cursor.moveToFirst()) {
             do {    // Hacemos que no se pueda escoger a los cliente barra
-                if (cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT)).contains("Cliente Barra")){
+                if (cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT)).contains("Cliente Barra")|| cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT)).contains("Cliente barra") ){
                     cursor.moveToNext();
                 } else {
                     clientes.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client._ID))+" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))

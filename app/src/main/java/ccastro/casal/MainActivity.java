@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
         );
-        buttonBarra = (Button) findViewById(R.id.buttonBarra);
+        buttonBarra = (Button) findViewById(R.id.buttonInsertarClientes);
         buttonBarra.setOnClickListener( new View.OnClickListener(){
                                               @Override
                                               public void onClick(View view) {
-                                                  startActivity(new Intent(MainActivity.this, PedidoActivity.class));
+                                                  startActivity(new Intent(MainActivity.this, InsertarClienteActivity.class));
                                               }
                                           }
         );
