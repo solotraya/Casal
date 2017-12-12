@@ -28,9 +28,9 @@ public class ClientActivity extends AppCompatActivity {
     List<String> clientes = null;
     List<String> clientesSoloNombres = null;
     ArrayAdapter<String> adapterClientes;
-    String id_cliente,nombreCliente;
+    String id_cliente,nombreCliente, tipoPago;
     Integer idVentaFactura;
-    boolean clienteFactura = false;
+    boolean seleccionaCliente = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +55,7 @@ public class ClientActivity extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 } */
-                if (clienteFactura){
+                if (seleccionaCliente){
                     String nombre =(String) listView.getItemAtPosition(position);
                     for (String client: clientes){
                         if (client.contains(nombre)){
@@ -67,6 +67,8 @@ public class ClientActivity extends AppCompatActivity {
                     id_cliente = cogerIDCliente[0];
                     String [] cogerTipoPago = nombre.split(":");
                     nombreCliente = cogerTipoPago[0].split(" ",2)[1];
+                    tipoPago = cogerTipoPago[1];
+
 
                     Log.d("NOMBRE CLIENTE: ",nombreCliente);
 
@@ -83,6 +85,7 @@ public class ClientActivity extends AppCompatActivity {
                     Intent returnIntent = new Intent();
                     returnIntent.putExtra("ID_CLIENTE",id_cliente);
                     returnIntent.putExtra("NOMBRE_CLIENTE",nombreCliente);
+                    returnIntent.putExtra("TIPO_PAGO",tipoPago);
                     returnIntent.putExtra("ID_VENTA",Integer.toString(idVentaFactura));
                     setResult(Activity.RESULT_OK,returnIntent);
                     finish();
@@ -95,8 +98,8 @@ public class ClientActivity extends AppCompatActivity {
         retornaClients();
     }
     public void getIntents(){
-        if (getIntent().hasExtra("CLIENTE_FACTURA")){  // pasado desde HeaderAdapterVenta
-            clienteFactura = getIntent().getExtras().getBoolean("CLIENTE_FACTURA");
+        if (getIntent().hasExtra("SELECCIONA_CLIENTE")){  // pasado desde HeaderAdapterVenta
+            seleccionaCliente = getIntent().getExtras().getBoolean("SELECCIONA_CLIENTE");
         }
     }
     public void retornaClients(){
@@ -122,8 +125,8 @@ public class ClientActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.toolbar_menu_mesa_widgets, menu);
-        menu.findItem(R.id.spinnerMesa).setVisible(false);
+        inflater.inflate(R.menu.toolbar_menu_client, menu);
+
 
         MenuItem item = menu.findItem(R.id.searchViewClientes);
 

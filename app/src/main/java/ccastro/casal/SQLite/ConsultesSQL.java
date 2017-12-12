@@ -49,7 +49,7 @@ public class ConsultesSQL {
                 ", (SELECT distinct m." + Mesa._ID + " FROM " + Mesa.NOM_TAULA + " r" + " WHERE r." + Reserva_Cliente.DIA_RESERVADO+ " LIKE '"+data+"' AND r."+Reserva_Cliente.ASISTENCIA+" LIKE '0') as columnaMesas"+
                 " FROM " + Mesa.NOM_TAULA + " m" +
                 " LEFT JOIN  " + Reserva_Cliente.NOM_TAULA + " r ON m." + Mesa._ID + " = r." + Reserva_Cliente.ID_MESA +
-                " WHERE r." + Reserva_Cliente.DIA_RESERVADO + " LIKE '"+data+"'";
+                " WHERE r." + Reserva_Cliente.DIA_RESERVADO + " LIKE '"+data+"'  AND r."+Reserva_Cliente.ASISTENCIA+" LIKE '0'";
                 // " WHERE r."+ Reserva_Cliente.DIA_RESERVADO+" LIKE strftime('%Y %m %d','now')";
     }
 

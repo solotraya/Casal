@@ -130,9 +130,6 @@ public class FacturaActivity extends AppCompatActivity {
                 Intent intent = new Intent(FacturaActivity.this,PedidoActivity.class);
                 startActivity(intent);
                 finish();
-            //    startActivityForResult(intent,1);
-
-
             }
         });
         cogerIntents();
@@ -323,7 +320,7 @@ public class FacturaActivity extends AppCompatActivity {
     }
     public void seleccionarCliente(){
         Intent intent = new Intent(FacturaActivity.this, ClientActivity.class);
-        intent.putExtra("CLIENTE_FACTURA",true);
+        intent.putExtra("SELECCIONA_CLIENTE",true);
         startActivityForResult(intent,2);
 
     }
