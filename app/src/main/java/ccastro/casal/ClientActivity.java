@@ -64,6 +64,28 @@ public class ClientActivity extends AppCompatActivity {
              }
          }
         );
+        mToolbar.findViewById(R.id.buttonEliminar).setOnClickListener( new View.OnClickListener(){
+                @Override
+                public void onClick(View view) {
+                    if (id_cliente!= null){
+                        db.obre();
+                        Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
+                        idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+                        Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
+                        if (idVentaFactura==-1){
+                            long resultat = db.EliminarClient(id_cliente);
+                            db.tanca();
+                            if (resultat==1){
+                                Toast.makeText(ClientActivity.this, "Cliente "+nombreCliente+" eliminado correctamente", Toast.LENGTH_SHORT).show();
+                            }
+                        } else Toast.makeText(ClientActivity.this, "Imposible eliminar! El cliente"+nombreCliente+" tiene facturas sin pagar!", Toast.LENGTH_SHORT).show();
+
+                        retornaClients();
+                        adapterClientes.notifyDataSetChanged();
+                    } else Toast.makeText(ClientActivity.this, "Selecciona cliente!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        );
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

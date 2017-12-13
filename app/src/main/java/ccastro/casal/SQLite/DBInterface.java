@@ -299,4 +299,9 @@ public class DBInterface {
         initialValues.put(Reserva_Cliente.ID_MESA,idMesa);
         return bd.insert(Reserva_Cliente.NOM_TAULA, null, initialValues);
     }
+    public long EliminarClient(String idClient){
+        String where = Client._ID+ " = ?";
+        String[] selection = {""+idClient};
+        return bd.delete(Client.NOM_TAULA,where,selection);
+    }
 }
