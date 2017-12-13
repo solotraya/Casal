@@ -60,6 +60,7 @@ public class ClientActivity extends AppCompatActivity {
                      Intent intent = new Intent (ClientActivity.this,InsertarClienteActivity.class);
                      intent.putExtra("ID_CLIENTE",id_cliente);
                      startActivity(intent);
+                     finish();
                  } else Toast.makeText(ClientActivity.this, "Selecciona cliente!", Toast.LENGTH_SHORT).show();
              }
          }

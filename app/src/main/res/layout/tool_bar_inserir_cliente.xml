@@ -37,7 +37,6 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:text="NUEVO CLIENTE ESTANDAR"
-            android:visibility="gone"
             android:textColor="@android:color/background_light" />
 
     </LinearLayout>

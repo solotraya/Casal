@@ -173,6 +173,8 @@ public class InsertarClienteActivity extends AppCompatActivity {
             Cursor cursor = db.obtenirDadesClientPerId(id_cliente);
             mouCursor(cursor);
             db.tanca();
+        } else{
+            mToolbar.findViewById(R.id.buttonModificarCliente).setVisibility(View.GONE);
         }
     }
     public void mouCursor(Cursor cursor){
