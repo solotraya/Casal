@@ -43,8 +43,7 @@ public class ClientActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listView);
         clientes= new ArrayList();
         clientesSoloNombres = new ArrayList();
-        adapterClientes = new ArrayAdapter<String> (this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, clientesSoloNombres);
+        adapterClientes = new ArrayAdapter(getBaseContext(),R.layout.format_list_view,clientesSoloNombres);
         listView.setAdapter(adapterClientes);
         mToolbar.findViewById(R.id.buttonAñadir).setOnClickListener( new View.OnClickListener(){
                 @Override
@@ -53,22 +52,23 @@ public class ClientActivity extends AppCompatActivity {
                 }
             }
         );
-        mToolbar.findViewById(R.id.buttonModificar).setOnClickListener( new View.OnClickListener(){
-             @Override
-             public void onClick(View view) {
-                 if (id_cliente!= null){
-                     Intent intent = new Intent (ClientActivity.this,InsertarClienteActivity.class);
-                     intent.putExtra("ID_CLIENTE",id_cliente);
-                     startActivity(intent);
-                     finish();
-                 } else Toast.makeText(ClientActivity.this, "Selecciona cliente!", Toast.LENGTH_SHORT).show();
-             }
-         }
-        );
+        mToolbar.findViewById(R.id.buttonModificar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (id_cliente!= null){
+                    Intent intent = new Intent (ClientActivity.this,InsertarClienteActivity.class);
+                    intent.putExtra("ID_CLIENTE",id_cliente);
+                    startActivity(intent);
+                    finish();
+                } else Toast.makeText(ClientActivity.this, "Selecciona cliente!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         mToolbar.findViewById(R.id.buttonEliminar).setOnClickListener( new View.OnClickListener(){
                 @Override
                 public void onClick(View view) {
                     if (id_cliente!= null){
+
                         db.obre();
                         Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
                         idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
@@ -79,7 +79,7 @@ public class ClientActivity extends AppCompatActivity {
                             if (resultat==1){
                                 Toast.makeText(ClientActivity.this, "Cliente "+nombreCliente+" eliminado correctamente", Toast.LENGTH_SHORT).show();
                             }
-                        } else Toast.makeText(ClientActivity.this, "Imposible eliminar! El cliente"+nombreCliente+" tiene facturas sin pagar!", Toast.LENGTH_SHORT).show();
+                        } else Toast.makeText(ClientActivity.this, "Imposible eliminar! El cliente "+nombreCliente+" tiene facturas sin pagar!", Toast.LENGTH_SHORT).show();
 
                         retornaClients();
                         adapterClientes.notifyDataSetChanged();
@@ -87,6 +87,7 @@ public class ClientActivity extends AppCompatActivity {
                 }
             }
         );
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -98,13 +99,10 @@ public class ClientActivity extends AppCompatActivity {
                     InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 } */
+                view.setSelected(true);
                 if (seleccionaCliente){
                     recogerCliente(position);
-
-
                     Log.d("NOMBRE CLIENTE: ",nombreCliente);
-
-                   // Toast.makeText(view.getContext(), cogerIDCliente[0], Toast.LENGTH_SHORT).show();
 
                     // TODO: BUSCAMOS QUE EL CLIENTE TENGA ALGUNA FACTURA ABIERTA SIN PAGAR
                     db.obre();
@@ -124,13 +122,12 @@ public class ClientActivity extends AppCompatActivity {
                 } else {
                     // TODO AQUI HAREMOS QUE SE PUEDA ENTRAR AL CLIENTE PARA MODIFICARLO O ELIMINARLO.
                     recogerCliente(position);
-                    Toast.makeText(ClientActivity.this, nombreCliente+" seleccionado!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         getIntents();
-
     }
+
     public void recogerCliente(int position){
         String nombre =(String) listView.getItemAtPosition(position);
         for (String client: clientes){

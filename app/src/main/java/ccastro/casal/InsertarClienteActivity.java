@@ -153,10 +153,10 @@ public class InsertarClienteActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Integer quantitat;
                 db.obre();
-                Cursor cursor = db.obtenirNumeroDeClients("#Cliente Comedor");
+                Cursor cursor = db.obtenirNumeroDeClients("~Cliente Comedor");
                 quantitat = Cursors.cursorQuantitat(cursor);
                 for (int i=quantitat+1; i<=quantitat+quantitatAfegir; i++){
-                    long idCliente = db.InserirClient("#Cliente Comedor",""+Integer.toString(i),"0",12,"0","0","Cliente sin identificar");
+                    long idCliente = db.InserirClient("~Cliente Comedor",""+Integer.toString(i),"0",12,"0","0","Cliente sin identificar");
                 }
                 db.tanca();
                 finish();
