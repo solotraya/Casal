@@ -3,12 +3,15 @@ package ccastro.casal;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import ccastro.casal.SQLite.DBInterface;
 import ccastro.casal.Utils.Cursors;
@@ -20,14 +23,13 @@ public class InsertarClienteActivity extends AppCompatActivity {
     Spinner spinnerNumClientes, spinnerTipoClientes,spinnerTipoPago,spinnerMesaFavorita,spinnerTipoComida;
     String arraySpinnerNumClientes [] = {"1","2","3","4","5"};
     String arraySpinnerTipoClientes [] = {"Comedor","Llevar","Ayuntamiento"};
-    /**
-     *  SEGUIR POR AQUI
-     */
-    String arraySpinneTipoPago[] = {"1","2","3","4","5"};
-    String arraySpinnerMesaFavorita [] = {"1","2","3","4","5"};
-    String arraySpinnertipoComida [] = {"1","2","3","4","5"};
-    Integer quantitatAfegir;
-    ArrayAdapter<String> adapterNumClientes;
+    String arraySpinnerTipoPago[] = {"5,50€","3€","2€","1,5€"};  // Poner lo que sea
+    String arraySpinnerMesaFavorita [] = {"Llevar","1","2","3","4","5","6","7","8","9","10","11","12"};
+    String arraySpinnerTipoComida [] = {"Normal","Diabetes","Estringente"};
+    String tipusClient="0",tipoPago="0",tipoComida="0";
+    Integer quantitatAfegir, mesaFavorita=0;
+    ArrayAdapter<String> adapterNumClientes, adapterTipoClientes, adapterTipoPago,adapterMesaFavorita,adapterTipoComida;
+    EditText nomClient, cognomsClient, observaciones;
     private android.support.v7.widget.Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,13 +40,33 @@ public class InsertarClienteActivity extends AppCompatActivity {
         layoutClient = (LinearLayout) findViewById(R.id.layoutClient);
         layoutClientSinDeterminar = (LinearLayout) findViewById(R.id.layoutClientSinDeterminar);
         spinnerNumClientes = (Spinner) findViewById(R.id.spinnerNumClientes);
-        adapterNumClientes = new ArrayAdapter<String> (this,
-                android.R.layout.simple_list_item_1, android.R.id.text1, arraySpinnerNumClientes);
+        adapterNumClientes = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, android.R.id.text1, arraySpinnerNumClientes);
         spinnerNumClientes.setAdapter(adapterNumClientes);
+        spinnerTipoClientes = (Spinner) findViewById(R.id.spinnerTipoCliente);
+        adapterTipoClientes = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, android.R.id.text1, arraySpinnerTipoClientes);
+        spinnerTipoClientes.setAdapter(adapterTipoClientes);
+        spinnerTipoPago = (Spinner) findViewById(R.id.spinnerTipoPago);
+        adapterTipoPago = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, android.R.id.text1, arraySpinnerTipoPago);
+        spinnerTipoPago.setAdapter(adapterTipoPago);
+        spinnerMesaFavorita = (Spinner) findViewById(R.id.spinnerMesaFavorita);
+        adapterMesaFavorita = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, android.R.id.text1, arraySpinnerMesaFavorita);
+        spinnerMesaFavorita.setAdapter(adapterMesaFavorita);
+        spinnerTipoComida = (Spinner) findViewById(R.id.spinnerTipoComida);
+        adapterTipoComida = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, android.R.id.text1, arraySpinnerTipoComida);
+        spinnerTipoComida.setAdapter(adapterTipoComida);
+        nomClient = (EditText) findViewById(R.id.editTextNomClient);
+        cognomsClient = (EditText) findViewById(R.id.editTextCognomsClients);
+        observaciones = (EditText) findViewById(R.id.editTextObservaciones);
         mToolbar.findViewById(R.id.buttonAñadirCliente).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if (nomClient.getText().toString().length()>0 && cognomsClient.getText().toString().length()>0){
+                    db.obre();
+                    db.InserirClient(nomClient.getText().toString(),cognomsClient.getText().toString(),tipusClient,mesaFavorita,tipoPago,tipoComida,observaciones.getText().toString());
+                    db.tanca();
+                } else {
+                    Toast.makeText(InsertarClienteActivity.this, "Introduce nombre y apellidos!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         clienteSinDeterminar = (Button) mToolbar.findViewById(R.id.buttonAñadirClienteSinDeterminar);
@@ -69,18 +91,43 @@ public class InsertarClienteActivity extends AppCompatActivity {
         spinnerNumClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                switch (position){
-                    case 0: quantitatAfegir = 1; break;
-                    case 1: quantitatAfegir = 2; break;
-                    case 2: quantitatAfegir = 3; break;
-                    case 3: quantitatAfegir = 4; break;
-                    case 4: quantitatAfegir = 5; break;
-                }
+                quantitatAfegir = position+1;
             }
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
+        spinnerMesaFavorita.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                mesaFavorita = position;
+                Log.d("MESA FAVORITA",Integer.toString(mesaFavorita));
             }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
+        spinnerTipoClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                tipusClient = Integer.toString(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
+        spinnerTipoComida.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                tipoComida = Integer.toString(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
+        });
+        spinnerTipoPago.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                tipoPago = Integer.toString(position);
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
         insertarClientes = (Button) findViewById(R.id.buttonAfegirClientes);
         insertarClientes.setOnClickListener(new View.OnClickListener(){
