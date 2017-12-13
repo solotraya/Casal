@@ -103,7 +103,7 @@ public class ClientActivity extends AppCompatActivity {
             }
         });
         getIntents();
-        retornaClients();
+
     }
     public void getIntents(){
         if (getIntent().hasExtra("SELECCIONA_CLIENTE")){  // pasado desde HeaderAdapterVenta
@@ -169,4 +169,10 @@ public class ClientActivity extends AppCompatActivity {
         finish();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        retornaClients();
+        adapterClientes.notifyDataSetChanged();
+    }
 }

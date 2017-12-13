@@ -62,8 +62,12 @@ public class InsertarClienteActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (nomClient.getText().toString().length()>0 && cognomsClient.getText().toString().length()>0){
                     db.obre();
-                    db.InserirClient(nomClient.getText().toString(),cognomsClient.getText().toString(),tipusClient,mesaFavorita,tipoPago,tipoComida,observaciones.getText().toString());
+                    long posicio = db.InserirClient(nomClient.getText().toString(),cognomsClient.getText().toString(),tipusClient,mesaFavorita,tipoPago,tipoComida,observaciones.getText().toString());
                     db.tanca();
+                    if (posicio!=-1) {
+                        Toast.makeText(InsertarClienteActivity.this, "Cliente "+nomClient.getText().toString()+" añadido!", Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else Toast.makeText(InsertarClienteActivity.this, "El cliente "+nomClient.getText().toString()+" ya existe", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(InsertarClienteActivity.this, "Introduce nombre y apellidos!", Toast.LENGTH_SHORT).show();
                 }

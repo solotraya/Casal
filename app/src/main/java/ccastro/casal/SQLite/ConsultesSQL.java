@@ -26,7 +26,8 @@ public class ConsultesSQL {
 
     String RetornaTotsElsClients ="Select c."+ ContracteBD.Client._ID+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT
             +", c."+  Client.TIPUS_CLIENT+", c."+Client.TIPO_PAGO+", c."+Client.TIPO_COMIDA+", c."+Client.OBSERVACIONS_CLIENT+
-            " FROM "+ Client.NOM_TAULA+" c";
+            " FROM "+ Client.NOM_TAULA+" c"+
+            " ORDER BY c."+ Client.NOM_CLIENT;
 
     String RetornaTotsElsProductes ="Select p."+ ContracteBD.Producte._ID+", p."+ Producte.NOM_PRODUCTE+", p."
             +  Producte.TIPUS_PRODUCTE+", p."+  Producte.PREU_PRODUCTE+
