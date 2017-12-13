@@ -21,6 +21,14 @@
             android:background="@android:color/transparent"
             android:text="AÑADIR CLIENTE"
             android:textColor="@android:color/background_light" />
+        <Button
+            android:id="@+id/buttonModificarCliente"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@android:color/transparent"
+            android:text="MODIFICAR CLIENTE"
+            android:textColor="@android:color/background_light" />
 
         <Button
             android:id="@+id/buttonAñadirClienteSinDeterminar"
@@ -29,6 +37,7 @@
             android:layout_weight="1"
             android:background="@android:color/transparent"
             android:text="NUEVO CLIENTE ESTANDAR"
+            android:visibility="gone"
             android:textColor="@android:color/background_light" />
 
     </LinearLayout>

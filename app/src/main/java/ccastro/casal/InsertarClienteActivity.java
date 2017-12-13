@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
 import ccastro.casal.Utils.Cursors;
 
@@ -26,7 +27,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
     String arraySpinnerTipoPago[] = {"5,50€","3€","2€","1,5€"};  // Poner lo que sea
     String arraySpinnerMesaFavorita [] = {"Llevar","1","2","3","4","5","6","7","8","9","10","11","12"};
     String arraySpinnerTipoComida [] = {"Normal","Diabetes","Estringente"};
-    String tipusClient="0",tipoPago="0",tipoComida="0";
+    String tipusClient="0",tipoPago="0",tipoComida="0",id_cliente;
     Integer quantitatAfegir, mesaFavorita=0;
     ArrayAdapter<String> adapterNumClientes, adapterTipoClientes, adapterTipoPago,adapterMesaFavorita,adapterTipoComida;
     EditText nomClient, cognomsClient, observaciones;
@@ -57,6 +58,19 @@ public class InsertarClienteActivity extends AppCompatActivity {
         nomClient = (EditText) findViewById(R.id.editTextNomClient);
         cognomsClient = (EditText) findViewById(R.id.editTextCognomsClients);
         observaciones = (EditText) findViewById(R.id.editTextObservaciones);
+        mToolbar.findViewById(R.id.buttonModificarCliente).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                db.obre();
+                long resultat = db.ActualitzarClient(Integer.parseInt(id_cliente),nomClient.getText().toString(),cognomsClient.getText().toString(),tipusClient,mesaFavorita,tipoPago,tipoComida,observaciones.getText().toString());
+                db.tanca();
+                Log.d("ACTUALIZADO",Long.toString(resultat));
+                if (resultat!=0){
+                    Toast.makeText(InsertarClienteActivity.this, "Cliente "+nomClient.getText().toString()+" actualizado!", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else Toast.makeText(InsertarClienteActivity.this, "El cliente "+nomClient.getText().toString()+" ya existe", Toast.LENGTH_SHORT).show();
+            }
+        });
         mToolbar.findViewById(R.id.buttonAñadirCliente).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,5 +162,41 @@ public class InsertarClienteActivity extends AppCompatActivity {
                 finish();
             }
         });
+        getIntents();
     }
+    public void getIntents(){
+        if (getIntent().hasExtra("ID_CLIENTE")){  // pasado desde ClientActivity
+            mToolbar.findViewById(R.id.buttonAñadirCliente).setVisibility(View.GONE);
+            mToolbar.findViewById(R.id.buttonModificarCliente).setVisibility(View.VISIBLE);
+            id_cliente = getIntent().getExtras().getString("ID_CLIENTE");
+            db.obre();
+            Cursor cursor = db.obtenirDadesClientPerId(id_cliente);
+            mouCursor(cursor);
+            db.tanca();
+        }
+    }
+    public void mouCursor(Cursor cursor){
+        if(cursor.moveToFirst()) {
+            do {
+                nomClient.setText(cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT)));
+                cognomsClient.setText(cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT)));
+                String tipoPago = cursor.getString(cursor.getColumnIndex(ContracteBD.Client.TIPO_PAGO));
+                spinnerTipoPago.setSelection(Integer.parseInt(tipoPago));
+                adapterTipoPago.notifyDataSetChanged();
+                String tipoComida = cursor.getString(cursor.getColumnIndex(ContracteBD.Client.TIPO_COMIDA));
+                spinnerTipoComida.setSelection(Integer.parseInt(tipoComida));
+                adapterTipoComida.notifyDataSetChanged();
+
+                String tipoCliente = cursor.getString(cursor.getColumnIndex(ContracteBD.Client.TIPUS_CLIENT));
+                spinnerTipoClientes.setSelection(Integer.parseInt(tipoCliente));
+                adapterTipoClientes.notifyDataSetChanged();
+
+                String mesaFavorita = cursor.getString(cursor.getColumnIndex(ContracteBD.Client.MESA_FAVORITA));
+                spinnerMesaFavorita.setSelection(Integer.parseInt(mesaFavorita));
+                adapterMesaFavorita.notifyDataSetChanged();
+                observaciones.setText(cursor.getString(cursor.getColumnIndex(ContracteBD.Client.OBSERVACIONS_CLIENT)));
+            } while(cursor.moveToNext());
+        }
+    }
+
 }

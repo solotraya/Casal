@@ -140,6 +140,11 @@ public class ConsultesSQL {
                 " WHERE r."+Reserva_Cliente.ID_CLIENTE+" LIKE "+id_cliente+
                 " AND (r."+Reserva_Cliente.ASISTENCIA+" LIKE '0' AND r."+Reserva_Cliente.PAGADO+" LIKE '0')";
     }
+    public String obtenirDadesClientPerId(String id_cliente){
+        return "Select c."+Client.NOM_CLIENT+",c."+Client.COGNOMS_CLIENT+",c."+Client.TIPUS_CLIENT+",c."+Client.TIPO_PAGO+",c."+Client.TIPO_COMIDA+",c."+Client.MESA_FAVORITA+",c."+Client.OBSERVACIONS_CLIENT+
+                " FROM "+ Client.NOM_TAULA+" c"+
+                " WHERE c."+ Client._ID+" LIKE "+id_cliente;
+    }
     public String obtenirNumeroDeClients(String cadenaClient){
         return " SELECT COUNT (c."+Client._ID+") as Quantitat"+
                 " FROM "+Client.NOM_TAULA+" c"+

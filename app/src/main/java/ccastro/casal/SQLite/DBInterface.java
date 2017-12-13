@@ -145,6 +145,9 @@ public class DBInterface {
     public Cursor obtenirCuantitatClienteBarraSinPagar(){
         return bd.rawQuery(consulta.obtenirCuantitatClienteBarraSinPagar(),null);
     }
+    public Cursor obtenirDadesClientPerId(String id_cliente){
+        return bd.rawQuery(consulta.obtenirDadesClientPerId(id_cliente),null);
+    }
     public void EliminarTotsElsClientsDeBarra(){
         String where = Client.NOM_CLIENT + " = 'Cliente Barra'";
         String[] selection = {};
@@ -204,6 +207,21 @@ public class DBInterface {
         String[] selection = {""+idVenta};
         bd.update(Venta.NOM_TAULA, valores, where, selection);
         Log.d("proba", "Actualitzat");
+    }
+    public long ActualitzarClient (Integer idClient, String nom, String cognoms, String tipusClient,Integer mesaFavorita,
+                                   String tipoPago, String tipoComida, String observacions){
+
+        ContentValues valores = new ContentValues();
+        valores.put(Client.NOM_CLIENT, nom);
+        valores.put(Client.COGNOMS_CLIENT, cognoms);
+        valores.put(Client.TIPUS_CLIENT, tipusClient);
+        valores.put(Client.MESA_FAVORITA, mesaFavorita);
+        valores.put(Client.TIPO_PAGO, tipoPago);
+        valores.put(Client.TIPO_COMIDA, tipoComida);
+        valores.put(Client.OBSERVACIONS_CLIENT, observacions);
+        String where = Client._ID+ " = ?";
+        String[] selection = {""+idClient};
+        return bd.update(Client.NOM_TAULA, valores, where, selection);
     }
 
 

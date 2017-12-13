@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,6 +53,17 @@ public class ClientActivity extends AppCompatActivity {
                 }
             }
         );
+        mToolbar.findViewById(R.id.buttonModificar).setOnClickListener( new View.OnClickListener(){
+             @Override
+             public void onClick(View view) {
+                 if (id_cliente!= null){
+                     Intent intent = new Intent (ClientActivity.this,InsertarClienteActivity.class);
+                     intent.putExtra("ID_CLIENTE",id_cliente);
+                     startActivity(intent);
+                 } else Toast.makeText(ClientActivity.this, "Selecciona cliente!", Toast.LENGTH_SHORT).show();
+             }
+         }
+        );
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -64,18 +76,7 @@ public class ClientActivity extends AppCompatActivity {
                     imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
                 } */
                 if (seleccionaCliente){
-                    String nombre =(String) listView.getItemAtPosition(position);
-                    for (String client: clientes){
-                        if (client.contains(nombre)){
-                            nombre = client;
-                            break;
-                        }
-                    }
-                    String [] cogerIDCliente = nombre.split(" ");
-                    id_cliente = cogerIDCliente[0];
-                    String [] cogerTipoPago = nombre.split(":");
-                    nombreCliente = cogerTipoPago[0].split(" ",2)[1];
-                    tipoPago = cogerTipoPago[1];
+                    recogerCliente(position);
 
 
                     Log.d("NOMBRE CLIENTE: ",nombreCliente);
@@ -99,11 +100,27 @@ public class ClientActivity extends AppCompatActivity {
                     finish();
                 } else {
                     // TODO AQUI HAREMOS QUE SE PUEDA ENTRAR AL CLIENTE PARA MODIFICARLO O ELIMINARLO.
+                    recogerCliente(position);
+                    Toast.makeText(ClientActivity.this, nombreCliente+" seleccionado!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         getIntents();
 
+    }
+    public void recogerCliente(int position){
+        String nombre =(String) listView.getItemAtPosition(position);
+        for (String client: clientes){
+            if (client.contains(nombre)){
+                nombre = client;
+                break;
+            }
+        }
+        String [] cogerIDCliente = nombre.split(" ");
+        id_cliente = cogerIDCliente[0];
+        String [] cogerTipoPago = nombre.split(":");
+        nombreCliente = cogerTipoPago[0].split(" ",2)[1];
+        tipoPago = cogerTipoPago[1];
     }
     public void getIntents(){
         if (getIntent().hasExtra("SELECCIONA_CLIENTE")){  // pasado desde HeaderAdapterVenta
