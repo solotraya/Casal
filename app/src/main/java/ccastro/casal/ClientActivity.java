@@ -14,7 +14,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +21,7 @@ import java.util.List;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
 import ccastro.casal.Utils.Cursors;
+import ccastro.casal.Utils.Missatges;
 
 public class ClientActivity extends AppCompatActivity {
     DBInterface db;
@@ -59,8 +59,7 @@ public class ClientActivity extends AppCompatActivity {
                     Intent intent = new Intent (ClientActivity.this,InsertarClienteActivity.class);
                     intent.putExtra("ID_CLIENTE",id_cliente);
                     startActivity(intent);
-                    finish();
-                } else Toast.makeText(ClientActivity.this, "Selecciona cliente!", Toast.LENGTH_SHORT).show();
+                } else Missatges.AlertMissatge("ERROR", "Selecciona un cliente!", R.drawable.error2, ClientActivity.this);
             }
         });
 
@@ -77,13 +76,15 @@ public class ClientActivity extends AppCompatActivity {
                             long resultat = db.EliminarClient(id_cliente);
                             db.tanca();
                             if (resultat==1){
-                                Toast.makeText(ClientActivity.this, "Cliente "+nombreCliente+" eliminado correctamente", Toast.LENGTH_SHORT).show();
+                                Missatges.AlertMissatge("CLIENTE ELIMINADO", nombreCliente+" ha sido eliminado correctamente", R.drawable.papelera, ClientActivity.this);
                             }
-                        } else Toast.makeText(ClientActivity.this, "Imposible eliminar! El cliente "+nombreCliente+" tiene facturas sin pagar!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Missatges.AlertMissatge("ERROR AL ELIMINAR", nombreCliente+" tiene facturas sin pagar!", R.drawable.error2, ClientActivity.this);
+                        }
 
                         retornaClients();
                         adapterClientes.notifyDataSetChanged();
-                    } else Toast.makeText(ClientActivity.this, "Selecciona cliente!", Toast.LENGTH_SHORT).show();
+                    } else Missatges.AlertMissatge("ERROR", "Selecciona un cliente!", R.drawable.error2, ClientActivity.this);
                 }
             }
         );

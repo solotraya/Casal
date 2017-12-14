@@ -11,11 +11,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
 import ccastro.casal.Utils.Cursors;
+import ccastro.casal.Utils.Missatges;
 
 public class InsertarClienteActivity extends AppCompatActivity {
     LinearLayout layoutClient,layoutClientSinDeterminar;
@@ -66,9 +66,8 @@ public class InsertarClienteActivity extends AppCompatActivity {
                 db.tanca();
                 Log.d("ACTUALIZADO",Long.toString(resultat));
                 if (resultat!=0){
-                    Toast.makeText(InsertarClienteActivity.this, "Cliente "+nomClient.getText().toString()+" actualizado!", Toast.LENGTH_SHORT).show();
-                    finish();
-                } else Toast.makeText(InsertarClienteActivity.this, "El cliente "+nomClient.getText().toString()+" ya existe", Toast.LENGTH_SHORT).show();
+                    Missatges.AlertMissatge("CLIENTE MODIFICADO", "Cliente "+nomClient.getText().toString()+" modificado satisfactoriamente!", R.drawable.acierto, InsertarClienteActivity.this);
+                } else Missatges.AlertMissatge("ERROR AL AÑADIR", "El cliente "+nomClient.getText().toString()+" ya existe", R.drawable.error2, InsertarClienteActivity.this);
             }
         });
         mToolbar.findViewById(R.id.buttonAñadirCliente).setOnClickListener(new View.OnClickListener() {
@@ -79,11 +78,10 @@ public class InsertarClienteActivity extends AppCompatActivity {
                     long posicio = db.InserirClient(nomClient.getText().toString(),cognomsClient.getText().toString(),tipusClient,mesaFavorita,tipoPago,tipoComida,observaciones.getText().toString());
                     db.tanca();
                     if (posicio!=-1) {
-                        Toast.makeText(InsertarClienteActivity.this, "Cliente "+nomClient.getText().toString()+" añadido!", Toast.LENGTH_SHORT).show();
-                        finish();
-                    } else Toast.makeText(InsertarClienteActivity.this, "El cliente "+nomClient.getText().toString()+" ya existe", Toast.LENGTH_SHORT).show();
+                        Missatges.AlertMissatge("CLIENTE AÑADIDO", "Cliente "+nomClient.getText().toString()+" añadido satisfactoriamente!", R.drawable.acierto, InsertarClienteActivity.this);
+                    } else Missatges.AlertMissatge("ERROR AL AÑADIR", "El cliente "+nomClient.getText().toString()+" ya existe", R.drawable.error2, InsertarClienteActivity.this);
                 } else {
-                    Toast.makeText(InsertarClienteActivity.this, "Introduce nombre y apellidos!", Toast.LENGTH_SHORT).show();
+                    Missatges.AlertMissatge("ERROR AL AÑADIR", "Introduce nombre y apellidos!", R.drawable.error2, InsertarClienteActivity.this);
                 }
             }
         });
