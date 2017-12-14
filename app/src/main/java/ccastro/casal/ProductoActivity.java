@@ -53,7 +53,8 @@ public class ProductoActivity extends AppCompatActivity {
                     Intent intent = new Intent (ProductoActivity.this,InsertarProductoActivity.class);
                     intent.putExtra("ID_PRODUCTO",id_producte);
                     startActivity(intent);
-                } else Missatges.AlertMissatge("ERROR", "Selecciona un producte!", R.drawable.error2, ProductoActivity.this);
+                    finish();
+                } else Missatges.AlertMissatge("ERROR", "Selecciona un producto!", R.drawable.error2, ProductoActivity.this);
             }
         });
 
@@ -62,7 +63,8 @@ public class ProductoActivity extends AppCompatActivity {
                public void onClick(View view) {
                    if (id_producte!= null) {
 
-                   }
+                   } else Missatges.AlertMissatge("ERROR", "Selecciona un producto!", R.drawable.error2, ProductoActivity.this);
+
                }
            }
         );
