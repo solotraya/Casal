@@ -35,6 +35,7 @@ import ccastro.casal.RecyclerView.HeaderMesa;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
 import ccastro.casal.Utils.Cursors;
+import ccastro.casal.Utils.Missatges;
 import ccastro.casal.Utils.Utilitats;
 
 public class MesaActivity extends AppCompatActivity{
@@ -217,37 +218,37 @@ public class MesaActivity extends AppCompatActivity{
                     else {
                         // TODO: SELECCION DE FECHA FINAL!
 
-                            Toast.makeText(MesaActivity.this, "Selecciona fecha Final", Toast.LENGTH_SHORT).show();
-                            Calendar currentDate = Calendar.getInstance();
-                            int year = currentDate.get(Calendar.YEAR);
-                            int month = currentDate.get(Calendar.MONTH);
-                            int day = currentDate.get(Calendar.DAY_OF_MONTH);
-                            DatePickerDialog datePicker;
-                            datePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
-                                public void onDateSet(DatePicker datepicker, int year, int month, int day) {
-                                    month = month + 1;
-                                    diaFinal = day; mesFinal = month; añoFinal = year;
-                                    if (Integer.toString(day).length()==1) {
-                                        fechaFinal = "" + year + " " + month + " " +0+day;
-                                        if (Integer.toString(month).length()==1){
-                                            fechaFinal = "" + year + " " +0+month + " " +0+day;
-                                        }
-                                    } else {
-                                        if (Integer.toString(month).length()==1){
-                                            fechaFinal = "" + year + " " +0+month + " " +day;
-                                        } else fechaFinal = "" + year + " " + month + " " + day;
+                        Toast.makeText(MesaActivity.this, "Selecciona fecha Final", Toast.LENGTH_SHORT).show();
+                        Calendar currentDate = Calendar.getInstance();
+                        int year = currentDate.get(Calendar.YEAR);
+                        int month = currentDate.get(Calendar.MONTH);
+                        int day = currentDate.get(Calendar.DAY_OF_MONTH);
+                        DatePickerDialog datePicker;
+                        datePicker = new DatePickerDialog(MesaActivity.this, new DatePickerDialog.OnDateSetListener() {
+                            public void onDateSet(DatePicker datepicker, int year, int month, int day) {
+                                month = month + 1;
+                                diaFinal = day; mesFinal = month; añoFinal = year;
+                                if (Integer.toString(day).length()==1) {
+                                    fechaFinal = "" + year + " " + month + " " +0+day;
+                                    if (Integer.toString(month).length()==1){
+                                        fechaFinal = "" + year + " " +0+month + " " +0+day;
                                     }
-
-                                    textViewFechaFinal.setText(Utilitats.getFechaFormatSpain(fechaFinal));
-                                    textViewFechaFinal.setVisibility(View.VISIBLE);
-                                    textViewFechaFinalTexto.setVisibility(View.VISIBLE);
-                                    fechaFinalEscogida=true;
-
+                                } else {
+                                    if (Integer.toString(month).length()==1){
+                                        fechaFinal = "" + year + " " +0+month + " " +day;
+                                    } else fechaFinal = "" + year + " " + month + " " + day;
                                 }
-                            }, year, month, day);
-                            datePicker.setTitle("Selecciona Fecha");
-                            datePicker.show();
-                    }
+
+                                textViewFechaFinal.setText(Utilitats.getFechaFormatSpain(fechaFinal));
+                                textViewFechaFinal.setVisibility(View.VISIBLE);
+                                textViewFechaFinalTexto.setVisibility(View.VISIBLE);
+                                fechaFinalEscogida=true;
+
+                            }
+                        }, year, month, day);
+                        datePicker.setTitle("Selecciona Fecha");
+                        datePicker.show();
+                }
                 }
             }
         );
@@ -260,7 +261,6 @@ public class MesaActivity extends AppCompatActivity{
 
                  if (idCliente!=null ){
                      Integer fechaActualInt = Integer.parseInt(Utilitats.obtenerFechaActual().replaceAll("\\s",""));
-
 
                      Integer fechaInicialInt;
                      if (fechaInicialEscogida) fechaInicialInt = Integer.parseInt(fechaInicio.replaceAll("\\s",""));
@@ -298,8 +298,9 @@ public class MesaActivity extends AppCompatActivity{
                                          clientInserit = true;
                                          quantitat++;
                                          fechaInicioConsulta = añoInicio+" "+mesInicio+" "+diaInicio;
-                                     } else Toast.makeText(view.getContext(), nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
-                                 } else Toast.makeText(MesaActivity.this, "Fin de semana cerrado", Toast.LENGTH_SHORT).show();
+                                     } else  Missatges.AlertMissatge("ERROR AL RESERVAR", nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), R.drawable.error2, MesaActivity.this);
+
+                                 } else Missatges.AlertMissatge("ERROR AL RESEREVAR", "Fin de semana cerrado!", R.drawable.error2, MesaActivity.this);
                              } else  { // TODO SI HAY VARIOS DIAS ELEGIDOS
                                  if (mesInicio == mesFinal){    // TODO SI LOS DIAS SON DEL MISMO MES Y AÑO
                                      while (diaInicio <= diaFinal){ introducirClienteMesa(); }
@@ -333,14 +334,18 @@ public class MesaActivity extends AppCompatActivity{
                                              }
                                          }
                                      }
-                                 } else Toast.makeText(MesaActivity.this, "No se pueden hacer reservas para mas de 2 meses!", Toast.LENGTH_SHORT).show();
+                                 }
+                                 else Missatges.AlertMissatge("ERROR", "No se pueden hacer reservas para mas de 2 meses!", R.drawable.error2, MesaActivity.this);
                              }
                              // TODO: SI HEMOS INSERTADO UN CLIENTE, CREAMOS FACTURA
                              if (clientInserit){
                                  actualizarRecyclerView();
                                  crearFacturaReservaMesa(quantitat);
                                  headerAdapterMesa.actualitzaRecycler(myDataset);
-                                 Toast.makeText(MesaActivity.this, "Reserva realizada!", Toast.LENGTH_SHORT).show();
+                                 if (fechaInicio.equalsIgnoreCase(fechaFinal)){
+                                     Missatges.AlertMissatge("RESERVA REALIZADA", nombreCliente+" ha reservado mesa el "+Utilitats.getFechaFormatSpain(fechaInicio)+" correctamente", R.drawable.acierto, MesaActivity.this);
+                                 }
+                                 else Missatges.AlertMissatge("RESERVA REALIZADA", nombreCliente+" ha reservado mesa del "+Utilitats.getFechaFormatSpain(fechaInicio)+" hasta el "+Utilitats.getFechaFormatSpain(fechaFinal)+" correctamente", R.drawable.acierto, MesaActivity.this);
                                  if (idCliente != null){
                                      idCliente=null;
                                      diaFinal=null;mesFinal=null;añoFinal=null;
@@ -353,9 +358,9 @@ public class MesaActivity extends AppCompatActivity{
                                  }
                              }
                              db.tanca();
-                         } else Toast.makeText(MesaActivity.this, "Fecha Final mínima: "+Utilitats.getFechaFormatSpain(fechaInicio), Toast.LENGTH_SHORT).show();
-                     } else Toast.makeText(MesaActivity.this, "Fecha Inicio mínima: "+Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()), Toast.LENGTH_SHORT).show();
-                 } else Toast.makeText(MesaActivity.this, "Introduce cliente!", Toast.LENGTH_SHORT).show();
+                         } else  Missatges.AlertMissatge("ERROR", "Fecha Final mínima: "+Utilitats.getFechaFormatSpain(fechaInicio), R.drawable.error2, MesaActivity.this);
+                     } else  Missatges.AlertMissatge("ERROR", "Fecha Inicio mínima: "+Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()), R.drawable.error2, MesaActivity.this);
+                 } else  Missatges.AlertMissatge("ERROR", "Introduce cliente!", R.drawable.error2, MesaActivity.this);
              }
          }
         );
@@ -431,7 +436,7 @@ public class MesaActivity extends AppCompatActivity{
             Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
 
             if (resultatInserirClient==-1){
-                Toast.makeText(MesaActivity.this, nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
+                Missatges.AlertMissatge("ERROR AL RESERVAR", nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), R.drawable.error2, MesaActivity.this);
             } else {
                 quantitat++;
                 clientInserit = true;
@@ -449,7 +454,7 @@ public class MesaActivity extends AppCompatActivity{
             Log.d("Resultat inserir Client",Long.toString(resultatInserirClient));
 
             if (resultatInserirClient==-1){
-                Toast.makeText(MesaActivity.this, nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), Toast.LENGTH_SHORT).show();
+                Missatges.AlertMissatge("ERROR AL RESERVAR", nombreCliente+" ya tiene reserva el dia "+Utilitats.getFechaFormatSpain(fechasSeleccionadas.get(totalDias)), R.drawable.error2, MesaActivity.this);
             } else {
                 quantitat++;
                 clientInserit = true;
@@ -645,7 +650,7 @@ public class MesaActivity extends AppCompatActivity{
                 spinnerMesa.setSelection(Integer.parseInt(taulaPerDefecteClient));
                 adapterMesa.notifyDataSetChanged();
             }  else if (resultCode == Activity.RESULT_CANCELED) {
-                Toast.makeText(this, "Selecciona cliente", Toast.LENGTH_SHORT).show();
+                Missatges.AlertMissatge("ERROR", "No has seleccionado cliente!", R.drawable.error2, MesaActivity.this);
                 finish();
             }
         }

@@ -6,8 +6,39 @@
     android:layout_height="match_parent"
     tools:context="ccastro.casal.ProductoActivity">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recyclerView_consulta"
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:gravity="right"
+        android:orientation="vertical">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView_consulta"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            android:layout_weight="0.9"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/tool_bar_cliente"
+                layout="@layout/tool_bar_cliente"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>
+
+
+
+
+
+

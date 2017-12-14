@@ -149,7 +149,7 @@ public class DBInterface {
         return bd.rawQuery(consulta.obtenirDadesClientPerId(id_cliente),null);
     }
     public void EliminarTotsElsClientsDeBarra(){
-        String where = Client.NOM_CLIENT + " = 'Cliente Barra'";
+        String where = Client.NOM_CLIENT + " = '~Cliente Barra'";
         String[] selection = {};
         bd.delete(Client.NOM_TAULA,where,selection);
     }

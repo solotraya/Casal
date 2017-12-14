@@ -42,11 +42,13 @@ public class MainActivity extends AppCompatActivity {
                                             }
                                         }
         );
-        buttonBarra = (Button) findViewById(R.id.buttonInsertarClientes);
+        buttonBarra = (Button) findViewById(R.id.buttonInsertarProductos);
         buttonBarra.setOnClickListener( new View.OnClickListener(){
                                               @Override
                                               public void onClick(View view) {
-                                                  startActivity(new Intent(MainActivity.this, InsertarClienteActivity.class));
+                                                  Intent intent = new Intent(MainActivity.this, PedidoActivity.class);
+                                                  intent.putExtra("INSERTAR_PRODUCTO",true);
+                                                  startActivity(intent);
                                               }
                                           }
         );

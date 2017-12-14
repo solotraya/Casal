@@ -15,7 +15,8 @@ import ccastro.casal.Utils.Utilitats;
 public class PedidoActivity extends AppCompatActivity implements View.OnClickListener {
     private android.support.v7.widget.Toolbar mToolbar;
     private String id_producte, quantitat;
-    private Integer tipoProducto=-1;
+    static Integer tipoProducto=-1;
+    private Boolean insertarProducto = false;
     DBInterface db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,15 +68,21 @@ public class PedidoActivity extends AppCompatActivity implements View.OnClickLis
         if (tipoProducto==0 || tipoProducto==1 || tipoProducto==2 || tipoProducto==3){
             Intent intent = new Intent (PedidoActivity.this,ProductoActivity.class);
             intent.putExtra("TIPO_PRODUCTO",tipoProducto);
-            //startActivityForResult(intent,1);
+            if (insertarProducto){
+                intent.putExtra("INSERTAR_PRODUCTO",true);
+            }
             startActivity(intent);
-            finish();
+            if (!insertarProducto)finish();
 
         }
     }
 
     public void getIntents(){
-        if(getIntent().hasExtra("ID_PRODUCTE")) {
+        if(getIntent().hasExtra("INSERTAR_PRODUCTO")) {
+            mToolbar.setVisibility(View.GONE);
+            insertarProducto =  true;
+        }
+        else if (getIntent().hasExtra("ID_PRODUCTE")) {
             id_producte = (getIntent().getExtras().getString("ID_PRODUCTE"));
             quantitat = (getIntent().getExtras().getString("QUANTITAT"));
             TextView textViewQuantitat = (TextView) mToolbar.findViewById(R.id.textViewNumProductes);
@@ -108,5 +115,11 @@ public class PedidoActivity extends AppCompatActivity implements View.OnClickLis
             }
             db.tanca();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        insertarProducto = false;
     }
 }

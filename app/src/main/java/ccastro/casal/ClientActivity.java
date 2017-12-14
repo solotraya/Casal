@@ -156,15 +156,12 @@ public class ClientActivity extends AppCompatActivity {
         Cursor cursor= db.RetornaTotsElsClients();
         if (cursor.moveToFirst()) {
             do {
-                if (cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT)).contains("Cliente Barra")){ // Con mayuscula Barra, no mostramos los nuevos clientes barra temporales
-                    cursor.moveToNext();
-                } else {
                     clientes.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client._ID))+" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))
                             +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT))+" :"+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.TIPO_PAGO)));
                     clientesSoloNombres.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))
                             +" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.COGNOMS_CLIENT)));
-                }
             } while (cursor.moveToNext());
+
         }
         db.tanca();
     }

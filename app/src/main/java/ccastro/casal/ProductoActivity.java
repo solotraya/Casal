@@ -1,10 +1,12 @@
 package ccastro.casal;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -12,18 +14,23 @@ import ccastro.casal.RecyclerView.HeaderAdapterProducte;
 import ccastro.casal.RecyclerView.HeaderProducte;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
+import ccastro.casal.Utils.Missatges;
 
 public class ProductoActivity extends AppCompatActivity {
     DBInterface db;
     Integer tipoProducto;
+    public static  String id_producte;
     private HeaderAdapterProducte headerAdapterProducte;
     private ArrayList<HeaderProducte> myDataset;
     private LinearLayoutManager linearLayoutManager;
     private RecyclerView recyclerView;
+    public static boolean insertarProducto=false;
+    private android.support.v7.widget.Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producto);
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_cliente);
         db = new DBInterface(this);
         myDataset = new ArrayList<>();
         headerAdapterProducte= new HeaderAdapterProducte(myDataset);
@@ -31,7 +38,33 @@ public class ProductoActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(headerAdapterProducte);
+        mToolbar.findViewById(R.id.buttonAñadir).setOnClickListener( new View.OnClickListener(){
+                 @Override
+                 public void onClick(View view) {
+                    // startActivity(new Intent(ProductoActivity.this, InsertarProductoActivity.class));
+                 }
+             }
+        );
+        mToolbar.findViewById(R.id.buttonModificar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (id_producte!= null){
+                    Intent intent = new Intent (ProductoActivity.this,InsertarProductoActivity.class);
+                    intent.putExtra("ID_PRODUCTO",id_producte);
+                    startActivity(intent);
+                } else Missatges.AlertMissatge("ERROR", "Selecciona un producte!", R.drawable.error2, ProductoActivity.this);
+            }
+        });
 
+        mToolbar.findViewById(R.id.buttonEliminar).setOnClickListener( new View.OnClickListener(){
+               @Override
+               public void onClick(View view) {
+                   if (id_producte!= null) {
+
+                   }
+               }
+           }
+        );
 
         // TODO HACER UN LIST DE PRODUCTOS, PERO SOLO MOSTRAT SEGUN EL PARAMETRO ENVIADO EN EL INTENT DE PEDIDOS
         // POR EJEMPLO SI MANDO TIPO 0, SOLO SE MOSTRARAN LOS PRODUCTOS DE CAFE/TE EN LA CONSULTA
@@ -42,6 +75,17 @@ public class ProductoActivity extends AppCompatActivity {
         if (getIntent().hasExtra("TIPO_PRODUCTO")){
             tipoProducto = (getIntent().getExtras().getInt("TIPO_PRODUCTO"));
         }
+        if (getIntent().hasExtra("INSERTAR_PRODUCTO")){
+            insertarProducto= true;
+            mToolbar.setVisibility(View.VISIBLE);
+        }
+        if (getIntent().hasExtra("ID_PRODUCTE")){
+            insertarProducto= true;
+            mToolbar.setVisibility(View.VISIBLE);
+            id_producte = (getIntent().getExtras().getString("ID_PRODUCTE"));
+            tipoProducto = PedidoActivity.tipoProducto;
+        }
+
     }
     public void retornarProductes(){
         db.obre();
@@ -59,5 +103,11 @@ public class ProductoActivity extends AppCompatActivity {
             } while (cursor.moveToNext());
         }
         return myDataset;
+    }
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        insertarProducto = false;
+        id_producte=null;
     }
 }

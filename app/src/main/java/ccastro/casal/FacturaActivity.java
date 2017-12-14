@@ -146,11 +146,11 @@ public class FacturaActivity extends AppCompatActivity {
                 if (id_cliente.equalsIgnoreCase("1")){
                     //TODO: SI el cliente elegido es cliente barra creamos un nuevo cliente
                     db.obre();
-                    Cursor cursor = db.obtenirNumeroDeClients("Cliente barra");
+                    Cursor cursor = db.obtenirNumeroDeClients("~Cliente barra");
                     Integer quantitat = Cursors.cursorQuantitat(cursor);
                     Log.d("QUANTITAT CLIENTBARRA",Integer.toString(quantitat));
-                    long idCliente = db.InserirClient("Cliente Barra",Integer.toString(quantitat),"",0,"","","Cliente de barra sin identificar");
-                    String nombreCliente = "Cliente Barra "+Integer.toString(quantitat);
+                    long idCliente = db.InserirClient("~Cliente Barra",Integer.toString(quantitat+1),"",0,"","","Cliente de barra sin identificar");
+                    String nombreCliente = "~Cliente Barra "+Integer.toString(quantitat+1);
                     id_cliente = Long.toString(idCliente);
                     Log.d("ID_CLIENTE_BARRA",Long.toString(idCliente));
                     nomClient.setText(nombreCliente);

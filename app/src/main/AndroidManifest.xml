@@ -32,7 +32,8 @@
         <activity android:name=".ReservaActivity" />
         <activity android:name=".PedidoActivity" />
         <activity android:name=".InsertarClienteActivity" />
-        <activity android:name=".ProductoActivity"></activity>
+        <activity android:name=".ProductoActivity" />
+        <activity android:name=".InsertarProductoActivity"></activity>
     </application>
 
 </manifest>

@@ -27,6 +27,7 @@ public class ConsultesSQL {
     String RetornaTotsElsClients ="Select c."+ ContracteBD.Client._ID+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT
             +", c."+  Client.TIPUS_CLIENT+", c."+Client.TIPO_PAGO+", c."+Client.TIPO_COMIDA+", c."+Client.OBSERVACIONS_CLIENT+
             " FROM "+ Client.NOM_TAULA+" c"+
+            " WHERE c."+ Client.NOM_CLIENT+" NOT LIKE '~Cliente Barra' "+
             " ORDER BY c."+ Client.NOM_CLIENT;
 
     String RetornaTotsElsProductes ="Select p."+ ContracteBD.Producte._ID+", p."+ Producte.NOM_PRODUCTE+", p."
@@ -155,7 +156,7 @@ public class ConsultesSQL {
         return " SELECT COUNT (v."+Venta._ID+") as Quantitat"+
                 " FROM "+Venta.NOM_TAULA+" v"+
                 " LEFT JOIN "+Client.NOM_TAULA+" c ON c." + Client._ID + " = v."+Venta.ID_CLIENT+""+
-                " WHERE c."+Client.NOM_CLIENT+" LIKE 'Cliente Barra'"+
+                " WHERE c."+Client.NOM_CLIENT+" LIKE '~Cliente Barra'"+
                 " AND v."+Venta.VENTA_COBRADA+" LIKE '0'";
     }
 }

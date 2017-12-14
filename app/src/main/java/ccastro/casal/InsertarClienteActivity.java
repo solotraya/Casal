@@ -94,14 +94,12 @@ public class InsertarClienteActivity extends AppCompatActivity {
                     layoutClientSinDeterminar.setVisibility(View.VISIBLE);
                     mToolbar.findViewById(R.id.buttonAñadirCliente).setVisibility(View.GONE);
                     clienteSinDeterminar.setText("NUEVO CLIENTE NORMAL");
-
                 } else {
                     layoutClient.setVisibility(View.VISIBLE);
                     layoutClientSinDeterminar.setVisibility(View.GONE);
                     mToolbar.findViewById(R.id.buttonAñadirCliente).setVisibility(View.VISIBLE);
                     clienteSinDeterminar.setText("NUEVO CLIENTE ESTANDAR");
                 }
-
             }
         });
         spinnerNumClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {

@@ -6,7 +6,9 @@ package ccastro.casal.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,13 +33,14 @@ import ccastro.casal.R;
 
 public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterProducte.ViewHolder> {
     private ArrayList<HeaderProducte> mDataset;
-
+    SparseBooleanArray sparseBooleanArray;
     /**
      * Constructor de la clase Headeradapter
      * @param myDataset dataSet
      */
     public HeaderAdapterProducte(ArrayList<HeaderProducte> myDataset) {
         mDataset = myDataset;
+        sparseBooleanArray=new SparseBooleanArray();
     }
 
     /**
@@ -62,12 +65,10 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
      */
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        // Obteniu un element del vostre conjunt de dades en aquesta posició
-        // Reemplaça els continguts de la vista amb aquest element
-
         holder.idProducte.setText(mDataset.get(position).getIdProducte());
         holder.nomProducte.setText(mDataset.get(position).getNomProducte());
         holder.preuProducte.setText(mDataset.get(position).getPreuProducte());
+
     }
 
     /**
@@ -84,15 +85,16 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
         Button seleccionarProducte;
         View v;
         Context context;
-
         /**
          * Constructor de classe statica View Holder
          * @param v view
          */
         public ViewHolder(View v) {
             super(v);
+
             idProducte=(TextView)v.findViewById(R.id.idProducte);
             nomProducte=(TextView)v.findViewById(R.id.nomProducte);
+
             preuProducte=(TextView) v.findViewById(R.id.preuProducte);
             layoutProducte = (LinearLayout) v.findViewById(R.id.layoutButtonsProducte);
             seleccionarProducte = (Button) v.findViewById(R.id.seleccionarProducte);
@@ -142,6 +144,7 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
                     ((ProductoActivity)context).finish();
                 }
             });
+
         }
 
         /**
@@ -150,10 +153,23 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
          */
         @Override
         public void onClick(View view) {
-            layoutProducte.setVisibility(View.VISIBLE);
-            //  HACER QUE AL CLICAR SE PONGA EN VISIBLE EL LAYOUT CON LOS BOTONES PARA CANTIDAD Y AÑADIR
-            if (quantitatProducte.getText().toString().equals("1")){
-                total.setText(preuProducte.getText().toString());
+
+            if (!ProductoActivity.insertarProducto){
+                layoutProducte.setVisibility(View.VISIBLE);
+                //  HACER QUE AL CLICAR SE PONGA EN VISIBLE EL LAYOUT CON LOS BOTONES PARA CANTIDAD Y AÑADIR
+                if (quantitatProducte.getText().toString().equals("1")){
+                    total.setText(preuProducte.getText().toString());
+                }
+            } else {
+                /*
+                ((ProductoActivity)context).finish();
+
+                Intent intent = new Intent(context, ProductoActivity.class);
+                intent.putExtra("ID_PRODUCTE",idProducte.getText().toString());
+                context.startActivity(intent);
+                ((ProductoActivity) context).overridePendingTransition(0,0); */
+                view.setBackgroundColor(Color.rgb(255, 204, 204));
+                ProductoActivity.id_producte = idProducte.getText().toString();
             }
         }
     }
