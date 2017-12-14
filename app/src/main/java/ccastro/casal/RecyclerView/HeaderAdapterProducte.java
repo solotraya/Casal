@@ -8,7 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseBooleanArray;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,14 +33,13 @@ import ccastro.casal.R;
 
 public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterProducte.ViewHolder> {
     private ArrayList<HeaderProducte> mDataset;
-    SparseBooleanArray sparseBooleanArray;
+
     /**
      * Constructor de la clase Headeradapter
      * @param myDataset dataSet
      */
     public HeaderAdapterProducte(ArrayList<HeaderProducte> myDataset) {
         mDataset = myDataset;
-        sparseBooleanArray=new SparseBooleanArray();
     }
 
     /**
@@ -83,8 +82,9 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
         LinearLayout layoutProducte;
         TextView total, idProducte,nomProducte,preuProducte, quantitatProducte;
         Button seleccionarProducte;
-        View v;
+
         Context context;
+
         /**
          * Constructor de classe statica View Holder
          * @param v view
@@ -162,14 +162,20 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
                 }
             } else {
                 /*
+
                 ((ProductoActivity)context).finish();
 
                 Intent intent = new Intent(context, ProductoActivity.class);
                 intent.putExtra("ID_PRODUCTE",idProducte.getText().toString());
                 context.startActivity(intent);
                 ((ProductoActivity) context).overridePendingTransition(0,0); */
+                if (ProductoActivity.viewAnterior!=null){
+                    ProductoActivity.viewAnterior.setBackgroundColor(Color.WHITE);
+                    Log.d("VIEW_ANTERIOR",view.toString());
+                }
                 view.setBackgroundColor(Color.rgb(255, 204, 204));
                 ProductoActivity.id_producte = idProducte.getText().toString();
+                ProductoActivity.viewAnterior=view;
             }
         }
     }

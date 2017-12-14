@@ -19,6 +19,7 @@ import ccastro.casal.Utils.Missatges;
 public class ProductoActivity extends AppCompatActivity {
     DBInterface db;
     Integer tipoProducto;
+    public static View viewAnterior;
     public static  String id_producte;
     private HeaderAdapterProducte headerAdapterProducte;
     private ArrayList<HeaderProducte> myDataset;
@@ -69,7 +70,7 @@ public class ProductoActivity extends AppCompatActivity {
         // TODO HACER UN LIST DE PRODUCTOS, PERO SOLO MOSTRAT SEGUN EL PARAMETRO ENVIADO EN EL INTENT DE PEDIDOS
         // POR EJEMPLO SI MANDO TIPO 0, SOLO SE MOSTRARAN LOS PRODUCTOS DE CAFE/TE EN LA CONSULTA
         getIntents();
-        retornarProductes();
+
     }
     public void getIntents(){
         if (getIntent().hasExtra("TIPO_PRODUCTO")){
@@ -95,6 +96,7 @@ public class ProductoActivity extends AppCompatActivity {
     }
     public ArrayList mouCursor(Cursor cursor) {
         if (cursor.moveToFirst()) {
+            myDataset.clear();
             do {
                 myDataset.add(new HeaderProducte(
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Producte._ID)),
@@ -109,5 +111,13 @@ public class ProductoActivity extends AppCompatActivity {
         super.onBackPressed();
         insertarProducto = false;
         id_producte=null;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        id_producte=null;
+        retornarProductes();
+        headerAdapterProducte.actualitzaRecycler(myDataset);
     }
 }
