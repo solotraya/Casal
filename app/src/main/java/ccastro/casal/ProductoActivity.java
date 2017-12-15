@@ -64,7 +64,6 @@ public class ProductoActivity extends AppCompatActivity {
                    if (id_producte!= null) {
 
                    } else Missatges.AlertMissatge("ERROR", "Selecciona un producto!", R.drawable.error2, ProductoActivity.this);
-
                }
            }
         );
