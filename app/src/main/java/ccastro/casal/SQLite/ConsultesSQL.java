@@ -129,7 +129,13 @@ public class ConsultesSQL {
                 " FROM "+Venta.NOM_TAULA+" v"+
                 " WHERE v."+Venta.ID_CLIENT+" LIKE "+id_cliente+" AND ( v."+Venta.VENTA_COBRADA+" LIKE '0' OR v."+Venta.VENTA_COBRADA+" LIKE '3')";
     }
-
+    public String EncontrarId_VentaFacturaSinPagarProducto(String id_producte){
+        return " Select p."+Producte._ID+
+                " FROM "+Factura.NOM_TAULA+" f"+
+                " LEFT JOIN " + Venta.NOM_TAULA + " v ON v."+Venta._ID+" = f."+Factura.ID_VENTA+
+                " LEFT JOIN " + Producte.NOM_TAULA+" p ON p."+Producte._ID+" = f."+Factura.ID_PRODUCTE+
+                " WHERE p."+Producte._ID+" LIKE "+id_producte+" AND ( v."+Venta.VENTA_COBRADA+" LIKE '0' OR v."+Venta.VENTA_COBRADA+" LIKE '3')";
+    }
     public String ObtenirQuantitatProductesFactura(String idVenta){
         return  " SELECT SUM (f."+Factura.QUANTITAT_PRODUCTE+") as Quantitat"+
                 " FROM "+Factura.NOM_TAULA+" f"+
@@ -145,6 +151,11 @@ public class ConsultesSQL {
         return "Select c."+Client.NOM_CLIENT+",c."+Client.COGNOMS_CLIENT+",c."+Client.TIPUS_CLIENT+",c."+Client.TIPO_PAGO+",c."+Client.TIPO_COMIDA+",c."+Client.MESA_FAVORITA+",c."+Client.OBSERVACIONS_CLIENT+
                 " FROM "+ Client.NOM_TAULA+" c"+
                 " WHERE c."+ Client._ID+" LIKE "+id_cliente;
+    }
+    public String obtenirDadesProductetPerId(String id_producte){
+        return "Select p."+Producte.NOM_PRODUCTE+",p."+Producte.PREU_PRODUCTE+
+                " FROM "+ Producte.NOM_TAULA+" p"+
+                " WHERE p."+ Producte._ID+" LIKE "+id_producte;
     }
     public String obtenirNumeroDeClients(String cadenaClient){
         return " SELECT COUNT (c."+Client._ID+") as Quantitat"+

@@ -131,6 +131,9 @@ public class DBInterface {
     public Cursor EncontrarId_VentaFacturaSinPagar(String id_cliente){
         return bd.rawQuery(consulta.EncontrarId_VentaFacturaSinPagar(id_cliente),null);
     }
+    public Cursor EncontrarId_VentaFacturaSinPagarProducto(String id_producte){
+        return bd.rawQuery(consulta.EncontrarId_VentaFacturaSinPagarProducto(id_producte),null);
+    }
     public Cursor ObtenirQuantitatProductesFactura(String idVenta){
         return bd.rawQuery(consulta.ObtenirQuantitatProductesFactura(idVenta),null);
     }
@@ -147,6 +150,10 @@ public class DBInterface {
     }
     public Cursor obtenirDadesClientPerId(String id_cliente){
         return bd.rawQuery(consulta.obtenirDadesClientPerId(id_cliente),null);
+    }
+
+    public Cursor obtenirDadesProductetPerId(String id_producte){
+        return bd.rawQuery(consulta.obtenirDadesProductetPerId(id_producte),null);
     }
     public void EliminarTotsElsClientsDeBarra(){
         String where = Client.NOM_CLIENT + " = '~Cliente Barra'";
@@ -222,6 +229,14 @@ public class DBInterface {
         String where = Client._ID+ " = ?";
         String[] selection = {""+idClient};
         return bd.update(Client.NOM_TAULA, valores, where, selection);
+    }
+    public long ActualitzarProducte (Integer idProducto, String nomProducte, String preuProducte){
+        ContentValues valores = new ContentValues();
+        valores.put(Producte.NOM_PRODUCTE, nomProducte);
+        valores.put(Producte.PREU_PRODUCTE, preuProducte);
+        String where = Producte._ID+ " = ?";
+        String[] selection = {""+idProducto};
+        return bd.update(Producte.NOM_TAULA, valores, where, selection);
     }
 
 
@@ -303,5 +318,10 @@ public class DBInterface {
         String where = Client._ID+ " = ?";
         String[] selection = {""+idClient};
         return bd.delete(Client.NOM_TAULA,where,selection);
+    }
+    public long EliminarProducte(String idProducte){
+        String where = Producte._ID+ " = ?";
+        String[] selection = {""+idProducte};
+        return bd.delete(Producte.NOM_TAULA,where,selection);
     }
 }

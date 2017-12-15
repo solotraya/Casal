@@ -61,13 +61,16 @@ public class InsertarClienteActivity extends AppCompatActivity {
         mToolbar.findViewById(R.id.buttonModificarCliente).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.obre();
-                long resultat = db.ActualitzarClient(Integer.parseInt(id_cliente),nomClient.getText().toString(),cognomsClient.getText().toString(),tipusClient,mesaFavorita,tipoPago,tipoComida,observaciones.getText().toString());
-                db.tanca();
-                Log.d("ACTUALIZADO",Long.toString(resultat));
-                if (resultat!=0){
-                    Missatges.AlertMissatge("CLIENTE MODIFICADO", "Cliente "+nomClient.getText().toString()+" modificado satisfactoriamente!", R.drawable.acierto, InsertarClienteActivity.this);
-                } else Missatges.AlertMissatge("ERROR AL AÑADIR", "El cliente "+nomClient.getText().toString()+" ya existe", R.drawable.error2, InsertarClienteActivity.this);
+                if (nomClient.getText().toString().length()>0 && cognomsClient.getText().toString().length()>0){
+                    db.obre();
+                    long resultat = db.ActualitzarClient(Integer.parseInt(id_cliente),nomClient.getText().toString(),cognomsClient.getText().toString(),tipusClient,mesaFavorita,tipoPago,tipoComida,observaciones.getText().toString());
+                    db.tanca();
+                    Log.d("ACTUALIZADO",Long.toString(resultat));
+                    if (resultat!=0){
+                        Missatges.AlertMissatge("CLIENTE MODIFICADO", "Cliente "+nomClient.getText().toString()+" modificado satisfactoriamente!", R.drawable.acierto, InsertarClienteActivity.this);
+                    } else Missatges.AlertMissatge("ERROR AL MODIFICAR", "El cliente "+nomClient.getText().toString()+" ya existe", R.drawable.error2, InsertarClienteActivity.this);
+                }
+
             }
         });
         mToolbar.findViewById(R.id.buttonAñadirCliente).setOnClickListener(new View.OnClickListener() {

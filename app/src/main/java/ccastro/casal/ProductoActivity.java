@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -14,11 +15,12 @@ import ccastro.casal.RecyclerView.HeaderAdapterProducte;
 import ccastro.casal.RecyclerView.HeaderProducte;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
+import ccastro.casal.Utils.Cursors;
 import ccastro.casal.Utils.Missatges;
 
 public class ProductoActivity extends AppCompatActivity {
     DBInterface db;
-    Integer tipoProducto;
+    Integer tipoProducto,idProdcuteFactura;
     public static View viewAnterior;
     public static  String id_producte;
     private HeaderAdapterProducte headerAdapterProducte;
@@ -42,7 +44,7 @@ public class ProductoActivity extends AppCompatActivity {
         mToolbar.findViewById(R.id.buttonAñadir).setOnClickListener( new View.OnClickListener(){
                  @Override
                  public void onClick(View view) {
-                    // startActivity(new Intent(ProductoActivity.this, InsertarProductoActivity.class));
+                    startActivity(new Intent(ProductoActivity.this, InsertarProductoActivity.class));
                  }
              }
         );
@@ -62,7 +64,22 @@ public class ProductoActivity extends AppCompatActivity {
                @Override
                public void onClick(View view) {
                    if (id_producte!= null) {
+                       db.obre();
+                       Cursor cursorProducteFactura = db.EncontrarId_VentaFacturaSinPagarProducto(id_producte);
+                       idProdcuteFactura = Cursors.cursorIDProducteFactura(cursorProducteFactura);
+                       Log.d("IDPRODUCTE: ", Integer.toString(idProdcuteFactura));
+                       if (idProdcuteFactura==-1){
+                           long resultat = db.EliminarProducte(id_producte);
+                           db.tanca();
+                           if (resultat==1){
+                               Missatges.AlertMissatge("PRODUCTE ELIMINADO", "El producto ha sido eliminado correctamente", R.drawable.papelera, ProductoActivity.this);
+                           }
+                       } else {
+                           Missatges.AlertMissatge("ERROR AL ELIMINAR", "El producto está en facturas sin pagar!", R.drawable.error2, ProductoActivity.this);
+                       }
 
+                       retornarProductes();
+                       headerAdapterProducte.actualitzaRecycler(myDataset);
                    } else Missatges.AlertMissatge("ERROR", "Selecciona un producto!", R.drawable.error2, ProductoActivity.this);
                }
            }
