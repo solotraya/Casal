@@ -141,8 +141,11 @@ public class DBInterface {
         return bd.rawQuery(consulta.ObtenirQuantitatReservesSenseIDVenta(id_cliente),null);
 
     }
-    public Cursor obtenirNumeroDeClients(String cadenaClient){
-        return bd.rawQuery(consulta.obtenirNumeroDeClients(cadenaClient),null);
+    public Cursor obtenirNumeroDeClients(String cadenaClient) {
+        return bd.rawQuery(consulta.obtenirNumeroDeClients(cadenaClient), null);
+    }
+    public Cursor obtenirQuantitatFacturesVenta(String idVenta){
+        return bd.rawQuery(consulta.obtenirQuantitatFacturesVenta(idVenta),null);
     }
 
     public Cursor obtenirCuantitatClienteBarraSinPagar(){
@@ -332,5 +335,15 @@ public class DBInterface {
         String where = Producte._ID+ " = ?";
         String[] selection = {""+idProducte};
         return bd.delete(Producte.NOM_TAULA,where,selection);
+    }
+    public long EliminarFactura(String idFactura){
+        String where = Factura._ID+ " = ?";
+        String[] selection = {""+idFactura};
+        return bd.delete(Factura.NOM_TAULA,where,selection);
+    }
+    public long EliminarVenta(String idVenta){
+        String where = Venta._ID+ " = ?";
+        String[] selection = {""+idVenta};
+        return bd.delete(Venta.NOM_TAULA,where,selection);
     }
 }

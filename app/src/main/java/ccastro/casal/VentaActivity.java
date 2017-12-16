@@ -25,10 +25,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import ccastro.casal.RecyclerView.HeaderAdapterFactura;
 import ccastro.casal.RecyclerView.HeaderAdapterVenta;
 import ccastro.casal.RecyclerView.HeaderVenta;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
+import ccastro.casal.Utils.Missatges;
 import ccastro.casal.Utils.Utilitats;
 
 public class VentaActivity extends AppCompatActivity   {
@@ -180,6 +182,9 @@ public class VentaActivity extends AppCompatActivity   {
          * Instanciació del Recycler i de l'arrayList
          */
         actualizarRecyclerView();
+        if (HeaderAdapterFactura.sortirFacturaActivity){
+            Missatges.AlertMissatge("FACTURA ELIMINADA", "La factura ha sido eliminada satisfactoriamente!", R.drawable.papelera, VentaActivity.this);
+        }
     }
     public void actualizarRecyclerView(){
         myDataset = new ArrayList<>();
@@ -316,4 +321,5 @@ public class VentaActivity extends AppCompatActivity   {
         });
         return super.onCreateOptionsMenu(menu);
     }
+
 }

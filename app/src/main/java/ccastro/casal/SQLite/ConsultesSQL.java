@@ -162,7 +162,11 @@ public class ConsultesSQL {
                 " FROM "+Client.NOM_TAULA+" c"+
                 " WHERE c."+Client.NOM_CLIENT+" LIKE '"+cadenaClient+"'";
     }
-
+    public String obtenirQuantitatFacturesVenta(String idVenta){
+        return " SELECT COUNT (f."+Factura._ID+") as Quantitat"+
+                " FROM "+Factura.NOM_TAULA+" f"+
+                " WHERE f."+Factura.ID_VENTA+" LIKE '"+idVenta+"'";
+    }
     public String obtenirCuantitatClienteBarraSinPagar(){
         return " SELECT COUNT (v."+Venta._ID+") as Quantitat"+
                 " FROM "+Venta.NOM_TAULA+" v"+

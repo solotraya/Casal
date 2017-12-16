@@ -2,8 +2,10 @@ package ccastro.casal.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import java.util.ArrayList;
 import ccastro.casal.FacturaActivity;
 import ccastro.casal.R;
 import ccastro.casal.SQLite.DBInterface;
+import ccastro.casal.Utils.Cursors;
 
 /**
  * @author Carlos Alberto Castro Cañabate
@@ -27,7 +30,7 @@ import ccastro.casal.SQLite.DBInterface;
 
 public class HeaderAdapterFactura extends RecyclerView.Adapter<HeaderAdapterFactura.ViewHolder> {
     private ArrayList<HeaderFactura> mDataset;
-
+    public static boolean sortirFacturaActivity=false;
     /**
      * Constructor de la clase Headeradapter
      * @param myDataset dataSet
@@ -132,13 +135,28 @@ public class HeaderAdapterFactura extends RecyclerView.Adapter<HeaderAdapterFact
                     vi = view;
                     DBInterface db=new DBInterface(vi.getContext());
                     db.obre();
-                    db.ActualitzarFactura(idFactura.getText().toString(),quantitatProducte.getText().toString());
+                    if (quantitatProducte.getText().toString().equals("0")){
+                        db.EliminarFactura(idFactura.getText().toString());
+                        Cursor cursor = db.obtenirQuantitatFacturesVenta(FacturaActivity.idVenta);
+                        Integer quantitat = Cursors.cursorQuantitat(cursor);
+                        Log.d("QUANTITAT IDVENTA",Integer.toString(quantitat));
+                        if (quantitat == 0){
+                            ((FacturaActivity) context).finish();
+                            db.EliminarVenta(FacturaActivity.idVenta);
+                            sortirFacturaActivity = true;
+                        }
+                    } else{
+                        db.ActualitzarFactura(idFactura.getText().toString(),quantitatProducte.getText().toString());
+                    }
                     db.tanca();
-                    layoutProducte.setVisibility(View.GONE);
-                    Intent intent = new Intent(context,FacturaActivity.class);
-                    context.startActivity(intent);
-                    ((FacturaActivity) context).finish();
-                    ((FacturaActivity) context).overridePendingTransition(0, 0);
+                    if (!sortirFacturaActivity){
+                        layoutProducte.setVisibility(View.GONE);
+                        Intent intent = new Intent(context,FacturaActivity.class);
+                        context.startActivity(intent);
+                        ((FacturaActivity) context).finish();
+                        ((FacturaActivity) context).overridePendingTransition(0, 0);
+                    }
+
                 }
             });
         }
