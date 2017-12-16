@@ -51,6 +51,7 @@ public class VentaActivity extends AppCompatActivity   {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_venta);
+        HeaderAdapterFactura.sortirFacturaActivity=false;
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_venta);
         textViewFechaVenta = (TextView) findViewById(R.id.fechaVenta);
         fechaVenta = Utilitats.obtenerFechaActual();
