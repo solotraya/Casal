@@ -102,7 +102,7 @@ public class InsertarProductoActivity extends AppCompatActivity {
             mToolbar.findViewById(R.id.buttonModificarProducto).setVisibility(View.GONE);
         }
     }
-    public String setTipoString(){
+    public  String setTipoString(){
         switch (PedidoActivity.tipoProducto){
             case 0: return "Cafe e Infusiones";
             case 1: return "Refrescos i cervezas";

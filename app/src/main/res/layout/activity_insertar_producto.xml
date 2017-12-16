@@ -28,7 +28,7 @@
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimary"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <Button

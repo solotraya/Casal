@@ -33,8 +33,13 @@
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textColor="@color/colorPrimary"
-                android:textSize="18sp"
+                android:textSize="24sp"
                 android:textStyle="bold" />
+            <Button
+                android:id="@+id/button4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent" />
         </LinearLayout>
 
 

@@ -4,8 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="ccastro.casal.ProductoActivity">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textViewTipoProducto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="TIPO PRODUCTO"
+            android:textColor="@color/colorPrimary"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@android:color/transparent" />
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -18,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
 
-            android:layout_weight="0.9"/>
+            android:layout_weight="0.9" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,7 +54,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </LinearLayout>
 
     </LinearLayout>

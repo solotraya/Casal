@@ -19,7 +19,6 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import ccastro.casal.FacturaActivity;
 import ccastro.casal.PedidoActivity;
 import ccastro.casal.ProductoActivity;
 import ccastro.casal.R;

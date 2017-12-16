@@ -1,6 +1,7 @@
 package ccastro.casal;
 
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
@@ -19,6 +21,7 @@ import ccastro.casal.Utils.Missatges;
 
 public class InsertarClienteActivity extends AppCompatActivity {
     LinearLayout layoutClient,layoutClientSinDeterminar;
+    TextView tituloperacion;
     Button insertarClientes,clienteSinDeterminar;
     DBInterface db;
     Spinner spinnerNumClientes, spinnerTipoClientes,spinnerTipoPago,spinnerMesaFavorita,spinnerTipoComida;
@@ -40,6 +43,8 @@ public class InsertarClienteActivity extends AppCompatActivity {
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_inserir_cliente);
         layoutClient = (LinearLayout) findViewById(R.id.layoutClient);
         layoutClientSinDeterminar = (LinearLayout) findViewById(R.id.layoutClientSinDeterminar);
+        tituloperacion = (TextView) findViewById(R.id.textViewOperacion);
+        tituloperacion.setPaintFlags(tituloperacion.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
         spinnerNumClientes = (Spinner) findViewById(R.id.spinnerNumClientes);
         adapterNumClientes = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, android.R.id.text1, arraySpinnerNumClientes);
         spinnerNumClientes.setAdapter(adapterNumClientes);
@@ -172,6 +177,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
             Cursor cursor = db.obtenirDadesClientPerId(id_cliente);
             mouCursor(cursor);
             db.tanca();
+            tituloperacion.setText("MODIFICAR CLIENTE");
         } else{
             mToolbar.findViewById(R.id.buttonModificarCliente).setVisibility(View.GONE);
         }

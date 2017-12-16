@@ -2,6 +2,7 @@ package ccastro.casal;
 
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ import ccastro.casal.Utils.Missatges;
 public class ProductoActivity extends AppCompatActivity {
     DBInterface db;
     Integer tipoProducto,idProdcuteFactura;
+    TextView tituloTipoProducto;
     public static View viewAnterior;
     public static LinearLayout layoutAnterior;
     public static  String id_producte;
@@ -36,6 +39,7 @@ public class ProductoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_producto);
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_cliente);
+        tituloTipoProducto = (TextView) findViewById(R.id.textViewTipoProducto);
         db = new DBInterface(this);
         myDataset = new ArrayList<>();
         headerAdapterProducte= new HeaderAdapterProducte(myDataset);
@@ -90,7 +94,17 @@ public class ProductoActivity extends AppCompatActivity {
         // TODO HACER UN LIST DE PRODUCTOS, PERO SOLO MOSTRAT SEGUN EL PARAMETRO ENVIADO EN EL INTENT DE PEDIDOS
         // POR EJEMPLO SI MANDO TIPO 0, SOLO SE MOSTRARAN LOS PRODUCTOS DE CAFE/TE EN LA CONSULTA
         getIntents();
-
+        tituloTipoProducto.setText(setTipoString());
+        tituloTipoProducto.setPaintFlags(tituloTipoProducto.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
+    }
+    public  String setTipoString(){
+        switch (tipoProducto){
+            case 0: return "Cafe e Infusiones";
+            case 1: return "Refrescos i cervezas";
+            case 2: return "Alimentación";
+            case 3: return "Otros productos";
+        }
+        return null;
     }
     public void getIntents(){
         if (getIntent().hasExtra("TIPO_PRODUCTO")){
