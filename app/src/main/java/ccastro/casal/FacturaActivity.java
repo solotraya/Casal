@@ -224,6 +224,7 @@ public class FacturaActivity extends AppCompatActivity {
                     db.obre();
                     db.ActalitzaEstatVenta(idVenta,"2");
                     db.tanca();
+                    mToolbar.setVisibility(View.GONE);
                 }
 
             nomTreballador.setText(NOM_USUARI);
