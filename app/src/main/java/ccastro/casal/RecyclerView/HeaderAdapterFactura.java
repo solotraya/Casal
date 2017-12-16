@@ -150,11 +150,9 @@ public class HeaderAdapterFactura extends RecyclerView.Adapter<HeaderAdapterFact
         public void onClick(View view) {
 
             if (FacturaActivity.estadoVenta.equalsIgnoreCase("Falta Pagar")){
-                if (!FacturaActivity.estadoVenta.equalsIgnoreCase("Anulado")){
-                    layoutProducte.setVisibility(View.VISIBLE);
-                    totalModificar.setText(total.getText().toString());
-                    quantitatProducte.setText(quantitat.getText().toString());
-                }
+                layoutProducte.setVisibility(View.VISIBLE);
+                totalModificar.setText(total.getText().toString());
+                quantitatProducte.setText(quantitat.getText().toString());
             }
         }
     }
