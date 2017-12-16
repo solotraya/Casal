@@ -19,6 +19,7 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import ccastro.casal.FacturaActivity;
 import ccastro.casal.PedidoActivity;
 import ccastro.casal.ProductoActivity;
 import ccastro.casal.R;
@@ -154,6 +155,13 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
         public void onClick(View view) {
 
             if (!ProductoActivity.insertarProducto){
+                if (ProductoActivity.layoutAnterior!=null){
+                    ProductoActivity.layoutAnterior.setVisibility(View.GONE);
+                    ProductoActivity.viewAnterior.setBackgroundColor(Color.WHITE);
+                }
+                view.setBackgroundColor(Color.rgb(255, 204, 204));
+                ProductoActivity.layoutAnterior=layoutProducte;
+                ProductoActivity.viewAnterior=view;
                 layoutProducte.setVisibility(View.VISIBLE);
                 //  HACER QUE AL CLICAR SE PONGA EN VISIBLE EL LAYOUT CON LOS BOTONES PARA CANTIDAD Y AÑADIR
                 if (quantitatProducte.getText().toString().equals("1")){

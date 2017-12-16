@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import static ccastro.casal.R.id.ventaPagada;
 
 public class FacturaActivity extends AppCompatActivity {
     DBInterface db;
+    public static LinearLayout layoutAnterior; public static View viewAnterior;
     TextView dataVenta,horaVenta,nomClient,nomTreballador,estatVenta,preuTotalFactura;
     Button buttonPagar,buttonAñadirProducto;
     public static String idVenta, estadoVenta; // estadoVenta lo usamos en headerAdapterFactura para ver si la factura falta pagar al hacer click en recycler

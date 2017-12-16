@@ -2,6 +2,7 @@ package ccastro.casal.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -148,8 +149,15 @@ public class HeaderAdapterFactura extends RecyclerView.Adapter<HeaderAdapterFact
          */
         @Override
         public void onClick(View view) {
-
             if (FacturaActivity.estadoVenta.equalsIgnoreCase("Falta Pagar")){
+                if (FacturaActivity.layoutAnterior!=null){
+                    FacturaActivity.layoutAnterior.setVisibility(View.GONE);
+                    FacturaActivity.viewAnterior.setBackgroundColor(Color.WHITE);
+                }
+                view.setBackgroundColor(Color.rgb(255, 204, 204));
+                FacturaActivity.layoutAnterior=layoutProducte;
+                FacturaActivity.viewAnterior=view;
+
                 layoutProducte.setVisibility(View.VISIBLE);
                 totalModificar.setText(total.getText().toString());
                 quantitatProducte.setText(quantitat.getText().toString());

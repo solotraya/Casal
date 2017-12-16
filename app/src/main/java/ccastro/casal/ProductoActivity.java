@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
@@ -22,6 +23,7 @@ public class ProductoActivity extends AppCompatActivity {
     DBInterface db;
     Integer tipoProducto,idProdcuteFactura;
     public static View viewAnterior;
+    public static LinearLayout layoutAnterior;
     public static  String id_producte;
     private HeaderAdapterProducte headerAdapterProducte;
     private ArrayList<HeaderProducte> myDataset;
