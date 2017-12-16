@@ -125,7 +125,6 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
                     if (quantitat>1){
                         quantitat--;
                         quantitatProducte.setText(Integer.toString(quantitat));
-                        quantitatProducte.setText(Integer.toString(quantitat));
                         DecimalFormat df = new DecimalFormat("0.00");
                         df.setMaximumFractionDigits(2);
                         Float preuTotal = quantitat*Float.parseFloat(preuProducte.getText().toString());

@@ -1,15 +1,20 @@
 package ccastro.casal.RecyclerView;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import ccastro.casal.FacturaActivity;
 import ccastro.casal.R;
+import ccastro.casal.SQLite.DBInterface;
 
 /**
  * @author Carlos Alberto Castro Cañabate
@@ -54,10 +59,10 @@ public class HeaderAdapterFactura extends RecyclerView.Adapter<HeaderAdapterFact
     public void onBindViewHolder(ViewHolder holder, int position) {
         // Obteniu un element del vostre conjunt de dades en aquesta posició
         // Reemplaça els continguts de la vista amb aquest element
-
+        holder.idFactura.setText(mDataset.get(position).getIdFactura());
         holder.nomProducte.setText(mDataset.get(position).getNombreProducto());
         holder.tipusProducte.setText(mDataset.get(position).getTipoProducto());
-        holder.preuProducte.setText(mDataset.get(position).getPrecioProducto()+"€");
+        holder.preuProducte.setText(mDataset.get(position).getPrecioProducto());
         holder.quantitat.setText(mDataset.get(position).getCantidadProducto());
         holder.total.setText(mDataset.get(position).getPrecioLinea()+"€");
     }
@@ -71,9 +76,10 @@ public class HeaderAdapterFactura extends RecyclerView.Adapter<HeaderAdapterFact
         return mDataset.size();
     }
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        // nom,dni,data,qr,localitzacio,email,check;
-        TextView nomProducte,preuProducte,tipusProducte,quantitat,total;
-        View v;
+        LinearLayout layoutProducte;
+        TextView nomProducte,preuProducte,tipusProducte,quantitat,total,quantitatProducte,totalModificar;
+        TextView idFactura;
+        View vi;
         Context context;
         /**
          * Constructor de classe statica View Holder
@@ -81,13 +87,59 @@ public class HeaderAdapterFactura extends RecyclerView.Adapter<HeaderAdapterFact
          */
         public ViewHolder(View v) {
             super(v);
+            layoutProducte = (LinearLayout) v.findViewById(R.id.layoutButtonsProducte);
+            idFactura=(TextView)v.findViewById(R.id.idFactura);
             nomProducte=(TextView)v.findViewById(R.id.nomProducte);
             preuProducte=(TextView) v.findViewById(R.id.preuProducte);
             tipusProducte = (TextView) v.findViewById(R.id.tipusProducte);
             quantitat = (TextView) v.findViewById(R.id.quantitat);
+            quantitatProducte = (TextView) v.findViewById(R.id.quantitatProducte);
             total = (TextView) v.findViewById(R.id.total);
+            totalModificar = (TextView) v.findViewById(R.id.preuTotalProductes);
             context = itemView.getContext();
+            layoutProducte.setVisibility(View.GONE);
             v.setOnClickListener(this);
+
+            v.findViewById(R.id.masProducte).setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    Integer cantidad = Integer.parseInt(quantitatProducte.getText().toString());
+                    if (cantidad<100){
+                        cantidad++;
+                        quantitatProducte.setText(Integer.toString(cantidad));
+                        DecimalFormat df = new DecimalFormat("0.00");
+                        df.setMaximumFractionDigits(2);
+                        Float preuTotal = cantidad*Float.parseFloat(preuProducte.getText().toString());
+                        totalModificar.setText(df.format(preuTotal));
+                    }
+                }
+            });
+            v.findViewById(R.id.menosProducte).setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    Integer cantidad = Integer.parseInt(quantitatProducte.getText().toString());
+                    if (cantidad>0){
+                        cantidad--;
+                        quantitatProducte.setText(Integer.toString(cantidad));
+                        DecimalFormat df = new DecimalFormat("0.00");
+                        df.setMaximumFractionDigits(2);
+                        Float preuTotal = cantidad*Float.parseFloat(preuProducte.getText().toString());
+                        totalModificar.setText(df.format(preuTotal));
+                    }
+                }
+            });
+            v.findViewById(R.id.seleccionarProducte).setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view) {
+                    vi = view;
+                    DBInterface db=new DBInterface(vi.getContext());
+                    db.obre();
+                    db.ActualitzarFactura(idFactura.getText().toString(),quantitatProducte.getText().toString());
+                    db.tanca();
+                    layoutProducte.setVisibility(View.GONE);
+                    Intent intent = new Intent(context,FacturaActivity.class);
+                    context.startActivity(intent);
+                    ((FacturaActivity) context).finish();
+                    ((FacturaActivity) context).overridePendingTransition(0, 0);
+                }
+            });
         }
 
         /**
@@ -96,10 +148,14 @@ public class HeaderAdapterFactura extends RecyclerView.Adapter<HeaderAdapterFact
          */
         @Override
         public void onClick(View view) {
-            //  Toast.makeText(view.getContext(), idServei.getText().toString(), Toast.LENGTH_LONG).show();
-           // Intent intent = new Intent(context,FacturaActivity.class);
-           //  intent.putExtra("ID_VENTA",idVenta.getText().toString());
-           // context.startActivity(intent);
+
+            if (FacturaActivity.estadoVenta.equalsIgnoreCase("Falta Pagar")){
+                if (!FacturaActivity.estadoVenta.equalsIgnoreCase("Anulado")){
+                    layoutProducte.setVisibility(View.VISIBLE);
+                    totalModificar.setText(total.getText().toString());
+                    quantitatProducte.setText(quantitat.getText().toString());
+                }
+            }
         }
     }
 

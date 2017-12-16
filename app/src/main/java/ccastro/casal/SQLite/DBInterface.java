@@ -238,6 +238,15 @@ public class DBInterface {
         String[] selection = {""+idProducto};
         return bd.update(Producte.NOM_TAULA, valores, where, selection);
     }
+    public long ActualitzarFactura (String idFactura, String quantitat){
+        Integer idFact = Integer.parseInt(idFactura);
+        Integer quanti = Integer.parseInt(quantitat);
+        ContentValues valores = new ContentValues();
+        valores.put(Factura.QUANTITAT_PRODUCTE,quanti);
+        String where = Factura._ID+ " = ?";
+        String[] selection = {""+idFact};
+        return bd.update(Factura.NOM_TAULA, valores, where, selection);
+    }
 
 
     /**

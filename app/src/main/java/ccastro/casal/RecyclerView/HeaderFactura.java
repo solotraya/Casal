@@ -10,14 +10,26 @@ public class HeaderFactura {
     public String tipoProducto;
     public String cantidadProducto;
     public String precioLinea;
+    String idFactura;
 
-    public HeaderFactura(String nombreProducto, String precioProducto, String tipoProducto, String cantidadProducto, String precioLinea) {
+    public HeaderFactura(String nombreProducto, String precioProducto, String tipoProducto,String idFactura, String cantidadProducto, String precioLinea) {
+        this.idFactura = idFactura;
         this.nombreProducto = nombreProducto;
         this.precioProducto = precioProducto;
         this.tipoProducto = tipoProducto;
         this.cantidadProducto = cantidadProducto;
         this.precioLinea = precioLinea;
     }
+
+    public String getIdFactura() {
+        return idFactura;
+    }
+
+    public void setIdFactura(String idFactura) {
+        this.idFactura = idFactura;
+    }
+
+
 
     public String getNombreProducto() {
         return nombreProducto;

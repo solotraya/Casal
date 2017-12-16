@@ -32,7 +32,7 @@ public class FacturaActivity extends AppCompatActivity {
     DBInterface db;
     TextView dataVenta,horaVenta,nomClient,nomTreballador,estatVenta,preuTotalFactura;
     Button buttonPagar,buttonAñadirProducto;
-    static String idVenta;
+    public static String idVenta, estadoVenta; // estadoVenta lo usamos en headerAdapterFactura para ver si la factura falta pagar al hacer click en recycler
     String fechaReserva;
     public static String id_cliente; // id_cliente lo cogemos de la reserva.
     public static String nombreCliente; // id_cliente lo cogemos de la reserva.
@@ -88,10 +88,10 @@ public class FacturaActivity extends AppCompatActivity {
                                         db.obre();
                                         if (reembolsar){
                                             db.ActalitzaEstatVenta(idVenta,"4");
-                                            estatVenta.setText("Reembolsado");
+                                            estatVenta.setText("Reembolsado"); estadoVenta="Reembolsado";
                                         } else {
                                             db.ActalitzaEstatVenta(idVenta,"1");
-                                            estatVenta.setText("Pagado");
+                                            estatVenta.setText("Pagado"); estadoVenta="Pagado";
                                             //TODO: Si todos los clientes de barra han pagado, los borramos y empezaremos de cero
                                             Cursor cursor = db.obtenirCuantitatClienteBarraSinPagar();
                                             int quantitat = Cursors.cursorQuantitat(cursor);
@@ -185,9 +185,10 @@ public class FacturaActivity extends AppCompatActivity {
             do {
                 myDataset.add(new HeaderFactura(
                         cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.NOM_PRODUCTE)),
-                                cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE)),
-                                cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.TIPUS_PRODUCTE)),
-                                cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.TIPUS_PRODUCTE)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Factura._ID)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE)),
                                 df.format(Float.parseFloat(cursor.getString(cursor.getColumnIndex(ContracteBD.Producte.PREU_PRODUCTE)))
                                 * Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContracteBD.Factura.QUANTITAT_PRODUCTE))))
                         ));
@@ -205,7 +206,8 @@ public class FacturaActivity extends AppCompatActivity {
                 dataVenta.setText(dataFormatSpain);
                 horaVenta.setText(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.HORA_VENTA)));
                 estatVenta.setText(verificarEstadoFactura(cursor.getString(cursor.getColumnIndex(ContracteBD.Venta.VENTA_COBRADA))));
-                if (preuTotal>0 && estatVenta.getText().toString().equalsIgnoreCase("Reembolsar")){
+                estadoVenta = estatVenta.getText().toString();
+                if (preuTotal>0 && (estatVenta.getText().toString().equalsIgnoreCase("Reembolsar"))){
                     estatVenta.setText("Falta Pagar");
                     db.obre();
                     db.ActalitzaEstatVenta(idVenta,"0");
@@ -215,8 +217,14 @@ public class FacturaActivity extends AppCompatActivity {
                     db.obre();
                     db.ActalitzaEstatVenta(idVenta,"4");
                     db.tanca();
+                }  else if (preuTotal==0 && estatVenta.getText().toString().equalsIgnoreCase("Falta Pagar")){
+                    estatVenta.setText("Anulado");  estadoVenta="Anulado";
+                    db.obre();
+                    db.ActalitzaEstatVenta(idVenta,"2");
+                    db.tanca();
                 }
-                nomTreballador.setText(NOM_USUARI);
+
+            nomTreballador.setText(NOM_USUARI);
 
             } while(cursor.moveToNext());
         }
@@ -302,6 +310,7 @@ public class FacturaActivity extends AppCompatActivity {
             }
             if (getIntent().hasExtra("ESTAT_VENTA")){
                 estatVenta.setText(getIntent().getExtras().getString("ESTAT_VENTA"));
+                estadoVenta = estatVenta.getText().toString();
                 Log.d("ESTADO: ",estatVenta.getText().toString());
                 if (estatVenta.getText().toString().equalsIgnoreCase("Pagado") || estatVenta.getText().toString().equalsIgnoreCase("Anulado")
                         || estatVenta.getText().toString().equalsIgnoreCase("Reembolsado")){
@@ -331,7 +340,7 @@ public class FacturaActivity extends AppCompatActivity {
         Log.d("NUEVO PEDIDO","true");
         dataVenta.setText(Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()));
         horaVenta.setText(Utilitats.obtenerHoraActual());
-        estatVenta.setText("Falta Pagar");
+        estatVenta.setText("Falta Pagar"); estadoVenta="Falta Pagar";
         buttonPagar.setVisibility(View.GONE);
         if (idVentaFactura==null){
             nomTreballador.setText(LoginActivity.NOM_USUARI);
