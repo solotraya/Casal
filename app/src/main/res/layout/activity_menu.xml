@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="ccastro.casal.VentaActivity">
+    tools:context="ccastro.casal.MenuActivity">
 
 
     <LinearLayout
@@ -27,12 +27,7 @@
                 android:background="@android:drawable/ic_media_previous" />
 
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent" />
+
 
 
             <TextView
@@ -44,12 +39,7 @@
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
-            <Button
-                android:id="@+id/button3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@android:color/transparent" />
+
 
             <Button
                 android:id="@+id/buttonFechaPosterior"
@@ -79,8 +69,8 @@
             android:orientation="vertical">
 
             <include
-                android:id="@+id/tool_bar_venta"
-                layout="@layout/tool_bar_venta"
+                android:id="@+id/tool_bar_cliente"
+                layout="@layout/tool_bar_cliente"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />

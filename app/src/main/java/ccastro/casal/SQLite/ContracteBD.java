@@ -79,4 +79,35 @@ public class ContracteBD {
         public static final String HORA_VENTA = "horaVenta";
     }
 
+    public static final class Menu implements BaseColumns {
+        public static final String NOM_TAULA = "Menu";
+        public static final String FECHA_MENU = "fecha_menu";
+        public static final String LUNES_PRIMERO = "lunesPrimero";
+        public static final String MARTES_PRIMERO = "martesPrimero";
+        public static final String MIERCOLES_PRIMERO = "miercolesPrimero";
+        public static final String JUEVES_PRIMERO = "juevesPrimero";
+        public static final String VIERNES_PRIMERO = "viernesPrimero";
+        public static final String LUNES_SEGUNDO = "lunesSgundo";
+        public static final String MARTES_SEGUNDO = "martesSegundo";
+        public static final String MIERCOLES_SEGUNDO = "miercolesSegundo";
+        public static final String JUEVES_SEGUNDO = "juevesSegundo";
+        public static final String VIERNES_SEGUNDO = "viernesSegundo";
+    }
+    public static final class Comida implements BaseColumns {
+        public static final String NOM_TAULA = "Comida";
+        public static final String NOMBRE_COMIDA = "nombre_comida";
+        public static final String TIPO_PLATO = "tipo_plato"; // 0 primero,  1 segundo
+        public static final String GLUTEN = "gluten";
+        public static final String CRUSTACEOS = "crustaceos";
+        public static final String HUEVOS = "huevos";
+        public static final String PESCADO = "pescado";
+        public static final String CACAHUETES = "cacahuetes";
+        public static final String LACTEOS = "lacteos";
+        public static final String FRUTOS_DE_CASCARA = "cascaras";
+        public static final String APIO = "apio";
+        public static final String DIOXIDO_AZUFRE_SULFITOS = "dioxidos";
+        public static final String MOLUSCOS = "moluscos";
+    }
+
+
 }

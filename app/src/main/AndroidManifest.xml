@@ -33,7 +33,8 @@
         <activity android:name=".PedidoActivity" />
         <activity android:name=".InsertarClienteActivity" />
         <activity android:name=".ProductoActivity" />
-        <activity android:name=".InsertarProductoActivity"></activity>
+        <activity android:name=".InsertarProductoActivity" />
+        <activity android:name=".MenuActivity"></activity>
     </application>
 
 </manifest>

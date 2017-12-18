@@ -203,13 +203,17 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirFactura(4,1,1);db.InserirFactura(5,1,2);db.InserirFactura(7,1,4);
         db.InserirFactura(5,2,2);db.InserirFactura(6,2,1);db.InserirFactura(8,2,3);
 
+        db.InserirComida("Paella","0","0","1","0","1","0","0","0","0","0","1");
+        db.InserirComida("Garbanzos","0","0","0","0","0","0","0","0","1","0","0");
+        db.InserirComida("Macarrones","0","1","0","0","0","0","0","0","0","0","0");
+        db.InserirComida("Albondigas","0","1","0","1","0","0","1","0","0","0","0");
+        db.InserirComida("Lentejas","0","1","0","0","0","0","0","0","1","0","0");
+        db.InserirComida("Ensalada","1","0","0","1","0","0","0","0","0","0","0");
+        db.InserirComida("Sopa de Pescado","1","0","1","0","1","0","0","0","0","0","1");
 
-        //dia, assistencia(0 SI por defecto, 1 NO), pagado (0 NO, 1 SI),idCliente, idMesa
+        db.InserirMenu("51",3,6,2,7,5,7,1,6,4,6);
+        db.InserirMenu("50",2,6,3,7,5,7,1,6,4,6);
 
-      //  db.InserirReserva_Cliente("2017 11 18","0","1",2,2);
-      //   db.InserirReserva_Cliente("2017 11 18","0","0",4,2);
-      //   db.InserirReserva_Cliente("2017 11 18","0","0",1,2); db.InserirReserva_Cliente("2017 11 19","0","0",2,2);
-      //  db.InserirReserva_Cliente("2017 11 18","0","0",3,2);
         db.tanca();
     }
 

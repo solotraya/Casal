@@ -35,7 +35,7 @@ public class Utilitats {
             fecha = formatoDelTexto.parse(fechaString);
             GregorianCalendar cal = new GregorianCalendar();
             cal.setTime(fecha);
-            if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || cal.get(Calendar.DAY_OF_WEEK) == domingo ) {
+            if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY || cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY ) {
                 diaHabil= false;
             } else diaHabil = true;
         } catch (ParseException ex) {

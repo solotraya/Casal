@@ -8,13 +8,13 @@ import android.util.Log;
 
 import ccastro.casal.SQLite.ContracteBD.Client;
 import ccastro.casal.SQLite.ContracteBD.Factura;
-import ccastro.casal.SQLite.ContracteBD.Producte;
-import ccastro.casal.SQLite.ContracteBD.Venta;
 import ccastro.casal.SQLite.ContracteBD.Mesa;
+import ccastro.casal.SQLite.ContracteBD.Producte;
 import ccastro.casal.SQLite.ContracteBD.Reserva_Cliente;
 import ccastro.casal.SQLite.ContracteBD.Treballador;
-
-
+import ccastro.casal.SQLite.ContracteBD.Venta;
+import ccastro.casal.SQLite.ContracteBD.Comida;
+import ccastro.casal.SQLite.ContracteBD.Menu;
 import static android.content.ContentValues.TAG;
 
 
@@ -54,6 +54,8 @@ public class AjudaBD extends SQLiteOpenHelper {
         db.execSQL(BD_CREATE_TREBALLADOR);
         db.execSQL(BD_CREATE_VENTA);
         db.execSQL(BD_CREATE_FACTURA);
+        db.execSQL(BD_CREATE_COMIDA);
+        db.execSQL(BD_CREATE_MENU);
     }
 
     public static final String BD_CREATE_MESA = "CREATE TABLE IF NOT EXISTS " + Mesa.NOM_TAULA + "("
@@ -117,6 +119,46 @@ public class AjudaBD extends SQLiteOpenHelper {
             + "FOREIGN KEY("+ Venta.ID_TREBALLADOR+") REFERENCES " + Treballador.NOM_TAULA +"(" + Treballador._ID +"),"
             + "FOREIGN KEY("+ Venta.ID_CLIENT+") REFERENCES " + Client.NOM_TAULA +"(" + Client._ID +"));";
 
+    public static final String BD_CREATE_COMIDA = "CREATE TABLE IF NOT EXISTS " + Comida.NOM_TAULA + "("
+            + Comida._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + Comida.NOMBRE_COMIDA + " TEXT NOT NULL, "
+            + Comida.TIPO_PLATO + " TEXT NOT NULL, "
+            + Comida.GLUTEN + " TEXT, "
+            + Comida.CRUSTACEOS + " TEXT, "
+            + Comida.HUEVOS + " TEXT, "
+            + Comida.PESCADO + " TEXT, "
+            + Comida.CACAHUETES + " TEXT, "
+            + Comida.LACTEOS + " TEXT, "
+            + Comida.FRUTOS_DE_CASCARA + " TEXT, "
+            + Comida.APIO + " TEXT, "
+            + Comida.DIOXIDO_AZUFRE_SULFITOS + " TEXT, "
+            + Comida.MOLUSCOS + " TEXT, "
+            + "UNIQUE ("+Comida.NOMBRE_COMIDA+") ON CONFLICT IGNORE);";
+
+    public static final String BD_CREATE_MENU = "CREATE TABLE IF NOT EXISTS " + Menu.NOM_TAULA + "("
+            + Menu._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + Menu.FECHA_MENU + " TEXT NOT NULL, "
+            + Menu.LUNES_PRIMERO + " INTEGER NOT NULL, "
+            + Menu.LUNES_SEGUNDO + " INTEGERNOT NULL, "
+            + Menu.MARTES_PRIMERO + " INTEGER NOT NULL, "
+            + Menu.MARTES_SEGUNDO + " INTEGER NOT NULL, "
+            + Menu.MIERCOLES_PRIMERO + " INTEGER NOT NULL, "
+            + Menu.MIERCOLES_SEGUNDO + " INTEGER NOT NULL, "
+            + Menu.JUEVES_PRIMERO + " INTEGER NOT NULL, "
+            + Menu.JUEVES_SEGUNDO+ " INTEGER NOT NULL, "
+            + Menu.VIERNES_PRIMERO + " INTEGER NOT NULL, "
+            + Menu.VIERNES_SEGUNDO + " INTEGER NOT NULL, "
+            + "FOREIGN KEY("+ Menu.LUNES_PRIMERO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
+            + "FOREIGN KEY("+ Menu.LUNES_SEGUNDO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
+            + "FOREIGN KEY("+ Menu.MARTES_PRIMERO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
+            + "FOREIGN KEY("+ Menu.MARTES_SEGUNDO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
+            + "FOREIGN KEY("+ Menu.MIERCOLES_PRIMERO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
+            + "FOREIGN KEY("+ Menu.MIERCOLES_SEGUNDO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
+            + "FOREIGN KEY("+ Menu.JUEVES_PRIMERO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
+            + "FOREIGN KEY("+ Menu.JUEVES_SEGUNDO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
+            + "FOREIGN KEY("+ Menu.VIERNES_PRIMERO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
+            + "FOREIGN KEY("+ Menu.VIERNES_SEGUNDO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
+            + "UNIQUE ("+Menu.FECHA_MENU+") ON CONFLICT IGNORE);";
 
     /**
      * Elimina les taules i les torna a crear.
@@ -132,8 +174,10 @@ public class AjudaBD extends SQLiteOpenHelper {
         db.execSQL("Drop table if exists " + Client.NOM_TAULA);
         db.execSQL("Drop table if exists " + Producte.NOM_TAULA);
         db.execSQL("Drop table if exists " + Reserva_Cliente.NOM_TAULA);
-
+        db.execSQL("Drop table if exists " + Comida.NOM_TAULA);
+        db.execSQL("Drop table if exists " + Menu.NOM_TAULA);
         onCreate(db);
     }
+
 
 }

@@ -8,33 +8,47 @@
     tools:context="ccastro.casal.LoginActivity">
 
 
-    <Button
-        android:id="@+id/buttonInsertarProductos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_weight="1"
-        android:text="Productos" />
+        android:weightSum="5"
+        android:orientation="vertical">
 
-    <Button
-        android:id="@+id/buttonClients"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Clients"
-        tools:layout_editor_absoluteX="89dp"
-        tools:layout_editor_absoluteY="326dp" />
+        <Button
+            android:id="@+id/buttonClients"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Clients" />
 
-    <Button
-        android:id="@+id/buttonVenta"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Venta" />
+        <Button
+            android:id="@+id/buttonComedor"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Comedor" />
 
-    <Button
-        android:id="@+id/buttonComedor"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Comedor" />
+        <Button
+            android:id="@+id/buttonInsertarProductos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Productos" />
+
+        <Button
+            android:id="@+id/buttonVenta"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Venta" />
+
+        <Button
+            android:id="@+id/buttonInsertarMenu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Menus" />
+    </LinearLayout>
 
 </LinearLayout>
