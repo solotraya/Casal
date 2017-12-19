@@ -5,12 +5,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import ccastro.casal.R;
+import ccastro.casal.Utils.Statics;
 
 /**
  * @author Carlos Alberto Castro Cañabate
@@ -60,27 +60,44 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
         holder.idMenu.setText(mDataset.get(position).getIdMenu());
         holder.segundoPlato.setText(mDataset.get(position).getSegundoPlato());
         holder.primerPlato.setText(mDataset.get(position).getPrimerPlato());
-        String gluten = mDataset.get(position).getGluten();
-        if (gluten.equalsIgnoreCase("1")) holder.gluten.setVisibility(View.VISIBLE);
-        else holder.gluten.setVisibility(View.GONE);
-        holder.crustaceos.setText(mDataset.get(position).getCrustaceos());
-        holder.huevos.setText(mDataset.get(position).getHuevos());
-        holder.cacahuetes.setText(mDataset.get(position).getCacahuetes());
-        holder.lacteos.setText(mDataset.get(position).getLacteos());
-        holder.cascaras.setText(mDataset.get(position).getCascaras());
-        holder.apio.setText(mDataset.get(position).getApio());
-        holder.azufre_sulfitos.setText(mDataset.get(position).getAzufre_sulfitos());
-        holder.moluscos.setText(mDataset.get(position).getMoluscos());
 
-        holder.gluten2.setText(mDataset.get(position).getGluten2());
-        holder.crustaceos2.setText(mDataset.get(position).getCrustaceos2());
-        holder.huevos2.setText(mDataset.get(position).getHuevos2());
-        holder.cacahuetes2.setText(mDataset.get(position).getCacahuetes2());
-        holder.lacteos2.setText(mDataset.get(position).getLacteos2());
-        holder.cascaras2.setText(mDataset.get(position).getCascaras2());
-        holder.apio2.setText(mDataset.get(position).getApio2());
-        holder.azufre_sulfitos2.setText(mDataset.get(position).getAzufre_sulfitos2());
-        holder.moluscos2.setText(mDataset.get(position).getMoluscos2());
+        if(Statics.esconderGluten1.get(position)) holder.gluten.setVisibility(View.GONE);
+        else holder.gluten.setVisibility(View.VISIBLE);
+        if(Statics.esconderCrustaceo1.get(position)) holder.crustaceos.setVisibility(View.GONE);
+        else holder.crustaceos.setVisibility(View.VISIBLE);
+        if(Statics.esconderHuevos1.get(position)) holder.huevos.setVisibility(View.GONE);
+        else holder.huevos.setVisibility(View.VISIBLE);
+        if(Statics.esconderCacahuetes1.get(position)) holder.cacahuetes.setVisibility(View.GONE);
+        else holder.cacahuetes.setVisibility(View.VISIBLE);
+        if(Statics.esconderLacteos1.get(position)) holder.lacteos.setVisibility(View.GONE);
+        else holder.lacteos.setVisibility(View.VISIBLE);
+        if(Statics.esconderCascaras1.get(position)) holder.cascaras.setVisibility(View.GONE);
+        else holder.cascaras.setVisibility(View.VISIBLE);
+        if(Statics.esconderApio1.get(position)) holder.apio.setVisibility(View.GONE);
+        else holder.apio.setVisibility(View.VISIBLE);
+        if(Statics.esconderSulfitos1.get(position)) holder.azufre_sulfitos.setVisibility(View.GONE);
+        else holder.azufre_sulfitos.setVisibility(View.VISIBLE);
+        if(Statics.esconderMoluscos1.get(position)) holder.moluscos.setVisibility(View.GONE);
+        else holder.moluscos.setVisibility(View.VISIBLE);
+
+        if(Statics.esconderGluten2.get(position)) holder.gluten2.setVisibility(View.GONE);
+        else holder.gluten2.setVisibility(View.VISIBLE);
+        if(Statics.esconderCrustaceo2.get(position)) holder.crustaceos2.setVisibility(View.GONE);
+        else holder.crustaceos2.setVisibility(View.VISIBLE);
+        if(Statics.esconderHuevos2.get(position)) holder.huevos2.setVisibility(View.GONE);
+        else holder.huevos2.setVisibility(View.VISIBLE);
+        if(Statics.esconderCacahuetes2.get(position)) holder.cacahuetes2.setVisibility(View.GONE);
+        else holder.cacahuetes2.setVisibility(View.VISIBLE);
+        if(Statics.esconderLacteos2.get(position)) holder.lacteos2.setVisibility(View.GONE);
+        else holder.lacteos2.setVisibility(View.VISIBLE);
+        if(Statics.esconderCascaras2.get(position)) holder.cascaras2.setVisibility(View.GONE);
+        else holder.cascaras2.setVisibility(View.VISIBLE);
+        if(Statics.esconderApio2.get(position)) holder.apio2.setVisibility(View.GONE);
+        else holder.apio2.setVisibility(View.VISIBLE);
+        if(Statics.esconderSulfitos2.get(position)) holder.azufre_sulfitos2.setVisibility(View.GONE);
+        else holder.azufre_sulfitos2.setVisibility(View.VISIBLE);
+        if(Statics.esconderMoluscos2.get(position)) holder.moluscos2.setVisibility(View.GONE);
+        else holder.moluscos2.setVisibility(View.VISIBLE);
 
 
     }
@@ -95,8 +112,8 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
     }
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView idMenu, diaMenu, primerPlato, segundoPlato;
-        TextView crustaceos, huevos, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
-        Button gluten;
+        TextView gluten, crustaceos, huevos, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
+       // Button crustaceos;
         TextView gluten2, crustaceos2, huevos2, cacahuetes2, lacteos2, cascaras2, apio2, azufre_sulfitos2, moluscos2;
 
         View v;
@@ -111,7 +128,8 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
             diaMenu=(TextView)v.findViewById(R.id.diaMenu);
             primerPlato=(TextView) v.findViewById(R.id.primerPlato);
             segundoPlato=(TextView) v.findViewById(R.id.segundoPlato);
-            gluten= (Button) v.findViewById(R.id.gluten); gluten2=(TextView) v.findViewById(R.id.gluten2);
+            gluten= (TextView) v.findViewById(R.id.gluten); gluten2=(TextView) v.findViewById(R.id.gluten2);
+
            // buttonGluten = (Button) v.findViewById(R.id.buttonGluten);
             crustaceos = (TextView) v.findViewById(R.id.crustaceos); crustaceos2 = (TextView) v.findViewById(R.id.crustaceos2);
             huevos = (TextView) v.findViewById(R.id.huevos); huevos2 = (TextView) v.findViewById(R.id.huevos2);
@@ -124,6 +142,7 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
             context = itemView.getContext();
 
             v.setOnClickListener(this);
+
         }
 
         /**

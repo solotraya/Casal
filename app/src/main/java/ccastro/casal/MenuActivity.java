@@ -18,9 +18,11 @@ import ccastro.casal.RecyclerView.HeaderAdapterMenu;
 import ccastro.casal.RecyclerView.HeaderMenu;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
+import ccastro.casal.Utils.Statics;
 import ccastro.casal.Utils.Utilitats;
 
 public class MenuActivity extends AppCompatActivity {
+
     TextView textViewFechaMenu;
     private android.support.v7.widget.Toolbar mToolbar;
     private Integer diaInicio=null, mesInicio,añoInicio;
@@ -151,32 +153,57 @@ public class MenuActivity extends AppCompatActivity {
 
     public ArrayList mouCursor(Cursor cursor) {
         if (cursor.moveToFirst()) {
+            int contador = 0;
             do {
+
+                String gluten = cursor.getString(cursor.getColumnIndex("glutenPrimero"));
+                String crustaceos = cursor.getString(cursor.getColumnIndex("crustaceosPrimero"));
+                String huevos = cursor.getString(cursor.getColumnIndex("huevosPrimero"));
+                String cacahuetes = cursor.getString(cursor.getColumnIndex("cacahuetesPrimero"));
+                String lacteos = cursor.getString(cursor.getColumnIndex("lacteosPrimero"));
+                String cascaras = cursor.getString(cursor.getColumnIndex("cascarasPrimero"));
+                String apio =  cursor.getString(cursor.getColumnIndex("apioPrimero"));
+                String sulfitos = cursor.getString(cursor.getColumnIndex("sulfitosPrimero"));
+                String moluscos = cursor.getString(cursor.getColumnIndex("moluscosPrimero"));
+                if (gluten.equals("0")) Statics.esconderGluten1.add(contador,true); else Statics.esconderGluten1.add(contador,false);
+                if (crustaceos.equals("0")) Statics.esconderCrustaceo1.add(contador,true); else Statics.esconderCrustaceo1.add(contador,false);
+                if (huevos.equals("0")) Statics.esconderHuevos1.add(contador,true); else Statics.esconderHuevos1.add(contador,false);
+                if (cacahuetes.equals("0")) Statics.esconderCacahuetes1.add(contador,true); else Statics.esconderCacahuetes1.add(contador,false);
+                if (lacteos.equals("0")) Statics.esconderLacteos1.add(contador,true); else Statics.esconderLacteos1.add(contador,false);
+                if (cascaras.equals("0")) Statics.esconderCascaras1.add(contador,true); else Statics.esconderCascaras1.add(contador,false);
+                if (apio.equals("0")) Statics.esconderApio1.add(contador,true); else Statics.esconderApio1.add(contador,false);
+                if (sulfitos.equals("0")) Statics.esconderSulfitos1.add(contador,true); else Statics.esconderSulfitos1.add(contador,false);
+                if (moluscos.equals("0")) Statics.esconderMoluscos1.add(contador,true); else Statics.esconderMoluscos1.add(contador,false);
+
+                String gluten2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.GLUTEN));
+                String crustaceos2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.CRUSTACEOS));
+                String huevos2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.HUEVOS));
+                String cacahuetes2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.CACAHUETES));
+                String lacteos2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.LACTEOS));
+                String cascaras2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.FRUTOS_DE_CASCARA));
+                String apio2 =  cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.APIO));
+                String sulfitos2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.DIOXIDO_AZUFRE_SULFITOS));
+                String moluscos2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.MOLUSCOS));
+                if (gluten2.equals("0")) Statics.esconderGluten2.add(contador,true); else Statics.esconderGluten2.add(contador,false);
+                if (crustaceos2.equals("0")) Statics.esconderCrustaceo2.add(contador,true); else Statics.esconderCrustaceo2.add(contador,false);
+                if (huevos2.equals("0")) Statics.esconderHuevos2.add(contador,true); else Statics.esconderHuevos2.add(contador,false);
+                if (cacahuetes2.equals("0")) Statics.esconderCacahuetes2.add(contador,true); else Statics.esconderCacahuetes2.add(contador,false);
+                if (lacteos2.equals("0")) Statics.esconderLacteos2.add(contador,true); else Statics.esconderLacteos2.add(contador,false);
+                if (cascaras2.equals("0")) Statics.esconderCascaras2.add(contador,true); else Statics.esconderCascaras2.add(contador,false);
+                if (apio2.equals("0")) Statics.esconderApio2.add(contador,true); else Statics.esconderApio2.add(contador,false);
+                if (sulfitos2.equals("0")) Statics.esconderSulfitos2.add(contador,true); else Statics.esconderSulfitos2.add(contador,false);
+                if (moluscos2.equals("0")) Statics.esconderMoluscos2.add(contador,true); else Statics.esconderMoluscos2.add(contador,false);
                 myDataset.add(new HeaderMenu(
                         cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.ID_MENU)),
                         cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.DIA_MENU)),
                         cursor.getString(cursor.getColumnIndex("primerPlato")),
                         cursor.getString(cursor.getColumnIndex("segundoPlato")),
 
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.GLUTEN)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.CRUSTACEOS)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.HUEVOS)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.CACAHUETES)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.LACTEOS)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.FRUTOS_DE_CASCARA)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.APIO)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.DIOXIDO_AZUFRE_SULFITOS)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.MOLUSCOS)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.GLUTEN)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.CRUSTACEOS)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.HUEVOS)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.CACAHUETES)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.LACTEOS)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.FRUTOS_DE_CASCARA)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.APIO)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.DIOXIDO_AZUFRE_SULFITOS)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.MOLUSCOS))
+                        gluten, crustaceos, huevos, cacahuetes, lacteos, cascaras,apio, sulfitos, moluscos,
+                        gluten2, crustaceos2, huevos2, cacahuetes2, lacteos2, cascaras2,apio2, sulfitos2, moluscos2
+
                         ));
+                contador++;
             } while (cursor.moveToNext());
         }
         return myDataset;

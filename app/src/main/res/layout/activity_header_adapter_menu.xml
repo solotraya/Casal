@@ -62,73 +62,72 @@
                         android:id="@+id/gluten"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/gluten"
                         android:visibility="gone"
-                        android:text="" />
+                        android:background="@drawable/gluten"
+                         />
+
 
                     <Button
-                        android:id="@+id/buttonGluten"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:visibility="gone"
-                        android:background="@drawable/gluten" />
-
-                    <TextView
                         android:id="@+id/crustaceos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/crustaceos"
                         android:visibility="gone"
-                        android:text="crustaceos" />
-
-                    <TextView
+                       />
+<!--  android:background="@drawable/gluten" -->
+                    <Button
                         android:id="@+id/huevos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/huevos"
                         android:visibility="gone"
-                        android:text="huevos" />
+                         />
 
-                    <TextView
+                    <Button
                         android:id="@+id/cacahuetes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        android:text="cacahuetes" />
+                        android:background="@drawable/cacahuetes"
+                      />
 
-                    <TextView
+                    <Button
                         android:id="@+id/lacteos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        android:text="lacteos" />
+                        android:background="@drawable/lacteos"
+                         />
 
-                    <TextView
+                    <Button
                         android:id="@+id/cascaras"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/cascaras"
                         android:visibility="gone"
-                        android:text="cascaras" />
+                         />
 
-                    <TextView
+                    <Button
                         android:id="@+id/apio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:background="@drawable/apio"
                         android:visibility="gone"
-                        android:text="apio" />
+                         />
 
-                    <TextView
+                    <Button
                         android:id="@+id/azufre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        android:text="azufre" />
+                        android:background="@drawable/sulfitos" />
 
-                    <TextView
+                    <Button
                         android:id="@+id/moluscos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
-                        android:text="moluscos" />
+                        android:background="@drawable/moluscos" />
 
                 </LinearLayout>
 
@@ -147,59 +146,77 @@
                         android:textSize="18dp"
                         android:textStyle="bold" />
 
-                    <TextView
+
+                    <Button
                         android:id="@+id/gluten2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="gluten" />
+                        android:visibility="gone"
+                        android:background="@drawable/gluten"
+                        />
 
-                    <TextView
+
+                    <Button
                         android:id="@+id/crustaceos2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="crustaceos" />
-
-                    <TextView
+                        android:background="@drawable/crustaceos"
+                        android:visibility="gone"
+                        />
+                    <!--  android:background="@drawable/gluten" -->
+                    <Button
                         android:id="@+id/huevos2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="huevos" />
+                        android:background="@drawable/huevos"
+                        android:visibility="gone"
+                        />
 
-                    <TextView
+                    <Button
                         android:id="@+id/cacahuetes2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="cacahuetes" />
+                        android:visibility="gone"
+                        android:background="@drawable/cacahuetes"
+                        />
 
-                    <TextView
+                    <Button
                         android:id="@+id/lacteos2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="lacteos" />
+                        android:visibility="gone"
+                        android:background="@drawable/lacteos"
+                        />
 
-                    <TextView
+                    <Button
                         android:id="@+id/cascaras2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="cascaras" />
+                        android:background="@drawable/cascaras"
+                        android:visibility="gone"
+                        />
 
-                    <TextView
+                    <Button
                         android:id="@+id/apio2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="apio" />
+                        android:background="@drawable/apio"
+                        android:visibility="gone"
+                        />
 
-                    <TextView
+                    <Button
                         android:id="@+id/azufre2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="azufre" />
+                        android:visibility="gone"
+                        android:background="@drawable/sulfitos" />
 
-                    <TextView
+                    <Button
                         android:id="@+id/moluscos2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="moluscos" />
+                        android:visibility="gone"
+                        android:background="@drawable/moluscos" />
 
                 </LinearLayout>
             </LinearLayout>

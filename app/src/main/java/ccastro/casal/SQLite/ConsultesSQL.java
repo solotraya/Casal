@@ -110,9 +110,15 @@ public class ConsultesSQL {
         return "Select mp."+MenuPlato.ID_MENU+", mp."+MenuPlato.DIA_MENU+
                 ", (SELECT pp."+PrimerPlato.NOMBRE_PLATO+" FROM " + PrimerPlato.NOM_TAULA + " pp WHERE pp." + PrimerPlato._ID + " LIKE mp."+MenuPlato.PRIMER_PLATO+") as 'primerPlato'"+
                 ", (SELECT sp."+SegundoPlato.NOMBRE_PLATO+" FROM " + SegundoPlato.NOM_TAULA + " sp WHERE sp." + SegundoPlato._ID + " LIKE mp."+MenuPlato.SEGUNDO_PLATO+") as 'segundoPlato'"+
-                ", pp."+PrimerPlato.GLUTEN+",pp."+PrimerPlato.CRUSTACEOS+", pp."+PrimerPlato.HUEVOS+
-                ", pp."+PrimerPlato.CACAHUETES+", pp."+PrimerPlato.LACTEOS+", pp."+PrimerPlato.FRUTOS_DE_CASCARA+", pp."+PrimerPlato.APIO+
-                ", pp."+PrimerPlato.DIOXIDO_AZUFRE_SULFITOS+", pp."+PrimerPlato.MOLUSCOS+
+                ", (SELECT pp."+PrimerPlato.GLUTEN+" FROM " + PrimerPlato.NOM_TAULA +") as 'glutenPrimero'"+
+                ", (SELECT pp."+PrimerPlato.CRUSTACEOS+" FROM " + PrimerPlato.NOM_TAULA +") as 'crustaceosPrimero'"+
+                ", (SELECT pp."+PrimerPlato.HUEVOS+" FROM " + PrimerPlato.NOM_TAULA +") as 'huevosPrimero'"+
+                ", (SELECT pp."+PrimerPlato.CACAHUETES+" FROM " + PrimerPlato.NOM_TAULA +") as 'cacahuetesPrimero'"+
+                ", (SELECT pp."+PrimerPlato.LACTEOS+" FROM " + PrimerPlato.NOM_TAULA +") as 'lacteosPrimero'"+
+                ", (SELECT pp."+PrimerPlato.FRUTOS_DE_CASCARA+" FROM " + PrimerPlato.NOM_TAULA +") as 'cascarasPrimero'"+
+                ", (SELECT pp."+PrimerPlato.APIO+" FROM " + PrimerPlato.NOM_TAULA +") as 'apioPrimero'"+
+                ", (SELECT pp."+PrimerPlato.DIOXIDO_AZUFRE_SULFITOS+" FROM " + PrimerPlato.NOM_TAULA +") as 'sulfitosPrimero'"+
+                ", (SELECT pp."+PrimerPlato.MOLUSCOS+" FROM " + PrimerPlato.NOM_TAULA +") as 'moluscosPrimero'"+
                 ", sp."+SegundoPlato.GLUTEN+",sp."+SegundoPlato.CRUSTACEOS+", sp."+SegundoPlato.HUEVOS+
                 ", sp."+SegundoPlato.CACAHUETES+", sp."+SegundoPlato.LACTEOS+", sp."+SegundoPlato.FRUTOS_DE_CASCARA+", sp."+SegundoPlato.APIO+
                 ", sp."+SegundoPlato.DIOXIDO_AZUFRE_SULFITOS+", sp."+SegundoPlato.MOLUSCOS+

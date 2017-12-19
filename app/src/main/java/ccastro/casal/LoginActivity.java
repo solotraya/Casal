@@ -203,23 +203,23 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirFactura(4,1,1);db.InserirFactura(5,1,2);db.InserirFactura(7,1,4);
         db.InserirFactura(5,2,2);db.InserirFactura(6,2,1);db.InserirFactura(8,2,3);
 
-        db.InserirPrimerPlato("Paella","0","1","0","1","0","0","0","0","0","1");
-        db.InserirPrimerPlato("Garbanzos","0","0","0","0","0","0","0","1","0","0");
-        db.InserirPrimerPlato("Macarrones","1","0","0","0","0","0","0","0","0","0");
-        db.InserirPrimerPlato("Albondigas","1","0","1","0","0","1","0","0","0","0");
-        db.InserirPrimerPlato("Lentejas","1","0","0","0","0","0","0","1","0","0");
+        db.InserirSegundoPlato("Paella","0","1","0","1","0","0","0","0","0","1");
+        db.InserirSegundoPlato("Garbanzos","0","1","0","0","0","0","0","1","0","0");
+        db.InserirSegundoPlato("Macarrones","0","1","0","0","0","0","0","0","0","0");
+        db.InserirSegundoPlato("Albondigas","1","0","1","0","0","1","0","0","0","0");
+        db.InserirSegundoPlato("Lentejas","1","1","0","0","0","0","0","1","0","0");
 
-        db.InserirSegundoPlato("Ensalada","0","0","1","0","0","0","0","0","0","0");
-        db.InserirSegundoPlato("Sopa de Pescado","0","1","0","1","0","0","0","0","0","1");
+        db.InserirPrimerPlato("Ensalada","0","0","1","0","0","0","0","0","0","0");
+        db.InserirPrimerPlato("Sopa de Pescado","0","1","0","1","0","0","0","0","0","1");
 
         db.InserirMenu("51");
         db.InserirMenu("50");
 
-        db.InserirMenuPlato(1,3,1,"1");
+        db.InserirMenuPlato(1,1,3,"1");
         db.InserirMenuPlato(1,2,2,"2");
-        db.InserirMenuPlato(1,5,2,"3");
+        db.InserirMenuPlato(1,2,5,"3");
         db.InserirMenuPlato(1,1,1,"4");
-        db.InserirMenuPlato(1,4,1,"5");
+        db.InserirMenuPlato(1,1,4,"5");
 
         db.tanca();
     }
