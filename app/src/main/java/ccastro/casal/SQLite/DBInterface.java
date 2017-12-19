@@ -10,11 +10,13 @@ import ccastro.casal.SQLite.ContracteBD.Client;
 import ccastro.casal.SQLite.ContracteBD.Comida;
 import ccastro.casal.SQLite.ContracteBD.Factura;
 import ccastro.casal.SQLite.ContracteBD.Menu;
+import ccastro.casal.SQLite.ContracteBD.MenuPlato;
 import ccastro.casal.SQLite.ContracteBD.Mesa;
 import ccastro.casal.SQLite.ContracteBD.Producte;
 import ccastro.casal.SQLite.ContracteBD.Reserva_Cliente;
 import ccastro.casal.SQLite.ContracteBD.Treballador;
 import ccastro.casal.SQLite.ContracteBD.Venta;
+
 
 
 /**
@@ -71,6 +73,7 @@ public class DBInterface {
         bd.execSQL("drop table if exists " + Mesa.NOM_TAULA + " ;");
         bd.execSQL("drop table if exists " + Comida.NOM_TAULA + " ;");
         bd.execSQL("drop table if exists " + Menu.NOM_TAULA + " ;");
+        bd.execSQL("drop table if exists " + MenuPlato.NOM_TAULA + " ;");
         ajuda.onCreate(bd);
     }
 
@@ -342,22 +345,18 @@ public class DBInterface {
         return bd.insert(Comida.NOM_TAULA, null, initialValues);
     }
 
-    public long InserirMenu(String fechaMenu,Integer lunesPrimero,Integer  lunesSegundo, Integer martesPrimero,Integer  martesSegundo,
-                            Integer miercolesPrimero, Integer miercolesSegundo, Integer juevesPrimero, Integer juevesSegundo, Integer viernesPrimero, Integer viernesSegundo) {
-
+    public long InserirMenu(String semanaMenu){
         ContentValues initialValues = new ContentValues();
-        initialValues.put(Menu.FECHA_MENU, fechaMenu);
-        initialValues.put(Menu.LUNES_PRIMERO, lunesPrimero);
-        initialValues.put(Menu.LUNES_SEGUNDO, lunesSegundo);
-        initialValues.put(Menu.MARTES_PRIMERO, martesPrimero);
-        initialValues.put(Menu.MARTES_SEGUNDO, martesSegundo);
-        initialValues.put(Menu.MIERCOLES_PRIMERO, miercolesPrimero );
-        initialValues.put(Menu.MIERCOLES_SEGUNDO, miercolesSegundo);
-        initialValues.put(Menu.JUEVES_PRIMERO, juevesPrimero);
-        initialValues.put(Menu.JUEVES_SEGUNDO, juevesSegundo);
-        initialValues.put(Menu.VIERNES_PRIMERO, viernesPrimero);
-        initialValues.put(Menu.VIERNES_SEGUNDO, viernesSegundo);
+        initialValues.put(Menu.SEMANA_MENU, semanaMenu);
         return bd.insert(Menu.NOM_TAULA, null, initialValues);
+    }
+    public long InserirMenuPlato(Integer idMenu, Integer idPlato, String diaMenu, String tipoPlato){
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(MenuPlato.ID_MENU, idMenu);
+        initialValues.put(MenuPlato.ID_COMIDA, idPlato);
+        initialValues.put(MenuPlato.DIA_MENU, diaMenu);
+        initialValues.put(MenuPlato.TIPO_PLATO, tipoPlato);
+        return bd.insert(MenuPlato.NOM_TAULA, null, initialValues);
     }
 
     public long InserirReserva_Cliente (String dia_reservado, String asistencia,String pagado, Integer idCliente, Integer idMesa) {

@@ -6,13 +6,13 @@ package ccastro.casal.RecyclerView;
 
 public class HeaderMenu {
 
-    String idComida, nombreComida, gluten, crustaceos, huevos, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos, idMenu, fechaMenu, lunesPrimero, lunesSegundo, martesPrimero, martesSegundo, miercolesPrimero, miercolesSegundo, juevesPrimero, juevesSegundo, viernesPrimero, viernesSegundo;
+    String idMenu, diaMenu, primerPlato, segundoPlato, gluten, crustaceos, huevos, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
 
-   // public HeaderMenu(String idComida, String nombreComida, String gluten, String crustaceos, String huevos, String cacahuetes, String lacteos, String cascaras, String apio, String azufre_sulfitos, String moluscos, String idMenu, String fechaMenu, String lunesPrimero, String lunesSegundo, String martesPrimero, String martesSegundo, String miercolesPrimero, String miercolesSegundo, String juevesPrimero, String juevesSegundo, String viernesPrimero, String viernesSegundo) {
-   public HeaderMenu(String idMenu,  String lunesPrimero, String lunesSegundo, String martesPrimero, String martesSegundo, String miercolesPrimero, String miercolesSegundo, String juevesPrimero, String juevesSegundo, String viernesPrimero, String viernesSegundo) {
-
-        /*this.idComida = idComida;
-        this.nombreComida = nombreComida;
+    public HeaderMenu(String idMenu, String diaMenu, String primerPlato, String segundoPlato, String gluten, String crustaceos, String huevos, String cacahuetes, String lacteos, String cascaras, String apio, String azufre_sulfitos, String moluscos) {
+        this.idMenu = idMenu;
+        this.diaMenu = diaMenu;
+        this.primerPlato = primerPlato;
+        this.segundoPlato = segundoPlato;
         this.gluten = gluten;
         this.crustaceos = crustaceos;
         this.huevos = huevos;
@@ -21,35 +21,46 @@ public class HeaderMenu {
         this.cascaras = cascaras;
         this.apio = apio;
         this.azufre_sulfitos = azufre_sulfitos;
-        this.moluscos = moluscos; */
+        this.moluscos = moluscos;
+    }
+
+    public String getIdMenu() {
+        return idMenu;
+    }
+
+    public void setIdMenu(String idMenu) {
         this.idMenu = idMenu;
-      //  this.fechaMenu = fechaMenu;
-        this.lunesPrimero = lunesPrimero;
-        this.lunesSegundo = lunesSegundo;
-        this.martesPrimero = martesPrimero;
-        this.martesSegundo = martesSegundo;
-        this.miercolesPrimero = miercolesPrimero;
-        this.miercolesSegundo = miercolesSegundo;
-        this.juevesPrimero = juevesPrimero;
-        this.juevesSegundo = juevesSegundo;
-        this.viernesPrimero = viernesPrimero;
-        this.viernesSegundo = viernesSegundo;
     }
 
-    public String getIdComida() {
-        return idComida;
+    public String getDiaMenu() {
+        switch (Integer.parseInt(diaMenu)){
+            case 1: return "Lunes";
+            case 2: return "Martes";
+            case 3: return "Miercoles";
+            case 4: return "Jueves";
+            case 5: return "Viernes";
+        }
+        return diaMenu;
     }
 
-    public void setIdComida(String idComida) {
-        this.idComida = idComida;
+    public void setDiaMenu(String diaMenu) {
+        this.diaMenu = diaMenu;
     }
 
-    public String getNombreComida() {
-        return nombreComida;
+    public String getPrimerPlato() {
+        return primerPlato;
     }
 
-    public void setNombreComida(String nombreComida) {
-        this.nombreComida = nombreComida;
+    public void setPrimerPlato(String primerPlato) {
+        this.primerPlato = primerPlato;
+    }
+
+    public String getSegundoPlato() {
+        return segundoPlato;
+    }
+
+    public void setSegundoPlato(String segundoPlato) {
+        this.segundoPlato = segundoPlato;
     }
 
     public String getGluten() {
@@ -122,101 +133,5 @@ public class HeaderMenu {
 
     public void setMoluscos(String moluscos) {
         this.moluscos = moluscos;
-    }
-
-    public String getIdMenu() {
-        return idMenu;
-    }
-
-    public void setIdMenu(String idMenu) {
-        this.idMenu = idMenu;
-    }
-
-    public String getFechaMenu() {
-        return fechaMenu;
-    }
-
-    public void setFechaMenu(String fechaMenu) {
-        this.fechaMenu = fechaMenu;
-    }
-
-    public String getLunesPrimero() {
-        return lunesPrimero;
-    }
-
-    public void setLunesPrimero(String lunesPrimero) {
-        this.lunesPrimero = lunesPrimero;
-    }
-
-    public String getLunesSegundo() {
-        return lunesSegundo;
-    }
-
-    public void setLunesSegundo(String lunesSegundo) {
-        this.lunesSegundo = lunesSegundo;
-    }
-
-    public String getMartesPrimero() {
-        return martesPrimero;
-    }
-
-    public void setMartesPrimero(String martesPrimero) {
-        this.martesPrimero = martesPrimero;
-    }
-
-    public String getMartesSegundo() {
-        return martesSegundo;
-    }
-
-    public void setMartesSegundo(String martesSegundo) {
-        this.martesSegundo = martesSegundo;
-    }
-
-    public String getMiercolesPrimero() {
-        return miercolesPrimero;
-    }
-
-    public void setMiercolesPrimero(String miercolesPrimero) {
-        this.miercolesPrimero = miercolesPrimero;
-    }
-
-    public String getMiercolesSegundo() {
-        return miercolesSegundo;
-    }
-
-    public void setMiercolesSegundo(String miercolesSegundo) {
-        this.miercolesSegundo = miercolesSegundo;
-    }
-
-    public String getJuevesPrimero() {
-        return juevesPrimero;
-    }
-
-    public void setJuevesPrimero(String juevesPrimero) {
-        this.juevesPrimero = juevesPrimero;
-    }
-
-    public String getJuevesSegundo() {
-        return juevesSegundo;
-    }
-
-    public void setJuevesSegundo(String juevesSegundo) {
-        this.juevesSegundo = juevesSegundo;
-    }
-
-    public String getViernesPrimero() {
-        return viernesPrimero;
-    }
-
-    public void setViernesPrimero(String viernesPrimero) {
-        this.viernesPrimero = viernesPrimero;
-    }
-
-    public String getViernesSegundo() {
-        return viernesSegundo;
-    }
-
-    public void setViernesSegundo(String viernesSegundo) {
-        this.viernesSegundo = viernesSegundo;
     }
 }

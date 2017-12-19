@@ -54,9 +54,15 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
     public void onBindViewHolder(ViewHolder holder, int position) {
         // Obteniu un element del vostre conjunt de dades en aquesta posició
         // Reemplaça els continguts de la vista amb aquest element
-
-      /*  holder.idComida.setText(mDataset.get(position).getIdComida());
-        holder.nombreComida.setText(mDataset.get(position).getNombreComida());
+        holder.diaMenu.setText(mDataset.get(position).getDiaMenu());
+        String segundoPlato = mDataset.get(position).getSegundoPlato();
+        String primerPlato = mDataset.get(position).getPrimerPlato();
+        if (primerPlato==null) holder.primerPlato.setVisibility(View.GONE);
+        else holder.primerPlato.setVisibility(View.VISIBLE);
+        if (segundoPlato==null) holder.segundoPlato.setVisibility(View.GONE);
+        else holder.segundoPlato.setVisibility(View.VISIBLE);
+        holder.segundoPlato.setText(segundoPlato);
+        holder.primerPlato.setText(primerPlato);
         holder.gluten.setText(mDataset.get(position).getGluten());
         holder.crustaceos.setText(mDataset.get(position).getCrustaceos());
         holder.huevos.setText(mDataset.get(position).getHuevos());
@@ -65,19 +71,9 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
         holder.cascaras.setText(mDataset.get(position).getCascaras());
         holder.apio.setText(mDataset.get(position).getApio());
         holder.azufre_sulfitos.setText(mDataset.get(position).getAzufre_sulfitos());
-        holder.moluscos.setText(mDataset.get(position).getMoluscos()); */
+        holder.moluscos.setText(mDataset.get(position).getMoluscos());
         holder.idMenu.setText(mDataset.get(position).getIdMenu());
-  //      holder.fechaMenu.setText(mDataset.get(position).getFechaMenu());
-        holder.lunesPrimero.setText(mDataset.get(position).getLunesPrimero());
-        holder.lunesSegundo.setText(mDataset.get(position).getLunesSegundo());
-        holder.martesPrimero.setText(mDataset.get(position).getMartesPrimero());
-        holder.martesSegundo.setText(mDataset.get(position).getMartesSegundo());
-        holder.miercolesPrimero.setText(mDataset.get(position).getMiercolesPrimero());
-        holder.miercolesSegundo.setText(mDataset.get(position).getMiercolesSegundo());
-        holder.juevesPrimero.setText(mDataset.get(position).getJuevesPrimero());
-        holder.juevesSegundo.setText(mDataset.get(position).getJuevesSegundo());
-        holder.viernesPrimero.setText(mDataset.get(position).getViernesPrimero());
-        holder.viernesSegundo.setText(mDataset.get(position).getViernesSegundo());
+
     }
 
     /**
@@ -89,8 +85,7 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
         return mDataset.size();
     }
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView idComida, nombreComida, gluten, crustaceos, huevos, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos,
-                idMenu, fechaMenu, lunesPrimero, lunesSegundo, martesPrimero, martesSegundo, miercolesPrimero, miercolesSegundo, juevesPrimero, juevesSegundo, viernesPrimero, viernesSegundo;
+        TextView idMenu, diaMenu, primerPlato, segundoPlato, gluten, crustaceos, huevos, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
         View v;
         Context context;
         /**
@@ -99,9 +94,10 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
          */
         public ViewHolder(View v) {
             super(v);
-            /*
-            idComida=(TextView)v.findViewById(R.id.idComida);
-            nombreComida=(TextView)v.findViewById(R.id.nombreComida);
+
+            diaMenu=(TextView)v.findViewById(R.id.diaMenu);
+            primerPlato=(TextView) v.findViewById(R.id.primerPlato);
+            segundoPlato=(TextView) v.findViewById(R.id.segundoPlato);
             gluten=(TextView) v.findViewById(R.id.gluten);
             crustaceos = (TextView) v.findViewById(R.id.crustaceos);
             huevos = (TextView) v.findViewById(R.id.huevos);
@@ -110,22 +106,11 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
             cascaras = (TextView) v.findViewById(R.id.cascaras);
             apio = (TextView) v.findViewById(R.id.apio);
             azufre_sulfitos = (TextView) v.findViewById(R.id.azufre);
-            moluscos = (TextView) v.findViewById(R.id.moluscos); */
+            moluscos = (TextView) v.findViewById(R.id.moluscos);
             idMenu = (TextView) v.findViewById(R.id.idMenu);
-            //fechaMenu = (TextView) v.findViewById(R.id.fechaMenu);
-            lunesPrimero = (TextView) v.findViewById(R.id.lunesPrimero);
-            lunesSegundo = (TextView) v.findViewById(R.id.lunesSegundo);
-            martesPrimero = (TextView) v.findViewById(R.id.martesPrimero);
-            martesSegundo = (TextView) v.findViewById(R.id.martesSegundo);
-            miercolesPrimero = (TextView) v.findViewById(R.id.miercolesPrimero);
-            miercolesSegundo = (TextView) v.findViewById(R.id.miercolesSegundo);
-            juevesPrimero = (TextView) v.findViewById(R.id.juevesPrimero);
-            juevesSegundo = (TextView) v.findViewById(R.id.juevesSegundo);
-            viernesPrimero = (TextView) v.findViewById(R.id.viernesPrimero);
-            viernesSegundo = (TextView) v.findViewById(R.id.viernesSegundo);
-
 
             context = itemView.getContext();
+
             v.setOnClickListener(this);
         }
 

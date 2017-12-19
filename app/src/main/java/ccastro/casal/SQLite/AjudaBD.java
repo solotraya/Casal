@@ -15,6 +15,8 @@ import ccastro.casal.SQLite.ContracteBD.Treballador;
 import ccastro.casal.SQLite.ContracteBD.Venta;
 import ccastro.casal.SQLite.ContracteBD.Comida;
 import ccastro.casal.SQLite.ContracteBD.Menu;
+import ccastro.casal.SQLite.ContracteBD.MenuPlato;
+
 import static android.content.ContentValues.TAG;
 
 
@@ -56,6 +58,7 @@ public class AjudaBD extends SQLiteOpenHelper {
         db.execSQL(BD_CREATE_FACTURA);
         db.execSQL(BD_CREATE_COMIDA);
         db.execSQL(BD_CREATE_MENU);
+        db.execSQL(BD_CREATE_MENU_PLATO);
     }
 
     public static final String BD_CREATE_MESA = "CREATE TABLE IF NOT EXISTS " + Mesa.NOM_TAULA + "("
@@ -137,28 +140,17 @@ public class AjudaBD extends SQLiteOpenHelper {
 
     public static final String BD_CREATE_MENU = "CREATE TABLE IF NOT EXISTS " + Menu.NOM_TAULA + "("
             + Menu._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + Menu.FECHA_MENU + " TEXT NOT NULL, "
-            + Menu.LUNES_PRIMERO + " INTEGER NOT NULL, "
-            + Menu.LUNES_SEGUNDO + " INTEGERNOT NULL, "
-            + Menu.MARTES_PRIMERO + " INTEGER NOT NULL, "
-            + Menu.MARTES_SEGUNDO + " INTEGER NOT NULL, "
-            + Menu.MIERCOLES_PRIMERO + " INTEGER NOT NULL, "
-            + Menu.MIERCOLES_SEGUNDO + " INTEGER NOT NULL, "
-            + Menu.JUEVES_PRIMERO + " INTEGER NOT NULL, "
-            + Menu.JUEVES_SEGUNDO+ " INTEGER NOT NULL, "
-            + Menu.VIERNES_PRIMERO + " INTEGER NOT NULL, "
-            + Menu.VIERNES_SEGUNDO + " INTEGER NOT NULL, "
-            + "FOREIGN KEY("+ Menu.LUNES_PRIMERO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
-            + "FOREIGN KEY("+ Menu.LUNES_SEGUNDO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
-            + "FOREIGN KEY("+ Menu.MARTES_PRIMERO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
-            + "FOREIGN KEY("+ Menu.MARTES_SEGUNDO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
-            + "FOREIGN KEY("+ Menu.MIERCOLES_PRIMERO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
-            + "FOREIGN KEY("+ Menu.MIERCOLES_SEGUNDO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
-            + "FOREIGN KEY("+ Menu.JUEVES_PRIMERO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
-            + "FOREIGN KEY("+ Menu.JUEVES_SEGUNDO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
-            + "FOREIGN KEY("+ Menu.VIERNES_PRIMERO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
-            + "FOREIGN KEY("+ Menu.VIERNES_SEGUNDO+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"), "
-            + "UNIQUE ("+Menu.FECHA_MENU+") ON CONFLICT IGNORE);";
+            + Menu.SEMANA_MENU + " TEXT NOT NULL, "
+            + "UNIQUE ("+Menu.SEMANA_MENU+") ON CONFLICT IGNORE);";
+
+    public static final String BD_CREATE_MENU_PLATO = "CREATE TABLE IF NOT EXISTS " + MenuPlato.NOM_TAULA + "("
+            + MenuPlato._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + MenuPlato.ID_MENU + " INTEGER NOT NULL, "
+            + MenuPlato.ID_COMIDA + " INTEGER NOT NULL, "
+            + MenuPlato.DIA_MENU +  " TEXT NOT NULL, "
+            + MenuPlato.TIPO_PLATO +  " TEXT NOT NULL, "
+            + "FOREIGN KEY("+ MenuPlato.ID_MENU+") REFERENCES " + Menu.NOM_TAULA +"(" + Menu._ID +"),"
+            + "FOREIGN KEY("+ MenuPlato.ID_COMIDA+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"));";
 
     /**
      * Elimina les taules i les torna a crear.
@@ -176,6 +168,7 @@ public class AjudaBD extends SQLiteOpenHelper {
         db.execSQL("Drop table if exists " + Reserva_Cliente.NOM_TAULA);
         db.execSQL("Drop table if exists " + Comida.NOM_TAULA);
         db.execSQL("Drop table if exists " + Menu.NOM_TAULA);
+        db.execSQL("Drop table if exists " + MenuPlato.NOM_TAULA);
         onCreate(db);
     }
 

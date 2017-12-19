@@ -141,6 +141,7 @@ public class MenuActivity extends AppCompatActivity {
         linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(headerAdapterMenu);
+
         db = new DBInterface(this);
         db.obre();
         Cursor cursor = db.RetornaMenuSemanaAño(semanaAño);
@@ -152,28 +153,19 @@ public class MenuActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             do {
                 myDataset.add(new HeaderMenu(
-                      //  cursor.getString(cursor.getColumnIndex(ContracteBD.Comida._ID)),
-                      //  cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.NOMBRE_COMIDA)),
-                     //    cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.CRUSTACEOS)),
-                        //    cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.HUEVOS)),
-                        //   cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.CACAHUETES)),
-                        //     cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.LACTEOS)),
-                        //        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.FRUTOS_DE_CASCARA)),
-                        //      cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.APIO)),
-                        //         cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.DIOXIDO_AZUFRE_SULFITOS)),
-                        //             cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.MOLUSCOS)),
-                                      cursor.getString(cursor.getColumnIndex(ContracteBD.Menu._ID)),
-                        //cursor.getString(cursor.getColumnIndex(ContracteBD.Menu.FECHA_MENU)),
-                        cursor.getString(cursor.getColumnIndex("lunesPrimero")),
-                        cursor.getString(cursor.getColumnIndex("lunesSegundo")),
-                        cursor.getString(cursor.getColumnIndex("martesPrimero")),
-                        cursor.getString(cursor.getColumnIndex("martesSegundo")),
-                        cursor.getString(cursor.getColumnIndex("miercolesPrimero")),
-                        cursor.getString(cursor.getColumnIndex("miercolesSegundo")),
-                        cursor.getString(cursor.getColumnIndex("juevesPrimero")),
-                        cursor.getString(cursor.getColumnIndex("juevesSegundo")),
-                        cursor.getString(cursor.getColumnIndex("viernesPrimero")),
-                        cursor.getString(cursor.getColumnIndex("viernesSegundo"))
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.ID_MENU)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.DIA_MENU)),
+                        cursor.getString(cursor.getColumnIndex("primerPlato")),
+                        cursor.getString(cursor.getColumnIndex("segundoPlato")),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.GLUTEN)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.CRUSTACEOS)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.HUEVOS)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.CACAHUETES)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.LACTEOS)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.FRUTOS_DE_CASCARA)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.APIO)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.DIOXIDO_AZUFRE_SULFITOS)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.MOLUSCOS))
                         ));
             } while (cursor.moveToNext());
         }

@@ -81,18 +81,17 @@ public class ContracteBD {
 
     public static final class Menu implements BaseColumns {
         public static final String NOM_TAULA = "Menu";
-        public static final String FECHA_MENU = "fecha_menu";
-        public static final String LUNES_PRIMERO = "lunesPrimero";
-        public static final String MARTES_PRIMERO = "martesPrimero";
-        public static final String MIERCOLES_PRIMERO = "miercolesPrimero";
-        public static final String JUEVES_PRIMERO = "juevesPrimero";
-        public static final String VIERNES_PRIMERO = "viernesPrimero";
-        public static final String LUNES_SEGUNDO = "lunesSgundo";
-        public static final String MARTES_SEGUNDO = "martesSegundo";
-        public static final String MIERCOLES_SEGUNDO = "miercolesSegundo";
-        public static final String JUEVES_SEGUNDO = "juevesSegundo";
-        public static final String VIERNES_SEGUNDO = "viernesSegundo";
+        public static final String SEMANA_MENU = "semana_menu";
     }
+    public static final class MenuPlato implements BaseColumns {
+        public static final String NOM_TAULA = "MenuPlato";
+        public static final String ID_COMIDA = "id_comida";
+        public static final String ID_MENU = "id_menu";
+        public static final String TIPO_PLATO = "tipoPlato";
+        public static final String DIA_MENU = "diaMenu";
+    }
+
+
     public static final class Comida implements BaseColumns {
         public static final String NOM_TAULA = "Comida";
         public static final String NOMBRE_COMIDA = "nombre_comida";
