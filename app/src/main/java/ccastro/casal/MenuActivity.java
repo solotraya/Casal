@@ -26,7 +26,7 @@ public class MenuActivity extends AppCompatActivity {
     TextView textViewFechaMenu;
     private android.support.v7.widget.Toolbar mToolbar;
     private Integer diaInicio=null, mesInicio,añoInicio;
-    private String fechaMenu,semanaAño;
+    private String fechaMenu,semanaAño,semanaActual;
     private ArrayList<HeaderMenu> myDataset;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -40,7 +40,8 @@ public class MenuActivity extends AppCompatActivity {
         textViewFechaMenu = (TextView) findViewById(R.id.fechaVenta);
         fechaMenu = Utilitats.obtenerFechaActual();
         obtenerAñoMesDiaInicio(fechaMenu);
-        textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño()+"  Fecha: "+Utilitats.getFechaFormatSpain(fechaMenu));
+        obtenerNumeroSemanaAño(true);
+        textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño(false)+"  Fecha: "+Utilitats.getFechaFormatSpain(fechaMenu));
         findViewById(R.id.buttonFechaAnterior).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String fecha;
@@ -66,7 +67,7 @@ public class MenuActivity extends AppCompatActivity {
                     fecha = añoInicio + "-"+ mesInicio + "-" + diaInicio;
                     // TODO: PARA VENTAS SOLO INHABILITAMOS EL SABADO, DOMINGO PERMITIDO.
                 } while (!Utilitats.diaHabil(fecha, Calendar.SATURDAY) && !Utilitats.diaHabil(fecha,Calendar.SUNDAY));
-                textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño()+"  Fecha: "+Utilitats.getFechaFormatSpain(fechaMenu));
+                textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño(false)+"  Fecha: "+Utilitats.getFechaFormatSpain(fechaMenu));
                 actualizarRecyclerView();
                 headerAdapterMenu.actualitzaRecycler(myDataset);
             }
@@ -74,41 +75,44 @@ public class MenuActivity extends AppCompatActivity {
         findViewById(R.id.buttonFechaPosterior).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String fecha;
-                if (!fechaMenu.equalsIgnoreCase(Utilitats.obtenerFechaActual())){  // Solo permito ir un dia adelante si el dia es anterior a hoy
-                    do {
-                        obtenerAñoMesDiaInicio(fechaMenu);
-                        if (mesInicio==4 || mesInicio==6 || mesInicio==9 || mesInicio==11){
-                            if (diaInicio!=30){ diaInicio++;
-                            } else { diaInicio = 1; mesInicio++; }
-                        } else if (mesInicio==1 || mesInicio==3 || mesInicio==5 || mesInicio==7 || mesInicio==8 || mesInicio==10 || mesInicio==12) {
-                            if (diaInicio!=31){ diaInicio++; }
-                            else {
-                                diaInicio = 1;
-                                if (mesInicio!=12){ mesInicio++; }
-                                else { mesInicio=1; añoInicio++; }
-                            }
-                        } else if (mesInicio==2){
-                            if (añoInicio % 4 == 0 && añoInicio % 100 != 0 || añoInicio % 400 == 0) {
-                                if (diaInicio!=29){  diaInicio++; }
-                                else { diaInicio =1; mesInicio++; }
-                            } else {
-                                if (diaInicio!=28){ diaInicio++; }
-                                else { diaInicio =1; mesInicio++; }
-                            }
+                do {
+                    obtenerAñoMesDiaInicio(fechaMenu);
+                    if (mesInicio==4 || mesInicio==6 || mesInicio==9 || mesInicio==11){
+                        if (diaInicio!=30){ diaInicio++;
+                        } else { diaInicio = 1; mesInicio++; }
+                    } else if (mesInicio==1 || mesInicio==3 || mesInicio==5 || mesInicio==7 || mesInicio==8 || mesInicio==10 || mesInicio==12) {
+                        if (diaInicio!=31){ diaInicio++; }
+                        else {
+                            diaInicio = 1;
+                            if (mesInicio!=12){ mesInicio++; }
+                            else { mesInicio=1; añoInicio++; }
                         }
-                        fechaMenu = añoInicio + " "+ mesInicio + " " + diaInicio;
-                        fecha = añoInicio + "-"+ mesInicio + "-" + diaInicio;
-                    } while (!Utilitats.diaHabil(fecha,Calendar.SATURDAY) && !Utilitats.diaHabil(fecha,Calendar.SUNDAY));
-                    textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño()+"  Fecha: "+Utilitats.getFechaFormatSpain(fechaMenu));
-                    actualizarRecyclerView();
-                    headerAdapterMenu.actualitzaRecycler(myDataset);
-                }
+                    } else if (mesInicio==2){
+                        if (añoInicio % 4 == 0 && añoInicio % 100 != 0 || añoInicio % 400 == 0) {
+                            if (diaInicio!=29){  diaInicio++; }
+                            else { diaInicio =1; mesInicio++; }
+                        } else {
+                            if (diaInicio!=28){ diaInicio++; }
+                            else { diaInicio =1; mesInicio++; }
+                        }
+                    }
+                    fechaMenu = añoInicio + " "+ mesInicio + " " + diaInicio;
+                    fecha = añoInicio + "-"+ mesInicio + "-" + diaInicio;
+                } while (!Utilitats.diaHabil(fecha,Calendar.SATURDAY) && !Utilitats.diaHabil(fecha,Calendar.SUNDAY));
+                textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño(false)+"  Fecha: "+Utilitats.getFechaFormatSpain(fechaMenu));
+                actualizarRecyclerView();
+                headerAdapterMenu.actualitzaRecycler(myDataset);
+
             }
         });
         textViewFechaMenu.addTextChangedListener(new TextWatcher() {
             @Override
             public void afterTextChanged(Editable s) {
-                if (textViewFechaMenu.getText().toString().equalsIgnoreCase(Utilitats.getFechaFormatSpain(Utilitats.obtenerFechaActual()))){
+                Calendar cal= Calendar.getInstance();
+                int añoActual = cal.get(Calendar.YEAR);
+                Log.d("AÑO INICIO-ACTUAL",Integer.toString(añoInicio)+" "+Integer.toString(añoActual));
+
+                if (Integer.parseInt(semanaAño)>=Integer.parseInt(semanaActual) || añoInicio > añoActual){
                     mToolbar.setVisibility(View.VISIBLE);
                 } else mToolbar.setVisibility(View.GONE);
             }
@@ -120,12 +124,16 @@ public class MenuActivity extends AppCompatActivity {
         });
         actualizarRecyclerView();
     }
-    public String obtenerNumeroSemanaAño(){
+    public String obtenerNumeroSemanaAño(Boolean esSemanaActual){
         Calendar calendar = Calendar.getInstance();
-
         calendar.set(añoInicio, mesInicio - 1, diaInicio, 0, 0);
         int numberWeekOfYear = calendar.get(Calendar.WEEK_OF_YEAR);
         semanaAño = Integer.toString(numberWeekOfYear);
+        if (esSemanaActual){
+            semanaActual = semanaAño;
+        }
+
+
         return semanaAño;
     }
     public void obtenerAñoMesDiaInicio(String fechaInicio){
