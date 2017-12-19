@@ -167,9 +167,8 @@ public class AjudaBD extends SQLiteOpenHelper {
 
             + "FOREIGN KEY("+ MenuPlato.PRIMER_PLATO+") REFERENCES " + PrimerPlato.NOM_TAULA +"(" + PrimerPlato._ID +"),"
             + "FOREIGN KEY("+ MenuPlato.SEGUNDO_PLATO+") REFERENCES " + SegundoPlato.NOM_TAULA +"(" + SegundoPlato._ID +"),"
-            + "FOREIGN KEY("+ MenuPlato.ID_MENU+") REFERENCES " + Menu.NOM_TAULA +"(" + Menu._ID +"));";
-
-
+            + "FOREIGN KEY("+ MenuPlato.ID_MENU+") REFERENCES " + Menu.NOM_TAULA +"(" + Menu._ID +"),"
+            + "UNIQUE ("+MenuPlato._ID +","+MenuPlato.DIA_MENU+") ON CONFLICT IGNORE);";
     /**
      * Elimina les taules i les torna a crear.
      * L'ordre és important, primer Venta

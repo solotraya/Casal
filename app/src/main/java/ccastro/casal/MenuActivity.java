@@ -1,5 +1,6 @@
 package ccastro.casal;
 
+import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,7 +9,11 @@ import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -41,7 +46,7 @@ public class MenuActivity extends AppCompatActivity {
         fechaMenu = Utilitats.obtenerFechaActual();
         obtenerAñoMesDiaInicio(fechaMenu);
         obtenerNumeroSemanaAño(true);
-        textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño(false)+"  Fecha: "+Utilitats.getFechaFormatSpain(fechaMenu));
+        textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño(false)+" Fecha: "+Utilitats.getFechaFormatSpain(fechaMenu));
         findViewById(R.id.buttonFechaAnterior).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String fecha;
@@ -66,8 +71,8 @@ public class MenuActivity extends AppCompatActivity {
                     fechaMenu = añoInicio + " "+ mesInicio + " " + diaInicio;
                     fecha = añoInicio + "-"+ mesInicio + "-" + diaInicio;
                     // TODO: PARA VENTAS SOLO INHABILITAMOS EL SABADO, DOMINGO PERMITIDO.
-                } while (!Utilitats.diaHabil(fecha, Calendar.SATURDAY) && !Utilitats.diaHabil(fecha,Calendar.SUNDAY));
-                textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño(false)+"  Fecha: "+Utilitats.getFechaFormatSpain(fechaMenu));
+                } while (Utilitats.principioSemana(fecha, Calendar.MONDAY));
+                textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño(false)+" - "+Utilitats.getFechaFormatSpain(fechaMenu));
                 actualizarRecyclerView();
                 headerAdapterMenu.actualitzaRecycler(myDataset);
             }
@@ -98,8 +103,8 @@ public class MenuActivity extends AppCompatActivity {
                     }
                     fechaMenu = añoInicio + " "+ mesInicio + " " + diaInicio;
                     fecha = añoInicio + "-"+ mesInicio + "-" + diaInicio;
-                } while (!Utilitats.diaHabil(fecha,Calendar.SATURDAY) && !Utilitats.diaHabil(fecha,Calendar.SUNDAY));
-                textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño(false)+"  Fecha: "+Utilitats.getFechaFormatSpain(fechaMenu));
+                } while (Utilitats.principioSemana(fecha, Calendar.MONDAY));
+                textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño(false)+" - "+Utilitats.getFechaFormatSpain(fechaMenu));
                 actualizarRecyclerView();
                 headerAdapterMenu.actualitzaRecycler(myDataset);
 
@@ -215,5 +220,36 @@ public class MenuActivity extends AppCompatActivity {
             } while (cursor.moveToNext());
         }
         return myDataset;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu, menu);
+        menu.findItem(R.id.spinnerEstatVenta).setVisible(false);
+        menu.findItem(R.id.buttonDataVenta).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener(){
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Calendar mcurrentDate = Calendar.getInstance();
+                int mYear = mcurrentDate.get(Calendar.YEAR);
+                int mMonth = mcurrentDate.get(Calendar.MONTH);
+                int mDay = mcurrentDate.get(Calendar.DAY_OF_MONTH);
+                DatePickerDialog mDatePicker;
+                mDatePicker = new DatePickerDialog(MenuActivity.this, new DatePickerDialog.OnDateSetListener() {
+                    public void onDateSet(DatePicker datepicker, int selectedyear, int selectedmonth, int selectedday) {
+                        selectedmonth = selectedmonth + 1;
+                        fechaMenu = "" + selectedyear + " " + selectedmonth + " " + selectedday;
+                        obtenerAñoMesDiaInicio(fechaMenu);
+                        textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño(false)+"  Fecha: "+Utilitats.getFechaFormatSpain(fechaMenu));
+                        actualizarRecyclerView();
+                        headerAdapterMenu.actualitzaRecycler(myDataset);
+                    }
+                }, mYear, mMonth, mDay);
+                mDatePicker.setTitle("Selecciona Fecha");
+                mDatePicker.show();
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
 }

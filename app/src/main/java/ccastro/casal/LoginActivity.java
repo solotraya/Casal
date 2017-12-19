@@ -208,6 +208,7 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirSegundoPlato("Macarrones","0","1","0","0","0","0","0","0","0","0");
         db.InserirSegundoPlato("Albondigas","1","0","1","0","0","1","0","0","0","0");
         db.InserirSegundoPlato("Lentejas","1","1","0","0","0","0","0","1","0","0");
+        db.InserirSegundoPlato("Puré Patatas","0","0","0","0","0","1","0","1","0","0");
 
         db.InserirPrimerPlato("Ensalada","0","0","1","0","0","0","0","0","0","0");
         db.InserirPrimerPlato("Sopa de Pescado","0","1","0","1","0","0","0","0","0","1");
@@ -220,6 +221,12 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirMenuPlato(1,2,5,"3");
         db.InserirMenuPlato(1,1,1,"4");
         db.InserirMenuPlato(1,1,4,"5");
+
+        db.InserirMenuPlato(2,2,3,"1");
+        db.InserirMenuPlato(2,2,6,"2");
+        db.InserirMenuPlato(2,1,5,"3");
+        db.InserirMenuPlato(2,1,1,"4");
+        db.InserirMenuPlato(2,2,2,"5");
 
         db.tanca();
     }

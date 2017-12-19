@@ -43,6 +43,23 @@ public class Utilitats {
         }
         return diaHabil;
     }
+    public static Boolean principioSemana (String fechaString, Integer lunes){
+        boolean diaHabil = false;
+
+        SimpleDateFormat formatoDelTexto = new SimpleDateFormat("yyyy-MM-dd");
+        Date fecha = null;
+        try {
+            fecha = formatoDelTexto.parse(fechaString);
+            GregorianCalendar cal = new GregorianCalendar();
+            cal.setTime(fecha);
+            if (cal.get(Calendar.DAY_OF_WEEK) == Calendar.MONDAY) {
+                diaHabil= false;
+            } else diaHabil = true;
+        } catch (ParseException ex) {
+            ex.printStackTrace();
+        }
+        return diaHabil;
+    }
     public static String obtenerHoraActual (){
         Date ahora = new Date();
         SimpleDateFormat formateador = new SimpleDateFormat("HH:mm");   // HH formato 24 horas. hh formato 12 horas.

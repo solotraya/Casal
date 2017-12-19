@@ -27,14 +27,12 @@
                 android:background="@android:drawable/ic_media_previous" />
 
 
-
-
-
             <TextView
                 android:id="@+id/fechaVenta"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fecha seleccionada"
+                android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
