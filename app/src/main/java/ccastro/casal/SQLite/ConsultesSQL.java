@@ -8,7 +8,8 @@ import ccastro.casal.SQLite.ContracteBD.Reserva_Cliente;
 import ccastro.casal.SQLite.ContracteBD.Treballador;
 import ccastro.casal.SQLite.ContracteBD.Venta;
 import ccastro.casal.SQLite.ContracteBD.MenuPlato;
-import ccastro.casal.SQLite.ContracteBD.Comida;
+import ccastro.casal.SQLite.ContracteBD.PrimerPlato;
+import ccastro.casal.SQLite.ContracteBD.SegundoPlato;
 import ccastro.casal.SQLite.ContracteBD.Menu;
 
 
@@ -107,14 +108,18 @@ public class ConsultesSQL {
     public String RetornaMenuSemanaAño(String semanaAño){
 
         return "Select mp."+MenuPlato.ID_MENU+", mp."+MenuPlato.DIA_MENU+
-                ", (SELECT c."+Comida.NOMBRE_COMIDA+" FROM " + Comida.NOM_TAULA + " c WHERE c." + Comida._ID + " LIKE mp."+MenuPlato.ID_COMIDA+" AND c."+Comida.TIPO_PLATO+" LIKE '0') as 'primerPlato'"+
-                ", (SELECT c."+Comida.NOMBRE_COMIDA+" FROM " + Comida.NOM_TAULA + " c WHERE c." + Comida._ID + " LIKE mp."+MenuPlato.ID_COMIDA+" AND c."+Comida.TIPO_PLATO+" LIKE '1') as 'segundoPlato'"+
-                ", c."+Comida.GLUTEN+", c."+Comida.CRUSTACEOS+", c."+Comida.HUEVOS+
-                ", c."+Comida.CACAHUETES+", c."+Comida.LACTEOS+", c."+Comida.FRUTOS_DE_CASCARA+", c."+Comida.APIO+
-                ", c."+Comida.DIOXIDO_AZUFRE_SULFITOS+", c."+Comida.MOLUSCOS+
+                ", (SELECT pp."+PrimerPlato.NOMBRE_PLATO+" FROM " + PrimerPlato.NOM_TAULA + " pp WHERE pp." + PrimerPlato._ID + " LIKE mp."+MenuPlato.PRIMER_PLATO+") as 'primerPlato'"+
+                ", (SELECT sp."+SegundoPlato.NOMBRE_PLATO+" FROM " + SegundoPlato.NOM_TAULA + " sp WHERE sp." + SegundoPlato._ID + " LIKE mp."+MenuPlato.SEGUNDO_PLATO+") as 'segundoPlato'"+
+                ", pp."+PrimerPlato.GLUTEN+",pp."+PrimerPlato.CRUSTACEOS+", pp."+PrimerPlato.HUEVOS+
+                ", pp."+PrimerPlato.CACAHUETES+", pp."+PrimerPlato.LACTEOS+", pp."+PrimerPlato.FRUTOS_DE_CASCARA+", pp."+PrimerPlato.APIO+
+                ", pp."+PrimerPlato.DIOXIDO_AZUFRE_SULFITOS+", pp."+PrimerPlato.MOLUSCOS+
+                ", sp."+SegundoPlato.GLUTEN+",sp."+SegundoPlato.CRUSTACEOS+", sp."+SegundoPlato.HUEVOS+
+                ", sp."+SegundoPlato.CACAHUETES+", sp."+SegundoPlato.LACTEOS+", sp."+SegundoPlato.FRUTOS_DE_CASCARA+", sp."+SegundoPlato.APIO+
+                ", sp."+SegundoPlato.DIOXIDO_AZUFRE_SULFITOS+", sp."+SegundoPlato.MOLUSCOS+
                 " FROM "+ MenuPlato.NOM_TAULA+" mp"+
                 " LEFT JOIN  " + Menu.NOM_TAULA + " m ON mp." + MenuPlato.ID_MENU + " = m." + Menu._ID+
-                " LEFT JOIN  " + Comida.NOM_TAULA + " c ON c." + Comida._ID + " = mp." + MenuPlato.ID_COMIDA+
+                " LEFT JOIN  " + PrimerPlato.NOM_TAULA + " pp ON pp." + PrimerPlato._ID + " = mp."+MenuPlato.PRIMER_PLATO+
+                " LEFT JOIN  " + SegundoPlato.NOM_TAULA + " sp ON sp." + SegundoPlato._ID + " = mp."+MenuPlato.SEGUNDO_PLATO+
                 " WHERE m."+ Menu.SEMANA_MENU+" LIKE '"+semanaAño+"'";
     }
     /*

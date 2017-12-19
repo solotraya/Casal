@@ -7,8 +7,11 @@ package ccastro.casal.RecyclerView;
 public class HeaderMenu {
 
     String idMenu, diaMenu, primerPlato, segundoPlato, gluten, crustaceos, huevos, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
+    String gluten2, crustaceos2, huevos2, cacahuetes2, lacteos2, cascaras2, apio2, azufre_sulfitos2, moluscos2;
 
-    public HeaderMenu(String idMenu, String diaMenu, String primerPlato, String segundoPlato, String gluten, String crustaceos, String huevos, String cacahuetes, String lacteos, String cascaras, String apio, String azufre_sulfitos, String moluscos) {
+    public HeaderMenu(String idMenu, String diaMenu, String primerPlato, String segundoPlato,
+                      String gluten, String crustaceos, String huevos, String cacahuetes, String lacteos, String cascaras, String apio, String azufre_sulfitos, String moluscos,
+                      String gluten2, String crustaceos2, String huevos2, String cacahuetes2, String lacteos2, String cascaras2, String apio2, String azufre_sulfitos2, String moluscos2) {
         this.idMenu = idMenu;
         this.diaMenu = diaMenu;
         this.primerPlato = primerPlato;
@@ -22,6 +25,15 @@ public class HeaderMenu {
         this.apio = apio;
         this.azufre_sulfitos = azufre_sulfitos;
         this.moluscos = moluscos;
+        this.gluten2 = gluten2;
+        this.crustaceos2 = crustaceos2;
+        this.huevos2 = huevos2;
+        this.cacahuetes2 = cacahuetes2;
+        this.lacteos2 = lacteos2;
+        this.cascaras2 = cascaras2;
+        this.apio2 = apio2;
+        this.azufre_sulfitos2 = azufre_sulfitos2;
+        this.moluscos2 = moluscos2;
     }
 
     public String getIdMenu() {
@@ -133,5 +145,77 @@ public class HeaderMenu {
 
     public void setMoluscos(String moluscos) {
         this.moluscos = moluscos;
+    }
+
+    public String getGluten2() {
+        return gluten2;
+    }
+
+    public void setGluten2(String gluten2) {
+        this.gluten2 = gluten2;
+    }
+
+    public String getCrustaceos2() {
+        return crustaceos2;
+    }
+
+    public void setCrustaceos2(String crustaceos2) {
+        this.crustaceos2 = crustaceos2;
+    }
+
+    public String getHuevos2() {
+        return huevos2;
+    }
+
+    public void setHuevos2(String huevos2) {
+        this.huevos2 = huevos2;
+    }
+
+    public String getCacahuetes2() {
+        return cacahuetes2;
+    }
+
+    public void setCacahuetes2(String cacahuetes2) {
+        this.cacahuetes2 = cacahuetes2;
+    }
+
+    public String getLacteos2() {
+        return lacteos2;
+    }
+
+    public void setLacteos2(String lacteos2) {
+        this.lacteos2 = lacteos2;
+    }
+
+    public String getCascaras2() {
+        return cascaras2;
+    }
+
+    public void setCascaras2(String cascaras2) {
+        this.cascaras2 = cascaras2;
+    }
+
+    public String getApio2() {
+        return apio2;
+    }
+
+    public void setApio2(String apio2) {
+        this.apio2 = apio2;
+    }
+
+    public String getAzufre_sulfitos2() {
+        return azufre_sulfitos2;
+    }
+
+    public void setAzufre_sulfitos2(String azufre_sulfitos2) {
+        this.azufre_sulfitos2 = azufre_sulfitos2;
+    }
+
+    public String getMoluscos2() {
+        return moluscos2;
+    }
+
+    public void setMoluscos2(String moluscos2) {
+        this.moluscos2 = moluscos2;
     }
 }

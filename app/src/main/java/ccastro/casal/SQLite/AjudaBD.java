@@ -13,7 +13,8 @@ import ccastro.casal.SQLite.ContracteBD.Producte;
 import ccastro.casal.SQLite.ContracteBD.Reserva_Cliente;
 import ccastro.casal.SQLite.ContracteBD.Treballador;
 import ccastro.casal.SQLite.ContracteBD.Venta;
-import ccastro.casal.SQLite.ContracteBD.Comida;
+import ccastro.casal.SQLite.ContracteBD.PrimerPlato;
+import ccastro.casal.SQLite.ContracteBD.SegundoPlato;
 import ccastro.casal.SQLite.ContracteBD.Menu;
 import ccastro.casal.SQLite.ContracteBD.MenuPlato;
 
@@ -35,7 +36,7 @@ import static android.content.ContentValues.TAG;
 public class AjudaBD extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "casalcivic.db";
-    private static final int DATABASE_VERSION = 4;
+    private static final int DATABASE_VERSION = 1;
 
     public AjudaBD(Context con)
     {
@@ -56,7 +57,8 @@ public class AjudaBD extends SQLiteOpenHelper {
         db.execSQL(BD_CREATE_TREBALLADOR);
         db.execSQL(BD_CREATE_VENTA);
         db.execSQL(BD_CREATE_FACTURA);
-        db.execSQL(BD_CREATE_COMIDA);
+        db.execSQL(BD_CREATE_PRIMER_PLATO);
+        db.execSQL(BD_CREATE_SEGUNDO_PLATO);
         db.execSQL(BD_CREATE_MENU);
         db.execSQL(BD_CREATE_MENU_PLATO);
     }
@@ -122,22 +124,35 @@ public class AjudaBD extends SQLiteOpenHelper {
             + "FOREIGN KEY("+ Venta.ID_TREBALLADOR+") REFERENCES " + Treballador.NOM_TAULA +"(" + Treballador._ID +"),"
             + "FOREIGN KEY("+ Venta.ID_CLIENT+") REFERENCES " + Client.NOM_TAULA +"(" + Client._ID +"));";
 
-    public static final String BD_CREATE_COMIDA = "CREATE TABLE IF NOT EXISTS " + Comida.NOM_TAULA + "("
-            + Comida._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-            + Comida.NOMBRE_COMIDA + " TEXT NOT NULL, "
-            + Comida.TIPO_PLATO + " TEXT NOT NULL, "
-            + Comida.GLUTEN + " TEXT, "
-            + Comida.CRUSTACEOS + " TEXT, "
-            + Comida.HUEVOS + " TEXT, "
-            + Comida.PESCADO + " TEXT, "
-            + Comida.CACAHUETES + " TEXT, "
-            + Comida.LACTEOS + " TEXT, "
-            + Comida.FRUTOS_DE_CASCARA + " TEXT, "
-            + Comida.APIO + " TEXT, "
-            + Comida.DIOXIDO_AZUFRE_SULFITOS + " TEXT, "
-            + Comida.MOLUSCOS + " TEXT, "
-            + "UNIQUE ("+Comida.NOMBRE_COMIDA+") ON CONFLICT IGNORE);";
+    public static final String BD_CREATE_PRIMER_PLATO = "CREATE TABLE IF NOT EXISTS " + PrimerPlato.NOM_TAULA + "("
+            + PrimerPlato._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + PrimerPlato.NOMBRE_PLATO + " TEXT NOT NULL, "
+            + PrimerPlato.GLUTEN + " TEXT, "
+            + PrimerPlato.CRUSTACEOS + " TEXT, "
+            + PrimerPlato.HUEVOS + " TEXT, "
+            + PrimerPlato.PESCADO + " TEXT, "
+            + PrimerPlato.CACAHUETES + " TEXT, "
+            + PrimerPlato.LACTEOS + " TEXT, "
+            + PrimerPlato.FRUTOS_DE_CASCARA + " TEXT, "
+            + PrimerPlato.APIO + " TEXT, "
+            + PrimerPlato.DIOXIDO_AZUFRE_SULFITOS + " TEXT, "
+            + PrimerPlato.MOLUSCOS + " TEXT, "
+            + "UNIQUE ("+PrimerPlato.NOMBRE_PLATO+") ON CONFLICT IGNORE);";
 
+    public static final String BD_CREATE_SEGUNDO_PLATO = "CREATE TABLE IF NOT EXISTS " + SegundoPlato.NOM_TAULA + "("
+            + SegundoPlato._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+            + SegundoPlato.NOMBRE_PLATO + " TEXT NOT NULL, "
+            + SegundoPlato.GLUTEN + " TEXT, "
+            + SegundoPlato.CRUSTACEOS + " TEXT, "
+            + SegundoPlato.HUEVOS + " TEXT, "
+            + SegundoPlato.PESCADO + " TEXT, "
+            + SegundoPlato.CACAHUETES + " TEXT, "
+            + SegundoPlato.LACTEOS + " TEXT, "
+            + SegundoPlato.FRUTOS_DE_CASCARA + " TEXT, "
+            + SegundoPlato.APIO + " TEXT, "
+            + SegundoPlato.DIOXIDO_AZUFRE_SULFITOS + " TEXT, "
+            + SegundoPlato.MOLUSCOS + " TEXT, "
+            + "UNIQUE ("+SegundoPlato.NOMBRE_PLATO+") ON CONFLICT IGNORE);";
     public static final String BD_CREATE_MENU = "CREATE TABLE IF NOT EXISTS " + Menu.NOM_TAULA + "("
             + Menu._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + Menu.SEMANA_MENU + " TEXT NOT NULL, "
@@ -146,11 +161,14 @@ public class AjudaBD extends SQLiteOpenHelper {
     public static final String BD_CREATE_MENU_PLATO = "CREATE TABLE IF NOT EXISTS " + MenuPlato.NOM_TAULA + "("
             + MenuPlato._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + MenuPlato.ID_MENU + " INTEGER NOT NULL, "
-            + MenuPlato.ID_COMIDA + " INTEGER NOT NULL, "
+            + MenuPlato.PRIMER_PLATO +  " INTEGER, "
+            + MenuPlato.SEGUNDO_PLATO +  " INTEGER, "
             + MenuPlato.DIA_MENU +  " TEXT NOT NULL, "
-            + MenuPlato.TIPO_PLATO +  " TEXT NOT NULL, "
-            + "FOREIGN KEY("+ MenuPlato.ID_MENU+") REFERENCES " + Menu.NOM_TAULA +"(" + Menu._ID +"),"
-            + "FOREIGN KEY("+ MenuPlato.ID_COMIDA+") REFERENCES " + Comida.NOM_TAULA +"(" + Comida._ID +"));";
+
+            + "FOREIGN KEY("+ MenuPlato.PRIMER_PLATO+") REFERENCES " + PrimerPlato.NOM_TAULA +"(" + PrimerPlato._ID +"),"
+            + "FOREIGN KEY("+ MenuPlato.SEGUNDO_PLATO+") REFERENCES " + SegundoPlato.NOM_TAULA +"(" + SegundoPlato._ID +"),"
+            + "FOREIGN KEY("+ MenuPlato.ID_MENU+") REFERENCES " + Menu.NOM_TAULA +"(" + Menu._ID +"));";
+
 
     /**
      * Elimina les taules i les torna a crear.
@@ -166,9 +184,12 @@ public class AjudaBD extends SQLiteOpenHelper {
         db.execSQL("Drop table if exists " + Client.NOM_TAULA);
         db.execSQL("Drop table if exists " + Producte.NOM_TAULA);
         db.execSQL("Drop table if exists " + Reserva_Cliente.NOM_TAULA);
-        db.execSQL("Drop table if exists " + Comida.NOM_TAULA);
-        db.execSQL("Drop table if exists " + Menu.NOM_TAULA);
         db.execSQL("Drop table if exists " + MenuPlato.NOM_TAULA);
+        db.execSQL("Drop table if exists " + Menu.NOM_TAULA);
+        db.execSQL("Drop table if exists " + PrimerPlato.NOM_TAULA);
+        db.execSQL("Drop table if exists " + SegundoPlato.NOM_TAULA);
+
+
         onCreate(db);
     }
 

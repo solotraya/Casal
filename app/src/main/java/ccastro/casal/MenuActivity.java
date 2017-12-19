@@ -157,15 +157,25 @@ public class MenuActivity extends AppCompatActivity {
                         cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.DIA_MENU)),
                         cursor.getString(cursor.getColumnIndex("primerPlato")),
                         cursor.getString(cursor.getColumnIndex("segundoPlato")),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.GLUTEN)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.CRUSTACEOS)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.HUEVOS)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.CACAHUETES)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.LACTEOS)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.FRUTOS_DE_CASCARA)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.APIO)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.DIOXIDO_AZUFRE_SULFITOS)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.Comida.MOLUSCOS))
+
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.GLUTEN)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.CRUSTACEOS)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.HUEVOS)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.CACAHUETES)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.LACTEOS)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.FRUTOS_DE_CASCARA)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.APIO)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.DIOXIDO_AZUFRE_SULFITOS)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.PrimerPlato.MOLUSCOS)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.GLUTEN)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.CRUSTACEOS)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.HUEVOS)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.CACAHUETES)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.LACTEOS)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.FRUTOS_DE_CASCARA)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.APIO)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.DIOXIDO_AZUFRE_SULFITOS)),
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.MOLUSCOS))
                         ));
             } while (cursor.moveToNext());
         }

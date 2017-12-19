@@ -7,7 +7,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import ccastro.casal.SQLite.ContracteBD.Client;
-import ccastro.casal.SQLite.ContracteBD.Comida;
+import ccastro.casal.SQLite.ContracteBD.PrimerPlato;
+import ccastro.casal.SQLite.ContracteBD.SegundoPlato;
 import ccastro.casal.SQLite.ContracteBD.Factura;
 import ccastro.casal.SQLite.ContracteBD.Menu;
 import ccastro.casal.SQLite.ContracteBD.MenuPlato;
@@ -71,9 +72,10 @@ public class DBInterface {
         bd.execSQL("Drop table if exists " + Reserva_Cliente.NOM_TAULA);
         bd.execSQL("drop table if exists " + Factura.NOM_TAULA + " ;");
         bd.execSQL("drop table if exists " + Mesa.NOM_TAULA + " ;");
-        bd.execSQL("drop table if exists " + Comida.NOM_TAULA + " ;");
-        bd.execSQL("drop table if exists " + Menu.NOM_TAULA + " ;");
         bd.execSQL("drop table if exists " + MenuPlato.NOM_TAULA + " ;");
+        bd.execSQL("drop table if exists " + Menu.NOM_TAULA + " ;");
+        bd.execSQL("drop table if exists " + PrimerPlato.NOM_TAULA + " ;");
+        bd.execSQL("drop table if exists " + SegundoPlato.NOM_TAULA + " ;");
         ajuda.onCreate(bd);
     }
 
@@ -326,23 +328,39 @@ public class DBInterface {
         initialValues.put(Mesa.NOMBRE_MESA, nombreMesa);
         return bd.insert(Mesa.NOM_TAULA, null, initialValues);
     }
-    public long InserirComida(String nombreComida,String tipoPlato, String gluten, String crustaceos, String huevos, String pescado, String cacahuetes,
+    public long InserirPrimerPlato(String nombrePlato, String gluten, String crustaceos, String huevos, String pescado, String cacahuetes,
                               String lacteos, String cascaras, String apio, String dioxidos, String moluscos) {
 
         ContentValues initialValues = new ContentValues();
-        initialValues.put(Comida.NOMBRE_COMIDA, nombreComida);
-        initialValues.put(Comida.TIPO_PLATO, tipoPlato);
-        initialValues.put(Comida.GLUTEN, gluten);
-        initialValues.put(Comida.CRUSTACEOS, crustaceos);
-        initialValues.put(Comida.HUEVOS, huevos);
-        initialValues.put(Comida.PESCADO, pescado);
-        initialValues.put(Comida.CACAHUETES, cacahuetes);
-        initialValues.put(Comida.LACTEOS, lacteos);
-        initialValues.put(Comida.FRUTOS_DE_CASCARA, cascaras);
-        initialValues.put(Comida.APIO, apio);
-        initialValues.put(Comida.DIOXIDO_AZUFRE_SULFITOS, dioxidos);
-        initialValues.put(Comida.MOLUSCOS, moluscos);
-        return bd.insert(Comida.NOM_TAULA, null, initialValues);
+        initialValues.put(PrimerPlato.NOMBRE_PLATO, nombrePlato);
+        initialValues.put(PrimerPlato.GLUTEN, gluten);
+        initialValues.put(PrimerPlato.CRUSTACEOS, crustaceos);
+        initialValues.put(PrimerPlato.HUEVOS, huevos);
+        initialValues.put(PrimerPlato.PESCADO, pescado);
+        initialValues.put(PrimerPlato.CACAHUETES, cacahuetes);
+        initialValues.put(PrimerPlato.LACTEOS, lacteos);
+        initialValues.put(PrimerPlato.FRUTOS_DE_CASCARA, cascaras);
+        initialValues.put(PrimerPlato.APIO, apio);
+        initialValues.put(PrimerPlato.DIOXIDO_AZUFRE_SULFITOS, dioxidos);
+        initialValues.put(PrimerPlato.MOLUSCOS, moluscos);
+        return bd.insert(PrimerPlato.NOM_TAULA, null, initialValues);
+    }
+    public long InserirSegundoPlato(String nombrePlato, String gluten, String crustaceos, String huevos, String pescado, String cacahuetes,
+                                   String lacteos, String cascaras, String apio, String dioxidos, String moluscos) {
+
+        ContentValues initialValues = new ContentValues();
+        initialValues.put(SegundoPlato.NOMBRE_PLATO, nombrePlato);
+        initialValues.put(SegundoPlato.GLUTEN, gluten);
+        initialValues.put(SegundoPlato.CRUSTACEOS, crustaceos);
+        initialValues.put(SegundoPlato.HUEVOS, huevos);
+        initialValues.put(SegundoPlato.PESCADO, pescado);
+        initialValues.put(SegundoPlato.CACAHUETES, cacahuetes);
+        initialValues.put(SegundoPlato.LACTEOS, lacteos);
+        initialValues.put(SegundoPlato.FRUTOS_DE_CASCARA, cascaras);
+        initialValues.put(SegundoPlato.APIO, apio);
+        initialValues.put(SegundoPlato.DIOXIDO_AZUFRE_SULFITOS, dioxidos);
+        initialValues.put(SegundoPlato.MOLUSCOS, moluscos);
+        return bd.insert(SegundoPlato.NOM_TAULA, null, initialValues);
     }
 
     public long InserirMenu(String semanaMenu){
@@ -350,12 +368,12 @@ public class DBInterface {
         initialValues.put(Menu.SEMANA_MENU, semanaMenu);
         return bd.insert(Menu.NOM_TAULA, null, initialValues);
     }
-    public long InserirMenuPlato(Integer idMenu, Integer idPlato, String diaMenu, String tipoPlato){
+    public long InserirMenuPlato(Integer idMenu,  Integer primerPlato, Integer segundoPlato,String diaMenu){
         ContentValues initialValues = new ContentValues();
         initialValues.put(MenuPlato.ID_MENU, idMenu);
-        initialValues.put(MenuPlato.ID_COMIDA, idPlato);
+        initialValues.put(MenuPlato.PRIMER_PLATO, primerPlato);
+        initialValues.put(MenuPlato.SEGUNDO_PLATO, segundoPlato);
         initialValues.put(MenuPlato.DIA_MENU, diaMenu);
-        initialValues.put(MenuPlato.TIPO_PLATO, tipoPlato);
         return bd.insert(MenuPlato.NOM_TAULA, null, initialValues);
     }
 

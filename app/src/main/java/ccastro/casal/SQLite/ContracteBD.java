@@ -85,17 +85,29 @@ public class ContracteBD {
     }
     public static final class MenuPlato implements BaseColumns {
         public static final String NOM_TAULA = "MenuPlato";
-        public static final String ID_COMIDA = "id_comida";
         public static final String ID_MENU = "id_menu";
-        public static final String TIPO_PLATO = "tipoPlato";
+        public static final String PRIMER_PLATO = "id_primerPlato";
+        public static final String SEGUNDO_PLATO = "id_segundoPlato";
         public static final String DIA_MENU = "diaMenu";
     }
 
-
-    public static final class Comida implements BaseColumns {
-        public static final String NOM_TAULA = "Comida";
-        public static final String NOMBRE_COMIDA = "nombre_comida";
-        public static final String TIPO_PLATO = "tipo_plato"; // 0 primero,  1 segundo
+    public static final class PrimerPlato implements BaseColumns {
+        public static final String NOM_TAULA = "PrimerPlato";
+        public static final String NOMBRE_PLATO = "nombrePlato";
+        public static final String GLUTEN = "gluten";
+        public static final String CRUSTACEOS = "crustaceos";
+        public static final String HUEVOS = "huevos";
+        public static final String PESCADO = "pescado";
+        public static final String CACAHUETES = "cacahuetes";
+        public static final String LACTEOS = "lacteos";
+        public static final String FRUTOS_DE_CASCARA = "cascaras";
+        public static final String APIO = "apio";
+        public static final String DIOXIDO_AZUFRE_SULFITOS = "dioxidos";
+        public static final String MOLUSCOS = "moluscos";
+    }
+    public static final class SegundoPlato implements BaseColumns {
+        public static final String NOM_TAULA = "SegundoPlato";
+        public static final String NOMBRE_PLATO = "nombrePlato";
         public static final String GLUTEN = "gluten";
         public static final String CRUSTACEOS = "crustaceos";
         public static final String HUEVOS = "huevos";
@@ -108,5 +120,11 @@ public class ContracteBD {
         public static final String MOLUSCOS = "moluscos";
     }
 
+    /*
+    public static final class Ingredientes implements BaseColumns{
+        public static final String NOM_TAULA = "Ingredientes";
+        public static final String ID_PRIMER_PLATO = "idPrimerPlato";
+
+    } */
 
 }

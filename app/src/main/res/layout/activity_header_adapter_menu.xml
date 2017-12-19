@@ -42,94 +42,168 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/primerPlato"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="primerPlato"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/segundoPlato"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="segundoPlato"
-                    android:textColor="@color/colorPrimary"
-                    android:textSize="18dp"
-                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="21dp"
-
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-
                     <TextView
+                        android:id="@+id/primerPlato"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="primerPlato"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+
+                    <Button
                         android:id="@+id/gluten"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="gluten" />
+                        android:background="@drawable/gluten"
+                        android:visibility="gone"
+                        android:text="" />
+
+                    <Button
+                        android:id="@+id/buttonGluten"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:visibility="gone"
+                        android:background="@drawable/gluten" />
 
                     <TextView
                         android:id="@+id/crustaceos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text="crustaceos" />
 
                     <TextView
                         android:id="@+id/huevos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text="huevos" />
 
                     <TextView
                         android:id="@+id/cacahuetes"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text="cacahuetes" />
 
                     <TextView
                         android:id="@+id/lacteos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text="lacteos" />
 
                     <TextView
                         android:id="@+id/cascaras"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text="cascaras" />
 
                     <TextView
                         android:id="@+id/apio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text="apio" />
 
                     <TextView
                         android:id="@+id/azufre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text="azufre" />
 
                     <TextView
                         android:id="@+id/moluscos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:visibility="gone"
                         android:text="moluscos" />
 
                 </LinearLayout>
 
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/segundoPlato"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="segundoPlato"
+                        android:textColor="@color/colorPrimary"
+                        android:textSize="18dp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/gluten2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="gluten" />
+
+                    <TextView
+                        android:id="@+id/crustaceos2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="crustaceos" />
+
+                    <TextView
+                        android:id="@+id/huevos2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="huevos" />
+
+                    <TextView
+                        android:id="@+id/cacahuetes2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="cacahuetes" />
+
+                    <TextView
+                        android:id="@+id/lacteos2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="lacteos" />
+
+                    <TextView
+                        android:id="@+id/cascaras2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="cascaras" />
+
+                    <TextView
+                        android:id="@+id/apio2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="apio" />
+
+                    <TextView
+                        android:id="@+id/azufre2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="azufre" />
+
+                    <TextView
+                        android:id="@+id/moluscos2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="moluscos" />
+
+                </LinearLayout>
             </LinearLayout>
-
-
-            </LinearLayout>
-
+        </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
 
