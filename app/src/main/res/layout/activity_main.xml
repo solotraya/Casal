@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:weightSum="5"
         android:orientation="vertical">
 
         <Button
@@ -49,6 +48,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:text="Menus" />
+        <Button
+            android:id="@+id/buttonPlato"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="Platos" />
     </LinearLayout>
 
 </LinearLayout>

@@ -107,7 +107,7 @@ public class ConsultesSQL {
 
     public String RetornaMenuSemanaAño(String semanaAño){
 
-        return "Select mp."+MenuPlato.ID_MENU+", mp."+MenuPlato.DIA_MENU+
+        return "Select mp."+MenuPlato._ID+" ,mp."+MenuPlato.ID_MENU+", mp."+MenuPlato.DIA_MENU+
                 ", (SELECT pp."+PrimerPlato.NOMBRE_PLATO+" FROM " + PrimerPlato.NOM_TAULA + " pp WHERE pp." + PrimerPlato._ID + " LIKE mp."+MenuPlato.PRIMER_PLATO+") as 'primerPlato'"+
                 ", (SELECT sp."+SegundoPlato.NOMBRE_PLATO+" FROM " + SegundoPlato.NOM_TAULA + " sp WHERE sp." + SegundoPlato._ID + " LIKE mp."+MenuPlato.SEGUNDO_PLATO+") as 'segundoPlato'"+
                 ", (SELECT pp."+PrimerPlato.GLUTEN+" FROM " + PrimerPlato.NOM_TAULA +") as 'glutenPrimero'"+
@@ -129,29 +129,7 @@ public class ConsultesSQL {
                 " WHERE m."+ Menu.SEMANA_MENU+" LIKE '"+semanaAño+"'"+
                 " ORDER BY mp."+MenuPlato.DIA_MENU+" ASC";  // Ordenamos de lunes a viernes
     }
-    /*
-        SELECT  'MenuPrimerPlato'.diaMenu, (SELECT 'Comida'.nombre_comida FROM 'Comida' WHERE 'Comida'._id = 'MenuPrimerPlato'.id_comida AND 'Comida'.tipo_plato='0') as 'Primer Plato', (SELECT 'Comida'.nombre_comida FROM 'Comida' WHERE 'Comida'._id = 'MenuPrimerPlato'.id_comida AND 'Comida'.tipo_plato='1') as 'Primer Plato','Comida'.cacahuetes, 'Comida'.moluscos
-FROM 'MenuPrimerPlato'
-LEFT JOIN 'Menu' ON  'MenuPrimerPlato'.id_menu = 'Menu'._id
-LEFT JOIN 'Comida' ON 'MenuPrimerPlato'.id_comida = 'Comida'._id
-WHERE 'Menu'.semana_menu='51';
-         */ /*
-    public String RetornaMenuSemanaAño(String semanaAño){
 
-        return "Select m."+Menu._ID+
-                ", (SELECT c."+Comida.NOMBRE_COMIDA+" FROM " + Comida.NOM_TAULA + " c,"+Menu.NOM_TAULA+" m" + " WHERE m." + Menu.LUNES_PRIMERO + " LIKE c."+Comida._ID+" AND m."+Menu.FECHA_MENU+" LIKE '"+semanaAño+"') as lunesPrimero"+
-                ", (SELECT c."+Comida.NOMBRE_COMIDA+" FROM " + Comida.NOM_TAULA + " c,"+Menu.NOM_TAULA+" m" + " WHERE m." + Menu.LUNES_SEGUNDO+ " LIKE c."+Comida._ID+" AND m."+Menu.FECHA_MENU+" LIKE '"+semanaAño+"') as lunesSegundo"+
-                ", (SELECT c."+Comida.NOMBRE_COMIDA+" FROM " + Comida.NOM_TAULA + " c,"+Menu.NOM_TAULA+" m" + " WHERE m." + Menu.MARTES_PRIMERO + " LIKE c."+Comida._ID+" AND m."+Menu.FECHA_MENU+" LIKE '"+semanaAño+"') as martesPrimero"+
-                ", (SELECT c."+Comida.NOMBRE_COMIDA+" FROM " + Comida.NOM_TAULA + " c,"+Menu.NOM_TAULA+" m" + " WHERE m." + Menu.MARTES_SEGUNDO+ " LIKE c."+Comida._ID+" AND m."+Menu.FECHA_MENU+" LIKE '"+semanaAño+"') as martesSegundo"+
-                ", (SELECT c."+Comida.NOMBRE_COMIDA+" FROM " + Comida.NOM_TAULA + " c,"+Menu.NOM_TAULA+" m" + " WHERE m." + Menu.MIERCOLES_PRIMERO + " LIKE c."+Comida._ID+" AND m."+Menu.FECHA_MENU+" LIKE '"+semanaAño+"') as miercolesPrimero"+
-                ", (SELECT c."+Comida.NOMBRE_COMIDA+" FROM " + Comida.NOM_TAULA + " c,"+Menu.NOM_TAULA+" m" + " WHERE m." + Menu.MIERCOLES_SEGUNDO + " LIKE c."+Comida._ID+" AND m."+Menu.FECHA_MENU+" LIKE '"+semanaAño+"') as miercolesSegundo"+
-                ", (SELECT c."+Comida.NOMBRE_COMIDA+" FROM " + Comida.NOM_TAULA + " c,"+Menu.NOM_TAULA+" m" + " WHERE m." + Menu.JUEVES_PRIMERO + " LIKE c."+Comida._ID+" AND m."+Menu.FECHA_MENU+" LIKE '"+semanaAño+"') as juevesPrimero"+
-                ", (SELECT c."+Comida.NOMBRE_COMIDA+" FROM " + Comida.NOM_TAULA + " c,"+Menu.NOM_TAULA+" m" + " WHERE m." + Menu.JUEVES_SEGUNDO + " LIKE c."+Comida._ID+" AND m."+Menu.FECHA_MENU+" LIKE '"+semanaAño+"') as juevesSegundo"+
-                ", (SELECT c."+Comida.NOMBRE_COMIDA+" FROM " + Comida.NOM_TAULA + " c,"+Menu.NOM_TAULA+" m" + " WHERE m." + Menu.VIERNES_PRIMERO + " LIKE c."+Comida._ID+" AND m."+Menu.FECHA_MENU+" LIKE '"+semanaAño+"') as viernesPrimero"+
-                ", (SELECT c."+Comida.NOMBRE_COMIDA+" FROM " + Comida.NOM_TAULA + " c,"+Menu.NOM_TAULA+" m" + " WHERE m." + Menu.VIERNES_SEGUNDO + " LIKE c."+Comida._ID+" AND m."+Menu.FECHA_MENU+" LIKE '"+semanaAño+"') as viernesSegundo"+
-                " FROM "+ Menu.NOM_TAULA+" m"+
-                " WHERE m."+ Menu.FECHA_MENU+" LIKE '"+semanaAño+"'";
-    } */
     public String RetornaTaulaDefecteClient(String idCliente){
         return "Select c."+Client.MESA_FAVORITA+
                 " FROM "+ Client.NOM_TAULA+" c"+
@@ -161,6 +139,20 @@ WHERE 'Menu'.semana_menu='51';
         return "Select p."+Producte._ID+", p."+Producte.NOM_PRODUCTE+", p."+Producte.PREU_PRODUCTE+
                 " FROM "+ Producte.NOM_TAULA+" p"+
                 " WHERE p."+ Producte.TIPUS_PRODUCTE+" LIKE '"+tipusProducte+"'";
+    }
+    public String RetornaPrimerosPlatos(){
+        return  "Select pp."+PrimerPlato._ID+", pp."+PrimerPlato.NOMBRE_PLATO+
+                ", pp."+PrimerPlato.GLUTEN+",pp."+PrimerPlato.CRUSTACEOS+", pp."+PrimerPlato.HUEVOS+
+                ", pp."+PrimerPlato.CACAHUETES+", pp."+PrimerPlato.LACTEOS+", pp."+PrimerPlato.FRUTOS_DE_CASCARA+", pp."+PrimerPlato.APIO+
+                ", pp."+PrimerPlato.DIOXIDO_AZUFRE_SULFITOS+", pp."+PrimerPlato.MOLUSCOS+
+                " FROM "+ PrimerPlato.NOM_TAULA+" pp";
+    }
+    public String RetornaSegundosPlatos(){
+        return  "Select sp."+SegundoPlato._ID+", sp."+SegundoPlato.NOMBRE_PLATO+
+                ", sp."+SegundoPlato.GLUTEN+",sp."+SegundoPlato.CRUSTACEOS+", sp."+SegundoPlato.HUEVOS+
+                ", sp."+SegundoPlato.CACAHUETES+", sp."+SegundoPlato.LACTEOS+", sp."+SegundoPlato.FRUTOS_DE_CASCARA+", sp."+SegundoPlato.APIO+
+                ", sp."+SegundoPlato.DIOXIDO_AZUFRE_SULFITOS+", sp."+SegundoPlato.MOLUSCOS+
+                " FROM "+ SegundoPlato.NOM_TAULA+" sp";
     }
     public String verificarLogin (String userName, String password){
         return  " Select t."+ Treballador._ID+",t."+ Treballador.NOM_TREBALLADOR+",t."+ Treballador.COGNOMS_TREBALLADOR+

@@ -16,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,15 +24,17 @@ import ccastro.casal.RecyclerView.HeaderAdapterMenu;
 import ccastro.casal.RecyclerView.HeaderMenu;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
+import ccastro.casal.Utils.Missatges;
 import ccastro.casal.Utils.Statics;
 import ccastro.casal.Utils.Utilitats;
 
 public class MenuActivity extends AppCompatActivity {
-
+    public static View viewAnterior;
+    public static String idMenuPlato, idMenu;
     TextView textViewFechaMenu;
     private android.support.v7.widget.Toolbar mToolbar;
     private Integer diaInicio=null, mesInicio,añoInicio;
-    private String fechaMenu,semanaAño,semanaActual, idMenu;
+    private String fechaMenu,semanaAño,semanaActual;
     private ArrayList<HeaderMenu> myDataset;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -43,7 +44,7 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_cliente);
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_menu);
         textViewFechaMenu = (TextView) findViewById(R.id.fechaVenta);
         fechaMenu = Utilitats.obtenerFechaActual();
         obtenerAñoMesDiaInicio(fechaMenu);
@@ -132,33 +133,21 @@ public class MenuActivity extends AppCompatActivity {
         mToolbar.findViewById(R.id.buttonAñadir).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (idMenu!=null){
-                    Toast.makeText(MenuActivity.this, "Ya hay menu para esta semana, modifica!", Toast.LENGTH_SHORT).show();
-                }
-                else {
-                    Intent intent = new Intent(MenuActivity.this,PlatoActivity.class);
-                    startActivity(intent);
-                }
+                Intent intent = new Intent(MenuActivity.this,InsertarMenuSemanalActivity.class);
+                startActivity(intent);
             }
         });
         mToolbar.findViewById(R.id.buttonModificar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (idMenu!=null){
-                    Toast.makeText(MenuActivity.this, "Modificar", Toast.LENGTH_SHORT).show();
-                }
-                else  Toast.makeText(MenuActivity.this, "No hay menu. Añade!", Toast.LENGTH_SHORT).show();
+                if (idMenuPlato!=null){
+                    Intent intent = new Intent(MenuActivity.this,InsertarMenuDiaActivity.class);
+                    startActivity(intent);
+                } else Missatges.AlertMissatge("ATENCIÓN", "Selecciona dia para modifcar!", R.drawable.error2, MenuActivity.this);
+
             }
         });
-        mToolbar.findViewById(R.id.buttonEliminar).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (idMenu!=null){
-                    Toast.makeText(MenuActivity.this, "Eliminar", Toast.LENGTH_SHORT).show();
-                }
-                else  Toast.makeText(MenuActivity.this, "NO hay menu. Añade!", Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
         actualizarRecyclerView();
     }
@@ -199,7 +188,10 @@ public class MenuActivity extends AppCompatActivity {
 
     public ArrayList mouCursor(Cursor cursor) {
         idMenu=null;
+        idMenuPlato=null;
         if (cursor.moveToFirst()) {
+            mToolbar.findViewById(R.id.buttonModificar).setVisibility(View.VISIBLE);
+            mToolbar.findViewById(R.id.buttonAñadir).setVisibility(View.GONE);
             int contador = 0;
             do {
                 idMenu = cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.ID_MENU));
@@ -241,6 +233,7 @@ public class MenuActivity extends AppCompatActivity {
                 if (sulfitos2.equals("0")) Statics.esconderSulfitos2.add(contador,true); else Statics.esconderSulfitos2.add(contador,false);
                 if (moluscos2.equals("0")) Statics.esconderMoluscos2.add(contador,true); else Statics.esconderMoluscos2.add(contador,false);
                 myDataset.add(new HeaderMenu(
+                        cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato._ID)),
                         idMenu,
                         cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.DIA_MENU)),
                         cursor.getString(cursor.getColumnIndex("primerPlato")),
@@ -252,6 +245,30 @@ public class MenuActivity extends AppCompatActivity {
                         ));
                 contador++;
             } while (cursor.moveToNext());
+        } else {  // SI NO HAY MENU CREADO:
+            mToolbar.findViewById(R.id.buttonModificar).setVisibility(View.GONE);
+            mToolbar.findViewById(R.id.buttonAñadir).setVisibility(View.VISIBLE);
+            int contador = 1;
+            Statics.esconderMoluscos1.clear(); Statics.esconderSulfitos1.clear(); Statics.esconderApio1.clear();
+            Statics.esconderCacahuetes1.clear();Statics.esconderCascaras1.clear(); Statics.esconderCrustaceo1.clear();
+            Statics.esconderLacteos1.clear(); Statics.esconderHuevos1.clear(); Statics.esconderGluten1.clear();
+            Statics.esconderMoluscos2.clear(); Statics.esconderSulfitos2.clear(); Statics.esconderApio2.clear();
+            Statics.esconderCacahuetes2.clear();Statics.esconderCascaras2.clear(); Statics.esconderCrustaceo2.clear();
+            Statics.esconderLacteos2.clear(); Statics.esconderHuevos2.clear(); Statics.esconderGluten2.clear();
+            do {
+                myDataset.add(new HeaderMenu(
+                        null,
+                        null,
+                        Integer.toString(contador),
+                        null,
+                        null,
+
+                        null, null, null, null, null, null,null, null, null,
+                        null, null,null,null, null, null,null, null, null
+
+                ));
+                contador++;
+            } while (contador<6);
         }
         return myDataset;
     }

@@ -14,12 +14,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
+        <TextView
+            android:id="@+id/idMenuPlato"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="idMenuPlato"
+            android:visibility="gone" />
         <TextView
             android:id="@+id/idMenu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="idMenua"
+            android:text="idMenu"
             android:visibility="gone" />
 
         <TextView
@@ -28,7 +33,7 @@
             android:layout_height="wrap_content"
             android:text="diaMenu"
             android:textAlignment="center"
-            android:textColor="@android:color/holo_red_dark"
+            android:textColor="@color/colorPrimary"
             android:textSize="18dp"
             android:textStyle="bold" />
 
@@ -63,6 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
+                        android:clickable="false"
                         android:background="@drawable/gluten"
                          />
 
@@ -72,6 +78,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/crustaceos"
+                        android:clickable="false"
                         android:visibility="gone"
                        />
 <!--  android:background="@drawable/gluten" -->
@@ -80,6 +87,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/huevos"
+                        android:clickable="false"
                         android:visibility="gone"
                          />
 
@@ -88,6 +96,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
+                        android:clickable="false"
                         android:background="@drawable/cacahuetes"
                       />
 
@@ -96,6 +105,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
+                        android:clickable="false"
                         android:background="@drawable/lacteos"
                          />
 
@@ -104,6 +114,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/cascaras"
+                        android:clickable="false"
                         android:visibility="gone"
                          />
 
@@ -112,6 +123,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/apio"
+                        android:clickable="false"
                         android:visibility="gone"
                          />
 
@@ -120,6 +132,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
+                        android:clickable="false"
                         android:background="@drawable/sulfitos" />
 
                     <Button
@@ -127,6 +140,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
+                        android:clickable="false"
                         android:background="@drawable/moluscos" />
 
                 </LinearLayout>
@@ -152,6 +166,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:visibility="gone"
+                        android:clickable="false"
                         android:background="@drawable/gluten"
                         />
 
@@ -160,6 +175,7 @@
                         android:id="@+id/crustaceos2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="false"
                         android:background="@drawable/crustaceos"
                         android:visibility="gone"
                         />
@@ -169,6 +185,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:background="@drawable/huevos"
+                        android:clickable="false"
                         android:visibility="gone"
                         />
 
@@ -176,6 +193,7 @@
                         android:id="@+id/cacahuetes2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="false"
                         android:visibility="gone"
                         android:background="@drawable/cacahuetes"
                         />
@@ -184,6 +202,7 @@
                         android:id="@+id/lacteos2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="false"
                         android:visibility="gone"
                         android:background="@drawable/lacteos"
                         />
@@ -192,6 +211,7 @@
                         android:id="@+id/cascaras2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="false"
                         android:background="@drawable/cascaras"
                         android:visibility="gone"
                         />
@@ -200,6 +220,7 @@
                         android:id="@+id/apio2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="false"
                         android:background="@drawable/apio"
                         android:visibility="gone"
                         />
@@ -208,6 +229,7 @@
                         android:id="@+id/azufre2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="false"
                         android:visibility="gone"
                         android:background="@drawable/sulfitos" />
 
@@ -215,6 +237,7 @@
                         android:id="@+id/moluscos2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:clickable="false"
                         android:visibility="gone"
                         android:background="@drawable/moluscos" />
 

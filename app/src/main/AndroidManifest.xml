@@ -35,6 +35,8 @@
         <activity android:name=".ProductoActivity" />
         <activity android:name=".InsertarProductoActivity" />
         <activity android:name=".MenuActivity" />
+        <activity android:name=".InsertarMenuSemanalActivity" />
+        <activity android:name=".InsertarMenuDiaActivity" />
         <activity android:name=".PlatoActivity"></activity>
     </application>
 

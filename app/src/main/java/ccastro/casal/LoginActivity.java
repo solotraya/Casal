@@ -216,6 +216,7 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirMenu("51");
         db.InserirMenu("50");
 
+
         db.InserirMenuPlato(1,1,3,"1");
         db.InserirMenuPlato(1,2,2,"2");
         db.InserirMenuPlato(1,2,5,"3");

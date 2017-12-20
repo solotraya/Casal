@@ -130,6 +130,13 @@ public class DBInterface {
         return bd.rawQuery(consulta.RetornaProductes(tipusProducte),null);
     }
 
+    public Cursor RetornaPrimerosPlatos (){
+        return bd.rawQuery(consulta.RetornaPrimerosPlatos(),null);
+    }
+
+    public Cursor RetornaSegundosPlatos (){
+        return bd.rawQuery(consulta.RetornaSegundosPlatos(),null);
+    }
     public Cursor RetornaMenuSemanaAño(String semanaAño){
         return bd.rawQuery(consulta.RetornaMenuSemanaAño(semanaAño),null);
     }

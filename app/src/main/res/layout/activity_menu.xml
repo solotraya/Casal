@@ -67,8 +67,8 @@
             android:orientation="vertical">
 
             <include
-                android:id="@+id/tool_bar_cliente"
-                layout="@layout/tool_bar_cliente"
+                android:id="@+id/tool_bar_menu"
+                layout="@layout/tool_bar_menu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center" />

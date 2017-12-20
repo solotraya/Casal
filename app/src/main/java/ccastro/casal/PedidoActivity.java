@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
 import ccastro.casal.Utils.Cursors;
 import ccastro.casal.Utils.Utilitats;

@@ -6,12 +6,13 @@ package ccastro.casal.RecyclerView;
 
 public class HeaderMenu {
 
-    String idMenu, diaMenu, primerPlato, segundoPlato, gluten, crustaceos, huevos, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
+    String idMenuPlato,idMenu, diaMenu, primerPlato, segundoPlato, gluten, crustaceos, huevos, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
     String gluten2, crustaceos2, huevos2, cacahuetes2, lacteos2, cascaras2, apio2, azufre_sulfitos2, moluscos2;
 
-    public HeaderMenu(String idMenu, String diaMenu, String primerPlato, String segundoPlato,
+    public HeaderMenu(String idMenuPlato,String idMenu, String diaMenu, String primerPlato, String segundoPlato,
                       String gluten, String crustaceos, String huevos, String cacahuetes, String lacteos, String cascaras, String apio, String azufre_sulfitos, String moluscos,
                       String gluten2, String crustaceos2, String huevos2, String cacahuetes2, String lacteos2, String cascaras2, String apio2, String azufre_sulfitos2, String moluscos2) {
+        this.idMenuPlato = idMenuPlato;
         this.idMenu = idMenu;
         this.diaMenu = diaMenu;
         this.primerPlato = primerPlato;
@@ -34,6 +35,14 @@ public class HeaderMenu {
         this.apio2 = apio2;
         this.azufre_sulfitos2 = azufre_sulfitos2;
         this.moluscos2 = moluscos2;
+    }
+
+    public String getIdMenuPlato() {
+        return idMenuPlato;
+    }
+
+    public void setIdMenuPlato(String idMenuPlato) {
+        this.idMenuPlato = idMenuPlato;
     }
 
     public String getIdMenu() {
