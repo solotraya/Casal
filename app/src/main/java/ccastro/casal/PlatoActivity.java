@@ -21,13 +21,20 @@ public class PlatoActivity extends AppCompatActivity {
     DBInterface db;
     private HeaderAdapterPlato headerAdapterPlato;
     private android.support.v7.widget.Toolbar mToolbar;
+    Boolean primerPlato;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plato);
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_cliente);
+        getIntents();
         actualizarRecyclerView();
+    }
+    public void getIntents(){
+        if (getIntent().hasExtra("PRIMER_PLATO")){
+            primerPlato = (getIntent().getExtras().getBoolean("PRIMER_PLATO"));
+        }
     }
     public void actualizarRecyclerView(){
         myDataset = new ArrayList<>();
@@ -40,11 +47,14 @@ public class PlatoActivity extends AppCompatActivity {
 
         db = new DBInterface(this);
         db.obre();
-        Cursor cursor = db.RetornaPrimerosPlatos();
-        myDataset = mouCursorPrimerPlato(cursor);
-        // else Cursor cursor = db.RetornaSegundosPlatos();   habra que coger intents
-        // myDataset = mouCursorSegundoPlato(cursor);
-
+        if (primerPlato){
+            Cursor cursor = db.RetornaPrimerosPlatos();
+            myDataset = mouCursorPrimerPlato(cursor);
+        } else {
+            Cursor cursor2 = db.RetornaSegundosPlatos();
+            myDataset = mouCursorSegundoPlato(cursor2);
+        }
+        primerPlato = null;
         db.tanca();
     }
     public ArrayList mouCursorPrimerPlato(Cursor cursor) {

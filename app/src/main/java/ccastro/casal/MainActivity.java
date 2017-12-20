@@ -62,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         findViewById(R.id.buttonPlato).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, PlatoActivity.class);
+                Intent intent = new Intent(MainActivity.this, SeleccionPlatoActivity.class);
                 startActivity(intent);
             }
         });

@@ -120,7 +120,6 @@ public class ProductoActivity extends AppCompatActivity {
             id_producte = (getIntent().getExtras().getString("ID_PRODUCTE"));
             tipoProducto = PedidoActivity.tipoProducto;
         }
-
     }
     public void retornarProductes(){
         db.obre();
