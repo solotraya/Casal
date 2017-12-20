@@ -1,6 +1,7 @@
 package ccastro.casal;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -31,7 +33,7 @@ public class MenuActivity extends AppCompatActivity {
     TextView textViewFechaMenu;
     private android.support.v7.widget.Toolbar mToolbar;
     private Integer diaInicio=null, mesInicio,añoInicio;
-    private String fechaMenu,semanaAño,semanaActual;
+    private String fechaMenu,semanaAño,semanaActual, idMenu;
     private ArrayList<HeaderMenu> myDataset;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -107,7 +109,6 @@ public class MenuActivity extends AppCompatActivity {
                 textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño(false)+" - "+Utilitats.getFechaFormatSpain(fechaMenu));
                 actualizarRecyclerView();
                 headerAdapterMenu.actualitzaRecycler(myDataset);
-
             }
         });
         textViewFechaMenu.addTextChangedListener(new TextWatcher() {
@@ -127,6 +128,38 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
+
+        mToolbar.findViewById(R.id.buttonAñadir).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (idMenu!=null){
+                    Toast.makeText(MenuActivity.this, "Ya hay menu para esta semana, modifica!", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Intent intent = new Intent(MenuActivity.this,PlatoActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
+        mToolbar.findViewById(R.id.buttonModificar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (idMenu!=null){
+                    Toast.makeText(MenuActivity.this, "Modificar", Toast.LENGTH_SHORT).show();
+                }
+                else  Toast.makeText(MenuActivity.this, "No hay menu. Añade!", Toast.LENGTH_SHORT).show();
+            }
+        });
+        mToolbar.findViewById(R.id.buttonEliminar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (idMenu!=null){
+                    Toast.makeText(MenuActivity.this, "Eliminar", Toast.LENGTH_SHORT).show();
+                }
+                else  Toast.makeText(MenuActivity.this, "NO hay menu. Añade!", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         actualizarRecyclerView();
     }
     public String obtenerNumeroSemanaAño(Boolean esSemanaActual){
@@ -165,10 +198,11 @@ public class MenuActivity extends AppCompatActivity {
     }
 
     public ArrayList mouCursor(Cursor cursor) {
+        idMenu=null;
         if (cursor.moveToFirst()) {
             int contador = 0;
             do {
-
+                idMenu = cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.ID_MENU));
                 String gluten = cursor.getString(cursor.getColumnIndex("glutenPrimero"));
                 String crustaceos = cursor.getString(cursor.getColumnIndex("crustaceosPrimero"));
                 String huevos = cursor.getString(cursor.getColumnIndex("huevosPrimero"));
@@ -207,7 +241,7 @@ public class MenuActivity extends AppCompatActivity {
                 if (sulfitos2.equals("0")) Statics.esconderSulfitos2.add(contador,true); else Statics.esconderSulfitos2.add(contador,false);
                 if (moluscos2.equals("0")) Statics.esconderMoluscos2.add(contador,true); else Statics.esconderMoluscos2.add(contador,false);
                 myDataset.add(new HeaderMenu(
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.ID_MENU)),
+                        idMenu,
                         cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.DIA_MENU)),
                         cursor.getString(cursor.getColumnIndex("primerPlato")),
                         cursor.getString(cursor.getColumnIndex("segundoPlato")),

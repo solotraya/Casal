@@ -126,7 +126,8 @@ public class ConsultesSQL {
                 " LEFT JOIN  " + Menu.NOM_TAULA + " m ON mp." + MenuPlato.ID_MENU + " = m." + Menu._ID+
                 " LEFT JOIN  " + PrimerPlato.NOM_TAULA + " pp ON pp." + PrimerPlato._ID + " = mp."+MenuPlato.PRIMER_PLATO+
                 " LEFT JOIN  " + SegundoPlato.NOM_TAULA + " sp ON sp." + SegundoPlato._ID + " = mp."+MenuPlato.SEGUNDO_PLATO+
-                " WHERE m."+ Menu.SEMANA_MENU+" LIKE '"+semanaAño+"'";
+                " WHERE m."+ Menu.SEMANA_MENU+" LIKE '"+semanaAño+"'"+
+                " ORDER BY mp."+MenuPlato.DIA_MENU+" ASC";  // Ordenamos de lunes a viernes
     }
     /*
         SELECT  'MenuPrimerPlato'.diaMenu, (SELECT 'Comida'.nombre_comida FROM 'Comida' WHERE 'Comida'._id = 'MenuPrimerPlato'.id_comida AND 'Comida'.tipo_plato='0') as 'Primer Plato', (SELECT 'Comida'.nombre_comida FROM 'Comida' WHERE 'Comida'._id = 'MenuPrimerPlato'.id_comida AND 'Comida'.tipo_plato='1') as 'Primer Plato','Comida'.cacahuetes, 'Comida'.moluscos
