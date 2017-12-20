@@ -97,7 +97,7 @@ public class InsertarProductoActivity extends AppCompatActivity {
             Cursor cursor = db.obtenirDadesProductetPerId(id_producto);
             mouCursor(cursor);
             db.tanca();
-            titulo.setText("MOFIFICAR PRODUCTO");
+            titulo.setText("MODIFICAR PRODUCTO");
         } else{
             mToolbar.findViewById(R.id.buttonModificarProducto).setVisibility(View.GONE);
         }

@@ -178,6 +178,15 @@ public class DBInterface {
     public Cursor obtenirDadesProductetPerId(String id_producte){
         return bd.rawQuery(consulta.obtenirDadesProductetPerId(id_producte),null);
     }
+
+    public Cursor obtenirDadesPrimerPlatoPerId(String id_plato){
+        return bd.rawQuery(consulta.obtenirDadesPrimerPlatoPerId(id_plato),null);
+    }
+
+    public Cursor obtenirDadesSegundoPlatoPerId(String id_plato){
+        return bd.rawQuery(consulta.obtenirDadesSegundoPlatoPerId(id_plato),null);
+    }
+
     public void EliminarTotsElsClientsDeBarra(){
         String where = Client.NOM_CLIENT + " = '~Cliente Barra'";
         String[] selection = {};

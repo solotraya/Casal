@@ -202,6 +202,22 @@ public class ConsultesSQL {
                 " FROM "+ Producte.NOM_TAULA+" p"+
                 " WHERE p."+ Producte._ID+" LIKE "+id_producte;
     }
+    public String obtenirDadesPrimerPlatoPerId(String id_plato){
+        return "Select pp."+PrimerPlato.NOMBRE_PLATO+
+                ", pp."+PrimerPlato.GLUTEN+",pp."+PrimerPlato.CRUSTACEOS+", pp."+PrimerPlato.HUEVOS+", pp."+PrimerPlato.PESCADO+
+                ", pp."+PrimerPlato.CACAHUETES+", pp."+PrimerPlato.LACTEOS+", pp."+PrimerPlato.FRUTOS_DE_CASCARA+", pp."+PrimerPlato.APIO+
+                ", pp."+PrimerPlato.DIOXIDO_AZUFRE_SULFITOS+", pp."+PrimerPlato.MOLUSCOS+
+                " FROM "+ PrimerPlato.NOM_TAULA+" pp"+
+                " WHERE pp."+ PrimerPlato._ID+" LIKE "+id_plato;
+    }
+    public String obtenirDadesSegundoPlatoPerId(String id_plato){
+        return "Select sp."+SegundoPlato.NOMBRE_PLATO+
+                ", sp."+SegundoPlato.GLUTEN+",sp."+SegundoPlato.CRUSTACEOS+", sp."+SegundoPlato.HUEVOS+", sp."+SegundoPlato.PESCADO+
+                ", sp."+SegundoPlato.CACAHUETES+", sp."+SegundoPlato.LACTEOS+", sp."+SegundoPlato.FRUTOS_DE_CASCARA+", sp."+SegundoPlato.APIO+
+                ", sp."+SegundoPlato.DIOXIDO_AZUFRE_SULFITOS+", sp."+SegundoPlato.MOLUSCOS+
+                " FROM "+ SegundoPlato.NOM_TAULA+" sp"+
+                " WHERE sp."+ SegundoPlato._ID+" LIKE "+id_plato;
+    }
     public String obtenirNumeroDeClients(String cadenaClient){
         return " SELECT COUNT (c."+Client._ID+") as Quantitat"+
                 " FROM "+Client.NOM_TAULA+" c"+
