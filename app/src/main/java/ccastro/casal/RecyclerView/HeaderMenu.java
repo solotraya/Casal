@@ -6,12 +6,12 @@ package ccastro.casal.RecyclerView;
 
 public class HeaderMenu {
 
-    String idMenuPlato,idMenu, diaMenu, primerPlato, segundoPlato, gluten, crustaceos, huevos, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
-    String gluten2, crustaceos2, huevos2, cacahuetes2, lacteos2, cascaras2, apio2, azufre_sulfitos2, moluscos2;
+    String idMenuPlato,idMenu, diaMenu, primerPlato, segundoPlato, gluten, crustaceos, huevos,pescado, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
+    String gluten2, crustaceos2, huevos2,pescado2, cacahuetes2, lacteos2, cascaras2, apio2, azufre_sulfitos2, moluscos2;
 
     public HeaderMenu(String idMenuPlato,String idMenu, String diaMenu, String primerPlato, String segundoPlato,
-                      String gluten, String crustaceos, String huevos, String cacahuetes, String lacteos, String cascaras, String apio, String azufre_sulfitos, String moluscos,
-                      String gluten2, String crustaceos2, String huevos2, String cacahuetes2, String lacteos2, String cascaras2, String apio2, String azufre_sulfitos2, String moluscos2) {
+                      String gluten, String crustaceos, String huevos, String pescado,String cacahuetes, String lacteos, String cascaras, String apio, String azufre_sulfitos, String moluscos,
+                      String gluten2, String crustaceos2, String huevos2, String pescado2, String cacahuetes2, String lacteos2, String cascaras2, String apio2, String azufre_sulfitos2, String moluscos2) {
         this.idMenuPlato = idMenuPlato;
         this.idMenu = idMenu;
         this.diaMenu = diaMenu;
@@ -20,6 +20,7 @@ public class HeaderMenu {
         this.gluten = gluten;
         this.crustaceos = crustaceos;
         this.huevos = huevos;
+        this.pescado = pescado;
         this.cacahuetes = cacahuetes;
         this.lacteos = lacteos;
         this.cascaras = cascaras;
@@ -29,6 +30,7 @@ public class HeaderMenu {
         this.gluten2 = gluten2;
         this.crustaceos2 = crustaceos2;
         this.huevos2 = huevos2;
+        this.pescado2 = pescado2;
         this.cacahuetes2 = cacahuetes2;
         this.lacteos2 = lacteos2;
         this.cascaras2 = cascaras2;
@@ -226,5 +228,21 @@ public class HeaderMenu {
 
     public void setMoluscos2(String moluscos2) {
         this.moluscos2 = moluscos2;
+    }
+
+    public String getPescado() {
+        return pescado;
+    }
+
+    public void setPescado(String pescado) {
+        this.pescado = pescado;
+    }
+
+    public String getPescado2() {
+        return pescado2;
+    }
+
+    public void setPescado2(String pescado2) {
+        this.pescado2 = pescado2;
     }
 }

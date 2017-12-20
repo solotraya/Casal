@@ -90,7 +90,14 @@
                         android:clickable="false"
                         android:visibility="gone"
                          />
-
+                    <Button
+                        android:id="@+id/pescado"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/pescado"
+                        android:clickable="false"
+                        android:visibility="gone"
+                        />
                     <Button
                         android:id="@+id/cacahuetes"
                         android:layout_width="match_parent"
@@ -188,7 +195,14 @@
                         android:clickable="false"
                         android:visibility="gone"
                         />
-
+                    <Button
+                        android:id="@+id/pescado2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/pescado"
+                        android:clickable="false"
+                        android:visibility="gone"
+                        />
                     <Button
                         android:id="@+id/cacahuetes2"
                         android:layout_width="match_parent"

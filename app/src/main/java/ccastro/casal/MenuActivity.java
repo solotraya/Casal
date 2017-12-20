@@ -198,15 +198,21 @@ public class MenuActivity extends AppCompatActivity {
                 String gluten = cursor.getString(cursor.getColumnIndex("glutenPrimero"));
                 String crustaceos = cursor.getString(cursor.getColumnIndex("crustaceosPrimero"));
                 String huevos = cursor.getString(cursor.getColumnIndex("huevosPrimero"));
+                String pescado = cursor.getString(cursor.getColumnIndex("pescadoPrimero"));
                 String cacahuetes = cursor.getString(cursor.getColumnIndex("cacahuetesPrimero"));
                 String lacteos = cursor.getString(cursor.getColumnIndex("lacteosPrimero"));
                 String cascaras = cursor.getString(cursor.getColumnIndex("cascarasPrimero"));
                 String apio =  cursor.getString(cursor.getColumnIndex("apioPrimero"));
                 String sulfitos = cursor.getString(cursor.getColumnIndex("sulfitosPrimero"));
                 String moluscos = cursor.getString(cursor.getColumnIndex("moluscosPrimero"));
+
+                if (gluten==null) gluten="0"; if (crustaceos==null) crustaceos="0"; if (huevos==null) huevos="0"; if (pescado==null) pescado="0"; if (cacahuetes==null) cacahuetes="0";
+                if (lacteos==null) lacteos="0"; if (cascaras==null) cascaras="0"; if (apio==null) apio="0"; if (sulfitos==null) sulfitos="0"; if (moluscos==null) moluscos="0";
+
                 if (gluten.equals("0")) Statics.esconderGluten1.add(contador,true); else Statics.esconderGluten1.add(contador,false);
                 if (crustaceos.equals("0")) Statics.esconderCrustaceo1.add(contador,true); else Statics.esconderCrustaceo1.add(contador,false);
                 if (huevos.equals("0")) Statics.esconderHuevos1.add(contador,true); else Statics.esconderHuevos1.add(contador,false);
+                if (pescado.equals("0")) Statics.esconderPescado1.add(contador,true); else Statics.esconderPescado1.add(contador,false);
                 if (cacahuetes.equals("0")) Statics.esconderCacahuetes1.add(contador,true); else Statics.esconderCacahuetes1.add(contador,false);
                 if (lacteos.equals("0")) Statics.esconderLacteos1.add(contador,true); else Statics.esconderLacteos1.add(contador,false);
                 if (cascaras.equals("0")) Statics.esconderCascaras1.add(contador,true); else Statics.esconderCascaras1.add(contador,false);
@@ -217,15 +223,21 @@ public class MenuActivity extends AppCompatActivity {
                 String gluten2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.GLUTEN));
                 String crustaceos2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.CRUSTACEOS));
                 String huevos2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.HUEVOS));
+                String pescado2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.PESCADO));
                 String cacahuetes2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.CACAHUETES));
                 String lacteos2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.LACTEOS));
                 String cascaras2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.FRUTOS_DE_CASCARA));
                 String apio2 =  cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.APIO));
                 String sulfitos2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.DIOXIDO_AZUFRE_SULFITOS));
                 String moluscos2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.MOLUSCOS));
+
+                if (gluten2==null) gluten2="0"; if (crustaceos2==null) crustaceos2="0"; if (huevos2==null) huevos2="0"; if (pescado2==null) pescado2="0"; if (cacahuetes2==null) cacahuetes2="0";
+                if (lacteos2==null) lacteos2="0"; if (cascaras2==null) cascaras2="0"; if (apio2==null) apio2="0"; if (sulfitos2==null) sulfitos2="0"; if (moluscos2==null) moluscos2="0";
+
                 if (gluten2.equals("0")) Statics.esconderGluten2.add(contador,true); else Statics.esconderGluten2.add(contador,false);
                 if (crustaceos2.equals("0")) Statics.esconderCrustaceo2.add(contador,true); else Statics.esconderCrustaceo2.add(contador,false);
                 if (huevos2.equals("0")) Statics.esconderHuevos2.add(contador,true); else Statics.esconderHuevos2.add(contador,false);
+                if (pescado2.equals("0")) Statics.esconderPescado2.add(contador,true); else Statics.esconderPescado2.add(contador,false);
                 if (cacahuetes2.equals("0")) Statics.esconderCacahuetes2.add(contador,true); else Statics.esconderCacahuetes2.add(contador,false);
                 if (lacteos2.equals("0")) Statics.esconderLacteos2.add(contador,true); else Statics.esconderLacteos2.add(contador,false);
                 if (cascaras2.equals("0")) Statics.esconderCascaras2.add(contador,true); else Statics.esconderCascaras2.add(contador,false);
@@ -239,8 +251,8 @@ public class MenuActivity extends AppCompatActivity {
                         cursor.getString(cursor.getColumnIndex("primerPlato")),
                         cursor.getString(cursor.getColumnIndex("segundoPlato")),
 
-                        gluten, crustaceos, huevos, cacahuetes, lacteos, cascaras,apio, sulfitos, moluscos,
-                        gluten2, crustaceos2, huevos2, cacahuetes2, lacteos2, cascaras2,apio2, sulfitos2, moluscos2
+                        gluten, crustaceos, huevos,pescado, cacahuetes, lacteos, cascaras,apio, sulfitos, moluscos,
+                        gluten2, crustaceos2, huevos2,pescado2, cacahuetes2, lacteos2, cascaras2,apio2, sulfitos2, moluscos2
 
                         ));
                 contador++;
@@ -252,6 +264,7 @@ public class MenuActivity extends AppCompatActivity {
             Statics.esconderMoluscos1.clear(); Statics.esconderSulfitos1.clear(); Statics.esconderApio1.clear();
             Statics.esconderCacahuetes1.clear();Statics.esconderCascaras1.clear(); Statics.esconderCrustaceo1.clear();
             Statics.esconderLacteos1.clear(); Statics.esconderHuevos1.clear(); Statics.esconderGluten1.clear();
+            Statics.esconderPescado1.clear();                                  Statics.esconderPescado2.clear();
             Statics.esconderMoluscos2.clear(); Statics.esconderSulfitos2.clear(); Statics.esconderApio2.clear();
             Statics.esconderCacahuetes2.clear();Statics.esconderCascaras2.clear(); Statics.esconderCrustaceo2.clear();
             Statics.esconderLacteos2.clear(); Statics.esconderHuevos2.clear(); Statics.esconderGluten2.clear();
@@ -263,8 +276,8 @@ public class MenuActivity extends AppCompatActivity {
                         null,
                         null,
 
-                        null, null, null, null, null, null,null, null, null,
-                        null, null,null,null, null, null,null, null, null
+                        null, null, null,null, null, null, null,null, null, null,
+                        null, null,null,null,null, null, null,null, null, null
 
                 ));
                 contador++;

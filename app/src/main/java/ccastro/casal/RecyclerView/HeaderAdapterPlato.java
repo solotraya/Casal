@@ -1,6 +1,7 @@
 package ccastro.casal.RecyclerView;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import ccastro.casal.PlatoActivity;
 import ccastro.casal.R;
 import ccastro.casal.Utils.Statics;
 
@@ -66,6 +68,10 @@ public class HeaderAdapterPlato extends RecyclerView.Adapter<HeaderAdapterPlato.
             if(Statics.esconderHuevos1.get(position)) holder.huevos.setVisibility(View.GONE);
             else holder.huevos.setVisibility(View.VISIBLE);
         }
+        if (!Statics.esconderPescado1.isEmpty()){
+            if(Statics.esconderPescado1.get(position)) holder.pescado.setVisibility(View.GONE);
+            else holder.pescado.setVisibility(View.VISIBLE);
+        }
         if (!Statics.esconderCacahuetes1.isEmpty()){
             if(Statics.esconderCacahuetes1.get(position)) holder.cacahuetes.setVisibility(View.GONE);
             else holder.cacahuetes.setVisibility(View.VISIBLE);
@@ -102,7 +108,7 @@ public class HeaderAdapterPlato extends RecyclerView.Adapter<HeaderAdapterPlato.
     }
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView idPlato, nombrePlato;
-        TextView gluten, crustaceos, huevos, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
+        TextView gluten, crustaceos, huevos, pescado, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
 
         View v;
         Context context;
@@ -115,9 +121,9 @@ public class HeaderAdapterPlato extends RecyclerView.Adapter<HeaderAdapterPlato.
             idPlato = (TextView) v.findViewById(R.id.idPlato);
             nombrePlato=(TextView) v.findViewById(R.id.nombrePlato);
             gluten= (TextView) v.findViewById(R.id.gluten);
-            // buttonGluten = (Button) v.findViewById(R.id.buttonGluten);
             crustaceos = (TextView) v.findViewById(R.id.crustaceos);
             huevos = (TextView) v.findViewById(R.id.huevos);
+            pescado = (TextView) v.findViewById(R.id.pescado);
             cacahuetes = (TextView) v.findViewById(R.id.cacahuetes);
             lacteos = (TextView) v.findViewById(R.id.lacteos);
             cascaras = (TextView) v.findViewById(R.id.cascaras);
@@ -136,15 +142,12 @@ public class HeaderAdapterPlato extends RecyclerView.Adapter<HeaderAdapterPlato.
          */
         @Override
         public void onClick(View view) {
-            /*
-            if (MenuActivity.idMenu!=null){
-                if (MenuActivity.viewAnterior!=null){
-                    MenuActivity.viewAnterior.setBackgroundColor(Color.WHITE);
-                }
-                view.setBackgroundColor(Color.rgb(255, 204, 204));
-                MenuActivity.viewAnterior=view;
-                MenuActivity.idMenuPlato = idMenuPlato.getText().toString();
-            } */
+            if (PlatoActivity.viewAnterior!=null){
+                PlatoActivity.viewAnterior.setBackgroundColor(Color.WHITE);
+            }
+            view.setBackgroundColor(Color.rgb(255, 204, 204));
+            PlatoActivity.viewAnterior=view;
+            PlatoActivity.id_plato = idPlato.getText().toString();
         }
     }
 

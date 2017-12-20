@@ -74,6 +74,10 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
             if(Statics.esconderHuevos1.get(position)) holder.huevos.setVisibility(View.GONE);
             else holder.huevos.setVisibility(View.VISIBLE);
         }
+        if (!Statics.esconderPescado1.isEmpty()){
+            if(Statics.esconderPescado1.get(position)) holder.pescado.setVisibility(View.GONE);
+            else holder.pescado.setVisibility(View.VISIBLE);
+        }
         if (!Statics.esconderCacahuetes1.isEmpty()){
             if(Statics.esconderCacahuetes1.get(position)) holder.cacahuetes.setVisibility(View.GONE);
             else holder.cacahuetes.setVisibility(View.VISIBLE);
@@ -111,6 +115,10 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
             if(Statics.esconderHuevos2.get(position)) holder.huevos2.setVisibility(View.GONE);
             else holder.huevos2.setVisibility(View.VISIBLE);
         }
+        if (!Statics.esconderPescado2.isEmpty()){
+            if(Statics.esconderPescado2.get(position)) holder.pescado2.setVisibility(View.GONE);
+            else holder.pescado2.setVisibility(View.VISIBLE);
+        }
         if (!Statics.esconderCacahuetes2.isEmpty()){
             if(Statics.esconderCacahuetes2.get(position)) holder.cacahuetes2.setVisibility(View.GONE);
             else holder.cacahuetes2.setVisibility(View.VISIBLE);
@@ -147,9 +155,9 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
     }
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView idMenuPlato,idMenu, diaMenu, primerPlato, segundoPlato;
-        TextView gluten, crustaceos, huevos, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
+        TextView gluten, crustaceos, huevos, pescado, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
        // Button crustaceos;
-        TextView gluten2, crustaceos2, huevos2, cacahuetes2, lacteos2, cascaras2, apio2, azufre_sulfitos2, moluscos2;
+        TextView gluten2, crustaceos2, huevos2, pescado2, cacahuetes2, lacteos2, cascaras2, apio2, azufre_sulfitos2, moluscos2;
 
         View v;
         Context context;
@@ -165,10 +173,9 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
             primerPlato=(TextView) v.findViewById(R.id.primerPlato);
             segundoPlato=(TextView) v.findViewById(R.id.segundoPlato);
             gluten= (TextView) v.findViewById(R.id.gluten); gluten2=(TextView) v.findViewById(R.id.gluten2);
-
-           // buttonGluten = (Button) v.findViewById(R.id.buttonGluten);
             crustaceos = (TextView) v.findViewById(R.id.crustaceos); crustaceos2 = (TextView) v.findViewById(R.id.crustaceos2);
             huevos = (TextView) v.findViewById(R.id.huevos); huevos2 = (TextView) v.findViewById(R.id.huevos2);
+            pescado = (TextView) v.findViewById(R.id.pescado); pescado2 = (TextView) v.findViewById(R.id.pescado2);
             cacahuetes = (TextView) v.findViewById(R.id.cacahuetes); cacahuetes2 = (TextView) v.findViewById(R.id.cacahuetes2);
             lacteos = (TextView) v.findViewById(R.id.lacteos); lacteos2 = (TextView) v.findViewById(R.id.lacteos2);
             cascaras = (TextView) v.findViewById(R.id.cascaras); cascaras2 = (TextView) v.findViewById(R.id.cascaras2);

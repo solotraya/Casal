@@ -10,6 +10,7 @@ public class Statics {
     public static ArrayList<Boolean> esconderGluten1 = new ArrayList<>();
     public static ArrayList<Boolean> esconderCrustaceo1 = new ArrayList<>();
     public static ArrayList<Boolean> esconderHuevos1 = new ArrayList<>();
+    public static ArrayList<Boolean> esconderPescado1 = new ArrayList<>();
     public static ArrayList<Boolean> esconderCacahuetes1 = new ArrayList<>();
     public static ArrayList<Boolean> esconderLacteos1 = new ArrayList<>();
     public static ArrayList<Boolean> esconderCascaras1 = new ArrayList<>();
@@ -19,6 +20,7 @@ public class Statics {
     public static ArrayList<Boolean> esconderGluten2 = new ArrayList<>();
     public static ArrayList<Boolean> esconderCrustaceo2 = new ArrayList<>();
     public static ArrayList<Boolean> esconderHuevos2 = new ArrayList<>();
+    public static ArrayList<Boolean> esconderPescado2 = new ArrayList<>();
     public static ArrayList<Boolean> esconderCacahuetes2 = new ArrayList<>();
     public static ArrayList<Boolean> esconderLacteos2 = new ArrayList<>();
     public static ArrayList<Boolean> esconderCascaras2 = new ArrayList<>();

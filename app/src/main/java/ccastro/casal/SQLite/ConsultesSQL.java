@@ -113,13 +113,14 @@ public class ConsultesSQL {
                 ", (SELECT pp."+PrimerPlato.GLUTEN+" FROM " + PrimerPlato.NOM_TAULA +") as 'glutenPrimero'"+
                 ", (SELECT pp."+PrimerPlato.CRUSTACEOS+" FROM " + PrimerPlato.NOM_TAULA +") as 'crustaceosPrimero'"+
                 ", (SELECT pp."+PrimerPlato.HUEVOS+" FROM " + PrimerPlato.NOM_TAULA +") as 'huevosPrimero'"+
+                ", (SELECT pp."+PrimerPlato.PESCADO+" FROM " + PrimerPlato.NOM_TAULA +") as 'pescadoPrimero'"+
                 ", (SELECT pp."+PrimerPlato.CACAHUETES+" FROM " + PrimerPlato.NOM_TAULA +") as 'cacahuetesPrimero'"+
                 ", (SELECT pp."+PrimerPlato.LACTEOS+" FROM " + PrimerPlato.NOM_TAULA +") as 'lacteosPrimero'"+
                 ", (SELECT pp."+PrimerPlato.FRUTOS_DE_CASCARA+" FROM " + PrimerPlato.NOM_TAULA +") as 'cascarasPrimero'"+
                 ", (SELECT pp."+PrimerPlato.APIO+" FROM " + PrimerPlato.NOM_TAULA +") as 'apioPrimero'"+
                 ", (SELECT pp."+PrimerPlato.DIOXIDO_AZUFRE_SULFITOS+" FROM " + PrimerPlato.NOM_TAULA +") as 'sulfitosPrimero'"+
                 ", (SELECT pp."+PrimerPlato.MOLUSCOS+" FROM " + PrimerPlato.NOM_TAULA +") as 'moluscosPrimero'"+
-                ", sp."+SegundoPlato.GLUTEN+",sp."+SegundoPlato.CRUSTACEOS+", sp."+SegundoPlato.HUEVOS+
+                ", sp."+SegundoPlato.GLUTEN+",sp."+SegundoPlato.CRUSTACEOS+", sp."+SegundoPlato.HUEVOS+", sp."+SegundoPlato.PESCADO+
                 ", sp."+SegundoPlato.CACAHUETES+", sp."+SegundoPlato.LACTEOS+", sp."+SegundoPlato.FRUTOS_DE_CASCARA+", sp."+SegundoPlato.APIO+
                 ", sp."+SegundoPlato.DIOXIDO_AZUFRE_SULFITOS+", sp."+SegundoPlato.MOLUSCOS+
                 " FROM "+ MenuPlato.NOM_TAULA+" mp"+
@@ -142,14 +143,14 @@ public class ConsultesSQL {
     }
     public String RetornaPrimerosPlatos(){
         return  "Select pp."+PrimerPlato._ID+", pp."+PrimerPlato.NOMBRE_PLATO+
-                ", pp."+PrimerPlato.GLUTEN+",pp."+PrimerPlato.CRUSTACEOS+", pp."+PrimerPlato.HUEVOS+
+                ", pp."+PrimerPlato.GLUTEN+",pp."+PrimerPlato.CRUSTACEOS+", pp."+PrimerPlato.HUEVOS+", pp."+PrimerPlato.PESCADO+
                 ", pp."+PrimerPlato.CACAHUETES+", pp."+PrimerPlato.LACTEOS+", pp."+PrimerPlato.FRUTOS_DE_CASCARA+", pp."+PrimerPlato.APIO+
                 ", pp."+PrimerPlato.DIOXIDO_AZUFRE_SULFITOS+", pp."+PrimerPlato.MOLUSCOS+
                 " FROM "+ PrimerPlato.NOM_TAULA+" pp";
     }
     public String RetornaSegundosPlatos(){
         return  "Select sp."+SegundoPlato._ID+", sp."+SegundoPlato.NOMBRE_PLATO+
-                ", sp."+SegundoPlato.GLUTEN+",sp."+SegundoPlato.CRUSTACEOS+", sp."+SegundoPlato.HUEVOS+
+                ", sp."+SegundoPlato.GLUTEN+",sp."+SegundoPlato.CRUSTACEOS+", sp."+SegundoPlato.HUEVOS+", sp."+SegundoPlato.PESCADO+
                 ", sp."+SegundoPlato.CACAHUETES+", sp."+SegundoPlato.LACTEOS+", sp."+SegundoPlato.FRUTOS_DE_CASCARA+", sp."+SegundoPlato.APIO+
                 ", sp."+SegundoPlato.DIOXIDO_AZUFRE_SULFITOS+", sp."+SegundoPlato.MOLUSCOS+
                 " FROM "+ SegundoPlato.NOM_TAULA+" sp";

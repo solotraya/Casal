@@ -414,4 +414,14 @@ public class DBInterface {
         String[] selection = {""+idVenta};
         return bd.delete(Venta.NOM_TAULA,where,selection);
     }
+    public long EliminarPrimerPlato(String idPlato){
+        String where = PrimerPlato._ID+ " = ?";
+        String[] selection = {""+idPlato};
+        return bd.delete(PrimerPlato.NOM_TAULA,where,selection);
+    }
+    public long EliminarSegundoPlato(String idPlato){
+        String where = SegundoPlato._ID+ " = ?";
+        String[] selection = {""+idPlato};
+        return bd.delete(SegundoPlato.NOM_TAULA,where,selection);
+    }
 }

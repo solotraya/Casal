@@ -5,14 +5,15 @@ package ccastro.casal.RecyclerView;
  */
 
 public class HeaderPlato {
-    String idPlato, nombrePlato, gluten, crustaceos, huevos, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
+    String idPlato, nombrePlato, gluten, crustaceos, huevos, pescado, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
 
-    public HeaderPlato(String idPlato, String nombrePlato, String gluten, String crustaceos, String huevos, String cacahuetes, String lacteos, String cascaras, String apio, String azufre_sulfitos, String moluscos) {
+    public HeaderPlato(String idPlato, String nombrePlato, String gluten, String crustaceos, String huevos,String pescado, String cacahuetes, String lacteos, String cascaras, String apio, String azufre_sulfitos, String moluscos) {
         this.idPlato = idPlato;
         this.nombrePlato = nombrePlato;
         this.gluten = gluten;
         this.crustaceos = crustaceos;
         this.huevos = huevos;
+        this.pescado = pescado;
         this.cacahuetes = cacahuetes;
         this.lacteos = lacteos;
         this.cascaras = cascaras;
@@ -27,6 +28,14 @@ public class HeaderPlato {
 
     public void setIdPlato(String idPlato) {
         this.idPlato = idPlato;
+    }
+
+    public String getPescado() {
+        return pescado;
+    }
+
+    public void setPescado(String pescado) {
+        this.pescado = pescado;
     }
 
     public String getNombrePlato() {
