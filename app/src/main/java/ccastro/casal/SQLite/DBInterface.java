@@ -279,6 +279,44 @@ public class DBInterface {
         String[] selection = {""+idFact};
         return bd.update(Factura.NOM_TAULA, valores, where, selection);
     }
+    public long ActualizarPrimerPlato (String idPlato, String nombrePlato,String gluten,String crustaceos, String huevos,String pescado, String cacahuetes,
+                                        String lacteos, String cascaras,String apio, String sulfitos, String moluscos) {
+        Integer idPlat = Integer.parseInt(idPlato);
+        ContentValues valores = new ContentValues();
+        valores.put(PrimerPlato.NOMBRE_PLATO,nombrePlato);
+        valores.put(PrimerPlato.GLUTEN,gluten);
+        valores.put(PrimerPlato.CRUSTACEOS,crustaceos);
+        valores.put(PrimerPlato.HUEVOS,huevos);
+        valores.put(PrimerPlato.PESCADO,pescado);
+        valores.put(PrimerPlato.LACTEOS,lacteos);
+        valores.put(PrimerPlato.FRUTOS_DE_CASCARA,cascaras);
+        valores.put(PrimerPlato.APIO,apio);
+        valores.put(PrimerPlato.DIOXIDO_AZUFRE_SULFITOS,sulfitos);
+        valores.put(PrimerPlato.MOLUSCOS,moluscos);
+
+        String where = PrimerPlato._ID+ " = ?";
+        String[] selection = {""+idPlat};
+        return bd.update(PrimerPlato.NOM_TAULA, valores, where, selection);
+    }
+    public long ActualizarSegundoPlato (String idPlato, String nombrePlato,String gluten,String crustaceos, String huevos,String pescado, String cacahuetes,
+                                        String lacteos, String cascaras,String apio, String sulfitos, String moluscos) {
+        Integer idPlat = Integer.parseInt(idPlato);
+        ContentValues valores = new ContentValues();
+        valores.put(SegundoPlato.NOMBRE_PLATO,nombrePlato);
+        valores.put(SegundoPlato.GLUTEN,gluten);
+        valores.put(SegundoPlato.CRUSTACEOS,crustaceos);
+        valores.put(SegundoPlato.HUEVOS,huevos);
+        valores.put(SegundoPlato.PESCADO,pescado);
+        valores.put(SegundoPlato.LACTEOS,lacteos);
+        valores.put(SegundoPlato.FRUTOS_DE_CASCARA,cascaras);
+        valores.put(SegundoPlato.APIO,apio);
+        valores.put(SegundoPlato.DIOXIDO_AZUFRE_SULFITOS,sulfitos);
+        valores.put(SegundoPlato.MOLUSCOS,moluscos);
+
+        String where = SegundoPlato._ID+ " = ?";
+        String[] selection = {""+idPlat};
+        return bd.update(SegundoPlato.NOM_TAULA, valores, where, selection);
+    }
 
 
     /**

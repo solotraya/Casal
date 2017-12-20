@@ -51,12 +51,12 @@ public class InsertarPlatoActivity extends AppCompatActivity implements View.OnC
               public void onClick(View view) {
                   if (nomPlato.getText().toString().length()>0){
                       db.obre();
-                      if (primerPlato) db.InserirPrimerPlato(nomPlato.getText().toString(),gluten,crustaceos,huevos,pescado,cacahuetes,lacteos,cascaras,apio,sulfitos,moluscos);
-                      else db.InserirSegundoPlato(nomPlato.getText().toString(),gluten,crustaceos,huevos,pescado,cacahuetes,lacteos,cascaras,apio,sulfitos,moluscos);
+                      if (primerPlato) db.ActualizarPrimerPlato(id_plato,nomPlato.getText().toString(),gluten,crustaceos,huevos,pescado,cacahuetes,lacteos,cascaras,apio,sulfitos,moluscos);
+                      else db.ActualizarSegundoPlato(id_plato,nomPlato.getText().toString(),gluten,crustaceos,huevos,pescado,cacahuetes,lacteos,cascaras,apio,sulfitos,moluscos);
                       db.tanca();
                       finish();
                   } else {
-                      Missatges.AlertMissatge("ERROR AL AÑADIR", "Introduce nombre de plato!", R.drawable.error2, InsertarPlatoActivity.this);
+                      Missatges.AlertMissatge("ERROR AL MODIFICAR", "Introduce nombre de plato!", R.drawable.error2, InsertarPlatoActivity.this);
                   }
               }
           }
@@ -270,6 +270,7 @@ public class InsertarPlatoActivity extends AppCompatActivity implements View.OnC
                 findViewById(R.id.pescado2).setVisibility(View.GONE);
                 findViewById(R.id.pescado).setVisibility(View.VISIBLE);
                 pescado = "0";
+                break;
             case R.id.azufre:
                 findViewById(R.id.azufre).setVisibility(View.GONE);
                 findViewById(R.id.azufre2).setVisibility(View.VISIBLE);
