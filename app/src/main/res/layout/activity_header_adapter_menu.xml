@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="3dp"
     android:orientation="vertical"
-    app:cardBackgroundColor="@color/cardview_light_background"
+    app:cardBackgroundColor="@color/colorPrimaryDark"
     app:cardCornerRadius="4dp">
 
 
@@ -62,14 +62,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Primero:  "
-                        android:textColor="@android:color/black"
+                        android:textColor="?android:attr/colorFocusedHighlight"
                         android:textStyle="bold|italic" />
 
                     <TextView
                         android:id="@+id/primerPlato"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@android:color/white"
                         android:textSize="18dp"
                         android:textStyle="bold" />
 
@@ -186,14 +186,14 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Segundo: "
-                        android:textColor="@android:color/black"
+                        android:textColor="?android:attr/colorFocusedHighlight"
                         android:textStyle="bold|italic" />
 
                     <TextView
                         android:id="@+id/segundoPlato"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/colorPrimaryDark"
+                        android:textColor="@android:color/white"
                         android:textSize="18dp"
                         android:textStyle="bold" />
 

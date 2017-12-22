@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ccastro.casal.MesaActivity"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
 
@@ -46,7 +47,7 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fecha seleccionada"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@android:color/background_light"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -349,14 +350,14 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:text="Total Comedor: "
-                  android:textColor="@android:color/black"
+                  android:textColor="@android:color/white"
                   android:textSize="16sp" />
 
               <TextView
                   android:id="@+id/totalClientesComedor"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:textColor="@color/colorPrimary"
+                  android:textColor="@android:color/background_light"
                   android:textSize="16sp"
                   android:textStyle="bold" />
           </LinearLayout>
@@ -371,14 +372,14 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:text="Total Llevar: "
-                  android:textColor="@android:color/black"
+                  android:textColor="@android:color/white"
                   android:textSize="16sp" />
 
               <TextView
                   android:id="@+id/totalClientesLlevar"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:textColor="@color/colorPrimary"
+                  android:textColor="@android:color/background_light"
                   android:textSize="16sp"
                   android:textStyle="bold" />
           </LinearLayout>
@@ -396,14 +397,14 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:text="Total Clientes: "
-                  android:textColor="@android:color/black"
+                  android:textColor="@android:color/white"
                   android:textSize="16sp" />
 
               <TextView
                   android:id="@+id/totalClientes"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:textColor="@color/colorPrimary"
+                  android:textColor="@android:color/background_light"
                   android:textSize="16sp"
                   android:textStyle="bold" />
           </LinearLayout>
