@@ -18,23 +18,33 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/InsertarLunes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/colorFondo2"
-                android:textColor="@android:color/background_light"
-                android:text="LUNES" />
+                android:background="@color/colorPrimaryDark"
+                android:text="LUNES"
+                android:textColor="@android:color/background_light" />
+
+            <include
+                android:id="@+id/tool_bar_insertar_diasLunes"
+                layout="@layout/tool_bar_insertar_dias"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center" />
+
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/InsertarMartes"
@@ -42,31 +52,47 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/colorFondo"
-                android:textColor="@android:color/background_light"
-                android:text="MARTES" />
+                android:text="MARTES"
+                android:textColor="@android:color/background_light" />
+            <include
+                android:id="@+id/tool_bar_insertar_diasMartes"
+                layout="@layout/tool_bar_insertar_dias"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/InsertarMiercoles"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/colorFondo2"
-                android:textColor="@android:color/background_light"
-                android:text="MIERCOLES" />
+                android:background="@color/colorPrimaryDark"
+                android:text="MIERCOLES"
+                android:textColor="@android:color/background_light" />
+            <include
+                android:id="@+id/tool_bar_insertar_diasMiercoles"
+                layout="@layout/tool_bar_insertar_dias"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/InsertarJueves"
@@ -74,23 +100,40 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:background="@color/colorFondo"
-                android:textColor="@android:color/background_light"
-                android:text="JUEVES" />
+                android:text="JUEVES"
+                android:textColor="@android:color/background_light" />
+
+            <include
+                android:id="@+id/tool_bar_insertar_diasJueves"
+                layout="@layout/tool_bar_insertar_dias"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/InsertarViernes"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:background="@color/colorFondo2"
-                android:textColor="@android:color/background_light"
+                android:background="@color/colorPrimaryDark"
+                android:text="VIERNES"
+                android:textColor="@android:color/background_light" />
+
+            <include
+                android:id="@+id/tool_bar_insertar_diasViernes"
+                layout="@layout/tool_bar_insertar_dias"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_gravity="center"
                 android:text="VIERNES" />
         </LinearLayout>
 
