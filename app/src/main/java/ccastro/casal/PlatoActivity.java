@@ -20,6 +20,7 @@ import ccastro.casal.Utils.Statics;
 public class PlatoActivity extends AppCompatActivity {
     public static View viewAnterior;
     public static String id_plato;
+    public Boolean seleccionarPlato = false;
     private ArrayList<HeaderPlato> myDataset;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -27,6 +28,7 @@ public class PlatoActivity extends AppCompatActivity {
     private HeaderAdapterPlato headerAdapterPlato;
     private android.support.v7.widget.Toolbar mToolbar;
     Boolean primerPlato;
+    String dia;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +39,13 @@ public class PlatoActivity extends AppCompatActivity {
         mToolbar.findViewById(R.id.buttonAñadir).setOnClickListener( new View.OnClickListener(){
                  @Override
                  public void onClick(View view) {
-                     Intent intent = new Intent (PlatoActivity.this,InsertarPlatoActivity.class);
-                     intent.putExtra("PRIMER_PLATO",primerPlato);
-                     startActivity(intent);
+                     if (seleccionarPlato==false){
+                         Intent intent = new Intent (PlatoActivity.this,InsertarPlatoActivity.class);
+                         intent.putExtra("PRIMER_PLATO",primerPlato);
+                         startActivity(intent);
+                     } else {
+                         retornarPlato();
+                     }
                  }
              }
         );
@@ -77,6 +83,21 @@ public class PlatoActivity extends AppCompatActivity {
     public void getIntents(){
         if (getIntent().hasExtra("PRIMER_PLATO")){
             primerPlato = (getIntent().getExtras().getBoolean("PRIMER_PLATO"));
+        }
+        if (getIntent().hasExtra("SELECCIONAR_PLATO_MENU")){
+            seleccionarPlato = (getIntent().getExtras().getBoolean("SELECCIONAR_PLATO_MENU"));
+            dia = (getIntent().getExtras().getString("DIA"));
+            mToolbar.findViewById(R.id.buttonModificar).setVisibility(View.GONE);
+            mToolbar.findViewById(R.id.buttonEliminar).setVisibility(View.GONE);
+        }
+    }
+    public void retornarPlato(){
+        if (id_plato!=null){
+            Intent i = getIntent();
+            i.putExtra("ID_PLATO", id_plato);
+            i.putExtra("PRIMER_PLATO",primerPlato);
+            setResult(RESULT_OK, i);
+            finish();
         }
     }
     public void actualizarRecyclerView(){
