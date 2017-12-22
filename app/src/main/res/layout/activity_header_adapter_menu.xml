@@ -7,6 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_margin="3dp"
     android:orientation="vertical"
+    app:cardBackgroundColor="@color/cardview_light_background"
     app:cardCornerRadius="4dp">
 
 
@@ -14,12 +15,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <TextView
             android:id="@+id/idMenuPlato"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="idMenuPlato"
             android:visibility="gone" />
+
         <TextView
             android:id="@+id/idMenu"
             android:layout_width="match_parent"
@@ -33,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="diaMenu"
             android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
+            android:textColor="@color/colorAccent"
             android:textSize="18dp"
             android:textStyle="bold" />
 
@@ -54,6 +57,14 @@
                     android:orientation="horizontal">
 
                     <TextView
+                        android:id="@+id/textView11"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Primero:  "
+                        android:textStyle="bold|italic" />
+
+                    <TextView
                         android:id="@+id/primerPlato"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -63,93 +74,104 @@
                         android:textStyle="bold" />
 
 
-                    <Button
-                        android:id="@+id/gluten"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:clickable="false"
-                        android:background="@drawable/gluten"
-                         />
+                    <!--  android:background="@drawable/gluten" -->
 
+                </LinearLayout>
 
-                    <Button
-                        android:id="@+id/crustaceos"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/crustaceos"
-                        android:clickable="false"
-                        android:visibility="gone"
-                       />
-<!--  android:background="@drawable/gluten" -->
-                    <Button
-                        android:id="@+id/huevos"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/huevos"
-                        android:clickable="false"
-                        android:visibility="gone"
-                         />
-                    <Button
-                        android:id="@+id/pescado"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/pescado"
-                        android:clickable="false"
-                        android:visibility="gone"
-                        />
-                    <Button
-                        android:id="@+id/cacahuetes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:clickable="false"
-                        android:background="@drawable/cacahuetes"
-                      />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/lacteos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:clickable="false"
+                        android:layout_weight="1"
                         android:background="@drawable/lacteos"
-                         />
+                        android:clickable="false"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/pescado"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/pescado"
+                        android:clickable="false"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/cascaras"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:background="@drawable/cascaras"
                         android:clickable="false"
-                        android:visibility="gone"
-                         />
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/apio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:background="@drawable/apio"
                         android:clickable="false"
-                        android:visibility="gone"
-                         />
+                        android:visibility="gone" />
 
                     <Button
-                        android:id="@+id/azufre"
+                        android:id="@+id/gluten"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
+                        android:layout_weight="1"
+                        android:background="@drawable/gluten"
                         android:clickable="false"
-                        android:background="@drawable/sulfitos" />
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/huevos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/huevos"
+                        android:clickable="false"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/moluscos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
+                        android:layout_weight="1"
+                        android:background="@drawable/moluscos"
                         android:clickable="false"
-                        android:background="@drawable/moluscos" />
+                        android:visibility="gone" />
 
+                    <Button
+                        android:id="@+id/cacahuetes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/cacahuetes"
+                        android:clickable="false"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/crustaceos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/crustaceos"
+                        android:clickable="false"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/azufre"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/sulfitos"
+                        android:clickable="false"
+                        android:visibility="gone" />
                 </LinearLayout>
 
 
@@ -157,6 +179,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:text="Segundo: "
+                        android:textStyle="bold|italic" />
 
                     <TextView
                         android:id="@+id/segundoPlato"
@@ -168,93 +198,104 @@
                         android:textStyle="bold" />
 
 
-                    <Button
-                        android:id="@+id/gluten2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:clickable="false"
-                        android:background="@drawable/gluten"
-                        />
-
-
-                    <Button
-                        android:id="@+id/crustaceos2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:background="@drawable/crustaceos"
-                        android:visibility="gone"
-                        />
                     <!--  android:background="@drawable/gluten" -->
-                    <Button
-                        android:id="@+id/huevos2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/huevos"
-                        android:clickable="false"
-                        android:visibility="gone"
-                        />
-                    <Button
-                        android:id="@+id/pescado2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/pescado"
-                        android:clickable="false"
-                        android:visibility="gone"
-                        />
-                    <Button
-                        android:id="@+id/cacahuetes2"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:visibility="gone"
-                        android:background="@drawable/cacahuetes"
-                        />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/lacteos2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
-                        android:visibility="gone"
+                        android:layout_weight="1"
                         android:background="@drawable/lacteos"
-                        />
+                        android:clickable="false"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/pescado2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/pescado"
+                        android:clickable="false"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/cascaras2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
+                        android:layout_weight="1"
                         android:background="@drawable/cascaras"
-                        android:visibility="gone"
-                        />
+                        android:clickable="false"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/apio2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:clickable="false"
+                        android:layout_weight="1"
                         android:background="@drawable/apio"
-                        android:visibility="gone"
-                        />
+                        android:clickable="false"
+                        android:visibility="gone" />
 
                     <Button
-                        android:id="@+id/azufre2"
+                        android:id="@+id/gluten2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/gluten"
                         android:clickable="false"
-                        android:visibility="gone"
-                        android:background="@drawable/sulfitos" />
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/huevos2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/huevos"
+                        android:clickable="false"
+                        android:visibility="gone" />
 
                     <Button
                         android:id="@+id/moluscos2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/moluscos"
                         android:clickable="false"
-                        android:visibility="gone"
-                        android:background="@drawable/moluscos" />
+                        android:visibility="gone" />
 
+                    <Button
+                        android:id="@+id/cacahuetes2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/cacahuetes"
+                        android:clickable="false"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/crustaceos2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/crustaceos"
+                        android:clickable="false"
+                        android:visibility="gone" />
+
+                    <Button
+                        android:id="@+id/azufre2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/sulfitos"
+                        android:clickable="false"
+                        android:visibility="gone" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

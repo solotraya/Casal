@@ -47,93 +47,94 @@
                         android:textStyle="bold" />
 
 
-                    <Button
-                        android:id="@+id/gluten"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:clickable="false"
-                        android:background="@drawable/gluten"
-                        />
+                </LinearLayout>
 
-
-                    <Button
-                        android:id="@+id/crustaceos"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/crustaceos"
-                        android:clickable="false"
-                        android:visibility="gone"
-                        />
-                    <Button
-                        android:id="@+id/huevos"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/huevos"
-                        android:clickable="false"
-                        android:visibility="gone"
-                        />
-                    <Button
-                        android:id="@+id/pescado"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/pescado"
-                        android:clickable="false"
-                        android:visibility="gone"
-                        />
-                    <Button
-                        android:id="@+id/cacahuetes"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:clickable="false"
-                        android:background="@drawable/cacahuetes"
-                        />
-
-                    <Button
-                        android:id="@+id/lacteos"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:clickable="false"
-                        android:background="@drawable/lacteos"
-                        />
-
-                    <Button
-                        android:id="@+id/cascaras"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/cascaras"
-                        android:clickable="false"
-                        android:visibility="gone"
-                        />
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
 
                     <Button
                         android:id="@+id/apio"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:background="@drawable/apio"
-                        android:clickable="false"
-                        android:visibility="gone"
-                        />
+                        android:clickable="false" />
+
+                    <Button
+                        android:id="@+id/pescado"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/pescado"
+                        android:clickable="false" />
+
+                    <Button
+                        android:id="@+id/gluten"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/gluten"
+                        android:clickable="false" />
+
+                    <Button
+                        android:id="@+id/huevos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/huevos"
+                        android:clickable="false" />
+
+                    <Button
+                        android:id="@+id/cacahuetes"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/cacahuetes"
+                        android:clickable="false" />
+
+                    <Button
+                        android:id="@+id/lacteos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/lacteos"
+                        android:clickable="false" />
+
+                    <Button
+                        android:id="@+id/crustaceos"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/crustaceos"
+                        android:clickable="false" />
 
                     <Button
                         android:id="@+id/azufre"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:clickable="false"
-                        android:background="@drawable/sulfitos" />
+                        android:layout_weight="1"
+                        android:background="@drawable/sulfitos"
+                        android:clickable="false" />
 
                     <Button
                         android:id="@+id/moluscos"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:visibility="gone"
-                        android:clickable="false"
-                        android:background="@drawable/moluscos" />
+                        android:layout_weight="1"
+                        android:background="@drawable/moluscos"
+                        android:clickable="false" />
 
+                    <Button
+                        android:id="@+id/cascaras"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@drawable/cascaras"
+                        android:clickable="false" />
                 </LinearLayout>
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

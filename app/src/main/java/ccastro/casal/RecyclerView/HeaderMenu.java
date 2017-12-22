@@ -57,8 +57,8 @@ public class HeaderMenu {
 
     public String getDiaMenu() {
         switch (Integer.parseInt(diaMenu)){
-            case 1: return "Lunes";
-            case 2: return "Martes";
+            case 1: return "LUNES";
+            case 2: return "MARTES";
             case 3: return "Miercoles";
             case 4: return "Jueves";
             case 5: return "Viernes";

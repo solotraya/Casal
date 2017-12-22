@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorFondo"
     android:orientation="vertical"
     tools:context="ccastro.casal.MenuActivity">
 
@@ -36,7 +37,6 @@
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
-
 
 
             <Button
