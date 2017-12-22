@@ -36,7 +36,7 @@
             android:layout_height="wrap_content"
             android:text="diaMenu"
             android:textAlignment="center"
-            android:textColor="@color/colorAccent"
+            android:textColor="@android:color/holo_red_dark"
             android:textSize="18dp"
             android:textStyle="bold" />
 
@@ -62,6 +62,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Primero:  "
+                        android:textColor="@android:color/black"
                         android:textStyle="bold|italic" />
 
                     <TextView
@@ -69,7 +70,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="primerPlato"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="18dp"
                         android:textStyle="bold" />
 
@@ -186,6 +187,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="Segundo: "
+                        android:textColor="@android:color/black"
                         android:textStyle="bold|italic" />
 
                     <TextView
@@ -193,7 +195,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="segundoPlato"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@color/colorPrimaryDark"
                         android:textSize="18dp"
                         android:textStyle="bold" />
 

@@ -2,6 +2,7 @@ package ccastro.casal.RecyclerView;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -170,6 +171,7 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
             idMenuPlato = (TextView) v.findViewById(R.id.idMenuPlato);
             idMenu = (TextView) v.findViewById(R.id.idMenu);
             diaMenu=(TextView)v.findViewById(R.id.diaMenu);
+            diaMenu.setPaintFlags(diaMenu.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
             primerPlato=(TextView) v.findViewById(R.id.primerPlato);
             segundoPlato=(TextView) v.findViewById(R.id.segundoPlato);
             gluten= (TextView) v.findViewById(R.id.gluten); gluten2=(TextView) v.findViewById(R.id.gluten2);

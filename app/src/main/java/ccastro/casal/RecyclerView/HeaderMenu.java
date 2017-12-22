@@ -59,9 +59,9 @@ public class HeaderMenu {
         switch (Integer.parseInt(diaMenu)){
             case 1: return "LUNES";
             case 2: return "MARTES";
-            case 3: return "Miercoles";
-            case 4: return "Jueves";
-            case 5: return "Viernes";
+            case 3: return "MIERCOLES";
+            case 4: return "JUEVES";
+            case 5: return "VIERNES";
         }
         return diaMenu;
     }
