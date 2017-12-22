@@ -57,7 +57,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView11"
+                        android:id="@+id/textViewPrimerPlatoTitulo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -69,7 +69,6 @@
                         android:id="@+id/primerPlato"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="primerPlato"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="18dp"
                         android:textStyle="bold" />
@@ -182,7 +181,7 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView12"
+                        android:id="@+id/textViewSegundoPlatoTitulo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
@@ -194,7 +193,6 @@
                         android:id="@+id/segundoPlato"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="segundoPlato"
                         android:textColor="@color/colorPrimaryDark"
                         android:textSize="18dp"
                         android:textStyle="bold" />

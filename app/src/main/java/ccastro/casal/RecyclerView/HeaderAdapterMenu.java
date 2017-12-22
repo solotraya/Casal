@@ -61,8 +61,18 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
         holder.diaMenu.setText(mDataset.get(position).getDiaMenu());
         holder.idMenuPlato.setText(mDataset.get(position).getIdMenuPlato());
         holder.idMenu.setText(mDataset.get(position).getIdMenu());
-        holder.segundoPlato.setText(mDataset.get(position).getSegundoPlato());
-        holder.primerPlato.setText(mDataset.get(position).getPrimerPlato());
+        String segundoPlato = mDataset.get(position).getSegundoPlato();
+        if (segundoPlato==null)holder.segundoPlatoTitulo.setVisibility(View.GONE);
+        else {
+            holder.segundoPlatoTitulo.setVisibility(View.VISIBLE);
+            holder.segundoPlato.setText(segundoPlato);
+        }
+        String primerPlato = mDataset.get(position).getPrimerPlato();
+        if (primerPlato==null)holder.primerPlatoTitulo.setVisibility(View.GONE);
+        else {
+            holder.segundoPlatoTitulo.setVisibility(View.VISIBLE);
+            holder.primerPlato.setText(primerPlato);
+        }
         if (!Statics.esconderGluten1.isEmpty()){
             if(Statics.esconderGluten1.get(position)) holder.gluten.setVisibility(View.GONE);
             else holder.gluten.setVisibility(View.VISIBLE);
@@ -155,7 +165,7 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
         return mDataset.size();
     }
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-        TextView idMenuPlato,idMenu, diaMenu, primerPlato, segundoPlato;
+        TextView idMenuPlato,idMenu, diaMenu, primerPlato, segundoPlato, primerPlatoTitulo, segundoPlatoTitulo;
         TextView gluten, crustaceos, huevos, pescado, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
        // Button crustaceos;
         TextView gluten2, crustaceos2, huevos2, pescado2, cacahuetes2, lacteos2, cascaras2, apio2, azufre_sulfitos2, moluscos2;
@@ -172,8 +182,8 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
             idMenu = (TextView) v.findViewById(R.id.idMenu);
             diaMenu=(TextView)v.findViewById(R.id.diaMenu);
             diaMenu.setPaintFlags(diaMenu.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
-            primerPlato=(TextView) v.findViewById(R.id.primerPlato);
-            segundoPlato=(TextView) v.findViewById(R.id.segundoPlato);
+            primerPlato=(TextView) v.findViewById(R.id.primerPlato); primerPlatoTitulo=(TextView) v.findViewById(R.id.textViewPrimerPlatoTitulo);
+            segundoPlato=(TextView) v.findViewById(R.id.segundoPlato); segundoPlatoTitulo=(TextView) v.findViewById(R.id.textViewSegundoPlatoTitulo);
             gluten= (TextView) v.findViewById(R.id.gluten); gluten2=(TextView) v.findViewById(R.id.gluten2);
             crustaceos = (TextView) v.findViewById(R.id.crustaceos); crustaceos2 = (TextView) v.findViewById(R.id.crustaceos2);
             huevos = (TextView) v.findViewById(R.id.huevos); huevos2 = (TextView) v.findViewById(R.id.huevos2);

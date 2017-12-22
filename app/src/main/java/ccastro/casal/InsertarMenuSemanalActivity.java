@@ -57,7 +57,7 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                     @Override
                     public void onClick(View view) {
                         findViewById(R.id.tool_bar_insertar_diasLunes).setVisibility(View.GONE);
-                        findViewById(R.id.InsertarLunes).setBackgroundColor(Color.GREEN);
+                        findViewById(R.id.InsertarLunes).setBackgroundColor(Color.rgb(255, 204, 204));
                     }
                 });
                 findViewById(R.id.tool_bar_insertar_diasLunes).findViewById(R.id.buttonPrimero).setOnClickListener(new View.OnClickListener() {
@@ -81,7 +81,7 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                     @Override
                     public void onClick(View view) {
                         findViewById(R.id.tool_bar_insertar_diasMartes).setVisibility(View.GONE);
-                        findViewById(R.id.InsertarMartes).setBackgroundColor(Color.GREEN);
+                        findViewById(R.id.InsertarMartes).setBackgroundColor(Color.rgb(255, 204, 204));
                     }
                 });
                 findViewById(R.id.tool_bar_insertar_diasMartes).findViewById(R.id.buttonPrimero).setOnClickListener(new View.OnClickListener() {
@@ -105,7 +105,7 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                     @Override
                     public void onClick(View view) {
                         findViewById(R.id.tool_bar_insertar_diasMiercoles).setVisibility(View.GONE);
-                        findViewById(R.id.InsertarMiercoles).setBackgroundColor(Color.GREEN);
+                        findViewById(R.id.InsertarMiercoles).setBackgroundColor(Color.rgb(255, 204, 204));
                     }
                 });
                 findViewById(R.id.tool_bar_insertar_diasMiercoles).findViewById(R.id.buttonPrimero).setOnClickListener(new View.OnClickListener() {
@@ -129,7 +129,7 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                     @Override
                     public void onClick(View view) {
                         findViewById(R.id.tool_bar_insertar_diasJueves).setVisibility(View.GONE);
-                        findViewById(R.id.InsertarJueves).setBackgroundColor(Color.GREEN);
+                        findViewById(R.id.InsertarJueves).setBackgroundColor(Color.rgb(255, 204, 204));
                     }
                 });
                 findViewById(R.id.tool_bar_insertar_diasJueves).findViewById(R.id.buttonPrimero).setOnClickListener(new View.OnClickListener() {
@@ -153,7 +153,7 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                     @Override
                     public void onClick(View view) {
                         findViewById(R.id.tool_bar_insertar_diasViernes).setVisibility(View.GONE);
-                        findViewById(R.id.InsertarViernes).setBackgroundColor(Color.GREEN);
+                        findViewById(R.id.InsertarViernes).setBackgroundColor(Color.rgb(255, 204, 204));
                     }
                 });
                 findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.buttonPrimero).setOnClickListener(new View.OnClickListener() {
