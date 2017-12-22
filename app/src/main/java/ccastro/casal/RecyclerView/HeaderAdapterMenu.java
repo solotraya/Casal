@@ -70,7 +70,7 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
         String primerPlato = mDataset.get(position).getPrimerPlato();
         if (primerPlato==null)holder.primerPlatoTitulo.setVisibility(View.GONE);
         else {
-            holder.segundoPlatoTitulo.setVisibility(View.VISIBLE);
+            holder.primerPlatoTitulo.setVisibility(View.VISIBLE);
             holder.primerPlato.setText(primerPlato);
         }
         if (!Statics.esconderGluten1.isEmpty()){
