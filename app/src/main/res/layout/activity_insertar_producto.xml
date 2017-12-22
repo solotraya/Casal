@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context="ccastro.casal.InsertarProductoActivity">
 
 
@@ -27,7 +28,7 @@
                 android:text="NUEVO PRODUCTO"
                 android:textAlignment="center"
                 android:textAllCaps="false"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@android:color/holo_orange_dark"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -61,7 +62,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="Tipo"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -91,7 +92,7 @@
                     android:gravity="center"
                     android:text="Nombre:"
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -104,6 +105,7 @@
                     android:inputType="textPersonName"
                     android:padding="5dp"
                     android:textAlignment="center"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp" />
 
 
@@ -130,7 +132,7 @@
                     android:gravity="center"
                     android:text="Precio:   "
                     android:textAlignment="textStart"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -148,6 +150,7 @@
                         android:gravity="right"
                         android:hint="0"
                         android:inputType="textPersonName"
+                        android:textColor="@color/cardview_light_background"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -157,6 +160,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0"
                         android:text="."
+                        android:textColor="@color/cardview_light_background"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -168,6 +172,7 @@
                         android:gravity="left"
                         android:hint="0"
                         android:inputType="textPersonName"
+                        android:textColor="@color/cardview_light_background"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -177,6 +182,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:text="€"
+                        android:textColor="@color/cardview_light_background"
                         android:textStyle="bold" />
                 </LinearLayout>
             </LinearLayout>

@@ -1,6 +1,7 @@
 package ccastro.casal;
 
 import android.database.Cursor;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -58,7 +59,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
         adapterMesaFavorita = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, android.R.id.text1, arraySpinnerMesaFavorita);
         spinnerMesaFavorita.setAdapter(adapterMesaFavorita);
         spinnerTipoComida = (Spinner) findViewById(R.id.spinnerTipoComida);
-        adapterTipoComida = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, android.R.id.text1, arraySpinnerTipoComida);
+        adapterTipoComida = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, arraySpinnerTipoComida);
         spinnerTipoComida.setAdapter(adapterTipoComida);
         nomClient = (EditText) findViewById(R.id.editTextNomClient);
         cognomsClient = (EditText) findViewById(R.id.editTextCognomsClients);
@@ -113,6 +114,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
         spinnerNumClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                 quantitatAfegir = position+1;
             }
             @Override
@@ -122,6 +124,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 mesaFavorita = position;
+                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                 Log.d("MESA FAVORITA",Integer.toString(mesaFavorita));
             }
             @Override
@@ -130,6 +133,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
         spinnerTipoClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                 tipusClient = Integer.toString(position);
             }
             @Override
@@ -138,6 +142,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
         spinnerTipoComida.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                 tipoComida = Integer.toString(position);
             }
             @Override
@@ -146,6 +151,8 @@ public class InsertarClienteActivity extends AppCompatActivity {
         spinnerTipoPago.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                ((TextView) view).setTextColor(Color.WHITE);
+               // ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
                 tipoPago = Integer.toString(position);
             }
             @Override

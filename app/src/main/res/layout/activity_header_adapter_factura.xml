@@ -7,6 +7,8 @@
     android:layout_height="wrap_content"
     android:layout_margin="3dp"
     android:orientation="vertical"
+    app:cardBackgroundColor="@color/colorPrimaryDark"
+
     app:cardCornerRadius="4dp">
 
 
@@ -33,13 +35,14 @@
                 android:layout_height="match_parent"
                 android:weightSum="3"
                 android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/nomProducte"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="NomProducte"
-                    android:textColor="@color/colorPrimary"
                     android:layout_weight="1"
+                    android:text="NomProducte"
+                    android:textColor="@android:color/holo_orange_dark"
                     android:textSize="18dp"
                     android:textStyle="bold" />
                 <LinearLayout
@@ -47,12 +50,14 @@
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/textoPrecio"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:text="Precio unidad: " />
+                        android:text="Precio unidad: "
+                        android:textColor="@color/cardview_light_background"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/preuProducte"
@@ -60,7 +65,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:text="preuProducte"
-                        android:textColor="@android:color/black"
+                        android:textColor="@android:color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -81,9 +86,9 @@
                         android:id="@+id/tipusProducte"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:textColor="@android:color/black"
-                        android:text="tipusProducte" />
+                        android:text="tipusProducte"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -91,31 +96,36 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="horizontal">
-                        <TextView
-                            android:id="@+id/quantitatText"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textSize="12sp"
-                            android:text="Cantidad: " />
-                        <TextView
-                            android:id="@+id/quantitat"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textColor="@android:color/black"
-                            android:textSize="12sp"
-                            android:text="quantitat" />
+
+                    <TextView
+                        android:id="@+id/quantitatText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cantidad: "
+                        android:textColor="@color/cardview_light_background"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/quantitat"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="quantitat"
+                        android:textColor="@android:color/white"
+                        android:textSize="12sp" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:orientation="horizontal">
+
                     <TextView
                         android:id="@+id/precioTotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textSize="12sp"
-                        android:text="Precio total: " />
+                        android:text="Precio total: "
+                        android:textColor="@color/cardview_light_background"
+                        android:textSize="12sp" />
 
                     <TextView
                         android:id="@+id/total"
@@ -124,7 +134,7 @@
                         android:layout_weight="1"
                         android:gravity="right"
                         android:text="total"
-                        android:textColor="@android:color/black"
+                        android:textColor="@android:color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -182,7 +192,7 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:text="-"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@android:color/holo_orange_dark"
                         android:textSize="22dp"
                         android:textStyle="bold" />
 
@@ -194,7 +204,7 @@
                         android:gravity="right"
                         android:text="1"
                         android:textAlignment="center"
-                        android:textColor="@android:color/black"
+                        android:textColor="@android:color/background_light"
                         android:textSize="18sp"
                         android:textStyle="bold" />
 
@@ -205,7 +215,7 @@
                         android:layout_weight="1"
                         android:background="@android:color/transparent"
                         android:text="+"
-                        android:textColor="@color/colorPrimary"
+                        android:textColor="@android:color/holo_orange_dark"
                         android:textSize="22dp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -218,7 +228,7 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:text="preuTotal"
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>

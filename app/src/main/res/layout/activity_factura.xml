@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     tools:context="ccastro.casal.FacturaActivity">
 
     <LinearLayout
@@ -20,16 +21,17 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
+                android:text="Cliente: "
+                android:textColor="@android:color/white"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="Cliente: " />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/nomClient"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text=""
+                android:textColor="@android:color/background_light" />
         </LinearLayout>
 
         <LinearLayout
@@ -42,20 +44,22 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:orientation="horizontal">
-                        <TextView
-                            android:id="@+id/textView2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@android:color/black"
-                            android:textSize="16sp"
-                            android:textStyle="bold"
-                            android:text="Fecha:   " />
+
+                    <TextView
+                        android:id="@+id/textView2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fecha:   "
+                        android:textColor="@android:color/white"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/dataVenta"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="dataVenta" />
+                        android:text="dataVenta"
+                        android:textColor="@color/cardview_light_background" />
 
                 </LinearLayout>
 
@@ -71,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Hora: "
-                    android:textColor="@android:color/black"
+                    android:textColor="@android:color/white"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
@@ -79,7 +83,8 @@
                     android:id="@+id/horaVenta"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="horaVenta" />
+                    android:text="horaVenta"
+                    android:textColor="@color/cardview_light_background" />
             </LinearLayout>
         </LinearLayout>
 
@@ -93,16 +98,17 @@
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
+                android:text="Estado: "
+                android:textColor="@android:color/white"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="Estado: " />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/ventaPagada"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="" />
+                android:text=""
+                android:textColor="@color/cardview_light_background" />
         </LinearLayout>
 
         <LinearLayout
@@ -149,7 +155,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Total Factura: "
-                        android:textColor="@android:color/black"
+                        android:textColor="@android:color/white"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -158,7 +164,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0€"
-                        android:textColor="@android:color/black" />
+                        android:textColor="@android:color/white" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -171,6 +177,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Atendido por: "
+                        android:textColor="@color/cardview_light_background"
                         android:textSize="10sp"
                         android:textStyle="italic" />
 
@@ -179,6 +186,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="nomTreballador"
+                        android:textColor="@color/cardview_light_background"
                         android:textSize="10sp"
                         android:textStyle="bold|italic" />
                 </LinearLayout>

@@ -1,8 +1,8 @@
 package ccastro.casal.RecyclerView;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.Paint;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -195,7 +195,6 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
             azufre_sulfitos = (TextView) v.findViewById(R.id.azufre); azufre_sulfitos2 = (TextView) v.findViewById(R.id.azufre2);
             moluscos = (TextView) v.findViewById(R.id.moluscos); moluscos2 = (TextView) v.findViewById(R.id.moluscos2);
             context = itemView.getContext();
-
             v.setOnClickListener(this);
 
         }
@@ -208,9 +207,9 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
         public void onClick(View view) {
             if (MenuActivity.idMenu!=null){
                 if (MenuActivity.viewAnterior!=null){
-                    MenuActivity.viewAnterior.setBackgroundColor(Color.WHITE);
+                   MenuActivity.viewAnterior.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
                 }
-                view.setBackgroundColor(Color.rgb(255, 204, 204));
+                view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
                 MenuActivity.viewAnterior=view;
                 MenuActivity.idMenuPlato = idMenuPlato.getText().toString();
             }

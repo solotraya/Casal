@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/colorPrimary"
     tools:context="ccastro.casal.PedidoActivity">
 
     <LinearLayout
@@ -20,7 +21,7 @@
             android:layout_weight="1"
             android:background="@drawable/cafes"
             android:text="CAFE E INFUSIONES"
-            android:textColor="@android:color/background_dark"
+            android:textColor="@android:color/background_light"
             android:textStyle="bold" />
 
         <Button
@@ -30,7 +31,7 @@
             android:layout_weight="1"
             android:background="@drawable/refrescos"
             android:text="REFRESCOS Y CERVEZAS"
-            android:textColor="@android:color/background_dark"
+            android:textColor="@android:color/background_light"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -47,7 +48,7 @@
             android:layout_weight="1"
             android:background="@drawable/alimentacion"
             android:text="ALIMENTACION"
-            android:textColor="@android:color/background_dark"
+            android:textColor="@android:color/background_light"
             android:textStyle="bold" />
 
         <Button
@@ -57,7 +58,7 @@
             android:layout_weight="1"
             android:background="@drawable/otros"
             android:text="OTROS PRODUCTOS"
-            android:textColor="@android:color/background_dark"
+            android:textColor="@android:color/background_light"
             android:textStyle="bold" />
     </LinearLayout>
 

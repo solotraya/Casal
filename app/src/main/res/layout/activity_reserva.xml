@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="ccastro.casal.ReservaActivity"
+    android:background="@color/colorPrimary"
     android:orientation="vertical">
 
 
@@ -23,17 +24,18 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
+                android:text="Nombre Mesa: "
+                android:textColor="@android:color/white"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="Nombre Mesa: " />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/nombreMesaReserva"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="nomMesa" />
+                android:text="nomMesa"
+                android:textColor="@color/cardview_light_background" />
         </LinearLayout>
 
         <LinearLayout
@@ -46,20 +48,22 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
+                    android:text="Fecha:   "
+                    android:textColor="@android:color/white"
                     android:textSize="16sp"
-                    android:textStyle="bold"
-                    android:text="Fecha:   " />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/fechaReservaMesa"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="dataVenta" />
+                    android:text="dataVenta"
+                    android:textColor="@color/cardview_light_background" />
 
             </LinearLayout>
         </LinearLayout>

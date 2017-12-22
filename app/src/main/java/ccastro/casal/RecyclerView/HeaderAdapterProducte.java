@@ -6,9 +6,8 @@ package ccastro.casal.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,9 +155,9 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
             if (!ProductoActivity.insertarProducto){
                 if (ProductoActivity.layoutAnterior!=null){
                     ProductoActivity.layoutAnterior.setVisibility(View.GONE);
-                    ProductoActivity.viewAnterior.setBackgroundColor(Color.WHITE);
+                    ProductoActivity.layoutAnterior.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
                 }
-                view.setBackgroundColor(Color.rgb(255, 204, 204));
+                view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
                 ProductoActivity.layoutAnterior=layoutProducte;
                 ProductoActivity.viewAnterior=view;
                 layoutProducte.setVisibility(View.VISIBLE);
@@ -176,10 +175,9 @@ public class HeaderAdapterProducte extends RecyclerView.Adapter<HeaderAdapterPro
                 context.startActivity(intent);
                 ((ProductoActivity) context).overridePendingTransition(0,0); */
                 if (ProductoActivity.viewAnterior!=null){
-                    ProductoActivity.viewAnterior.setBackgroundColor(Color.WHITE);
-                    Log.d("VIEW_ANTERIOR",view.toString());
+                    ProductoActivity.viewAnterior.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
                 }
-                view.setBackgroundColor(Color.rgb(255, 204, 204));
+                view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
                 ProductoActivity.id_producte = idProducte.getText().toString();
                 ProductoActivity.viewAnterior=view;
             }

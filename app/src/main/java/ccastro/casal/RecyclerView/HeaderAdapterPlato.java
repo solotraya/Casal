@@ -1,7 +1,7 @@
 package ccastro.casal.RecyclerView;
 
 import android.content.Context;
-import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -143,9 +143,9 @@ public class HeaderAdapterPlato extends RecyclerView.Adapter<HeaderAdapterPlato.
         @Override
         public void onClick(View view) {
             if (PlatoActivity.viewAnterior!=null){
-                PlatoActivity.viewAnterior.setBackgroundColor(Color.WHITE);
+                PlatoActivity.viewAnterior.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
             }
-            view.setBackgroundColor(Color.rgb(255, 204, 204));
+            view.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimary));
             PlatoActivity.viewAnterior=view;
             PlatoActivity.id_plato = idPlato.getText().toString();
             if (PlatoActivity.seleccionarPlato){
