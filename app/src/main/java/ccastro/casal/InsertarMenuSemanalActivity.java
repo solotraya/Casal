@@ -2,9 +2,11 @@ package ccastro.casal;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import ccastro.casal.SQLite.DBInterface;
@@ -14,6 +16,7 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
     String semana;
     Integer primeroLunes,segundoLunes,primeroMartes,segundoMartes,primeroMiercoles,
             segundoMiercoles,primeroJueves,segundoJueves,primeroViernes,segundoViernes;
+    String pLunes="",sLunes="",pMartes="",sMartes="",pMiercoles="",sMiercoles="",pJueves="",sJueves="",pViernes="",sViernes="";
     Intent intent;
     DBInterface  db;
     @Override
@@ -53,13 +56,6 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
         switch (view.getId()){
             case R.id.InsertarLunes:
                 findViewById(R.id.tool_bar_insertar_diasLunes).setVisibility(View.VISIBLE);
-                findViewById(R.id.tool_bar_insertar_diasLunes).findViewById(R.id.introduirDia).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        findViewById(R.id.tool_bar_insertar_diasLunes).setVisibility(View.GONE);
-                        findViewById(R.id.InsertarLunes).setBackgroundColor(Color.rgb(255, 204, 204));
-                    }
-                });
                 findViewById(R.id.tool_bar_insertar_diasLunes).findViewById(R.id.buttonPrimero).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -77,13 +73,6 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                 break;
             case R.id.InsertarMartes:
                 findViewById(R.id.tool_bar_insertar_diasMartes).setVisibility(View.VISIBLE);
-                findViewById(R.id.tool_bar_insertar_diasMartes).findViewById(R.id.introduirDia).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        findViewById(R.id.tool_bar_insertar_diasMartes).setVisibility(View.GONE);
-                        findViewById(R.id.InsertarMartes).setBackgroundColor(Color.rgb(255, 204, 204));
-                    }
-                });
                 findViewById(R.id.tool_bar_insertar_diasMartes).findViewById(R.id.buttonPrimero).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -101,13 +90,6 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                 break;
             case R.id.InsertarMiercoles:
                 findViewById(R.id.tool_bar_insertar_diasMiercoles).setVisibility(View.VISIBLE);
-                findViewById(R.id.tool_bar_insertar_diasMiercoles).findViewById(R.id.introduirDia).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        findViewById(R.id.tool_bar_insertar_diasMiercoles).setVisibility(View.GONE);
-                        findViewById(R.id.InsertarMiercoles).setBackgroundColor(Color.rgb(255, 204, 204));
-                    }
-                });
                 findViewById(R.id.tool_bar_insertar_diasMiercoles).findViewById(R.id.buttonPrimero).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -125,13 +107,7 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                 break;
             case R.id.InsertarJueves:
                 findViewById(R.id.tool_bar_insertar_diasJueves).setVisibility(View.VISIBLE);
-                findViewById(R.id.tool_bar_insertar_diasJueves).findViewById(R.id.introduirDia).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        findViewById(R.id.tool_bar_insertar_diasJueves).setVisibility(View.GONE);
-                        findViewById(R.id.InsertarJueves).setBackgroundColor(Color.rgb(255, 204, 204));
-                    }
-                });
+
                 findViewById(R.id.tool_bar_insertar_diasJueves).findViewById(R.id.buttonPrimero).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -149,18 +125,12 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                 break;
             case R.id.InsertarViernes:
                 findViewById(R.id.tool_bar_insertar_diasViernes).setVisibility(View.VISIBLE);
-                findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.introduirDia).setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        findViewById(R.id.tool_bar_insertar_diasViernes).setVisibility(View.GONE);
-                        findViewById(R.id.InsertarViernes).setBackgroundColor(Color.rgb(255, 204, 204));
-                    }
-                });
                 findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.buttonPrimero).setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         intent.putExtra("PRIMER_PLATO",true);
                         startActivityForResult(intent,5);
+                        findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.buttonPrimero);
                     }
                 });
                 findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.buttonSegundo).setOnClickListener(new View.OnClickListener() {
@@ -186,34 +156,128 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
             Toast.makeText(this, "Resultado cancelado", Toast.LENGTH_SHORT)
                     .show();
         } else {
-            // De lo contrario, recogemos el resultado de la segunda actividad.
             Boolean primer_plato = data.getExtras().getBoolean("PRIMER_PLATO");
             String plato = data.getExtras().getString("ID_PLATO");
+            String nombrePlato = data.getExtras().getString("NOMBRE_PLATO");
             Integer id_plato = Integer.parseInt(plato);
-            // Y tratamos el resultado en función de si se lanzó para rellenar el
-            // nombre o el apellido.
+            Button buton;
             switch (requestCode) {
                 case 1:  // LUNES
-                    if (primer_plato)primeroLunes = id_plato;
-                    else segundoLunes = id_plato;
+                    if (primer_plato){
+                        primeroLunes = id_plato;
+                        pLunes = nombrePlato;
+                        buton = findViewById(R.id.tool_bar_insertar_diasLunes).findViewById(R.id.buttonPrimero);
+                        buton.setText(nombrePlato);
+                        if (pLunes.length()>0 && sLunes.length()>0) lunesComplert();
+                    }
+                    else {
+                        segundoLunes = id_plato;
+                        sLunes = nombrePlato;
+                        buton = findViewById(R.id.tool_bar_insertar_diasLunes).findViewById(R.id.buttonSegundo);
+                        buton.setText(nombrePlato);
+                        if (pLunes.length()>0 && sLunes.length()>0) lunesComplert();
+                    }
                     break;
                 case 2: // MARTES
-                    if (primer_plato)primeroMartes = id_plato;
-                    else segundoMartes = id_plato;
+                    if (primer_plato){
+                        primeroMartes = id_plato;
+                        pMartes = nombrePlato;
+                        buton = findViewById(R.id.tool_bar_insertar_diasMartes).findViewById(R.id.buttonPrimero);
+                        buton.setText(nombrePlato);
+                        if (pMartes.length()>0 && sMartes.length()>0) martesComplert();
+                    }
+                    else {
+                        segundoMartes = id_plato;
+                        sMartes = nombrePlato;
+                        buton = findViewById(R.id.tool_bar_insertar_diasMartes).findViewById(R.id.buttonSegundo);
+                        buton.setText(nombrePlato);
+                        if (pMartes.length()>0 && sMartes.length()>0) martesComplert();
+                    }
                     break;
                 case 3: // MIERCOLES
-                    if (primer_plato)primeroMiercoles = id_plato;
-                    else segundoMiercoles = id_plato;
+                    if (primer_plato){
+                        primeroMiercoles = id_plato;
+                        pMiercoles = nombrePlato;
+                        buton = findViewById(R.id.tool_bar_insertar_diasMiercoles).findViewById(R.id.buttonPrimero);
+                        buton.setText(nombrePlato);
+                        if (pMiercoles.length()>0 && sMiercoles.length()>0) miercolesComplert();
+                    }
+                    else {
+                        sMiercoles = nombrePlato;
+                        segundoMiercoles = id_plato;
+                        buton = findViewById(R.id.tool_bar_insertar_diasMiercoles).findViewById(R.id.buttonSegundo);
+                        buton.setText(nombrePlato);
+                        if (pMiercoles.length()>0 && sMiercoles.length()>0) miercolesComplert();
+                    }
                     break;
                 case 4: // JUEVES
-                    if (primer_plato)primeroJueves = id_plato;
-                    else segundoJueves = id_plato;
+                    if (primer_plato){
+                        pJueves = nombrePlato;
+                        primeroJueves = id_plato;
+                        buton = findViewById(R.id.tool_bar_insertar_diasJueves).findViewById(R.id.buttonPrimero);
+                        buton.setText(nombrePlato);
+                        if (pJueves.length()>0 && sJueves.length()>0) juevesComplert();
+                    }
+                    else {
+                        sJueves = nombrePlato;
+                        segundoJueves = id_plato;
+                        buton = findViewById(R.id.tool_bar_insertar_diasJueves).findViewById(R.id.buttonSegundo);
+                        buton.setText(nombrePlato);
+                        if (pJueves.length()>0 && sJueves.length()>0) juevesComplert();
+                    }
                     break;
                 case 5: // VIERNES
-                    if (primer_plato)primeroViernes = id_plato;
-                    else segundoViernes = id_plato;
+                    if (primer_plato){
+                        pViernes = nombrePlato;
+                        primeroViernes = id_plato;
+                        buton = findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.buttonPrimero);
+                        buton.setText(nombrePlato);
+                        if (pViernes.length()>0 && sViernes.length()>0) viernesComplert();
+                    }
+                    else {
+                        sViernes = nombrePlato;
+                        segundoViernes = id_plato;
+                        buton = findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.buttonSegundo);
+                        buton.setText(nombrePlato);
+                        if (pViernes.length()>0 && sViernes.length()>0) viernesComplert();
+                    }
                     break;
             }
         }
+    }
+    public void lunesComplert(){
+        findViewById(R.id.InsertarLunes).setBackgroundColor(Color.rgb(203, 255, 192));
+        findViewById(R.id.tool_bar_insertar_diasLunes).setVisibility(View.GONE);
+        Button button = findViewById(R.id.InsertarLunes);
+        button.setTextColor(Color.BLACK);
+        button.setTypeface(null, Typeface.BOLD);
+    }
+    public void martesComplert(){
+        findViewById(R.id.tool_bar_insertar_diasMartes).setVisibility(View.GONE);
+        findViewById(R.id.InsertarMartes).setBackgroundColor(Color.rgb(230, 255, 158));
+        Button button = findViewById(R.id.InsertarMartes);
+        button.setTextColor(Color.BLACK);
+        button.setTypeface(null, Typeface.BOLD);
+    }
+    public void miercolesComplert(){
+        findViewById(R.id.tool_bar_insertar_diasMiercoles).setVisibility(View.GONE);
+        findViewById(R.id.InsertarMiercoles).setBackgroundColor(Color.rgb(203, 255, 192));
+        Button button = findViewById(R.id.InsertarMiercoles);
+        button.setTextColor(Color.BLACK);
+        button.setTypeface(null, Typeface.BOLD);
+    }
+    public void juevesComplert(){
+        findViewById(R.id.tool_bar_insertar_diasJueves).setVisibility(View.GONE);
+        findViewById(R.id.InsertarJueves).setBackgroundColor(Color.rgb(230, 255, 158));
+        Button button = findViewById(R.id.InsertarJueves);
+        button.setTextColor(Color.BLACK);
+        button.setTypeface(null, Typeface.BOLD);
+    }
+    public void viernesComplert(){
+        findViewById(R.id.tool_bar_insertar_diasViernes).setVisibility(View.GONE);
+        findViewById(R.id.InsertarViernes).setBackgroundColor(Color.rgb(203, 255, 192));
+        Button button = findViewById(R.id.InsertarViernes);
+        button.setTextColor(Color.BLACK);
+        button.setTypeface(null, Typeface.BOLD);
     }
 }

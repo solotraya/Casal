@@ -20,7 +20,8 @@ import ccastro.casal.Utils.Statics;
 public class PlatoActivity extends AppCompatActivity {
     public static View viewAnterior;
     public static String id_plato;
-    public Boolean seleccionarPlato = false;
+    public static Boolean seleccionarPlato = false;
+    public static String nombrePlato;
     private ArrayList<HeaderPlato> myDataset;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -96,6 +97,7 @@ public class PlatoActivity extends AppCompatActivity {
             Intent i = getIntent();
             i.putExtra("ID_PLATO", id_plato);
             i.putExtra("PRIMER_PLATO",primerPlato);
+            i.putExtra("NOMBRE_PLATO",nombrePlato);
             setResult(RESULT_OK, i);
             finish();
         }

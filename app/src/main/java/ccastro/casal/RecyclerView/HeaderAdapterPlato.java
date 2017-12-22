@@ -148,6 +148,9 @@ public class HeaderAdapterPlato extends RecyclerView.Adapter<HeaderAdapterPlato.
             view.setBackgroundColor(Color.rgb(255, 204, 204));
             PlatoActivity.viewAnterior=view;
             PlatoActivity.id_plato = idPlato.getText().toString();
+            if (PlatoActivity.seleccionarPlato){
+                PlatoActivity.nombrePlato = nombrePlato.getText().toString();
+            }
         }
     }
 
