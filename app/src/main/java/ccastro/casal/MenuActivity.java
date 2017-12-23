@@ -24,7 +24,6 @@ import ccastro.casal.RecyclerView.HeaderAdapterMenu;
 import ccastro.casal.RecyclerView.HeaderMenu;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
-import ccastro.casal.Utils.Missatges;
 import ccastro.casal.Utils.Statics;
 import ccastro.casal.Utils.Utilitats;
 
@@ -141,14 +140,11 @@ public class MenuActivity extends AppCompatActivity {
         mToolbar.findViewById(R.id.buttonModificar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (idMenuPlato!=null){
-                    Intent intent = new Intent(MenuActivity.this,InsertarMenuSemanalActivity.class);
-                    intent.putExtra("SEMANA",semanaAño);
-                    intent.putExtra("MODIFICAR",true);
-                    intent.putExtra("ID_MENU",idMenu);
-                    startActivity(intent);
-                } else Missatges.AlertMissatge("ATENCIÓN", "Selecciona dia para modifcar!", R.drawable.error2, MenuActivity.this);
-
+                Intent intent = new Intent(MenuActivity.this,InsertarMenuSemanalActivity.class);
+                intent.putExtra("SEMANA",semanaAño);
+                intent.putExtra("MODIFICAR",true);
+                intent.putExtra("ID_MENU",idMenu);
+                startActivity(intent);
             }
         });
 

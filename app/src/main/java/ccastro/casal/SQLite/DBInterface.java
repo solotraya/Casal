@@ -323,14 +323,15 @@ public class DBInterface {
         return bd.update(SegundoPlato.NOM_TAULA, valores, where, selection);
     }
 
-    public long ActualitzarMenuPlato (Integer idMenu, Integer idPrimerPlato, Integer idSegundoPlato){
+    public long ActualitzarMenuPlato (Integer idMenu, Integer idPrimerPlato, Integer idSegundoPlato, String dia){
 
         ContentValues valores = new ContentValues();
         valores.put(MenuPlato.PRIMER_PLATO,idPrimerPlato);
         valores.put(MenuPlato.SEGUNDO_PLATO,idSegundoPlato);
-        String where = MenuPlato._ID+ " = ?";
-        String[] selection = {""+idMenu};
-        return bd.update(MenuPlato.NOM_TAULA, valores, where, selection);
+        return bd.update(MenuPlato.NOM_TAULA,
+                valores,
+                MenuPlato.DIA_MENU + " = ? AND " + MenuPlato.ID_MENU + " = ?",
+                new String[]{dia, ""+idMenu});
     }
 
     public long InserirClient(String nom, String cognoms, String tipusClient,Integer mesaFavorita,

@@ -242,6 +242,14 @@ public class ConsultesSQL {
                 " WHERE c."+Client.NOM_CLIENT+" LIKE '~Cliente Barra'"+
                 " AND v."+Venta.VENTA_COBRADA+" LIKE '0'";
     }
+    public String ActualitzarMenuPlato (Integer idMenu, Integer idPrimerPlato, Integer idSegundoPlato, String dia){
+
+        return  " UPDATE "+ MenuPlato.NOM_TAULA+" mp"+
+                " SET (mp."+MenuPlato.PRIMER_PLATO+",mp."+MenuPlato.SEGUNDO_PLATO+")"+
+                " = ("+idPrimerPlato+","+idSegundoPlato+")"+
+                " WHERE mp."+MenuPlato.ID_MENU+" = "+idMenu+" AND mp."+MenuPlato.DIA_MENU+" LIKE '"+dia+"'";
+
+    }
 }
 
 

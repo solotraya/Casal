@@ -167,7 +167,6 @@ public class HeaderAdapterMenu extends RecyclerView.Adapter<HeaderAdapterMenu.Vi
     static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView idMenuPlato,idMenu, diaMenu, primerPlato, segundoPlato, primerPlatoTitulo, segundoPlatoTitulo;
         TextView gluten, crustaceos, huevos, pescado, cacahuetes, lacteos, cascaras, apio, azufre_sulfitos, moluscos;
-       // Button crustaceos;
         TextView gluten2, crustaceos2, huevos2, pescado2, cacahuetes2, lacteos2, cascaras2, apio2, azufre_sulfitos2, moluscos2;
 
         View v;

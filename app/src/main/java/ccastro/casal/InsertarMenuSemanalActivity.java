@@ -56,11 +56,11 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
             public void onClick(View view) {
 
                 db.obre();
-                db.ActualitzarMenuPlato(idMenu,primeroLunes,segundoLunes);
-                db.ActualitzarMenuPlato(idMenu,primeroMartes,segundoMartes);
-                db.ActualitzarMenuPlato(idMenu,primeroMiercoles,segundoMiercoles);
-                db.ActualitzarMenuPlato(idMenu,primeroJueves,segundoJueves);
-                db.ActualitzarMenuPlato(idMenu,primeroViernes,segundoViernes);
+                db.ActualitzarMenuPlato(idMenu,primeroLunes,segundoLunes,"1");
+                db.ActualitzarMenuPlato(idMenu,primeroMartes,segundoMartes,"2");
+                db.ActualitzarMenuPlato(idMenu,primeroMiercoles,segundoMiercoles,"3");
+                db.ActualitzarMenuPlato(idMenu,primeroJueves,segundoJueves,"4");
+                db.ActualitzarMenuPlato(idMenu,primeroViernes,segundoViernes,"5");
                 db.tanca();
                 finish();
             }
@@ -179,6 +179,7 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                 String menuid = (getIntent().getExtras().getString("ID_MENU"));
                 idMenu = Integer.parseInt(menuid);
             }
+
             mToolbar.findViewById(R.id.buttonAñadir).setVisibility(View.GONE);
             mToolbar.findViewById(R.id.buttonModificar).setVisibility(View.VISIBLE);
             db.obre();
@@ -265,29 +266,29 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                 switch (Integer.parseInt(dia)){
                     case 1:
                         pLunes = primerPlato;sLunes= segundoPlato;
-                        if (primeroLunes!=null) primeroLunes = Integer.parseInt(idPrimerPlato);
-                        if (segundoLunes!=null) segundoLunes = Integer.parseInt(idSegundoPlato);
+                        if (pLunes!=null) primeroLunes = Integer.parseInt(idPrimerPlato);
+                        if (sLunes!=null) segundoLunes = Integer.parseInt(idSegundoPlato);
 
                         break;
                     case 2:
                         pMartes = primerPlato;sMartes = segundoPlato;
-                        if (primeroMartes!=null) primeroMartes = Integer.parseInt(idPrimerPlato);
-                        if (segundoMartes!=null) segundoMartes = Integer.parseInt(idSegundoPlato);
+                        if (pMartes!=null) primeroMartes = Integer.parseInt(idPrimerPlato);
+                        if (sMartes!=null) segundoMartes = Integer.parseInt(idSegundoPlato);
                         break;
                     case 3:
                         pMiercoles = primerPlato; sMiercoles = segundoPlato;
-                        if (primeroMiercoles!=null) primeroMiercoles = Integer.parseInt(idPrimerPlato);
-                        if (segundoMiercoles!=null)segundoMiercoles = Integer.parseInt(idSegundoPlato);
+                        if (pMiercoles!=null) primeroMiercoles = Integer.parseInt(idPrimerPlato);
+                        if (sMiercoles!=null)segundoMiercoles = Integer.parseInt(idSegundoPlato);
                         break;
                     case 4:
                         pJueves = primerPlato;sJueves = segundoPlato;
-                        if (primeroJueves!=null) primeroJueves = Integer.parseInt(idPrimerPlato);
-                        if (segundoJueves!=null) segundoJueves = Integer.parseInt(idSegundoPlato);
+                        if (pJueves!=null) primeroJueves = Integer.parseInt(idPrimerPlato);
+                        if (sJueves!=null) segundoJueves = Integer.parseInt(idSegundoPlato);
                         break;
                     case 5:
                         pViernes = primerPlato;sViernes = segundoPlato;
-                        if (primeroViernes!=null)primeroViernes = Integer.parseInt(idPrimerPlato);
-                        if (segundoViernes!=null) segundoViernes = Integer.parseInt(idSegundoPlato);
+                        if (pViernes!=null)primeroViernes = Integer.parseInt(idPrimerPlato);
+                        if (sViernes!=null) segundoViernes = Integer.parseInt(idSegundoPlato);
                         break;
                 }
             } while(cursor.moveToNext());
@@ -311,7 +312,10 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                         buton = findViewById(R.id.tool_bar_insertar_diasLunes).findViewById(R.id.buttonPrimero);
                         buton.setText(nombrePlato);
                         buton.setTextColor(Color.parseColor("#ffff8800"));
-                        if (pLunes.length()>0 && sLunes.length()>0) lunesComplert();
+                        if (pLunes!=null && sLunes!=null){
+                            if (pLunes.length()>0 && sLunes.length()>0) lunesComplert();
+                        }
+
                     }
                     else {
                         segundoLunes = id_plato;
@@ -319,7 +323,9 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                         buton = findViewById(R.id.tool_bar_insertar_diasLunes).findViewById(R.id.buttonSegundo);
                         buton.setText(nombrePlato);
                         buton.setTextColor(Color.parseColor("#ffff8800"));
-                        if (pLunes.length()>0 && sLunes.length()>0) lunesComplert();
+                        if (pLunes!=null && sLunes!=null) {
+                            if (pLunes.length() > 0 && sLunes.length() > 0) lunesComplert();
+                        }
                     }
                     break;
                 case 2: // MARTES
@@ -329,7 +335,10 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                         buton = findViewById(R.id.tool_bar_insertar_diasMartes).findViewById(R.id.buttonPrimero);
                         buton.setText(nombrePlato);
                         buton.setTextColor(Color.parseColor("#ffff8800"));
-                        if (pMartes.length()>0 && sMartes.length()>0) martesComplert();
+                        if (pMartes!=null && sMartes!=null){
+                            if (pMartes.length()>0 && sMartes.length()>0) martesComplert();
+                        }
+
                     }
                     else {
                         segundoMartes = id_plato;
@@ -337,7 +346,9 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                         buton = findViewById(R.id.tool_bar_insertar_diasMartes).findViewById(R.id.buttonSegundo);
                         buton.setText(nombrePlato);
                         buton.setTextColor(Color.parseColor("#ffff8800"));
-                        if (pMartes.length()>0 && sMartes.length()>0) martesComplert();
+                        if (pMartes!=null && sMartes!=null){
+                            if (pMartes.length()>0 && sMartes.length()>0) martesComplert();
+                        }
                     }
                     break;
                 case 3: // MIERCOLES
@@ -347,7 +358,9 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                         buton = findViewById(R.id.tool_bar_insertar_diasMiercoles).findViewById(R.id.buttonPrimero);
                         buton.setText(nombrePlato);
                         buton.setTextColor(Color.parseColor("#ffff8800"));
-                        if (pMiercoles.length()>0 && sMiercoles.length()>0) miercolesComplert();
+                        if (pMiercoles!=null && sMiercoles!=null){
+                            if (pMiercoles.length()>0 && sMiercoles.length()>0) miercolesComplert();
+                        }
                     }
                     else {
                         sMiercoles = nombrePlato;
@@ -355,7 +368,9 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                         buton = findViewById(R.id.tool_bar_insertar_diasMiercoles).findViewById(R.id.buttonSegundo);
                         buton.setText(nombrePlato);
                         buton.setTextColor(Color.parseColor("#ffff8800"));
-                        if (pMiercoles.length()>0 && sMiercoles.length()>0) miercolesComplert();
+                        if (pMiercoles!=null && sMiercoles!=null){
+                            if (pMiercoles.length()>0 && sMiercoles.length()>0) miercolesComplert();
+                        }
                     }
                     break;
                 case 4: // JUEVES
@@ -365,7 +380,10 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                         buton = findViewById(R.id.tool_bar_insertar_diasJueves).findViewById(R.id.buttonPrimero);
                         buton.setText(nombrePlato);
                         buton.setTextColor(Color.parseColor("#ffff8800"));
-                        if (pJueves.length()>0 && sJueves.length()>0) juevesComplert();
+                        if (pJueves!=null && sJueves!=null){
+                            if (pJueves.length()>0 && sJueves.length()>0) juevesComplert();
+                        }
+
                     }
                     else {
                         sJueves = nombrePlato;
@@ -373,7 +391,9 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                         buton = findViewById(R.id.tool_bar_insertar_diasJueves).findViewById(R.id.buttonSegundo);
                         buton.setText(nombrePlato);
                         buton.setTextColor(Color.parseColor("#ffff8800"));
-                        if (pJueves.length()>0 && sJueves.length()>0) juevesComplert();
+                        if (pJueves!=null && sJueves!=null){
+                            if (pJueves.length()>0 && sJueves.length()>0) juevesComplert();
+                        }
                     }
                     break;
                 case 5: // VIERNES
@@ -383,7 +403,9 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                         buton = findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.buttonPrimero);
                         buton.setText(nombrePlato);
                         buton.setTextColor(Color.parseColor("#ffff8800"));
-                        if (pViernes.length()>0 && sViernes.length()>0) viernesComplert();
+                        if (pViernes!=null && sViernes!=null){
+                            if (pViernes.length()>0 && sViernes.length()>0) viernesComplert();
+                        }
                     }
                     else {
                         sViernes = nombrePlato;
@@ -391,7 +413,9 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                         buton = findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.buttonSegundo);
                         buton.setText(nombrePlato);
                         buton.setTextColor(Color.parseColor("#ffff8800"));
-                        if (pViernes.length()>0 && sViernes.length()>0) viernesComplert();
+                        if (pViernes!=null && sViernes!=null){
+                            if (pViernes.length()>0 && sViernes.length()>0) viernesComplert();
+                        }
                     }
                     break;
             }
