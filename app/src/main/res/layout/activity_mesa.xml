@@ -322,11 +322,11 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:background="@drawable/bolsa"
+                        android:background="@drawable/mesa"
                         android:text="Llevar"
                         android:textSize="14sp"
                         android:textStyle="bold"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/holo_red_dark"
                         android:visibility="invisible" />
                 </LinearLayout>
             </LinearLayout>
@@ -357,7 +357,7 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                   android:id="@+id/totalClientesComedor"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:textColor="@android:color/background_light"
+                  android:textColor="@android:color/holo_orange_dark"
                   android:textSize="16sp"
                   android:textStyle="bold" />
           </LinearLayout>
@@ -379,7 +379,7 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                   android:id="@+id/totalClientesLlevar"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:textColor="@android:color/background_light"
+                  android:textColor="@android:color/holo_orange_dark"
                   android:textSize="16sp"
                   android:textStyle="bold" />
           </LinearLayout>
@@ -404,7 +404,7 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                   android:id="@+id/totalClientes"
                   android:layout_width="match_parent"
                   android:layout_height="match_parent"
-                  android:textColor="@android:color/background_light"
+                  android:textColor="@android:color/holo_orange_dark"
                   android:textSize="16sp"
                   android:textStyle="bold" />
           </LinearLayout>

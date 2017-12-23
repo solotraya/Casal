@@ -79,20 +79,17 @@ public class DBInterface {
         ajuda.onCreate(bd);
     }
 
-    /**
-     * Mètode per retornar tots els clients
-     * @return cursor amb els clients a retornar
-     */
+
     public Cursor RetornaTotsElsProductes() {
         return bd.rawQuery(consulta.RetornaTotsElsProductes,null);
     }
 
-    /**
-     * Mètode per retornar tots els serveis sense filtrat.
-     * @return cursor amb els serveis a retornar
-     */
     public Cursor RetornaTotsElsClients() {
         return bd.rawQuery(consulta.RetornaTotsElsClients, null);
+    }
+
+    public Cursor RetornaTipusClients(Integer tipusClient) {
+        return bd.rawQuery(consulta.RetornaTipusClients(tipusClient), null);
     }
 
     public Cursor RetornaVentes(String data){

@@ -29,15 +29,23 @@ public class ConsultesSQL {
             " LEFT JOIN  " + Client.NOM_TAULA + " c ON c." + ContracteBD.Client._ID + " = r." + Reserva_Cliente.ID_CLIENTE+
             " WHERE r."+ Reserva_Cliente.DIA_RESERVADO+" LIKE strftime('%Y %m %d','now')";
 
+    String RetornaTotsElsProductes ="Select p."+ ContracteBD.Producte._ID+", p."+ Producte.NOM_PRODUCTE+", p."
+            +  Producte.TIPUS_PRODUCTE+", p."+  Producte.PREU_PRODUCTE+
+            " FROM "+ Producte.NOM_TAULA+" p";
+
     String RetornaTotsElsClients ="Select c."+ ContracteBD.Client._ID+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT
             +", c."+  Client.TIPUS_CLIENT+", c."+Client.TIPO_PAGO+", c."+Client.TIPO_COMIDA+", c."+Client.OBSERVACIONS_CLIENT+
             " FROM "+ Client.NOM_TAULA+" c"+
             " WHERE c."+ Client.NOM_CLIENT+" NOT LIKE '~Cliente Barra' "+
             " ORDER BY c."+ Client.NOM_CLIENT;
 
-    String RetornaTotsElsProductes ="Select p."+ ContracteBD.Producte._ID+", p."+ Producte.NOM_PRODUCTE+", p."
-            +  Producte.TIPUS_PRODUCTE+", p."+  Producte.PREU_PRODUCTE+
-            " FROM "+ Producte.NOM_TAULA+" p";
+    public String RetornaTipusClients(Integer tipusClient){
+        return  "Select c."+ ContracteBD.Client._ID+", c."+ Client.NOM_CLIENT+", c."+  Client.COGNOMS_CLIENT
+                +", c."+  Client.TIPUS_CLIENT+", c."+Client.TIPO_PAGO+", c."+Client.TIPO_COMIDA+", c."+Client.OBSERVACIONS_CLIENT+
+                " FROM "+ Client.NOM_TAULA+" c"+
+                " WHERE c."+ Client.NOM_CLIENT+" NOT LIKE '~Cliente Barra' AND c."+Client.TIPUS_CLIENT+" LIKE '"+tipusClient+"' "+
+                " ORDER BY c."+ Client.NOM_CLIENT;
+    }
 
     public String RetornaVentes(String fecha){
         return " Select v."+ Venta._ID+", v."+ Venta.DATA_VENTA+

@@ -3,6 +3,7 @@ package ccastro.casal;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -14,6 +15,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +33,10 @@ public class ClientActivity extends AppCompatActivity {
     List<String> clientes = null;
     List<String> clientesSoloNombres = null;
     ArrayAdapter<String> adapterClientes;
-    String id_cliente,nombreCliente, tipoPago;
+    String arraySpinnerTipoClientes [] = {"Todos","Comedor","Llevar","Ayuntamiento"};
+    ArrayAdapter<String> adapterTipoClientes;
+    Spinner spinnerTipoClientes;
+    String id_cliente,nombreCliente, tipoPago, tipusClient="0";
     Integer idVentaFactura;
     boolean seleccionaCliente = false;
     private android.support.v7.widget.Toolbar mToolbar;
@@ -153,7 +159,12 @@ public class ClientActivity extends AppCompatActivity {
         db.obre();
         clientes.clear();
         clientesSoloNombres.clear();
-        Cursor cursor= db.RetornaTotsElsClients();
+        Cursor cursor=null;
+        if (tipusClient.equals("0")) {
+            cursor= db.RetornaTotsElsClients();
+        } else {
+            cursor= db.RetornaTipusClients(Integer.parseInt(tipusClient)-1);
+        }
         if (cursor.moveToFirst()) {
             do {
                     clientes.add(cursor.getString(cursor.getColumnIndex(ContracteBD.Client._ID))+" "+cursor.getString(cursor.getColumnIndex(ContracteBD.Client.NOM_CLIENT))
@@ -172,9 +183,11 @@ public class ClientActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.toolbar_menu_client, menu);
 
-
         MenuItem item = menu.findItem(R.id.searchViewClientes);
-
+        MenuItem itemSpinner = menu.findItem(R.id.spinnerMesa);
+        spinnerTipoClientes = (Spinner) itemSpinner.getActionView();
+        adapterTipoClientes = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, android.R.id.text1, arraySpinnerTipoClientes);
+        spinnerTipoClientes.setAdapter(adapterTipoClientes);
         final SearchView searchView = (SearchView)item.getActionView();
         searchView.setQueryHint("Nombre Cliente...");
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -192,6 +205,17 @@ public class ClientActivity extends AppCompatActivity {
                 return true;
             }
 
+        });
+        spinnerTipoClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
+                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
+                tipusClient = Integer.toString(position);
+                retornaClients();
+                adapterClientes.notifyDataSetChanged();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {}
         });
         return super.onCreateOptionsMenu(menu);
     }
