@@ -24,6 +24,7 @@ import ccastro.casal.RecyclerView.HeaderAdapterMenu;
 import ccastro.casal.RecyclerView.HeaderMenu;
 import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
+import ccastro.casal.Utils.Missatges;
 import ccastro.casal.Utils.Statics;
 import ccastro.casal.Utils.Utilitats;
 
@@ -150,7 +151,14 @@ public class MenuActivity extends AppCompatActivity {
         mToolbar.findViewById(R.id.buttonEliminar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                
+                db.obre();
+                long resultat= db.EliminarMenu(idMenu);
+                if (resultat==1){
+                    Missatges.AlertMissatge("MENU "+semanaAño+" ELIMINADO", "El menu ha sido eliminado correctamente.", R.drawable.papelera, MenuActivity.this);
+                }
+                db.tanca();
+                actualizarRecyclerView();
+                headerAdapterMenu.actualitzaRecycler(myDataset);
             }
         });
 

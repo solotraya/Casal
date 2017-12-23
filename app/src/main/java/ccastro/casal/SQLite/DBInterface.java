@@ -479,4 +479,9 @@ public class DBInterface {
         String[] selection = {""+idPlato};
         return bd.delete(SegundoPlato.NOM_TAULA,where,selection);
     }
+    public long EliminarMenu(String idMenu){
+        String where = Menu._ID+ " = ?";
+        String[] selection = {""+idMenu};
+        return bd.delete(Menu.NOM_TAULA,where,selection);
+    }
 }
