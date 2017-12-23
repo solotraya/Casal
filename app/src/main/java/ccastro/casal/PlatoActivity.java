@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -28,7 +31,7 @@ public class PlatoActivity extends AppCompatActivity {
     DBInterface db;
     private HeaderAdapterPlato headerAdapterPlato;
     private android.support.v7.widget.Toolbar mToolbar;
-    Boolean primerPlato;
+    Boolean primerPlato=true;
     String dia;
 
     @Override
@@ -115,14 +118,16 @@ public class PlatoActivity extends AppCompatActivity {
         db.obre();
         if (primerPlato){
             Cursor cursor = db.RetornaPrimerosPlatos();
-            myDataset = mouCursorPrimerPlato(cursor);
+            myDataset = mouCursorPlato(cursor);
+
+
         } else {
             Cursor cursor2 = db.RetornaSegundosPlatos();
-            myDataset = mouCursorSegundoPlato(cursor2);
+            myDataset = mouCursorPlato(cursor2);
         }
         db.tanca();
     }
-    public ArrayList mouCursorPrimerPlato(Cursor cursor) {
+    public ArrayList mouCursorPlato(Cursor cursor) {
         if (cursor.moveToFirst()) {
             myDataset.clear();
             int contador = 0;
@@ -157,42 +162,33 @@ public class PlatoActivity extends AppCompatActivity {
         }
         return myDataset;
     }
-    public ArrayList mouCursorSegundoPlato(Cursor cursor) {
-        if (cursor.moveToFirst()) {
-            myDataset.clear();
-            int contador = 0;
-            do {
-                String gluten =cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.GLUTEN));
-                String crustaceos = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.CRUSTACEOS));
-                String huevos = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.HUEVOS));
-                String pescado = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.PESCADO));
-                String cacahuetes = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.CACAHUETES));
-                String lacteos = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.LACTEOS));
-                String cascaras = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.FRUTOS_DE_CASCARA));
-                String apio = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.APIO));
-                String sulfitos = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.DIOXIDO_AZUFRE_SULFITOS));
-                String moluscos = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.MOLUSCOS));
-                if (gluten.equals("0")) Statics.esconderGluten1.add(contador,true); else Statics.esconderGluten1.add(contador,false);
-                if (crustaceos.equals("0")) Statics.esconderCrustaceo1.add(contador,true); else Statics.esconderCrustaceo1.add(contador,false);
-                if (huevos.equals("0")) Statics.esconderHuevos1.add(contador,true); else Statics.esconderHuevos1.add(contador,false);
-                if (pescado.equals("0")) Statics.esconderPescado1.add(contador,true); else Statics.esconderPescado1.add(contador,false);
-                if (cacahuetes.equals("0")) Statics.esconderCacahuetes1.add(contador,true); else Statics.esconderCacahuetes1.add(contador,false);
-                if (lacteos.equals("0")) Statics.esconderLacteos1.add(contador,true); else Statics.esconderLacteos1.add(contador,false);
-                if (cascaras.equals("0")) Statics.esconderCascaras1.add(contador,true); else Statics.esconderCascaras1.add(contador,false);
-                if (apio.equals("0")) Statics.esconderApio1.add(contador,true); else Statics.esconderApio1.add(contador,false);
-                if (sulfitos.equals("0")) Statics.esconderSulfitos1.add(contador,true); else Statics.esconderSulfitos1.add(contador,false);
-                if (moluscos.equals("0")) Statics.esconderMoluscos1.add(contador,true); else Statics.esconderMoluscos1.add(contador,false);
-                myDataset.add(new HeaderPlato(
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato._ID)),
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.NOMBRE_PLATO)),
-                        gluten, crustaceos, huevos,pescado, cacahuetes, lacteos, cascaras,apio, sulfitos, moluscos
 
-                ));
-                contador++;
-            } while (cursor.moveToNext());
-        }
-        return myDataset;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_menu_platos, menu);
+        
+        menu.findItem(R.id.buttonPrimerPlato).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                primerPlato = true;
+                actualizarRecyclerView();
+                headerAdapterPlato.actualitzaRecycler(myDataset);
+                return false;
+            }
+        });
+        menu.findItem(R.id.buttonSegundoPlato).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                primerPlato = false;
+                actualizarRecyclerView();
+                headerAdapterPlato.actualitzaRecycler(myDataset);
+                return false;
+            }
+        });
+        return super.onCreateOptionsMenu(menu);
     }
+
     @Override
     protected void onResume() {
         super.onResume();

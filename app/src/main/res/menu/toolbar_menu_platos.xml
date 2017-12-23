@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/buttonPrimerPlato"
+        android:title="PRIMEROS"
+        android:textColor="@android:color/background_light"
+        android:background="@android:color/transparent"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/buttonSegundoPlato"
+        android:title="SEGUNDOS"
+        android:textColor="@android:color/background_light"
+        android:background="@android:color/transparent"
+        app:showAsAction="always" />
+
+
+
+</menu>

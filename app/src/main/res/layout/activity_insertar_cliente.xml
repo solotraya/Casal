@@ -285,7 +285,7 @@
                 android:layout_weight="1"
                 android:text="Cantidad:"
                 android:textSize="16sp"
-                android:textColor="@android:color/black"
+                android:textColor="@android:color/background_light"
                 android:textStyle="bold" />
 
 
