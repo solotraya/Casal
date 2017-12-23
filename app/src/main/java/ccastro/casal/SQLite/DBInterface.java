@@ -187,6 +187,11 @@ public class DBInterface {
         return bd.rawQuery(consulta.obtenirDadesSegundoPlatoPerId(id_plato),null);
     }
 
+    public Cursor obtenirMenuSetmana(String semana){
+        return bd.rawQuery(consulta.obtenirMenuSetmana(semana),null);
+    }
+
+
     public void EliminarTotsElsClientsDeBarra(){
         String where = Client.NOM_CLIENT + " = '~Cliente Barra'";
         String[] selection = {};

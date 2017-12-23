@@ -1,6 +1,7 @@
 package ccastro.casal;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import ccastro.casal.SQLite.ContracteBD;
 import ccastro.casal.SQLite.DBInterface;
 
 public class InsertarMenuSemanalActivity extends AppCompatActivity  implements View.OnClickListener{
@@ -29,7 +31,8 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
         findViewById(R.id.InsertarJueves).setOnClickListener(this);
         findViewById(R.id.InsertarViernes).setOnClickListener(this);
         mToolbar= findViewById(R.id.tool_bar_menu);
-        mToolbar.findViewById(R.id.buttonModificar).setVisibility(View.GONE);
+        findViewById(R.id.tool_bar_insertar_diasMartes).setBackgroundColor(Color.parseColor("#263237"));
+        findViewById(R.id.tool_bar_insertar_diasJueves).setBackgroundColor(Color.parseColor("#263237"));
         db = new DBInterface(this);
 
         mToolbar.findViewById(R.id.buttonAñadir).setOnClickListener(new View.OnClickListener() {
@@ -156,14 +159,90 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
         if (getIntent().hasExtra("SEMANA")) {
             semana = (getIntent().getExtras().getString("SEMANA"));
         }
+        if (getIntent().hasExtra("MODIFICAR")) {
+            mToolbar.findViewById(R.id.buttonAñadir).setVisibility(View.GONE);
+            mToolbar.findViewById(R.id.buttonModificar).setVisibility(View.VISIBLE);
+            db.obre();
+            Cursor cursor = db.obtenirMenuSetmana(semana);
+            mouCursor(cursor);
+            db.tanca();
+            actualizarTextViews();
+        } else {
+            mToolbar.findViewById(R.id.buttonAñadir).setVisibility(View.VISIBLE);
+            mToolbar.findViewById(R.id.buttonModificar).setVisibility(View.GONE);
+        }
+    }
+    public void actualizarTextViews(){
+
+        Button lunesP = findViewById(R.id.tool_bar_insertar_diasLunes).findViewById(R.id.buttonPrimero);
+        lunesP.setText(pLunes);
+        lunesP.setTextColor(Color.parseColor("#ffff8800"));
+        Button lunesS = findViewById(R.id.tool_bar_insertar_diasLunes).findViewById(R.id.buttonSegundo);
+        lunesS.setText(sLunes);
+        lunesS.setTextColor(Color.parseColor("#ffff8800"));
+        findViewById(R.id.tool_bar_insertar_diasLunes).setVisibility(View.VISIBLE);
+
+
+        Button martesP = findViewById(R.id.tool_bar_insertar_diasMartes).findViewById(R.id.buttonPrimero);
+        martesP.setText(pMartes);
+        martesP.setTextColor(Color.parseColor("#ffff8800"));
+        Button martesS = findViewById(R.id.tool_bar_insertar_diasMartes).findViewById(R.id.buttonSegundo);
+        martesS.setText(sMartes);
+        martesS.setTextColor(Color.parseColor("#ffff8800"));
+        findViewById(R.id.tool_bar_insertar_diasMartes).setVisibility(View.VISIBLE);
+
+
+        Button miercolesP = findViewById(R.id.tool_bar_insertar_diasMiercoles).findViewById(R.id.buttonPrimero);
+        miercolesP.setText(pMiercoles);
+        miercolesP.setTextColor(Color.parseColor("#ffff8800"));
+        Button miercolesS = findViewById(R.id.tool_bar_insertar_diasMiercoles).findViewById(R.id.buttonSegundo);
+        miercolesS.setText(sMiercoles);
+        miercolesS.setTextColor(Color.parseColor("#ffff8800"));
+        findViewById(R.id.tool_bar_insertar_diasMiercoles).setVisibility(View.VISIBLE);
+
+
+        Button juevesP = findViewById(R.id.tool_bar_insertar_diasJueves).findViewById(R.id.buttonPrimero);
+        juevesP.setText(pJueves);
+        juevesP.setTextColor(Color.parseColor("#ffff8800"));
+        Button juevesS = findViewById(R.id.tool_bar_insertar_diasJueves).findViewById(R.id.buttonSegundo);
+        juevesS.setText(sJueves);
+        juevesS.setTextColor(Color.parseColor("#ffff8800"));
+        findViewById(R.id.tool_bar_insertar_diasJueves).setVisibility(View.VISIBLE);
+
+
+        Button viernesP = findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.buttonPrimero);
+        viernesP.setText(pViernes);
+        viernesP.setTextColor(Color.parseColor("#ffff8800"));
+        Button viernesS = findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.buttonSegundo);
+        viernesS.setText(sViernes);
+        viernesS.setTextColor(Color.parseColor("#ffff8800"));
+        findViewById(R.id.tool_bar_insertar_diasViernes).setVisibility(View.VISIBLE);
+    }
+    public void mouCursor(Cursor cursor){
+        if(cursor.moveToFirst()) {
+            do {
+                String dia = cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.DIA_MENU));
+                String primerPlato = cursor.getString(cursor.getColumnIndex("primerPlato"));
+                String segundoPlato = cursor.getString(cursor.getColumnIndex("segundoPlato"));
+                switch (Integer.parseInt(dia)){
+                    case 1:
+                        pLunes = primerPlato;sLunes= segundoPlato; break;
+                    case 2:
+                        pMartes = primerPlato;sMartes = segundoPlato; break;
+                    case 3:
+                        pMiercoles = primerPlato;sMiercoles = segundoPlato; break;
+                    case 4:
+                        pJueves = primerPlato;sJueves = segundoPlato; break;
+                    case 5:
+                        pViernes = primerPlato;sViernes = segundoPlato; break;
+                }
+            } while(cursor.moveToNext());
+        }
     }
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        // Comprobamos si el resultado de la segunda actividad es "RESULT_CANCELED".
         if (resultCode == RESULT_CANCELED) {
-            // Si es así mostramos mensaje de cancelado por pantalla.
-            Toast.makeText(this, "Resultado cancelado", Toast.LENGTH_SHORT)
-                    .show();
+            Toast.makeText(this, "Selecciona Plato!", Toast.LENGTH_SHORT).show();
         } else {
             Boolean primer_plato = data.getExtras().getBoolean("PRIMER_PLATO");
             String plato = data.getExtras().getString("ID_PLATO");

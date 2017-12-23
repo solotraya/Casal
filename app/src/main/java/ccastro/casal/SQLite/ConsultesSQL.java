@@ -218,6 +218,13 @@ public class ConsultesSQL {
                 " FROM "+ SegundoPlato.NOM_TAULA+" sp"+
                 " WHERE sp."+ SegundoPlato._ID+" LIKE "+id_plato;
     }
+    public String obtenirMenuSetmana(String semana){
+        return  " SELECT mp."+MenuPlato.DIA_MENU+
+                ",(SELECT pp."+PrimerPlato.NOMBRE_PLATO+" FROM " + PrimerPlato.NOM_TAULA + " pp WHERE pp." + PrimerPlato._ID + " LIKE mp."+MenuPlato.PRIMER_PLATO+") as 'primerPlato'"+
+                ",(SELECT sp."+SegundoPlato.NOMBRE_PLATO+" FROM " + SegundoPlato.NOM_TAULA + " sp WHERE sp." + SegundoPlato._ID + " LIKE mp."+MenuPlato.SEGUNDO_PLATO+") as 'segundoPlato'"+
+                " FROM "+ MenuPlato.NOM_TAULA+" mp"+
+                " WHERE mp."+MenuPlato.ID_MENU +" = (SELECT "+Menu._ID+" FROM " + Menu.NOM_TAULA +" WHERE "+Menu.SEMANA_MENU+" = '"+semana+"')";
+    }
     public String obtenirNumeroDeClients(String cadenaClient){
         return " SELECT COUNT (c."+Client._ID+") as Quantitat"+
                 " FROM "+Client.NOM_TAULA+" c"+

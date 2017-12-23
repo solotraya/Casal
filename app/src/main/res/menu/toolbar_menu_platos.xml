@@ -4,13 +4,14 @@
 
     <item
         android:id="@+id/buttonPrimerPlato"
-        android:title="PRIMEROS"
-        android:textColor="@android:color/background_light"
+        android:title="VER PRIMEROS"
+        android:actionMenuTextColor="@android:color/holo_orange_dark"
+        android:visible="false"
         android:background="@android:color/transparent"
         app:showAsAction="always" />
     <item
         android:id="@+id/buttonSegundoPlato"
-        android:title="SEGUNDOS"
+        android:title="VER SEGUNDOS"
         android:textColor="@android:color/background_light"
         android:background="@android:color/transparent"
         app:showAsAction="always" />

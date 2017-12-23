@@ -142,8 +142,10 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (idMenuPlato!=null){
-               //      Intent intent = new Intent(MenuActivity.this,InsertarMenuDayActivity.class);
-               //     startActivity(intent);
+                    Intent intent = new Intent(MenuActivity.this,InsertarMenuSemanalActivity.class);
+                    intent.putExtra("SEMANA",semanaAño);
+                    intent.putExtra("MODIFICAR",true);
+                    startActivity(intent);
                 } else Missatges.AlertMissatge("ATENCIÓN", "Selecciona dia para modifcar!", R.drawable.error2, MenuActivity.this);
 
             }
