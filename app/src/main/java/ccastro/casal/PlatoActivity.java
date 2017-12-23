@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -25,6 +25,7 @@ public class PlatoActivity extends AppCompatActivity {
     public static View viewAnterior;
     public static String id_plato;
     public static Boolean seleccionarPlato = false;
+    public Boolean insertarPlato = false;
     public static String nombrePlato;
     private ArrayList<HeaderPlato> myDataset;
     private RecyclerView recyclerView;
@@ -44,11 +45,12 @@ public class PlatoActivity extends AppCompatActivity {
         mToolbar.findViewById(R.id.buttonAñadir).setOnClickListener( new View.OnClickListener(){
                  @Override
                  public void onClick(View view) {
-                     if (seleccionarPlato==false){
+                     Log.d("SLEECCIONAR_PLATO",seleccionarPlato.toString());
+                     if (insertarPlato){
                          Intent intent = new Intent (PlatoActivity.this,InsertarPlatoActivity.class);
                          intent.putExtra("PRIMER_PLATO",primerPlato);
                          startActivity(intent);
-                     } else {
+                     } else if (seleccionarPlato){
                          retornarPlato();
                      }
                  }
@@ -85,6 +87,9 @@ public class PlatoActivity extends AppCompatActivity {
 
     }
     public void getIntents(){
+        if (getIntent().hasExtra("INSERTAR_PLATO")){
+            insertarPlato = (getIntent().getExtras().getBoolean("INSERTAR_PLATO"));
+        }
         if (getIntent().hasExtra("PRIMER_PLATO")){
             primerPlato = (getIntent().getExtras().getBoolean("PRIMER_PLATO"));
         }
@@ -166,13 +171,12 @@ public class PlatoActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getIntents();
-        if (!seleccionarPlato){
+        if (insertarPlato){
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.toolbar_menu_platos, menu);
             //button1 = (Button) menu.findItem(R.id.buttonPrimerPlato);
             menuItem1 = menu.findItem(R.id.buttonPrimerPlato);
             menuItem2 = menu.findItem(R.id.buttonSegundoPlato);
-            menu.findItem(R.id.buttonPrimerPlato).setTitle(Html.fromHtml("<font color='#ff3824'>PRIMEROS</font>"));
             menu.findItem(R.id.buttonPrimerPlato).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem menuItem) {
@@ -212,4 +216,5 @@ public class PlatoActivity extends AppCompatActivity {
         actualizarRecyclerView();
         headerAdapterPlato.actualitzaRecycler(myDataset);
     }
+
 }
