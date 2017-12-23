@@ -126,6 +126,7 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setMessage("Selecciona la opción a realizar!")
                         .setTitle("Atención!!")
+                        .setIcon(R.drawable.acierto)
                         .setNegativeButton("AUSENTAR", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int i) {

@@ -1,10 +1,12 @@
 package ccastro.casal;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -74,22 +76,41 @@ public class ClientActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     if (id_cliente!= null){
 
-                        db.obre();
-                        Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
-                        idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
-                        Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
-                        if (idVentaFactura==-1){
-                            long resultat = db.EliminarClient(id_cliente);
-                            db.tanca();
-                            if (resultat==1){
-                                Missatges.AlertMissatge("CLIENTE ELIMINADO", nombreCliente+" ha sido eliminado correctamente", R.drawable.papelera, ClientActivity.this);
-                            }
-                        } else {
-                            Missatges.AlertMissatge("ERROR AL ELIMINAR", nombreCliente+" tiene facturas sin pagar!", R.drawable.error2, ClientActivity.this);
-                        }
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setMessage("Seguro que quieres eliminar el cliente?")
+                                .setTitle("Atención!!")
+                                .setIcon(R.drawable.error2)
+                                .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int i) {
+                                        dialog.cancel();
 
-                        retornaClients();
-                        adapterClientes.notifyDataSetChanged();
+                                    }
+                                })
+                                .setPositiveButton("ELIMINAR",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                db.obre();
+                                                Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(id_cliente);
+                                                idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+                                                Log.d("IDVENTA: ", Integer.toString(idVentaFactura));
+                                                if (idVentaFactura==-1){
+                                                    long resultat = db.EliminarClient(id_cliente);
+                                                    db.tanca();
+                                                    if (resultat==1){
+                                                        Missatges.AlertMissatge("CLIENTE ELIMINADO", nombreCliente+" ha sido eliminado correctamente", R.drawable.papelera, ClientActivity.this);
+                                                    }
+                                                } else {
+                                                    Missatges.AlertMissatge("ERROR AL ELIMINAR", nombreCliente+" tiene facturas sin pagar!", R.drawable.error2, ClientActivity.this);
+                                                }
+                                                retornaClients();
+                                                adapterClientes.notifyDataSetChanged();
+                                            }
+                                        }
+                                );
+                        AlertDialog alert = builder.create();
+                        alert.show();
+
                     } else Missatges.AlertMissatge("ERROR", "Selecciona un cliente!", R.drawable.error2, ClientActivity.this);
                 }
             }
@@ -184,7 +205,7 @@ public class ClientActivity extends AppCompatActivity {
         inflater.inflate(R.menu.toolbar_menu_client, menu);
 
         MenuItem item = menu.findItem(R.id.searchViewClientes);
-        MenuItem itemSpinner = menu.findItem(R.id.spinnerMesa);
+        MenuItem itemSpinner = menu.findItem(R.id.spinnerTipoCliente);
         spinnerTipoClientes = (Spinner) itemSpinner.getActionView();
         adapterTipoClientes = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, android.R.id.text1, arraySpinnerTipoClientes);
         spinnerTipoClientes.setAdapter(adapterTipoClientes);

@@ -1,9 +1,11 @@
 package ccastro.casal;
 
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -151,14 +153,33 @@ public class MenuActivity extends AppCompatActivity {
         mToolbar.findViewById(R.id.buttonEliminar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                db.obre();
-                long resultat= db.EliminarMenu(idMenu);
-                if (resultat==1){
-                    Missatges.AlertMissatge("MENU "+semanaAño+" ELIMINADO", "El menu ha sido eliminado correctamente.", R.drawable.papelera, MenuActivity.this);
-                }
-                db.tanca();
-                actualizarRecyclerView();
-                headerAdapterMenu.actualitzaRecycler(myDataset);
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setMessage("Seguro que quieres eliminar el menu?")
+                        .setTitle("Atención!!")
+                        .setIcon(R.drawable.error2)
+                        .setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int i) {
+                                dialog.cancel();
+
+                            }
+                        })
+                        .setPositiveButton("ELIMINAR",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        db.obre();
+                                        long resultat= db.EliminarMenu(idMenu);
+                                        db.tanca();
+                                        if (resultat==1){
+                                            Missatges.AlertMissatge("MENU "+semanaAño+" ELIMINADO", "El menu ha sido eliminado correctamente.", R.drawable.papelera, MenuActivity.this);
+                                        }
+                                        actualizarRecyclerView();
+                                        headerAdapterMenu.actualitzaRecycler(myDataset);
+                                    }
+                                }
+                        );
+                AlertDialog alert = builder.create();
+                alert.show();
             }
         });
 
