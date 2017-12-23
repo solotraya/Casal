@@ -16,6 +16,7 @@ import ccastro.casal.SQLite.DBInterface;
 public class InsertarMenuSemanalActivity extends AppCompatActivity  implements View.OnClickListener{
     private android.support.v7.widget.Toolbar mToolbar;
     String semana;
+    Integer idMenu;
     Integer primeroLunes,segundoLunes,primeroMartes,segundoMartes,primeroMiercoles,
             segundoMiercoles,primeroJueves,segundoJueves,primeroViernes,segundoViernes;
     String pLunes="",sLunes="",pMartes="",sMartes="",pMiercoles="",sMiercoles="",pJueves="",sJueves="",pViernes="",sViernes="";
@@ -46,6 +47,20 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                 db.InserirMenuPlato(idMenu,primeroMiercoles,segundoMiercoles,"3");
                 db.InserirMenuPlato(idMenu,primeroJueves,segundoJueves,"4");
                 db.InserirMenuPlato(idMenu,primeroViernes,segundoViernes,"5");
+                db.tanca();
+                finish();
+            }
+        });
+        mToolbar.findViewById(R.id.buttonModificar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                db.obre();
+                db.ActualitzarMenuPlato(idMenu,primeroLunes,segundoLunes);
+                db.ActualitzarMenuPlato(idMenu,primeroMartes,segundoMartes);
+                db.ActualitzarMenuPlato(idMenu,primeroMiercoles,segundoMiercoles);
+                db.ActualitzarMenuPlato(idMenu,primeroJueves,segundoJueves);
+                db.ActualitzarMenuPlato(idMenu,primeroViernes,segundoViernes);
                 db.tanca();
                 finish();
             }
@@ -160,6 +175,10 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
             semana = (getIntent().getExtras().getString("SEMANA"));
         }
         if (getIntent().hasExtra("MODIFICAR")) {
+            if (getIntent().hasExtra("ID_MENU")) {
+                String menuid = (getIntent().getExtras().getString("ID_MENU"));
+                idMenu = Integer.parseInt(menuid);
+            }
             mToolbar.findViewById(R.id.buttonAñadir).setVisibility(View.GONE);
             mToolbar.findViewById(R.id.buttonModificar).setVisibility(View.VISIBLE);
             db.obre();
@@ -173,50 +192,67 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
         }
     }
     public void actualizarTextViews(){
+        if (pLunes!=null){
+            Button lunesP = findViewById(R.id.tool_bar_insertar_diasLunes).findViewById(R.id.buttonPrimero);
+            lunesP.setText(pLunes);
+            lunesP.setTextColor(Color.parseColor("#ffff8800"));
+        }
+        if (sLunes!=null){
+            Button lunesS = findViewById(R.id.tool_bar_insertar_diasLunes).findViewById(R.id.buttonSegundo);
+            lunesS.setText(sLunes);
+            lunesS.setTextColor(Color.parseColor("#ffff8800"));
+        }
 
-        Button lunesP = findViewById(R.id.tool_bar_insertar_diasLunes).findViewById(R.id.buttonPrimero);
-        lunesP.setText(pLunes);
-        lunesP.setTextColor(Color.parseColor("#ffff8800"));
-        Button lunesS = findViewById(R.id.tool_bar_insertar_diasLunes).findViewById(R.id.buttonSegundo);
-        lunesS.setText(sLunes);
-        lunesS.setTextColor(Color.parseColor("#ffff8800"));
-        findViewById(R.id.tool_bar_insertar_diasLunes).setVisibility(View.VISIBLE);
+        //findViewById(R.id.tool_bar_insertar_diasLunes).setVisibility(View.VISIBLE);
 
+        if (pMartes!=null){
+            Button martesP = findViewById(R.id.tool_bar_insertar_diasMartes).findViewById(R.id.buttonPrimero);
+            martesP.setText(pMartes);
+            martesP.setTextColor(Color.parseColor("#ffff8800"));
+        }
+        if (sMartes!= null){
+            Button martesS = findViewById(R.id.tool_bar_insertar_diasMartes).findViewById(R.id.buttonSegundo);
+            martesS.setText(sMartes);
+            martesS.setTextColor(Color.parseColor("#ffff8800"));
+        }
 
-        Button martesP = findViewById(R.id.tool_bar_insertar_diasMartes).findViewById(R.id.buttonPrimero);
-        martesP.setText(pMartes);
-        martesP.setTextColor(Color.parseColor("#ffff8800"));
-        Button martesS = findViewById(R.id.tool_bar_insertar_diasMartes).findViewById(R.id.buttonSegundo);
-        martesS.setText(sMartes);
-        martesS.setTextColor(Color.parseColor("#ffff8800"));
-        findViewById(R.id.tool_bar_insertar_diasMartes).setVisibility(View.VISIBLE);
+       // findViewById(R.id.tool_bar_insertar_diasMartes).setVisibility(View.VISIBLE);
 
+        if (pMiercoles!=null){
+            Button miercolesP = findViewById(R.id.tool_bar_insertar_diasMiercoles).findViewById(R.id.buttonPrimero);
+            miercolesP.setText(pMiercoles);
+            miercolesP.setTextColor(Color.parseColor("#ffff8800"));
+        }
+        if (sMiercoles!=null){
+            Button miercolesS = findViewById(R.id.tool_bar_insertar_diasMiercoles).findViewById(R.id.buttonSegundo);
+            miercolesS.setText(sMiercoles);
+            miercolesS.setTextColor(Color.parseColor("#ffff8800"));
+        }
 
-        Button miercolesP = findViewById(R.id.tool_bar_insertar_diasMiercoles).findViewById(R.id.buttonPrimero);
-        miercolesP.setText(pMiercoles);
-        miercolesP.setTextColor(Color.parseColor("#ffff8800"));
-        Button miercolesS = findViewById(R.id.tool_bar_insertar_diasMiercoles).findViewById(R.id.buttonSegundo);
-        miercolesS.setText(sMiercoles);
-        miercolesS.setTextColor(Color.parseColor("#ffff8800"));
-        findViewById(R.id.tool_bar_insertar_diasMiercoles).setVisibility(View.VISIBLE);
+       // findViewById(R.id.tool_bar_insertar_diasMiercoles).setVisibility(View.VISIBLE);
+        if (pJueves!=null){
+            Button juevesP = findViewById(R.id.tool_bar_insertar_diasJueves).findViewById(R.id.buttonPrimero);
+            juevesP.setText(pJueves);
+            juevesP.setTextColor(Color.parseColor("#ffff8800"));
+        }
+        if (sJueves!=null){
+            Button juevesS = findViewById(R.id.tool_bar_insertar_diasJueves).findViewById(R.id.buttonSegundo);
+            juevesS.setText(sJueves);
+            juevesS.setTextColor(Color.parseColor("#ffff8800"));
+        }
+       // findViewById(R.id.tool_bar_insertar_diasJueves).setVisibility(View.VISIBLE);
+        if (pViernes!=null){
+            Button viernesP = findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.buttonPrimero);
+            viernesP.setText(pViernes);
+            viernesP.setTextColor(Color.parseColor("#ffff8800"));
+        }
+        if (sViernes!=null){
+            Button viernesS = findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.buttonSegundo);
+            viernesS.setText(sViernes);
+            viernesS.setTextColor(Color.parseColor("#ffff8800"));
+        }
 
-
-        Button juevesP = findViewById(R.id.tool_bar_insertar_diasJueves).findViewById(R.id.buttonPrimero);
-        juevesP.setText(pJueves);
-        juevesP.setTextColor(Color.parseColor("#ffff8800"));
-        Button juevesS = findViewById(R.id.tool_bar_insertar_diasJueves).findViewById(R.id.buttonSegundo);
-        juevesS.setText(sJueves);
-        juevesS.setTextColor(Color.parseColor("#ffff8800"));
-        findViewById(R.id.tool_bar_insertar_diasJueves).setVisibility(View.VISIBLE);
-
-
-        Button viernesP = findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.buttonPrimero);
-        viernesP.setText(pViernes);
-        viernesP.setTextColor(Color.parseColor("#ffff8800"));
-        Button viernesS = findViewById(R.id.tool_bar_insertar_diasViernes).findViewById(R.id.buttonSegundo);
-        viernesS.setText(sViernes);
-        viernesS.setTextColor(Color.parseColor("#ffff8800"));
-        findViewById(R.id.tool_bar_insertar_diasViernes).setVisibility(View.VISIBLE);
+       // findViewById(R.id.tool_bar_insertar_diasViernes).setVisibility(View.VISIBLE);
     }
     public void mouCursor(Cursor cursor){
         if(cursor.moveToFirst()) {
@@ -224,17 +260,35 @@ public class InsertarMenuSemanalActivity extends AppCompatActivity  implements V
                 String dia = cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.DIA_MENU));
                 String primerPlato = cursor.getString(cursor.getColumnIndex("primerPlato"));
                 String segundoPlato = cursor.getString(cursor.getColumnIndex("segundoPlato"));
+                String idPrimerPlato = cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.PRIMER_PLATO));
+                String idSegundoPlato = cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.SEGUNDO_PLATO));
                 switch (Integer.parseInt(dia)){
                     case 1:
-                        pLunes = primerPlato;sLunes= segundoPlato; break;
+                        pLunes = primerPlato;sLunes= segundoPlato;
+                        if (primeroLunes!=null) primeroLunes = Integer.parseInt(idPrimerPlato);
+                        if (segundoLunes!=null) segundoLunes = Integer.parseInt(idSegundoPlato);
+
+                        break;
                     case 2:
-                        pMartes = primerPlato;sMartes = segundoPlato; break;
+                        pMartes = primerPlato;sMartes = segundoPlato;
+                        if (primeroMartes!=null) primeroMartes = Integer.parseInt(idPrimerPlato);
+                        if (segundoMartes!=null) segundoMartes = Integer.parseInt(idSegundoPlato);
+                        break;
                     case 3:
-                        pMiercoles = primerPlato;sMiercoles = segundoPlato; break;
+                        pMiercoles = primerPlato; sMiercoles = segundoPlato;
+                        if (primeroMiercoles!=null) primeroMiercoles = Integer.parseInt(idPrimerPlato);
+                        if (segundoMiercoles!=null)segundoMiercoles = Integer.parseInt(idSegundoPlato);
+                        break;
                     case 4:
-                        pJueves = primerPlato;sJueves = segundoPlato; break;
+                        pJueves = primerPlato;sJueves = segundoPlato;
+                        if (primeroJueves!=null) primeroJueves = Integer.parseInt(idPrimerPlato);
+                        if (segundoJueves!=null) segundoJueves = Integer.parseInt(idSegundoPlato);
+                        break;
                     case 5:
-                        pViernes = primerPlato;sViernes = segundoPlato; break;
+                        pViernes = primerPlato;sViernes = segundoPlato;
+                        if (primeroViernes!=null)primeroViernes = Integer.parseInt(idPrimerPlato);
+                        if (segundoViernes!=null) segundoViernes = Integer.parseInt(idSegundoPlato);
+                        break;
                 }
             } while(cursor.moveToNext());
         }

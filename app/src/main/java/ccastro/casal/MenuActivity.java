@@ -145,6 +145,7 @@ public class MenuActivity extends AppCompatActivity {
                     Intent intent = new Intent(MenuActivity.this,InsertarMenuSemanalActivity.class);
                     intent.putExtra("SEMANA",semanaAño);
                     intent.putExtra("MODIFICAR",true);
+                    intent.putExtra("ID_MENU",idMenu);
                     startActivity(intent);
                 } else Missatges.AlertMissatge("ATENCIÓN", "Selecciona dia para modifcar!", R.drawable.error2, MenuActivity.this);
 

@@ -219,7 +219,7 @@ public class ConsultesSQL {
                 " WHERE sp."+ SegundoPlato._ID+" LIKE "+id_plato;
     }
     public String obtenirMenuSetmana(String semana){
-        return  " SELECT mp."+MenuPlato.DIA_MENU+
+        return  " SELECT mp."+MenuPlato.DIA_MENU+", mp."+MenuPlato.PRIMER_PLATO+", mp."+MenuPlato.SEGUNDO_PLATO+
                 ",(SELECT pp."+PrimerPlato.NOMBRE_PLATO+" FROM " + PrimerPlato.NOM_TAULA + " pp WHERE pp." + PrimerPlato._ID + " LIKE mp."+MenuPlato.PRIMER_PLATO+") as 'primerPlato'"+
                 ",(SELECT sp."+SegundoPlato.NOMBRE_PLATO+" FROM " + SegundoPlato.NOM_TAULA + " sp WHERE sp." + SegundoPlato._ID + " LIKE mp."+MenuPlato.SEGUNDO_PLATO+") as 'segundoPlato'"+
                 " FROM "+ MenuPlato.NOM_TAULA+" mp"+

@@ -82,8 +82,7 @@ public class PlatoActivity extends AppCompatActivity {
                 } else Missatges.AlertMissatge("ERROR", "Selecciona un plato!", R.drawable.error2, PlatoActivity.this);
             }
         });
-        getIntents();
-        actualizarRecyclerView();
+
     }
     public void getIntents(){
         if (getIntent().hasExtra("PRIMER_PLATO")){
@@ -166,39 +165,43 @@ public class PlatoActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.toolbar_menu_platos, menu);
-        //button1 = (Button) menu.findItem(R.id.buttonPrimerPlato);
-        menuItem1 = menu.findItem(R.id.buttonPrimerPlato);
-        menuItem2 = menu.findItem(R.id.buttonSegundoPlato);
-        menu.findItem(R.id.buttonPrimerPlato).setTitle(Html.fromHtml("<font color='#ff3824'>PRIMEROS</font>"));
-        menu.findItem(R.id.buttonPrimerPlato).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                if (menuItem.isVisible()){
-                    menuItem.setVisible(false);
-                    menuItem2.setVisible(true);
+        getIntents();
+        if (!seleccionarPlato){
+            MenuInflater inflater = getMenuInflater();
+            inflater.inflate(R.menu.toolbar_menu_platos, menu);
+            //button1 = (Button) menu.findItem(R.id.buttonPrimerPlato);
+            menuItem1 = menu.findItem(R.id.buttonPrimerPlato);
+            menuItem2 = menu.findItem(R.id.buttonSegundoPlato);
+            menu.findItem(R.id.buttonPrimerPlato).setTitle(Html.fromHtml("<font color='#ff3824'>PRIMEROS</font>"));
+            menu.findItem(R.id.buttonPrimerPlato).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    if (menuItem.isVisible()){
+                        menuItem.setVisible(false);
+                        menuItem2.setVisible(true);
 
+                    }
+                    primerPlato = true;
+                    actualizarRecyclerView();
+                    headerAdapterPlato.actualitzaRecycler(myDataset);
+                    return false;
                 }
-                primerPlato = true;
-                actualizarRecyclerView();
-                headerAdapterPlato.actualitzaRecycler(myDataset);
-                return false;
-            }
-        });
-        menu.findItem(R.id.buttonSegundoPlato).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                if (menuItem.isVisible()){
-                    menuItem.setVisible(false);
-                    menuItem1.setVisible(true);
+            });
+            menu.findItem(R.id.buttonSegundoPlato).setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    if (menuItem.isVisible()){
+                        menuItem.setVisible(false);
+                        menuItem1.setVisible(true);
+                    }
+                    primerPlato = false;
+                    actualizarRecyclerView();
+                    headerAdapterPlato.actualitzaRecycler(myDataset);
+                    return false;
                 }
-                primerPlato = false;
-                actualizarRecyclerView();
-                headerAdapterPlato.actualitzaRecycler(myDataset);
-                return false;
-            }
-        });
+            });
+        }
+        actualizarRecyclerView();
         return super.onCreateOptionsMenu(menu);
     }
 
