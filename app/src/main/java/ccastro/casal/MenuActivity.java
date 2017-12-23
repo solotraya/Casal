@@ -43,7 +43,7 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_menu);
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_cliente);
         textViewFechaMenu = (TextView) findViewById(R.id.fechaVenta);
         fechaMenu = Utilitats.obtenerFechaActual();
         obtenerAñoMesDiaInicio(fechaMenu);
@@ -135,7 +135,7 @@ public class MenuActivity extends AppCompatActivity {
                 Intent intent = new Intent(MenuActivity.this,InsertarMenuSemanalActivity.class);
                 intent.putExtra("SEMANA",semanaAño);
                 startActivity(intent);
-            }
+        }
         });
         mToolbar.findViewById(R.id.buttonModificar).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,7 +147,12 @@ public class MenuActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        mToolbar.findViewById(R.id.buttonEliminar).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                
+            }
+        });
 
         actualizarRecyclerView();
     }
@@ -191,6 +196,7 @@ public class MenuActivity extends AppCompatActivity {
         idMenuPlato=null;
         if (cursor.moveToFirst()) {
             mToolbar.findViewById(R.id.buttonModificar).setVisibility(View.VISIBLE);
+            mToolbar.findViewById(R.id.buttonEliminar).setVisibility(View.VISIBLE);
             mToolbar.findViewById(R.id.buttonAñadir).setVisibility(View.GONE);
             int contador = 0;
             do {
@@ -258,6 +264,7 @@ public class MenuActivity extends AppCompatActivity {
                 contador++;
             } while (cursor.moveToNext());
         } else {  // SI NO HAY MENU CREADO:
+            mToolbar.findViewById(R.id.buttonEliminar).setVisibility(View.GONE);
             mToolbar.findViewById(R.id.buttonModificar).setVisibility(View.GONE);
             mToolbar.findViewById(R.id.buttonAñadir).setVisibility(View.VISIBLE);
             int contador = 1;
