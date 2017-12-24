@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorFondo2"
     tools:context="ccastro.casal.LoginActivity">
 
 
@@ -16,45 +16,46 @@
         android:orientation="vertical">
 
         <Button
-            android:id="@+id/buttonClients"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Clients" />
-
-        <Button
             android:id="@+id/buttonComedor"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Comedor" />
-
-        <Button
-            android:id="@+id/buttonInsertarProductos"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Productos" />
+            android:background="@drawable/comedor" />
 
         <Button
             android:id="@+id/buttonVenta"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Venta" />
+            android:background="@drawable/ventas" />
 
         <Button
             android:id="@+id/buttonInsertarMenu"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Menus" />
+            android:background="@drawable/menus" />
+
+        <Button
+            android:id="@+id/buttonClients"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/clientes" />
+
+        <Button
+            android:id="@+id/buttonInsertarProductos"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/productos" />
+
         <Button
             android:id="@+id/buttonPlato"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="Platos" />
+            android:background="@drawable/platos" />
     </LinearLayout>
 
 </LinearLayout>

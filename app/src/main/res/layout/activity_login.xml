@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/colorPrimary"
+    android:background="@color/colorFondo2"
     android:weightSum="3"
     tools:context="ccastro.casal.LoginActivity">
 
@@ -20,7 +20,7 @@
             android:id="@+id/imageFinder"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_fingerprint"
+            android:src="@drawable/casal"
             android:text="EJEMPLOS" />
     </LinearLayout>
 
@@ -72,18 +72,18 @@
                     android:inputType="textPassword" />
 
                 <Button
+                    android:id="@+id/button"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@android:color/transparent" />
+
+                <Button
                     android:id="@+id/buttonEntrar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="entrar" />
-
-                <Button
-                    android:id="@+id/buttonExemples"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="EJEMPLOS" />
+                    android:background="@drawable/entrar" />
 
             </LinearLayout>
         </LinearLayout>

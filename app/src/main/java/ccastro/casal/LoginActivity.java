@@ -55,13 +55,14 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         db = new DBInterface(this);
         db.obre();
-        // TRABAJADOR admin PARA CUANDO ELIMINE INTRODUCCION DE EJEMPLOS
-        db.InserirTreballador("Administrador"," ","admin","xxx");
+
+        // TODO:  DESCOMENTAR PARA INSTALAR LA PRIMERA VEZ
+       // CrearExemplesBD();
+
 
         db.tanca();
         cargarPreferencias();
         buttonEntrar = (Button) findViewById(R.id.buttonEntrar);
-        buttonExemples = (Button) findViewById(R.id.buttonExemples);
         textPassword = (EditText) findViewById(R.id.textPassword);
         textUserName = (EditText) findViewById(R.id.textUserName);
         buttonEntrar.setOnClickListener(new View.OnClickListener() {
@@ -114,13 +115,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        buttonExemples.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(view.getContext(), "S'han esborrat les dades de la base de dades i s'han tornat a crear.", Toast.LENGTH_SHORT).show();
-                CrearExemplesBD();
-            }
-        });
     }
     public void guardarPreferencias(){
         SharedPreferences.Editor editor = getSharedPreferences("HUELLA_CONFIG", MODE_PRIVATE).edit();
@@ -168,9 +162,11 @@ public class LoginActivity extends AppCompatActivity {
         // nom, cognoms, username, password
         db.InserirTreballador("Diego","Castro Hurtado","diego","1986");
         db.InserirTreballador("Maria","Cañabate Méndez","maria","1986");
+        db.InserirTreballador("Verónica","Castro Cañabate","veronica","1986");
+        db.InserirTreballador("Carlos","Castro Cañabate","carlos","1987");
 // ************* HAY QUE INSERTAR CLIENTE BARRAy QUE NO SE PUEDA ELIMINAR, SI MODIFICAR *************
         db.InserirClient("#Cliente de barra","","0",0,"0","0","Cliente de barra sin determinar");
-
+/*
         db.InserirClient("Manuela","Torres Cobijo","0",2,"0","1","Segundo de poquito y pan integral");
         db.InserirClient("Manel","Garcia","0",1,"0","1","");
         db.InserirClient("Remedios","Luque","2",0,"1","2","Vegetariana"); // Ayuntamiento
@@ -180,10 +176,10 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirClient("Manolo","Lopez","2",6,"0","0","Poquito");
         db.InserirClient("Ana","Tarres","0",10,"0","0","Poquito");
         db.InserirClient("Marta","Gonzalez","0",7,"0","1","Poquito");
-        db.InserirClient("Nicanor","Sanchez","0",8,"0","0","Poquito");
+        db.InserirClient("Nicanor","Sanchez","0",8,"0","0","Poquito"); */
 
         // nomProducte, preu, tipus
-
+/*
         db.InserirProducte("Café Solo","1.10","0");
         db.InserirProducte("Café con leche","1.20","0");
         db.InserirProducte("Carajillo","1.50","0");
@@ -229,7 +225,7 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirMenuPlato(2,1,6,"2");
         db.InserirMenuPlato(2,2,5,"3");
         db.InserirMenuPlato(2,2,1,"4");
-        db.InserirMenuPlato(2,1,2,"5");
+        db.InserirMenuPlato(2,1,2,"5");   */
 
         db.tanca();
     }
