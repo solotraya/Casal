@@ -47,7 +47,7 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Fecha seleccionada"
-                android:textColor="@android:color/background_light"
+                android:textColor="@android:color/holo_orange_dark"
                 android:textSize="16sp"
                 android:textStyle="bold" />
 
@@ -76,6 +76,7 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Hasta: "
+                android:textColor="@android:color/white"
                 android:visibility="gone" />
 
             <TextView
@@ -83,6 +84,7 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView"
+                android:textColor="@android:color/holo_orange_dark"
                 android:textStyle="bold"
                 android:visibility="gone" />
         </LinearLayout>
@@ -96,6 +98,7 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                 android:id="@+id/TextViewClienteSeleccionado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:text="Cliente selecionado: "
                 android:visibility="gone" />
 
@@ -103,6 +106,7 @@ ESTO DESCARTADO YA CASI: SI SE PUEDE INTENTAR HACER RECYCLER DENTRO DEL RECYCLER
                 android:id="@+id/ClienteSeleccionado"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textColor="@android:color/white"
                 android:text=""
                 android:textStyle="bold"
                 android:visibility="gone" />

@@ -1,6 +1,5 @@
 package ccastro.casal;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -126,7 +125,7 @@ public class InsertarProductoActivity extends AppCompatActivity {
             } while(cursor.moveToNext());
         }
     }
-
+/*
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -134,5 +133,5 @@ public class InsertarProductoActivity extends AppCompatActivity {
         intent.putExtra("TIPO_PRODUCTO",PedidoActivity.tipoProducto);
         intent.putExtra("INSERTAR_PRODUCTO",true);
         startActivity(intent);
-    }
+    } */
 }

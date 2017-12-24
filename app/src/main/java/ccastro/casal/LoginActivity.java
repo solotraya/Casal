@@ -40,7 +40,7 @@ import ccastro.casal.SQLite.DBInterface;
 
 public class LoginActivity extends AppCompatActivity {
     DBInterface db;
-    Button buttonEntrar, buttonExemples;
+    Button buttonEntrar;
     EditText textUserName, textPassword;
     View v;
     Cursor cursor;
@@ -154,10 +154,11 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirMesa("Mesa 5");db.InserirMesa("Mesa 6");db.InserirMesa("Mesa 7");db.InserirMesa("Mesa 8");
         db.InserirMesa("Mesa 9");db.InserirMesa("Mesa 10");db.InserirMesa("Mesa 11");db.InserirMesa("Mesa 12");
         // ************* HAY QUE INSERTAR LOS DIFERENTES TIPOS DE MENU en PRODUCTO  y QUE NO SE PUEDA ELIMINAR, SI MODIFICAR *************
-        db.InserirProducte("Menú Diario","5.50","Menu");   //ID = 1
-        db.InserirProducte("Menú Diario","2.50","Menu 50%");   //ID = 2
-        db.InserirProducte("Menú Diario","1.25","Menu 75%");   //ID = 3
-
+        db.InserirProducte("Menú Diario","5.70","Menu");   //ID = 1
+        db.InserirProducte("Menú Diario","4.28","Menu Especial 1");   //ID = 2
+        db.InserirProducte("Menú Diario","2.85","Menu Especial 2");   //ID = 3
+        db.InserirProducte("Menú Diario","1.43","Menu Especial 3");   //ID = 4
+        db.InserirProducte("Menú Diario","0","Menu Especial 4");   //ID = 5
 
         // nom, cognoms, username, password
         db.InserirTreballador("Diego","Castro Hurtado","diego","1986");
@@ -165,7 +166,7 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirTreballador("Verónica","Castro Cañabate","veronica","1986");
         db.InserirTreballador("Carlos","Castro Cañabate","carlos","1987");
 // ************* HAY QUE INSERTAR CLIENTE BARRAy QUE NO SE PUEDA ELIMINAR, SI MODIFICAR *************
-        db.InserirClient("#Cliente de barra","","0",0,"0","0","Cliente de barra sin determinar");
+        db.InserirClient("#Cliente de barra","","3",0,"0","0","Cliente de barra sin determinar");
 /*
         db.InserirClient("Manuela","Torres Cobijo","0",2,"0","1","Segundo de poquito y pan integral");
         db.InserirClient("Manel","Garcia","0",1,"0","1","");

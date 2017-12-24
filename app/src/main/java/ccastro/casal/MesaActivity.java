@@ -527,10 +527,12 @@ public class MesaActivity extends AppCompatActivity{
            // idVenta = Integer.toString(idVentaFactura);
         }
         // CREAMOS FACTURA: AÑADIMOS MENU AL RESERVAR MESA
-
+        Log.d("TIPO PAGO",tipoPago);
         if (tipoPago.equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,quantitat);
         else if (tipoPago.equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,quantitat);
         else if (tipoPago.equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,quantitat);
+        else if (tipoPago.equalsIgnoreCase("3")) db.InserirFactura(4,idVentaFactura,quantitat);
+        else if (tipoPago.equalsIgnoreCase("4")) db.InserirFactura(5,idVentaFactura,quantitat);
         //db.tanca();
         Cursor cursorQuantitatProducteFactura = db.ObtenirQuantitatProductesFactura(Integer.toString(idVentaFactura));
         Integer quantitatProductesFactura = Cursors.cursorQuantitat(cursorQuantitatProducteFactura);

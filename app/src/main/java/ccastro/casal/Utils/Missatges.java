@@ -24,4 +24,5 @@ public class Missatges {
         );
         alertDialog.show();
     }
+
 }

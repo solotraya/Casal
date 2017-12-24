@@ -35,7 +35,7 @@ public class ClientActivity extends AppCompatActivity {
     List<String> clientes = null;
     List<String> clientesSoloNombres = null;
     ArrayAdapter<String> adapterClientes;
-    String arraySpinnerTipoClientes [] = {"Todos","Comedor","Llevar","Ayuntamiento"};
+    String arraySpinnerTipoClientes [] = {"Todos","Comedor","Llevar","Ayuntamiento","Especiales"};
     ArrayAdapter<String> adapterTipoClientes;
     Spinner spinnerTipoClientes;
     String id_cliente,nombreCliente, tipoPago, tipusClient="0";

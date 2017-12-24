@@ -1,9 +1,11 @@
 package ccastro.casal;
 
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -27,8 +29,8 @@ public class InsertarClienteActivity extends AppCompatActivity {
     DBInterface db;
     Spinner spinnerNumClientes, spinnerTipoClientes,spinnerTipoPago,spinnerMesaFavorita,spinnerTipoComida;
     String arraySpinnerNumClientes [] = {"1","2","3","4","5"};
-    String arraySpinnerTipoClientes [] = {"Comedor","Llevar","Ayuntamiento"};
-    String arraySpinnerTipoPago[] = {"5,50€","3€","2€","1,5€"};  // Poner lo que sea
+    String arraySpinnerTipoClientes [] = {"Comedor","Llevar","Ayuntamiento","Especiales"};
+    String arraySpinnerTipoPago[] = {"5,70€","4,28€","2,85€","1,43€","0€"};  // Poner lo que sea
     String arraySpinnerMesaFavorita [] = {"Llevar","1","2","3","4","5","6","7","8","9","10","11","12"};
     String arraySpinnerTipoComida [] = {"Normal","Diabetes","Estringente"};
     String tipusClient="0",tipoPago="0",tipoComida="0",id_cliente;
@@ -73,7 +75,19 @@ public class InsertarClienteActivity extends AppCompatActivity {
                     db.tanca();
                     Log.d("ACTUALIZADO",Long.toString(resultat));
                     if (resultat!=0){
-                        Missatges.AlertMissatge("CLIENTE MODIFICADO", "Cliente "+nomClient.getText().toString()+" modificado satisfactoriamente!", R.drawable.acierto, InsertarClienteActivity.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setMessage("Cliente "+nomClient.getText().toString()+" modificado satisfactoriamente!")
+                                .setTitle("CLIENTE MODIFICADO")
+                                .setIcon(R.drawable.acierto)
+                                .setPositiveButton("ACERPTAR",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                finish();
+                                            }
+                                        }
+                                );
+                        AlertDialog alert = builder.create();
+                        alert.show();
                     } else Missatges.AlertMissatge("ERROR AL MODIFICAR", "El cliente "+nomClient.getText().toString()+" ya existe", R.drawable.error2, InsertarClienteActivity.this);
                 }
 
@@ -87,7 +101,19 @@ public class InsertarClienteActivity extends AppCompatActivity {
                     long posicio = db.InserirClient(nomClient.getText().toString(),cognomsClient.getText().toString(),tipusClient,mesaFavorita,tipoPago,tipoComida,observaciones.getText().toString());
                     db.tanca();
                     if (posicio!=-1) {
-                        Missatges.AlertMissatge("CLIENTE AÑADIDO", "Cliente "+nomClient.getText().toString()+" añadido satisfactoriamente!", R.drawable.acierto, InsertarClienteActivity.this);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                        builder.setMessage("Cliente "+nomClient.getText().toString()+" añadido satisfactoriamente!")
+                                .setTitle("CLIENTE AÑADIDO")
+                                .setIcon(R.drawable.acierto)
+                                .setPositiveButton("ACERPTAR",
+                                        new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                               finish();
+                                            }
+                                        }
+                                );
+                        AlertDialog alert = builder.create();
+                        alert.show();
                     } else Missatges.AlertMissatge("ERROR AL AÑADIR", "El cliente "+nomClient.getText().toString()+" ya existe", R.drawable.error2, InsertarClienteActivity.this);
                 } else {
                     Missatges.AlertMissatge("ERROR AL AÑADIR", "Introduce nombre y apellidos!", R.drawable.error2, InsertarClienteActivity.this);
@@ -114,7 +140,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
         spinnerNumClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
+            if (view!=null) ((TextView) view).setTextColor(Color.WHITE);
                 quantitatAfegir = position+1;
             }
             @Override
@@ -124,7 +150,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 mesaFavorita = position;
-                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
+                if (view!=null) ((TextView) view).setTextColor(Color.WHITE);
                 Log.d("MESA FAVORITA",Integer.toString(mesaFavorita));
             }
             @Override
@@ -133,7 +159,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
         spinnerTipoClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
+                if (view!=null)((TextView) view).setTextColor(Color.WHITE);
                 tipusClient = Integer.toString(position);
             }
             @Override
@@ -142,7 +168,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
         spinnerTipoComida.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
+                if (view!=null)((TextView) view).setTextColor(Color.WHITE);
                 tipoComida = Integer.toString(position);
             }
             @Override
@@ -151,8 +177,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
         spinnerTipoPago.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                ((TextView) view).setTextColor(Color.WHITE);
-               // ((TextView) adapterView.getChildAt(0)).setTextColor(Color.WHITE);
+                if (view!=null) ((TextView) view).setTextColor(Color.WHITE);
                 tipoPago = Integer.toString(position);
             }
             @Override
@@ -167,7 +192,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
                 Cursor cursor = db.obtenirNumeroDeClients("~Cliente Comedor");
                 quantitat = Cursors.cursorQuantitat(cursor);
                 for (int i=quantitat+1; i<=quantitat+quantitatAfegir; i++){
-                    long idCliente = db.InserirClient("~Cliente Comedor",""+Integer.toString(i),"0",12,"0","0","Cliente sin identificar");
+                    long idCliente = db.InserirClient("~Cliente Comedor",""+Integer.toString(i),"3",12,"0","0","Cliente sin identificar");
                 }
                 db.tanca();
                 finish();
@@ -178,6 +203,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
     public void getIntents(){
         if (getIntent().hasExtra("ID_CLIENTE")){  // pasado desde ClientActivity
             mToolbar.findViewById(R.id.buttonAñadirCliente).setVisibility(View.GONE);
+            mToolbar.findViewById(R.id.buttonAñadirClienteSinDeterminar).setVisibility(View.GONE);
             mToolbar.findViewById(R.id.buttonModificarCliente).setVisibility(View.VISIBLE);
             id_cliente = getIntent().getExtras().getString("ID_CLIENTE");
             db.obre();

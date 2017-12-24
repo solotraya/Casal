@@ -138,45 +138,51 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                 DBInterface db=new DBInterface(v.getContext());
                                 db.obre();
                                 db.ActualitzarAsistenciaReserva(idClient.getText().toString(), ReservaActivity.dataReserva);
-                                // TODO: Hay que descontar un menu en caso de tener varios, o eliminar factura si no tiene ninguno.
-                                Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idClient.getText().toString());
-                                Integer idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
-                                Log.d("VENTA SIN PAGAR: ",Integer.toString(idVentaFactura));
-                                Log.d("TIPO PAGO: ",tipoPago.getText().toString());
-                                Boolean restarProducte = true;
-                                Cursor cursorQuantitatReservesSenseIDVenta = db.ObtenirQuantitatReservesSenseIDVenta(idClient.getText().toString());
-                                Integer quantitatReservesAbiertasCliente = Cursors.cursorQuantitat(cursorQuantitatReservesSenseIDVenta);
-                                Cursor cursorQuantitatProducteFactura = db.ObtenirQuantitatProductesFactura(Integer.toString(idVentaFactura));
-                                Integer quantitatProductesFactura = Cursors.cursorQuantitat(cursorQuantitatProducteFactura);
-                                Log.d("NUM_PROD",Integer.toString(quantitatProductesFactura));
-                                if (quantitatReservesAbiertasCliente >= 0 && quantitatProductesFactura>0){
-                                    if (restarProducte){
-                                        if (tipoPago.getText().toString().equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,-1);
-                                        else if (tipoPago.getText().toString().equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,-1);
-                                        else if (tipoPago.getText().toString().equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,-1);
-                                        quantitatProductesFactura--;
-                                    }
-
-                                    if (quantitatProductesFactura <= 0){
-                                        db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"2");
-
-                                        cursorQuantitatReservesSenseIDVenta = db.ObtenirQuantitatReservesSenseIDVenta(idClient.getText().toString());
-                                        quantitatReservesAbiertasCliente = Cursors.cursorQuantitat(cursorQuantitatReservesSenseIDVenta);
-                                        Log.d("CANTIDAD RESERVAS 2_",Integer.toString(quantitatReservesAbiertasCliente));
-                                        if (quantitatReservesAbiertasCliente > 0){
-                                            Date ahora = new Date();
-                                            SimpleDateFormat formateador = new SimpleDateFormat("hh:mm");
-                                            String hora = formateador.format(ahora);
-                                            //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
-                                            db.InserirVenta(Integer.parseInt(idClient.getText().toString()),Integer.parseInt(LoginActivity.ID_TREBALLADOR), Utilitats.obtenerFechaActual(),"0",hora);
-                                            cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idClient.getText().toString());
-                                            idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
-                                            // idVenta = Integer.toString(idVentaFactura);
-                                            // AÑADIMOS EL PRODUCTO QUE DEBEREMOS
+                                if (!tipoPago.getText().toString().equalsIgnoreCase("4")){
+                                    // TODO: Hay que descontar un menu en caso de tener varios, o eliminar factura si no tiene ninguno.
+                                    Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idClient.getText().toString());
+                                    Integer idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+                                    Log.d("VENTA SIN PAGAR: ",Integer.toString(idVentaFactura));
+                                    Log.d("TIPO PAGO: ",tipoPago.getText().toString());
+                                    Boolean restarProducte = true;
+                                    Cursor cursorQuantitatReservesSenseIDVenta = db.ObtenirQuantitatReservesSenseIDVenta(idClient.getText().toString());
+                                    Integer quantitatReservesAbiertasCliente = Cursors.cursorQuantitat(cursorQuantitatReservesSenseIDVenta);
+                                    Cursor cursorQuantitatProducteFactura = db.ObtenirQuantitatProductesFactura(Integer.toString(idVentaFactura));
+                                    Integer quantitatProductesFactura = Cursors.cursorQuantitat(cursorQuantitatProducteFactura);
+                                    Log.d("NUM_PROD",Integer.toString(quantitatProductesFactura));
+                                    if (quantitatReservesAbiertasCliente >= 0 && quantitatProductesFactura>0){
+                                        if (restarProducte){
                                             if (tipoPago.getText().toString().equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,-1);
                                             else if (tipoPago.getText().toString().equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,-1);
                                             else if (tipoPago.getText().toString().equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,-1);
-                                            db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"3"); // TODO PONEMOS ESTADO DE VENTA EN REEMBOLSAR (estat 3)
+                                            else if (tipoPago.getText().toString().equalsIgnoreCase("3")) db.InserirFactura(4,idVentaFactura,-1);
+                                            // else if (tipoPago.getText().toString().equalsIgnoreCase("4")) db.InserirFactura(5,idVentaFactura,-1);
+                                            quantitatProductesFactura--;
+                                        }
+
+                                        if (quantitatProductesFactura <= 0){
+                                            db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"2");
+
+                                            cursorQuantitatReservesSenseIDVenta = db.ObtenirQuantitatReservesSenseIDVenta(idClient.getText().toString());
+                                            quantitatReservesAbiertasCliente = Cursors.cursorQuantitat(cursorQuantitatReservesSenseIDVenta);
+                                            Log.d("CANTIDAD RESERVAS 2_",Integer.toString(quantitatReservesAbiertasCliente));
+                                            if (quantitatReservesAbiertasCliente > 0){
+                                                Date ahora = new Date();
+                                                SimpleDateFormat formateador = new SimpleDateFormat("hh:mm");
+                                                String hora = formateador.format(ahora);
+                                                //       *** CAMBIAR POR FEHCA Y HORA ACTUAL ***
+                                                db.InserirVenta(Integer.parseInt(idClient.getText().toString()),Integer.parseInt(LoginActivity.ID_TREBALLADOR), Utilitats.obtenerFechaActual(),"0",hora);
+                                                cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idClient.getText().toString());
+                                                idVentaFactura = Cursors.cursorIDVentaFactura(cursorVentaFactura);
+                                                // idVenta = Integer.toString(idVentaFactura);
+                                                // AÑADIMOS EL PRODUCTO QUE DEBEREMOS
+                                                if (tipoPago.getText().toString().equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,-1);
+                                                else if (tipoPago.getText().toString().equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,-1);
+                                                else if (tipoPago.getText().toString().equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,-1);
+                                                else if (tipoPago.getText().toString().equalsIgnoreCase("3")) db.InserirFactura(4,idVentaFactura,-1);
+
+                                                db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"3"); // TODO PONEMOS ESTADO DE VENTA EN REEMBOLSAR (estat 3)
+                                            }
                                         }
                                     }
                                 }

@@ -290,6 +290,7 @@ public class DBInterface {
         valores.put(PrimerPlato.CRUSTACEOS,crustaceos);
         valores.put(PrimerPlato.HUEVOS,huevos);
         valores.put(PrimerPlato.PESCADO,pescado);
+        valores.put(PrimerPlato.CACAHUETES,cacahuetes);
         valores.put(PrimerPlato.LACTEOS,lacteos);
         valores.put(PrimerPlato.FRUTOS_DE_CASCARA,cascaras);
         valores.put(PrimerPlato.APIO,apio);
@@ -309,6 +310,7 @@ public class DBInterface {
         valores.put(SegundoPlato.CRUSTACEOS,crustaceos);
         valores.put(SegundoPlato.HUEVOS,huevos);
         valores.put(SegundoPlato.PESCADO,pescado);
+        valores.put(SegundoPlato.CACAHUETES,cacahuetes);
         valores.put(SegundoPlato.LACTEOS,lacteos);
         valores.put(SegundoPlato.FRUTOS_DE_CASCARA,cascaras);
         valores.put(SegundoPlato.APIO,apio);
