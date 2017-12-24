@@ -242,6 +242,7 @@ public class InsertarPlatoActivity extends AppCompatActivity implements View.OnC
                 findViewById(R.id.cascaras2).setVisibility(View.GONE);
                 findViewById(R.id.cascaras).setVisibility(View.VISIBLE);
                 cascaras = "0";
+                break;
             case R.id.apio:
                 findViewById(R.id.apio).setVisibility(View.GONE);
                 findViewById(R.id.apio2).setVisibility(View.VISIBLE);
@@ -261,6 +262,7 @@ public class InsertarPlatoActivity extends AppCompatActivity implements View.OnC
                 findViewById(R.id.huevos2).setVisibility(View.GONE);
                 findViewById(R.id.huevos).setVisibility(View.VISIBLE);
                 huevos = "0";
+                break;
             case R.id.pescado:
                 findViewById(R.id.pescado).setVisibility(View.GONE);
                 findViewById(R.id.pescado2).setVisibility(View.VISIBLE);
@@ -280,6 +282,7 @@ public class InsertarPlatoActivity extends AppCompatActivity implements View.OnC
                 findViewById(R.id.azufre2).setVisibility(View.GONE);
                 findViewById(R.id.azufre).setVisibility(View.VISIBLE);
                 sulfitos = "0";
+                break;
             case R.id.moluscos:
                 findViewById(R.id.moluscos).setVisibility(View.GONE);
                 findViewById(R.id.moluscos2).setVisibility(View.VISIBLE);
