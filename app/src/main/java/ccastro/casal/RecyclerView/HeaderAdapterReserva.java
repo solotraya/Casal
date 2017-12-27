@@ -138,6 +138,7 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                 DBInterface db=new DBInterface(v.getContext());
                                 db.obre();
                                 db.ActualitzarAsistenciaReserva(idClient.getText().toString(), ReservaActivity.dataReserva);
+                                Log.d("TIPO PAGO: ",tipoPago.getText().toString());
                                 if (!tipoPago.getText().toString().equalsIgnoreCase("4")){
                                     // TODO: Hay que descontar un menu en caso de tener varios, o eliminar factura si no tiene ninguno.
                                     Cursor cursorVentaFactura = db.EncontrarId_VentaFacturaSinPagar(idClient.getText().toString());
@@ -240,6 +241,8 @@ public class HeaderAdapterReserva extends RecyclerView.Adapter<HeaderAdapterRese
                                         if (tipoPago.getText().toString().equalsIgnoreCase("0")) db.InserirFactura(1,idVentaFactura,-1);
                                         else if (tipoPago.getText().toString().equalsIgnoreCase("1")) db.InserirFactura(2,idVentaFactura,-1);
                                         else if (tipoPago.getText().toString().equalsIgnoreCase("2")) db.InserirFactura(3,idVentaFactura,-1);
+                                        else if (tipoPago.getText().toString().equalsIgnoreCase("3")) db.InserirFactura(4,idVentaFactura,-1);
+
                                         db.ActalitzaEstatVenta(Integer.toString(idVentaFactura),"3"); // TODO PONEMOS ESTADO DE VENTA EN REEMBOLSAR (estat 3)
                                         db.tanca();
                                     }
