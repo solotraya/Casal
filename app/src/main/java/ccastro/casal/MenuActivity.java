@@ -1,10 +1,21 @@
 package ccastro.casal;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,6 +30,22 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.lowagie.text.Document;
+import com.lowagie.text.DocumentException;
+import com.lowagie.text.Element;
+import com.lowagie.text.Font;
+import com.lowagie.text.FontFactory;
+import com.lowagie.text.Image;
+import com.lowagie.text.Paragraph;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.PdfPCell;
+import com.lowagie.text.pdf.PdfPTable;
+import com.lowagie.text.pdf.PdfWriter;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -31,8 +58,33 @@ import ccastro.casal.Utils.Statics;
 import ccastro.casal.Utils.Utilitats;
 
 public class MenuActivity extends AppCompatActivity {
+    Context context;
+    PdfPTable table;
+    public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 123;
+    public static final String NADA = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf/nada.png";
+    public static final String PESCADO = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf/pescado.png";
+    public static final String APIO = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf/apio.png";
+    public static final String GLUTEN = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf/gluten.png";
+    public static final String CRUSTACEOS = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf/crustaceos.png";
+    public static final String HUEVOS = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf/huevos.png";
+    public static final String CACAHUETES = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf/cacahuetes.png";
+    public static final String LACTEOS = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf/lacteos.png";
+    public static final String CASCARAS = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf/cascaras.png";
+    public static final String SULFITOS = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf/sulfitos.png";
+    public static final String MOLUSCOS = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf/moluscos.png";
+
+    public Integer[] arrayIngredientsLunes = new Integer[11];
+    public Integer[] arrayIngredients2Lunes = new Integer[11];
+    public int quantitatAlergensLunes = 0,quantitatAlergens2Lunes = 0;
+
+    public Integer[] arrayIngredientsMartes = new Integer[11];
+    public Integer[] arrayIngredients2Martes = new Integer[11];
+    public int quantitatAlergensMartes = 0,quantitatAlergens2Martes = 0;
+    public Integer GLUTEN_INT=1,APIO_INT=2,PESCADO_INT=3,CRUSTACEOS_INT=4,HUEVOS_INT=5,CACAHUETES_INT=6,LACTEOS_INT=7,CASCARAS_INT=8, SULFITOS_INT=9, MOLUSCOS_INT=10;
+
     public static View viewAnterior;
     public static String idMenuPlato, idMenu;
+    public String primero,segundo,primeroLunes, segundoLunes, primeroMartes, segundoMartes, diaMenu;
     TextView textViewFechaMenu;
     private android.support.v7.widget.Toolbar mToolbar;
     private Integer diaInicio=null, mesInicio,añoInicio;
@@ -46,7 +98,8 @@ public class MenuActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.tool_bar_cliente);
+        context = MenuActivity.this;
+        mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar_menu_imprimir);
         textViewFechaMenu = (TextView) findViewById(R.id.fechaVenta);
         fechaMenu = Utilitats.obtenerFechaActual();
         obtenerAñoMesDiaInicio(fechaMenu);
@@ -131,14 +184,22 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {}
         });
-
+        mToolbar.findViewById(R.id.buttonImprimir).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                boolean result = checkPermission();
+                if (result) {
+                    crearPDF();
+                }
+            }
+        });
         mToolbar.findViewById(R.id.buttonAñadir).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MenuActivity.this,InsertarMenuSemanalActivity.class);
                 intent.putExtra("SEMANA",semanaAño);
                 startActivity(intent);
-        }
+            }
         });
         mToolbar.findViewById(R.id.buttonModificar).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,8 +289,23 @@ public class MenuActivity extends AppCompatActivity {
             mToolbar.findViewById(R.id.buttonEliminar).setVisibility(View.VISIBLE);
             mToolbar.findViewById(R.id.buttonAñadir).setVisibility(View.GONE);
             int contador = 0;
+            for (int i=0;i<arrayIngredientsLunes.length;i++){
+                arrayIngredientsLunes[i]=0;
+                arrayIngredientsMartes[i]=0;
+            }
+            for (int i=0;i<arrayIngredients2Lunes.length;i++){
+                arrayIngredients2Lunes[i]=0;
+                arrayIngredients2Martes[i]=0;
+            }
+            quantitatAlergensLunes=0; quantitatAlergens2Lunes=0;
+            quantitatAlergensMartes=0; quantitatAlergens2Martes=0;
             do {
+
+
+                diaMenu = cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.DIA_MENU));
                 idMenu = cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.ID_MENU));
+                primero =cursor.getString(cursor.getColumnIndex("primerPlato"));
+                segundo=cursor.getString(cursor.getColumnIndex("segundoPlato"));
                 String gluten = cursor.getString(cursor.getColumnIndex("glutenPrimero"));
                 String crustaceos = cursor.getString(cursor.getColumnIndex("crustaceosPrimero"));
                 String huevos = cursor.getString(cursor.getColumnIndex("huevosPrimero"));
@@ -241,19 +317,163 @@ public class MenuActivity extends AppCompatActivity {
                 String sulfitos = cursor.getString(cursor.getColumnIndex("sulfitosPrimero"));
                 String moluscos = cursor.getString(cursor.getColumnIndex("moluscosPrimero"));
 
-                if (gluten==null) gluten="0"; if (crustaceos==null) crustaceos="0"; if (huevos==null) huevos="0"; if (pescado==null) pescado="0"; if (cacahuetes==null) cacahuetes="0";
+                if (diaMenu.equals("1")){
+                    primeroLunes= primero;
+                    segundoLunes= segundo;
+                } else if (diaMenu.equals("2")){
+                    primeroMartes=primero;
+                    segundoMartes=segundo;
+                }
+                if (gluten==null) gluten="0";  if (crustaceos==null) crustaceos="0"; if (huevos==null) huevos="0"; if (pescado==null) pescado="0"; if (cacahuetes==null) cacahuetes="0";
                 if (lacteos==null) lacteos="0"; if (cascaras==null) cascaras="0"; if (apio==null) apio="0"; if (sulfitos==null) sulfitos="0"; if (moluscos==null) moluscos="0";
 
-                if (gluten.equals("0")) Statics.esconderGluten1.add(contador,true); else Statics.esconderGluten1.add(contador,false);
-                if (crustaceos.equals("0")) Statics.esconderCrustaceo1.add(contador,true); else Statics.esconderCrustaceo1.add(contador,false);
-                if (huevos.equals("0")) Statics.esconderHuevos1.add(contador,true); else Statics.esconderHuevos1.add(contador,false);
-                if (pescado.equals("0")) Statics.esconderPescado1.add(contador,true); else Statics.esconderPescado1.add(contador,false);
-                if (cacahuetes.equals("0")) Statics.esconderCacahuetes1.add(contador,true); else Statics.esconderCacahuetes1.add(contador,false);
-                if (lacteos.equals("0")) Statics.esconderLacteos1.add(contador,true); else Statics.esconderLacteos1.add(contador,false);
-                if (cascaras.equals("0")) Statics.esconderCascaras1.add(contador,true); else Statics.esconderCascaras1.add(contador,false);
-                if (apio.equals("0")) Statics.esconderApio1.add(contador,true); else Statics.esconderApio1.add(contador,false);
-                if (sulfitos.equals("0")) Statics.esconderSulfitos1.add(contador,true); else Statics.esconderSulfitos1.add(contador,false);
-                if (moluscos.equals("0")) Statics.esconderMoluscos1.add(contador,true); else Statics.esconderMoluscos1.add(contador,false);
+                if (gluten.equals("0")) {
+                    Statics.esconderGluten1.add(contador,true);
+                    if (diaMenu.equals("1"))  arrayIngredientsLunes[GLUTEN_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredientsMartes[GLUTEN_INT]=0;
+                } else {
+                    Statics.esconderGluten1.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        arrayIngredientsLunes[GLUTEN_INT]=1;
+                        quantitatAlergensLunes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[GLUTEN_INT]=1;
+                        quantitatAlergensMartes++;
+                    }
+
+                }
+                if (crustaceos.equals("0")) {
+                    Statics.esconderCrustaceo1.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredientsLunes[CRUSTACEOS_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredientsMartes[CRUSTACEOS_INT]=0;
+                } else{
+                    Statics.esconderCrustaceo1.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergensLunes++;
+                        arrayIngredientsLunes[CRUSTACEOS_INT]=1;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[CRUSTACEOS_INT]=1;
+                        quantitatAlergensMartes++;
+                    }
+                }
+                if (huevos.equals("0")){
+                    Statics.esconderHuevos1.add(contador,true);
+                    if (diaMenu.equals("1"))  arrayIngredientsLunes[HUEVOS_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredientsMartes[HUEVOS_INT]=0;
+                } else {
+                    Statics.esconderHuevos1.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        arrayIngredientsLunes[HUEVOS_INT]=1;
+                        quantitatAlergensLunes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[HUEVOS_INT]=1;
+                        quantitatAlergensMartes++;
+                    }
+
+                }
+                if (pescado.equals("0")){
+                    Statics.esconderPescado1.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredientsLunes[PESCADO_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredientsMartes[PESCADO_INT]=0;
+                } else {
+                    Statics.esconderPescado1.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergensLunes++;
+                        arrayIngredientsLunes[PESCADO_INT]=1;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[PESCADO_INT]=1;
+                        quantitatAlergensMartes++;
+                    }
+
+                }
+                if (cacahuetes.equals("0")){
+                    Statics.esconderCacahuetes1.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredientsLunes[CACAHUETES_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredientsMartes[CACAHUETES_INT]=0;
+                } else {
+                    Statics.esconderCacahuetes1.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergensLunes++;
+                        arrayIngredientsLunes[CACAHUETES_INT]=1;
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[CACAHUETES_INT]=1;
+                        quantitatAlergensMartes++;
+                    }
+                }
+                if (lacteos.equals("0")) {
+                    Statics.esconderLacteos1.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredientsLunes[LACTEOS_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredientsMartes[LACTEOS_INT]=0;
+                } else {
+                    Statics.esconderLacteos1.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergensLunes++;
+                        arrayIngredientsLunes[LACTEOS_INT]=1;
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[LACTEOS_INT]=1;
+                        quantitatAlergensMartes++;
+                    }
+                }
+                if (cascaras.equals("0")) {
+                    Statics.esconderCascaras1.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredientsLunes[CASCARAS_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredientsMartes[CASCARAS_INT]=0;
+                } else {
+                    Statics.esconderCascaras1.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergensLunes++;
+                        arrayIngredientsLunes[CASCARAS_INT]=1;
+
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[CASCARAS_INT]=1;
+                        quantitatAlergensMartes++;
+                    }
+                }
+                if (apio.equals("0")) {
+                    Statics.esconderApio1.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredientsLunes[APIO_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredientsMartes[APIO_INT]=0;
+                } else {
+                    Statics.esconderApio1.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergensLunes++;
+                        arrayIngredientsLunes[APIO_INT]=1;
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[APIO_INT]=1;
+                        quantitatAlergensMartes++;
+                    }
+                }
+                if (sulfitos.equals("0")) {
+                    Statics.esconderSulfitos1.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredientsLunes[SULFITOS_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredientsMartes[SULFITOS_INT]=0;
+
+                } else {
+                    Statics.esconderSulfitos1.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergensLunes++;
+                        arrayIngredientsLunes[SULFITOS_INT]=1;
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[SULFITOS_INT]=1;
+                        quantitatAlergensMartes++;
+                    }
+                }
+                if (moluscos.equals("0")) {
+                    Statics.esconderMoluscos1.add(contador,true);
+                    if (diaMenu.equals("1"))  arrayIngredientsLunes[MOLUSCOS_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredientsMartes[MOLUSCOS_INT]=0;
+                } else{
+                    Statics.esconderMoluscos1.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergensLunes++;
+                        arrayIngredientsLunes[MOLUSCOS_INT]=1;
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[MOLUSCOS_INT]=1;
+                        quantitatAlergensMartes++;
+                    }
+                }
+
+
 
                 String gluten2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.GLUTEN));
                 String crustaceos2 = cursor.getString(cursor.getColumnIndex(ContracteBD.SegundoPlato.CRUSTACEOS));
@@ -269,29 +489,161 @@ public class MenuActivity extends AppCompatActivity {
                 if (gluten2==null) gluten2="0"; if (crustaceos2==null) crustaceos2="0"; if (huevos2==null) huevos2="0"; if (pescado2==null) pescado2="0"; if (cacahuetes2==null) cacahuetes2="0";
                 if (lacteos2==null) lacteos2="0"; if (cascaras2==null) cascaras2="0"; if (apio2==null) apio2="0"; if (sulfitos2==null) sulfitos2="0"; if (moluscos2==null) moluscos2="0";
 
-                if (gluten2.equals("0")) Statics.esconderGluten2.add(contador,true); else Statics.esconderGluten2.add(contador,false);
-                if (crustaceos2.equals("0")) Statics.esconderCrustaceo2.add(contador,true); else Statics.esconderCrustaceo2.add(contador,false);
-                if (huevos2.equals("0")) Statics.esconderHuevos2.add(contador,true); else Statics.esconderHuevos2.add(contador,false);
-                if (pescado2.equals("0")) Statics.esconderPescado2.add(contador,true); else Statics.esconderPescado2.add(contador,false);
-                if (cacahuetes2.equals("0")) Statics.esconderCacahuetes2.add(contador,true); else Statics.esconderCacahuetes2.add(contador,false);
-                if (lacteos2.equals("0")) Statics.esconderLacteos2.add(contador,true); else Statics.esconderLacteos2.add(contador,false);
-                if (cascaras2.equals("0")) Statics.esconderCascaras2.add(contador,true); else Statics.esconderCascaras2.add(contador,false);
-                if (apio2.equals("0")) Statics.esconderApio2.add(contador,true); else Statics.esconderApio2.add(contador,false);
-                if (sulfitos2.equals("0")) Statics.esconderSulfitos2.add(contador,true); else Statics.esconderSulfitos2.add(contador,false);
-                if (moluscos2.equals("0")) Statics.esconderMoluscos2.add(contador,true); else Statics.esconderMoluscos2.add(contador,false);
+
+                if (gluten2.equals("0")) {
+                    Statics.esconderGluten2.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredients2Lunes[GLUTEN_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredients2Martes[GLUTEN_INT]=0;
+                } else {
+                    Statics.esconderGluten2.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        arrayIngredients2Lunes[GLUTEN_INT]=1;
+                        quantitatAlergens2Lunes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[GLUTEN_INT]=1;
+                        quantitatAlergens2Martes++;
+                    }
+                }
+                if (crustaceos2.equals("0")) {
+                    Statics.esconderCrustaceo2.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredients2Lunes[CRUSTACEOS_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredients2Martes[CRUSTACEOS_INT]=0;
+                } else{
+                    Statics.esconderCrustaceo2.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergens2Lunes++;
+                        arrayIngredients2Lunes[CRUSTACEOS_INT]=1;
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[CRUSTACEOS_INT]=1;
+                        quantitatAlergens2Martes++;
+                    }
+                }
+                if (huevos2.equals("0")){
+                    Statics.esconderHuevos2.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredients2Lunes[HUEVOS_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredients2Martes[HUEVOS_INT]=0;
+                } else {
+                    Statics.esconderHuevos2.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergens2Lunes++;
+                        arrayIngredients2Lunes[HUEVOS_INT]=1;
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[HUEVOS_INT]=1;
+                        quantitatAlergens2Martes++;
+                    }
+                }
+                if (pescado2.equals("0")){
+                    Statics.esconderPescado2.add(contador,true);
+                    if (diaMenu.equals("1"))  arrayIngredients2Lunes[PESCADO_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredients2Martes[PESCADO_INT]=0;
+
+                } else {
+                    Statics.esconderPescado2.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergens2Lunes++;
+                        arrayIngredients2Lunes[PESCADO_INT]=1;
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[PESCADO_INT]=1;
+                        quantitatAlergens2Martes++;
+                    }
+                }
+                if (cacahuetes2.equals("0")){
+                    Statics.esconderCacahuetes2.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredients2Lunes[CACAHUETES_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredients2Martes[CACAHUETES_INT]=0;
+                } else {
+                    Statics.esconderCacahuetes2.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergens2Lunes++;
+                        arrayIngredients2Lunes[CACAHUETES_INT]=1;
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[CACAHUETES_INT]=1;
+                        quantitatAlergens2Martes++;
+                    }
+                }
+                if (lacteos2.equals("0")) {
+                    Statics.esconderLacteos2.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredients2Lunes[LACTEOS_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredients2Martes[LACTEOS_INT]=0;
+                } else {
+                    Statics.esconderLacteos2.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergens2Lunes++;
+                        arrayIngredients2Lunes[LACTEOS_INT]=1;
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[LACTEOS_INT]=1;
+                        quantitatAlergens2Martes++;
+                    }
+                }
+                if (cascaras2.equals("0")) {
+                    Statics.esconderCascaras2.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredients2Lunes[CASCARAS_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredients2Martes[CASCARAS_INT]=0;
+                } else {
+                    Statics.esconderCascaras2.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergens2Lunes++;
+                        arrayIngredients2Lunes[CASCARAS_INT]=1;
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[CASCARAS_INT]=1;
+                        quantitatAlergens2Martes++;
+                    }
+                }
+                if (apio2.equals("0")) {
+                    Statics.esconderApio2.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredients2Lunes[APIO_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredients2Martes[APIO_INT]=0;
+                } else {
+                    Statics.esconderApio2.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergens2Lunes++;
+                        arrayIngredients2Lunes[APIO_INT]=1;
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[APIO_INT]=1;
+                        quantitatAlergens2Martes++;
+                    }
+                }
+                if (sulfitos2.equals("0")) {
+                    Statics.esconderSulfitos2.add(contador,true);
+                    if (diaMenu.equals("1"))  arrayIngredients2Lunes[SULFITOS_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredients2Martes[APIO_INT]=0;
+                } else {
+                    Statics.esconderSulfitos2.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergens2Lunes++;
+                        arrayIngredients2Lunes[SULFITOS_INT]=1;
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[SULFITOS_INT]=1;
+                        quantitatAlergens2Martes++;
+                    }
+                }
+                if (moluscos2.equals("0")) {
+                    Statics.esconderMoluscos2.add(contador,true);
+                    if (diaMenu.equals("1")) arrayIngredients2Lunes[MOLUSCOS_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredients2Martes[APIO_INT]=0;
+                } else{
+                    Statics.esconderMoluscos2.add(contador,false);
+                    if (diaMenu.equals("1")){
+                        quantitatAlergens2Lunes++;
+                        arrayIngredients2Lunes[MOLUSCOS_INT]=1;
+                    }else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[MOLUSCOS_INT]=1;
+                        quantitatAlergens2Martes++;
+                    }
+                }
                 myDataset.add(new HeaderMenu(
                         cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato._ID)),
                         idMenu,
-                        cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.DIA_MENU)),
-                        cursor.getString(cursor.getColumnIndex("primerPlato")),
-                        cursor.getString(cursor.getColumnIndex("segundoPlato")),
-
+                        diaMenu,
+                        primero, segundo,
                         gluten, crustaceos, huevos,pescado, cacahuetes, lacteos, cascaras,apio, sulfitos, moluscos,
                         gluten2, crustaceos2, huevos2,pescado2, cacahuetes2, lacteos2, cascaras2,apio2, sulfitos2, moluscos2
 
-                        ));
+                ));
+
                 contador++;
             } while (cursor.moveToNext());
+
         } else {  // SI NO HAY MENU CREADO:
             mToolbar.findViewById(R.id.buttonEliminar).setVisibility(View.GONE);
             mToolbar.findViewById(R.id.buttonModificar).setVisibility(View.GONE);
@@ -357,5 +709,299 @@ public class MenuActivity extends AppCompatActivity {
         super.onResume();
         actualizarRecyclerView();
         headerAdapterMenu.actualitzaRecycler(myDataset);
+    }
+    public static PdfPCell createImageCell(String path) throws DocumentException, IOException {
+        Image img = Image.getInstance(getByteArrayFromImageView(path));
+        img.scaleAbsolute(50, 50);
+        PdfPCell cell = new PdfPCell(img);
+        return cell;
+    }
+    public static PdfPCell createTextCell(String text) throws DocumentException, IOException {
+        PdfPCell cell = new PdfPCell();
+        Paragraph p = new Paragraph(text);
+        p.setAlignment(Element.ALIGN_RIGHT);
+        cell.addElement(p);
+        cell.setVerticalAlignment(Element.ALIGN_BOTTOM);
+        cell.setBorder(Rectangle.NO_BORDER);
+        return cell;
+    }
+    public void createPdf() {
+        Document doc = new Document();
+
+
+        try {
+            String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf";
+
+            File dir = new File(path);
+            if(!dir.exists())
+                dir.mkdirs();
+
+            Log.d("PDFCreator", "PDF Path: " + path);
+            File  file = new File(dir, "menu.pdf");
+
+            FileOutputStream fOut = new FileOutputStream(file);
+
+            PdfWriter.getInstance(doc, fOut);
+
+            //open the document
+            doc.open();
+
+            Log.d("CANTIDAD",Integer.toString(quantitatAlergensLunes));
+
+
+            table = new PdfPTable(6);
+            //  table.setWidthPercentage(100);
+            // table.setWidths(new int[]{1, 2});
+            //table.addCell(createTextCell("Primero Lunes: "+primero));
+            PdfPCell cell = new PdfPCell( new Paragraph("MENU SETMANAL: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLUE)));
+            cell.setColspan(6);
+            cell.setBorder(Rectangle.NO_BORDER);
+            table.addCell(cell);
+            for (int i=1; i<=5; i++){
+
+                if (i == 1){
+                    cell = new PdfPCell( new Paragraph("DILLUNS: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
+                    cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                    primerPlat(1,arrayIngredientsLunes,quantitatAlergensLunes);
+                    segonPlat(1,arrayIngredients2Lunes,quantitatAlergens2Lunes);
+                } else if (i ==2){
+                    cell = new PdfPCell( new Paragraph("DIMARTS: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
+                    cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                    primerPlat(2,arrayIngredientsMartes,quantitatAlergensMartes);
+                    segonPlat(2,arrayIngredients2Martes,quantitatAlergens2Martes);
+                }
+
+
+                        /*
+                    case 2:
+                        cell = new PdfPCell( new Paragraph("DIMARTS: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
+                        cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                        primerPlat(arrayIngredientsMartes,quantitatAlergensMartes);
+                        segonPlat(arrayIngredients2Martes,quantitatAlergens2Martes);
+                        break;
+                        /*
+                    case 3:
+                        cell = new PdfPCell( new Paragraph("DIMECRES: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
+                        cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                        break;
+                    case 4:
+                        cell = new PdfPCell( new Paragraph("DIJOUS: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
+                        cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                        break;
+                    case 5:
+                        cell = new PdfPCell( new Paragraph("DIVENDRES: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
+                        cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                        break;  */
+
+
+            }
+            doc.add(table);
+
+        } catch (DocumentException de) {
+            Log.e("PDFCreator", "DocumentException:" + de);
+        } catch (IOException e) {
+            Log.e("PDFCreator", "ioException:" + e);
+        }
+        finally
+        {
+            doc.close();
+        }
+    }
+    public void segonPlat (Integer dia, Integer[] arrayIngredients2, Integer quantitatAlergens2){
+        PdfPCell cell = null;
+        switch (dia){
+            case 1:
+                cell = new PdfPCell( new Paragraph("Segon Plat: "+segundoLunes,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
+                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                break;
+            case 2:
+                cell = new PdfPCell( new Paragraph("Segon Plat: "+segundoMartes,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
+                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                break;
+            case 3: break;
+            case 4: break;
+            case 5: break;
+        }
+
+        try {
+            for (int i=0; i<arrayIngredients2.length;i++){
+                Log.d("NUM",Integer.toString(arrayIngredients2[i]));
+                if (arrayIngredients2[i]==0) {}
+                else{
+
+                    Log.d("NUM ALERGEN",Integer.toString(arrayIngredients2[i]));
+                    switch (i){
+                        //GLUTEN_INT=1,APIO_INT=2,PESCADO_INT=3,CRUSTACEOS_INT=4,HUEVOS_INT=5,CACAHUETES_INT=6,LACTEOS_INT=7,CASCARAS_INT=8, SULFITOS_INT=9, MOLUSCOS_INT=10;
+                        case 1:
+                            cell =createImageCell(GLUTEN);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 2:
+                            cell =createImageCell(APIO);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 3:
+                            cell =createImageCell(PESCADO);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 4:
+                            cell =createImageCell(CRUSTACEOS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 5:
+                            cell =createImageCell(HUEVOS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 6:
+                            cell =createImageCell(CACAHUETES);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 7:
+                            cell =createImageCell(LACTEOS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 8:
+                            cell =createImageCell(CASCARAS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 9:
+                            cell =createImageCell(SULFITOS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 10:
+                            cell =createImageCell(MOLUSCOS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        default: break;
+                    }
+                }
+            }
+
+            switch (quantitatAlergens2){
+                case 0:  cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                case 1:  cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                case 2:  cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                case 3:  cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                case 4:  cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                case 5: cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell); break;
+                default: break;
+            }
+
+        } catch (IOException e) {
+        Log.e("PDFCreator", "ioException:" + e);
+        }  catch (DocumentException de) {
+            Log.e("PDFCreator", "DocumentException:" + de);
+        }
+    }
+    public void primerPlat(Integer dia, Integer[] arrayIngredients, Integer quantitatAlergens){
+        PdfPCell cell = null;
+        switch (dia){
+            case 1:
+                cell = new PdfPCell( new Paragraph("Primer Plat: "+primeroLunes,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
+                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                break;
+            case 2:
+                cell = new PdfPCell( new Paragraph("Primer Plat: "+primeroMartes,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
+                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                break;
+            case 3: break;
+            case 4: break;
+            case 5: break;
+        }
+
+
+        // cell.setBackgroundColor(harmony.java.awt.Color.BLUE);
+        try {
+            for (int i=0; i<arrayIngredients.length;i++){
+                Log.d("NUM",Integer.toString(arrayIngredients[i]));
+                if (arrayIngredients[i]==0) {}
+                else{
+
+                    Log.d("NUM ALERGEN",Integer.toString(arrayIngredients[i]));
+                    switch (i){
+                        //GLUTEN_INT=1,APIO_INT=2,PESCADO_INT=3,CRUSTACEOS_INT=4,HUEVOS_INT=5,CACAHUETES_INT=6,LACTEOS_INT=7,CASCARAS_INT=8, SULFITOS_INT=9, MOLUSCOS_INT=10;
+                        case 1:
+                            cell =createImageCell(GLUTEN);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 2:
+                            cell =createImageCell(APIO);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 3:
+                            cell =createImageCell(PESCADO);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 4:
+                            cell =createImageCell(CRUSTACEOS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 5:
+                            cell =createImageCell(HUEVOS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 6:
+                            cell =createImageCell(CACAHUETES);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 7:
+                            cell =createImageCell(LACTEOS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 8:
+                            cell =createImageCell(CASCARAS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 9:
+                            cell =createImageCell(SULFITOS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        case 10:
+                            cell =createImageCell(MOLUSCOS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell); break;
+                        default: break;
+                    }
+                }
+            }
+
+            switch (quantitatAlergens){
+                case 0:  cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                case 1:  cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                case 2:  cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                case 3:  cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                case 4:  cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                case 5: cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell); break;
+                default: break;
+            }
+        } catch (DocumentException de) {
+        Log.e("PDFCreator", "DocumentException:" + de);
+        } catch (IOException e) {
+            Log.e("PDFCreator", "ioException:" + e);
+        }
+    }
+    public boolean checkPermission() {
+        int currentAPIVersion = Build.VERSION.SDK_INT;
+        if (currentAPIVersion >= android.os.Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale((Activity) context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                    android.app.AlertDialog.Builder alertBuilder = new android.app.AlertDialog.Builder(context);
+                    alertBuilder.setCancelable(true);
+                    alertBuilder.setTitle("Permission necessary");
+                    alertBuilder.setMessage("Write calendar permission is necessary to write event!!!");
+                    alertBuilder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+                        public void onClick(DialogInterface dialog, int which) {
+                            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+                        }
+                    });
+                    android.app.AlertDialog alert = alertBuilder.create();
+                    alert.show();
+
+                } else {
+                    ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL);
+                }
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return true;
+        }
+    }
+    public static  byte[] getByteArrayFromImageView(String imagen)
+    {
+        try {
+            Bitmap selectedImage =  BitmapFactory.decodeFile(imagen);
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            selectedImage.compress(Bitmap.CompressFormat.JPEG, 100, stream);
+            return stream.toByteArray();
+
+        } catch (NullPointerException e) {
+            Log.d("Null",e.getMessage());
+        }
+        return null;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    crearPDF();
+                } else {
+                    Log.d("Prueba", "no aceptado");
+                }
+                break;
+        }
+    }
+
+    public void crearPDF() {
+        try {
+            createPdf();
+            Log.d("Prueba", "aceptado");
+        } catch (Exception e) {
+            Log.d("Prueba", "d");
+        }
     }
 }
