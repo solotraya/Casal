@@ -46,6 +46,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -102,8 +104,8 @@ public class MenuActivity extends AppCompatActivity {
     public String primero,segundo,primeroLunes, segundoLunes, primeroMartes, segundoMartes,primeroMiercoles, segundoMiercoles,primeroJueves, segundoJueves,primeroViernes, segundoViernes, diaMenu;
     TextView textViewFechaMenu;
     private android.support.v7.widget.Toolbar mToolbar;
-    private Integer diaInicio=null, mesInicio,añoInicio;
-    private String fechaMenu,semanaAño,semanaActual;
+    private Integer diaInicio=null, mesInicio,añoInicio,diasSumar=0;
+    private String fechaMenu,semanaAño,semanaActual,fechaFinal;
     private ArrayList<HeaderMenu> myDataset;
     private RecyclerView recyclerView;
     private LinearLayoutManager linearLayoutManager;
@@ -115,14 +117,32 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         context = MenuActivity.this;
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar_menu_imprimir);
+        mToolbar.findViewById(R.id.buttonImprimir).setVisibility(View.GONE);
         textViewFechaMenu = (TextView) findViewById(R.id.fechaVenta);
         fechaMenu = Utilitats.obtenerFechaActual();
         obtenerAñoMesDiaInicio(fechaMenu);
         obtenerNumeroSemanaAño(true);
-        textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño(false)+" Fecha: "+Utilitats.getFechaFormatSpain(fechaMenu));
+        getFechaFinal(0);
+        textViewFechaMenu.setText("Fecha Actual: "+Utilitats.getFechaFormatSpain(fechaMenu));
+
         findViewById(R.id.buttonFechaAnterior).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String fecha;
+                Boolean today;
+
+
+                fechaFinal = Utilitats.obtenerFechaActual();
+                Log.d("FECHA_MENU",fechaMenu+" "+fechaFinal);
+                if (!fechaMenu.equals(fechaFinal)){
+                    diasSumar = diasSumar - 7;
+                    getFechaFinal(diasSumar);
+
+                } else getFechaFinal(diasSumar);
+
+
+                if(diasSumar>=0) {
+                    mToolbar.findViewById(R.id.buttonImprimir).setVisibility(View.VISIBLE);
+                } else mToolbar.findViewById(R.id.buttonImprimir).setVisibility(View.GONE);
                 do {
                     obtenerAñoMesDiaInicio(fechaMenu);
                     if (diaInicio!=1){
@@ -135,7 +155,6 @@ public class MenuActivity extends AppCompatActivity {
                         if (añoInicio % 4 == 0 && añoInicio % 100 != 0 || añoInicio % 400 == 0) {
                             diaInicio=29; mesInicio--;
                         } else diaInicio=28; mesInicio--;
-
                     } else if (mesInicio==1){
                         diaInicio = 31;
                         mesInicio = 12;
@@ -145,13 +164,17 @@ public class MenuActivity extends AppCompatActivity {
                     fecha = añoInicio + "-"+ mesInicio + "-" + diaInicio;
                     // TODO: PARA VENTAS SOLO INHABILITAMOS EL SABADO, DOMINGO PERMITIDO.
                 } while (Utilitats.principioSemana(fecha, Calendar.MONDAY));
-                textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño(false)+" - "+Utilitats.getFechaFormatSpain(fechaMenu));
+                obtenerNumeroSemanaAño(false);
+                textViewFechaMenu.setText(Utilitats.getFechaFormatSpain(fechaMenu)+" - "+fechaFinal);
                 actualizarRecyclerView();
                 headerAdapterMenu.actualitzaRecycler(myDataset);
             }
         });
         findViewById(R.id.buttonFechaPosterior).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
+                mToolbar.findViewById(R.id.buttonImprimir).setVisibility(View.VISIBLE);
+                diasSumar = diasSumar + 7;
+                getFechaFinal(diasSumar);
                 String fecha;
                 do {
                     obtenerAñoMesDiaInicio(fechaMenu);
@@ -177,7 +200,8 @@ public class MenuActivity extends AppCompatActivity {
                     fechaMenu = añoInicio + " "+ mesInicio + " " + diaInicio;
                     fecha = añoInicio + "-"+ mesInicio + "-" + diaInicio;
                 } while (Utilitats.principioSemana(fecha, Calendar.MONDAY));
-                textViewFechaMenu.setText("Semana: "+obtenerNumeroSemanaAño(false)+" - "+Utilitats.getFechaFormatSpain(fechaMenu));
+                obtenerNumeroSemanaAño(false);
+                textViewFechaMenu.setText(Utilitats.getFechaFormatSpain(fechaMenu)+" - "+fechaFinal);
                 actualizarRecyclerView();
                 headerAdapterMenu.actualitzaRecycler(myDataset);
             }
@@ -910,7 +934,6 @@ public class MenuActivity extends AppCompatActivity {
     public void createPdf() {
         Document doc = new Document();
 
-
         try {
             String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf";
 
@@ -935,9 +958,12 @@ public class MenuActivity extends AppCompatActivity {
             //  table.setWidthPercentage(100);
             // table.setWidths(new int[]{1, 2});
             //table.addCell(createTextCell("Primero Lunes: "+primero));
-            cell = new PdfPCell( new Paragraph("Menú Setmanal: "+diaInicio+"/"+mesInicio+"/"+añoInicio,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, Color.BLACK)));
+            espacioTabla();
+            cell = new PdfPCell( new Paragraph("",FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.UNDERLINE, Color.BLACK)));
+            cell.setColspan(2); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+            cell = new PdfPCell( new Paragraph("Menú Setmanal: "+diaInicio+"/"+mesInicio+"/"+añoInicio+" - "+fechaFinal,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE , Color.BLACK)));
             cell.setVerticalAlignment(Element.ALIGN_CENTER);
-            cell.setColspan(14);
+            cell.setColspan(12);
             cell.setMinimumHeight(50);
 
             cell.setBorder(Rectangle.NO_BORDER);
@@ -954,6 +980,8 @@ public class MenuActivity extends AppCompatActivity {
                     primerPlat(1,arrayIngredientsLunes,quantitatAlergensLunes);
                     espacioTabla();
                     segonPlat(1,arrayIngredients2Lunes,quantitatAlergens2Lunes);
+                    espacioTabla();
+                    postre();
                 } else if (i ==2){
                     espacioTabla();
                     cell = new PdfPCell( new Paragraph("Dimarts: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE, harmony.java.awt.Color.BLACK)));
@@ -962,6 +990,8 @@ public class MenuActivity extends AppCompatActivity {
                     primerPlat(2,arrayIngredientsMartes,quantitatAlergensMartes);
                     espacioTabla();
                     segonPlat(2,arrayIngredients2Martes,quantitatAlergens2Martes);
+                    espacioTabla();
+                    postre();
                 } else if (i ==3){
                     espacioTabla();
                     cell = new PdfPCell( new Paragraph("Dimecres: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE, harmony.java.awt.Color.BLACK)));
@@ -970,6 +1000,8 @@ public class MenuActivity extends AppCompatActivity {
                     primerPlat(3,arrayIngredientsMiercoles,quantitatAlergensMiercoles);
                     espacioTabla();
                     segonPlat(3,arrayIngredients2Miercoles,quantitatAlergens2Miercoles);
+                    espacioTabla();
+                    postre();
                 } else if (i ==4){
                     espacioTabla();
                     cell = new PdfPCell( new Paragraph("Dijous: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE, harmony.java.awt.Color.BLACK)));
@@ -978,6 +1010,8 @@ public class MenuActivity extends AppCompatActivity {
                     primerPlat(4,arrayIngredientsJueves,quantitatAlergensJueves);
                     espacioTabla();
                     segonPlat(4,arrayIngredients2Jueves,quantitatAlergens2Jueves);
+                    espacioTabla();
+                    postre();
                 } else if (i ==5){
                     espacioTabla();
                     cell = new PdfPCell( new Paragraph("Divendres: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE, harmony.java.awt.Color.BLACK)));
@@ -986,6 +1020,14 @@ public class MenuActivity extends AppCompatActivity {
                     primerPlat(5,arrayIngredientsViernes,quantitatAlergensViernes);
                     espacioTabla();
                     segonPlat(5,arrayIngredients2Viernes,quantitatAlergens2Viernes);
+                    espacioTabla();
+                    postre();
+                    espacioTabla();
+                    espacioTabla();
+                    cell = new PdfPCell( new Paragraph("",FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.UNDERLINE, Color.BLACK)));
+                    cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                    cell = new PdfPCell( new Paragraph("5,70 Euros",FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.UNDERLINE, Color.BLACK)));
+                    cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 }
             }
             doc.add(table);
@@ -1080,6 +1122,22 @@ public class MenuActivity extends AppCompatActivity {
         Log.e("PDFCreator", "ioException:" + e);
         }  catch (DocumentException de) {
             Log.e("PDFCreator", "DocumentException:" + de);
+        }
+    }
+    public void postre(){
+        cell = new PdfPCell( new Paragraph("Pa i Postres",FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+        cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+        try{
+            cell =createImageCell(GLUTEN);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell);
+            cell =createImageCell(LACTEOS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell);
+            cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+            cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+            cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+            cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+        } catch (DocumentException de) {
+            Log.e("PDFCreator", "DocumentException:" + de);
+        } catch (IOException e) {
+            Log.e("PDFCreator", "ioException:" + e);
         }
     }
     public void primerPlat(Integer dia, Integer[] arrayIngredients, Integer quantitatAlergens){
@@ -1213,7 +1271,22 @@ public class MenuActivity extends AppCompatActivity {
                 break;
         }
     }
+    public void getFechaFinal(Integer diasSumar){
+        Calendar c=Calendar.getInstance();
+        c.set(Calendar.DAY_OF_WEEK,Calendar.MONDAY);
+        DateFormat df=new SimpleDateFormat("EEE yyyy/MM/dd");
+        Log.d("DIA",df.format(c.getTime()));      // Lunes Semana
+        c.add(Calendar.DATE,4);
+        Log.d("DIA",df.format(c.getTime()));      // VIERNES semana
+        if (diasSumar!=0){
+            c.add(Calendar.DATE,diasSumar);   // Viernes siguiente
+        }
+        c.getTime();
+        fechaFinal = c.get(Calendar.DATE)+"/"+(c.get(Calendar.MONTH)+1)+
+                "/"+c.get(Calendar.YEAR);
+        Log.d("DIA",fechaFinal);
 
+    }
     public void crearPDF() {
         try {
             createPdf();
