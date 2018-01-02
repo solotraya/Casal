@@ -80,11 +80,24 @@ public class MenuActivity extends AppCompatActivity {
     public Integer[] arrayIngredientsMartes = new Integer[11];
     public Integer[] arrayIngredients2Martes = new Integer[11];
     public int quantitatAlergensMartes = 0,quantitatAlergens2Martes = 0;
+
+    public Integer[] arrayIngredientsMiercoles = new Integer[11];
+    public Integer[] arrayIngredients2Miercoles = new Integer[11];
+    public int quantitatAlergensMiercoles = 0,quantitatAlergens2Miercoles = 0;
+
+    public Integer[] arrayIngredientsJueves = new Integer[11];
+    public Integer[] arrayIngredients2Jueves = new Integer[11];
+    public int quantitatAlergensJueves = 0,quantitatAlergens2Jueves = 0;
+
+    public Integer[] arrayIngredientsViernes = new Integer[11];
+    public Integer[] arrayIngredients2Viernes = new Integer[11];
+    public int quantitatAlergensViernes = 0,quantitatAlergens2Viernes = 0;
+
     public Integer GLUTEN_INT=1,APIO_INT=2,PESCADO_INT=3,CRUSTACEOS_INT=4,HUEVOS_INT=5,CACAHUETES_INT=6,LACTEOS_INT=7,CASCARAS_INT=8, SULFITOS_INT=9, MOLUSCOS_INT=10;
 
     public static View viewAnterior;
     public static String idMenuPlato, idMenu;
-    public String primero,segundo,primeroLunes, segundoLunes, primeroMartes, segundoMartes, diaMenu;
+    public String primero,segundo,primeroLunes, segundoLunes, primeroMartes, segundoMartes,primeroMiercoles, segundoMiercoles,primeroJueves, segundoJueves,primeroViernes, segundoViernes, diaMenu;
     TextView textViewFechaMenu;
     private android.support.v7.widget.Toolbar mToolbar;
     private Integer diaInicio=null, mesInicio,añoInicio;
@@ -290,22 +303,32 @@ public class MenuActivity extends AppCompatActivity {
             mToolbar.findViewById(R.id.buttonAñadir).setVisibility(View.GONE);
             int contador = 0;
             for (int i=0;i<arrayIngredientsLunes.length;i++){
-                arrayIngredientsLunes[i]=0;
-                arrayIngredientsMartes[i]=0;
+                arrayIngredientsLunes[i]=0;  arrayIngredients2Lunes[i]=0;
             }
-            for (int i=0;i<arrayIngredients2Lunes.length;i++){
-                arrayIngredients2Lunes[i]=0;
-                arrayIngredients2Martes[i]=0;
+            for (int i=0;i<arrayIngredients2Martes.length;i++){
+                arrayIngredientsMartes[i]=0;  arrayIngredients2Martes[i]=0;
             }
+            for (int i=0;i<arrayIngredients2Miercoles.length;i++){
+                arrayIngredientsMiercoles[i]=0;  arrayIngredients2Miercoles[i]=0;
+            }
+            for (int i=0;i<arrayIngredients2Jueves.length;i++){
+                arrayIngredientsJueves[i]=0;  arrayIngredients2Jueves[i]=0;
+            }
+            for (int i=0;i<arrayIngredients2Viernes.length;i++){
+                arrayIngredientsViernes[i]=0;  arrayIngredients2Viernes[i]=0;
+            }
+
             quantitatAlergensLunes=0; quantitatAlergens2Lunes=0;
             quantitatAlergensMartes=0; quantitatAlergens2Martes=0;
+            quantitatAlergensMiercoles=0; quantitatAlergens2Miercoles=0;
+            quantitatAlergensJueves=0; quantitatAlergens2Jueves=0;
+            quantitatAlergensViernes=0; quantitatAlergens2Viernes=0;
+
             do {
-
-
                 diaMenu = cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.DIA_MENU));
                 idMenu = cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.ID_MENU));
-                primero =cursor.getString(cursor.getColumnIndex("primerPlato"));
-                segundo=cursor.getString(cursor.getColumnIndex("segundoPlato"));
+                primero = cursor.getString(cursor.getColumnIndex("primerPlato"));
+                segundo = cursor.getString(cursor.getColumnIndex("segundoPlato"));
                 String gluten = cursor.getString(cursor.getColumnIndex("glutenPrimero"));
                 String crustaceos = cursor.getString(cursor.getColumnIndex("crustaceosPrimero"));
                 String huevos = cursor.getString(cursor.getColumnIndex("huevosPrimero"));
@@ -317,13 +340,13 @@ public class MenuActivity extends AppCompatActivity {
                 String sulfitos = cursor.getString(cursor.getColumnIndex("sulfitosPrimero"));
                 String moluscos = cursor.getString(cursor.getColumnIndex("moluscosPrimero"));
 
-                if (diaMenu.equals("1")){
-                    primeroLunes= primero;
-                    segundoLunes= segundo;
-                } else if (diaMenu.equals("2")){
-                    primeroMartes=primero;
-                    segundoMartes=segundo;
-                }
+
+                if (diaMenu.equals("1")){ primeroLunes= primero; segundoLunes= segundo;}
+                if (diaMenu.equals("2")){ primeroMartes=primero; segundoMartes=segundo;}
+                if (diaMenu.equals("3")){ primeroMiercoles=primero; segundoMiercoles=segundo;}
+                if (diaMenu.equals("4")){ primeroJueves=primero; segundoJueves=segundo;}
+                if (diaMenu.equals("5")){ primeroViernes=primero; segundoViernes=segundo; }
+
                 if (gluten==null) gluten="0";  if (crustaceos==null) crustaceos="0"; if (huevos==null) huevos="0"; if (pescado==null) pescado="0"; if (cacahuetes==null) cacahuetes="0";
                 if (lacteos==null) lacteos="0"; if (cascaras==null) cascaras="0"; if (apio==null) apio="0"; if (sulfitos==null) sulfitos="0"; if (moluscos==null) moluscos="0";
 
@@ -331,14 +354,22 @@ public class MenuActivity extends AppCompatActivity {
                     Statics.esconderGluten1.add(contador,true);
                     if (diaMenu.equals("1"))  arrayIngredientsLunes[GLUTEN_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredientsMartes[GLUTEN_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredientsMiercoles[GLUTEN_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredientsJueves[GLUTEN_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredientsViernes[GLUTEN_INT]=0;
                 } else {
                     Statics.esconderGluten1.add(contador,false);
                     if (diaMenu.equals("1")){
                         arrayIngredientsLunes[GLUTEN_INT]=1;
                         quantitatAlergensLunes++;
                     } else if (diaMenu.equals("2")){
-                        arrayIngredientsMartes[GLUTEN_INT]=1;
-                        quantitatAlergensMartes++;
+                        arrayIngredientsMartes[GLUTEN_INT]=1; quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredientsMiercoles[GLUTEN_INT]=1; quantitatAlergensMiercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredientsJueves[GLUTEN_INT]=1; quantitatAlergensJueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredientsViernes[GLUTEN_INT]=1; quantitatAlergensViernes++;
                     }
 
                 }
@@ -346,28 +377,44 @@ public class MenuActivity extends AppCompatActivity {
                     Statics.esconderCrustaceo1.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredientsLunes[CRUSTACEOS_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredientsMartes[CRUSTACEOS_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredientsMiercoles[CRUSTACEOS_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredientsJueves[CRUSTACEOS_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredientsViernes[CRUSTACEOS_INT]=0;
                 } else{
                     Statics.esconderCrustaceo1.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergensLunes++;
                         arrayIngredientsLunes[CRUSTACEOS_INT]=1;
                     } else if (diaMenu.equals("2")){
-                        arrayIngredientsMartes[CRUSTACEOS_INT]=1;
-                        quantitatAlergensMartes++;
+                        arrayIngredientsMartes[CRUSTACEOS_INT]=1; quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredientsMiercoles[CRUSTACEOS_INT]=1; quantitatAlergensMiercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredientsJueves[CRUSTACEOS_INT]=1; quantitatAlergensJueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredientsViernes[CRUSTACEOS_INT]=1; quantitatAlergensViernes++;
                     }
                 }
                 if (huevos.equals("0")){
                     Statics.esconderHuevos1.add(contador,true);
                     if (diaMenu.equals("1"))  arrayIngredientsLunes[HUEVOS_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredientsMartes[HUEVOS_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredientsMiercoles[HUEVOS_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredientsJueves[HUEVOS_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredientsViernes[HUEVOS_INT]=0;
                 } else {
                     Statics.esconderHuevos1.add(contador,false);
                     if (diaMenu.equals("1")){
                         arrayIngredientsLunes[HUEVOS_INT]=1;
                         quantitatAlergensLunes++;
                     } else if (diaMenu.equals("2")){
-                        arrayIngredientsMartes[HUEVOS_INT]=1;
-                        quantitatAlergensMartes++;
+                        arrayIngredientsMartes[HUEVOS_INT]=1; quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredientsMiercoles[HUEVOS_INT]=1; quantitatAlergensMiercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredientsJueves[HUEVOS_INT]=1; quantitatAlergensJueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredientsViernes[HUEVOS_INT]=1; quantitatAlergensViernes++;
                     }
 
                 }
@@ -375,14 +422,22 @@ public class MenuActivity extends AppCompatActivity {
                     Statics.esconderPescado1.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredientsLunes[PESCADO_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredientsMartes[PESCADO_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredientsMiercoles[PESCADO_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredientsJueves[PESCADO_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredientsViernes[PESCADO_INT]=0;
                 } else {
                     Statics.esconderPescado1.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergensLunes++;
                         arrayIngredientsLunes[PESCADO_INT]=1;
                     } else if (diaMenu.equals("2")){
-                        arrayIngredientsMartes[PESCADO_INT]=1;
-                        quantitatAlergensMartes++;
+                        arrayIngredientsMartes[PESCADO_INT]=1; quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredientsMiercoles[PESCADO_INT]=1; quantitatAlergensMiercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredientsJueves[PESCADO_INT]=1; quantitatAlergensJueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredientsViernes[PESCADO_INT]=1; quantitatAlergensViernes++;
                     }
 
                 }
@@ -390,86 +445,133 @@ public class MenuActivity extends AppCompatActivity {
                     Statics.esconderCacahuetes1.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredientsLunes[CACAHUETES_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredientsMartes[CACAHUETES_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredientsMiercoles[CACAHUETES_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredientsJueves[CACAHUETES_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredientsViernes[CACAHUETES_INT]=0;
                 } else {
                     Statics.esconderCacahuetes1.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergensLunes++;
                         arrayIngredientsLunes[CACAHUETES_INT]=1;
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredientsMartes[CACAHUETES_INT]=1;
-                        quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[CACAHUETES_INT]=1; quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredientsMiercoles[CACAHUETES_INT]=1; quantitatAlergensMiercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredientsJueves[CACAHUETES_INT]=1; quantitatAlergensJueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredientsViernes[CACAHUETES_INT]=1; quantitatAlergensViernes++;
                     }
                 }
                 if (lacteos.equals("0")) {
                     Statics.esconderLacteos1.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredientsLunes[LACTEOS_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredientsMartes[LACTEOS_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredientsMiercoles[LACTEOS_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredientsJueves[LACTEOS_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredientsViernes[LACTEOS_INT]=0;
                 } else {
                     Statics.esconderLacteos1.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergensLunes++;
                         arrayIngredientsLunes[LACTEOS_INT]=1;
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredientsMartes[LACTEOS_INT]=1;
-                        quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[LACTEOS_INT]=1; quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredientsMiercoles[LACTEOS_INT]=1; quantitatAlergensMiercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredientsJueves[LACTEOS_INT]=1; quantitatAlergensJueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredientsViernes[LACTEOS_INT]=1; quantitatAlergensViernes++;
                     }
                 }
                 if (cascaras.equals("0")) {
                     Statics.esconderCascaras1.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredientsLunes[CASCARAS_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredientsMartes[CASCARAS_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredientsMiercoles[CASCARAS_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredientsJueves[CASCARAS_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredientsViernes[CASCARAS_INT]=0;
                 } else {
                     Statics.esconderCascaras1.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergensLunes++;
                         arrayIngredientsLunes[CASCARAS_INT]=1;
 
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredientsMartes[CASCARAS_INT]=1;
-                        quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[CASCARAS_INT]=1; quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredientsMiercoles[CASCARAS_INT]=1; quantitatAlergensMiercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredientsJueves[CASCARAS_INT]=1; quantitatAlergensJueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredientsViernes[CASCARAS_INT]=1; quantitatAlergensViernes++;
                     }
                 }
                 if (apio.equals("0")) {
                     Statics.esconderApio1.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredientsLunes[APIO_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredientsMartes[APIO_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredientsMiercoles[APIO_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredientsJueves[APIO_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredientsViernes[APIO_INT]=0;
                 } else {
                     Statics.esconderApio1.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergensLunes++;
                         arrayIngredientsLunes[APIO_INT]=1;
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredientsMartes[APIO_INT]=1;
-                        quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[APIO_INT]=1; quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredientsMiercoles[APIO_INT]=1; quantitatAlergensMiercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredientsJueves[APIO_INT]=1; quantitatAlergensJueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredientsViernes[APIO_INT]=1; quantitatAlergensViernes++;
                     }
                 }
                 if (sulfitos.equals("0")) {
                     Statics.esconderSulfitos1.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredientsLunes[SULFITOS_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredientsMartes[SULFITOS_INT]=0;
-
+                    else if (diaMenu.equals("3"))  arrayIngredientsMiercoles[SULFITOS_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredientsJueves[SULFITOS_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredientsViernes[SULFITOS_INT]=0;
                 } else {
                     Statics.esconderSulfitos1.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergensLunes++;
                         arrayIngredientsLunes[SULFITOS_INT]=1;
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredientsMartes[SULFITOS_INT]=1;
-                        quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[SULFITOS_INT]=1; quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredientsMiercoles[SULFITOS_INT]=1; quantitatAlergensMiercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredientsJueves[SULFITOS_INT]=1; quantitatAlergensJueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredientsViernes[SULFITOS_INT]=1; quantitatAlergensViernes++;
                     }
                 }
                 if (moluscos.equals("0")) {
                     Statics.esconderMoluscos1.add(contador,true);
                     if (diaMenu.equals("1"))  arrayIngredientsLunes[MOLUSCOS_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredientsMartes[MOLUSCOS_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredientsMiercoles[MOLUSCOS_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredientsJueves[MOLUSCOS_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredientsViernes[MOLUSCOS_INT]=0;
                 } else{
                     Statics.esconderMoluscos1.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergensLunes++;
                         arrayIngredientsLunes[MOLUSCOS_INT]=1;
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredientsMartes[MOLUSCOS_INT]=1;
-                        quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredientsMartes[MOLUSCOS_INT]=1; quantitatAlergensMartes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredientsMiercoles[MOLUSCOS_INT]=1; quantitatAlergensMiercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredientsJueves[MOLUSCOS_INT]=1; quantitatAlergensJueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredientsViernes[MOLUSCOS_INT]=1; quantitatAlergensViernes++;
                     }
                 }
 
@@ -494,141 +596,220 @@ public class MenuActivity extends AppCompatActivity {
                     Statics.esconderGluten2.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredients2Lunes[GLUTEN_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredients2Martes[GLUTEN_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredients2Miercoles[GLUTEN_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredients2Jueves[GLUTEN_INT]=0;
+                    else if (diaMenu.equals("2"))  arrayIngredients2Viernes[GLUTEN_INT]=0;
                 } else {
                     Statics.esconderGluten2.add(contador,false);
                     if (diaMenu.equals("1")){
                         arrayIngredients2Lunes[GLUTEN_INT]=1;
                         quantitatAlergens2Lunes++;
                     } else if (diaMenu.equals("2")){
-                        arrayIngredients2Martes[GLUTEN_INT]=1;
-                        quantitatAlergens2Martes++;
+                        arrayIngredients2Martes[GLUTEN_INT]=1; quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredients2Miercoles[GLUTEN_INT]=1; quantitatAlergens2Miercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredients2Jueves[GLUTEN_INT]=1; quantitatAlergens2Jueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredients2Viernes[GLUTEN_INT]=1; quantitatAlergens2Viernes++;
                     }
                 }
                 if (crustaceos2.equals("0")) {
                     Statics.esconderCrustaceo2.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredients2Lunes[CRUSTACEOS_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredients2Martes[CRUSTACEOS_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredients2Miercoles[CRUSTACEOS_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredients2Jueves[CRUSTACEOS_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredients2Viernes[CRUSTACEOS_INT]=0;
                 } else{
                     Statics.esconderCrustaceo2.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergens2Lunes++;
                         arrayIngredients2Lunes[CRUSTACEOS_INT]=1;
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredients2Martes[CRUSTACEOS_INT]=1;
-                        quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[CRUSTACEOS_INT]=1; quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredients2Miercoles[CRUSTACEOS_INT]=1; quantitatAlergens2Miercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredients2Jueves[CRUSTACEOS_INT]=1; quantitatAlergens2Jueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredients2Viernes[CRUSTACEOS_INT]=1; quantitatAlergens2Viernes++;
                     }
                 }
                 if (huevos2.equals("0")){
                     Statics.esconderHuevos2.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredients2Lunes[HUEVOS_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredients2Martes[HUEVOS_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredients2Miercoles[HUEVOS_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredients2Jueves[HUEVOS_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredients2Viernes[HUEVOS_INT]=0;
                 } else {
                     Statics.esconderHuevos2.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergens2Lunes++;
                         arrayIngredients2Lunes[HUEVOS_INT]=1;
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredients2Martes[HUEVOS_INT]=1;
-                        quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[HUEVOS_INT]=1; quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredients2Miercoles[HUEVOS_INT]=1; quantitatAlergens2Miercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredients2Jueves[HUEVOS_INT]=1; quantitatAlergens2Jueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredients2Viernes[HUEVOS_INT]=1; quantitatAlergens2Viernes++;
                     }
                 }
                 if (pescado2.equals("0")){
                     Statics.esconderPescado2.add(contador,true);
                     if (diaMenu.equals("1"))  arrayIngredients2Lunes[PESCADO_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredients2Martes[PESCADO_INT]=0;
-
+                    else if (diaMenu.equals("3"))  arrayIngredients2Miercoles[PESCADO_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredients2Jueves[PESCADO_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredients2Viernes[PESCADO_INT]=0;
                 } else {
                     Statics.esconderPescado2.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergens2Lunes++;
                         arrayIngredients2Lunes[PESCADO_INT]=1;
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredients2Martes[PESCADO_INT]=1;
-                        quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[PESCADO_INT]=1; quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredients2Miercoles[PESCADO_INT]=1; quantitatAlergens2Miercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredients2Jueves[PESCADO_INT]=1; quantitatAlergens2Jueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredients2Viernes[PESCADO_INT]=1; quantitatAlergens2Viernes++;
                     }
                 }
                 if (cacahuetes2.equals("0")){
                     Statics.esconderCacahuetes2.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredients2Lunes[CACAHUETES_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredients2Martes[CACAHUETES_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredients2Miercoles[CACAHUETES_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredients2Jueves[CACAHUETES_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredients2Viernes[CACAHUETES_INT]=0;
                 } else {
                     Statics.esconderCacahuetes2.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergens2Lunes++;
                         arrayIngredients2Lunes[CACAHUETES_INT]=1;
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredients2Martes[CACAHUETES_INT]=1;
-                        quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[CACAHUETES_INT]=1; quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredients2Miercoles[CACAHUETES_INT]=1; quantitatAlergens2Miercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredients2Jueves[CACAHUETES_INT]=1; quantitatAlergens2Jueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredients2Viernes[CACAHUETES_INT]=1; quantitatAlergens2Viernes++;
                     }
                 }
                 if (lacteos2.equals("0")) {
                     Statics.esconderLacteos2.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredients2Lunes[LACTEOS_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredients2Martes[LACTEOS_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredients2Miercoles[LACTEOS_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredients2Jueves[LACTEOS_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredients2Viernes[LACTEOS_INT]=0;
                 } else {
                     Statics.esconderLacteos2.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergens2Lunes++;
                         arrayIngredients2Lunes[LACTEOS_INT]=1;
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredients2Martes[LACTEOS_INT]=1;
-                        quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[LACTEOS_INT]=1;quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredients2Miercoles[LACTEOS_INT]=1;quantitatAlergens2Miercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredients2Jueves[LACTEOS_INT]=1;quantitatAlergens2Jueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredients2Viernes[LACTEOS_INT]=1;quantitatAlergens2Viernes++;
                     }
                 }
                 if (cascaras2.equals("0")) {
                     Statics.esconderCascaras2.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredients2Lunes[CASCARAS_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredients2Martes[CASCARAS_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredients2Miercoles[CASCARAS_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredients2Jueves[CASCARAS_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredients2Viernes[CASCARAS_INT]=0;
                 } else {
                     Statics.esconderCascaras2.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergens2Lunes++;
                         arrayIngredients2Lunes[CASCARAS_INT]=1;
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredients2Martes[CASCARAS_INT]=1;
-                        quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[CASCARAS_INT]=1; quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredients2Miercoles[CASCARAS_INT]=1; quantitatAlergens2Miercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredients2Jueves[CASCARAS_INT]=1; quantitatAlergens2Jueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredients2Viernes[CASCARAS_INT]=1; quantitatAlergens2Viernes++;
                     }
                 }
                 if (apio2.equals("0")) {
                     Statics.esconderApio2.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredients2Lunes[APIO_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredients2Martes[APIO_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredients2Miercoles[APIO_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredients2Jueves[APIO_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredients2Viernes[APIO_INT]=0;
                 } else {
                     Statics.esconderApio2.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergens2Lunes++;
                         arrayIngredients2Lunes[APIO_INT]=1;
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredients2Martes[APIO_INT]=1;
-                        quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[APIO_INT]=1; quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredients2Miercoles[APIO_INT]=1; quantitatAlergens2Miercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredients2Jueves[APIO_INT]=1; quantitatAlergens2Jueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredients2Viernes[APIO_INT]=1; quantitatAlergens2Viernes++;
                     }
                 }
                 if (sulfitos2.equals("0")) {
                     Statics.esconderSulfitos2.add(contador,true);
                     if (diaMenu.equals("1"))  arrayIngredients2Lunes[SULFITOS_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredients2Martes[APIO_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredients2Miercoles[APIO_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredients2Jueves[APIO_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredients2Viernes[APIO_INT]=0;
                 } else {
                     Statics.esconderSulfitos2.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergens2Lunes++;
                         arrayIngredients2Lunes[SULFITOS_INT]=1;
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredients2Martes[SULFITOS_INT]=1;
-                        quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[SULFITOS_INT]=1; quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredients2Miercoles[SULFITOS_INT]=1; quantitatAlergens2Miercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredients2Jueves[SULFITOS_INT]=1; quantitatAlergens2Jueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredients2Viernes[SULFITOS_INT]=1; quantitatAlergens2Viernes++;
                     }
                 }
                 if (moluscos2.equals("0")) {
                     Statics.esconderMoluscos2.add(contador,true);
                     if (diaMenu.equals("1")) arrayIngredients2Lunes[MOLUSCOS_INT]=0;
                     else if (diaMenu.equals("2"))  arrayIngredients2Martes[APIO_INT]=0;
+                    else if (diaMenu.equals("3"))  arrayIngredients2Miercoles[APIO_INT]=0;
+                    else if (diaMenu.equals("4"))  arrayIngredients2Jueves[APIO_INT]=0;
+                    else if (diaMenu.equals("5"))  arrayIngredients2Viernes[APIO_INT]=0;
                 } else{
                     Statics.esconderMoluscos2.add(contador,false);
                     if (diaMenu.equals("1")){
                         quantitatAlergens2Lunes++;
                         arrayIngredients2Lunes[MOLUSCOS_INT]=1;
-                    }else if (diaMenu.equals("2")){
-                        arrayIngredients2Martes[MOLUSCOS_INT]=1;
-                        quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("2")){
+                        arrayIngredients2Martes[MOLUSCOS_INT]=1; quantitatAlergens2Martes++;
+                    } else if (diaMenu.equals("3")){
+                        arrayIngredients2Miercoles[MOLUSCOS_INT]=1; quantitatAlergens2Miercoles++;
+                    } else if (diaMenu.equals("4")){
+                        arrayIngredients2Jueves[MOLUSCOS_INT]=1; quantitatAlergens2Jueves++;
+                    } else if (diaMenu.equals("5")){
+                        arrayIngredients2Viernes[MOLUSCOS_INT]=1; quantitatAlergens2Viernes++;
                     }
                 }
                 myDataset.add(new HeaderMenu(
@@ -640,7 +821,6 @@ public class MenuActivity extends AppCompatActivity {
                         gluten2, crustaceos2, huevos2,pescado2, cacahuetes2, lacteos2, cascaras2,apio2, sulfitos2, moluscos2
 
                 ));
-
                 contador++;
             } while (cursor.moveToNext());
 
@@ -711,7 +891,7 @@ public class MenuActivity extends AppCompatActivity {
         headerAdapterMenu.actualitzaRecycler(myDataset);
     }
     public static PdfPCell createImageCell(String path) throws DocumentException, IOException {
-        Image img = Image.getInstance(getByteArrayFromImageView(path));
+        Image img = Image.getInstance(getByteArrayFromImage(path));
         img.scaleAbsolute(50, 50);
         PdfPCell cell = new PdfPCell(img);
         return cell;
@@ -769,31 +949,22 @@ public class MenuActivity extends AppCompatActivity {
                     cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                     primerPlat(2,arrayIngredientsMartes,quantitatAlergensMartes);
                     segonPlat(2,arrayIngredients2Martes,quantitatAlergens2Martes);
+                } else if (i ==3){
+                    cell = new PdfPCell( new Paragraph("DIMECRES: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
+                    cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                    primerPlat(3,arrayIngredientsMiercoles,quantitatAlergensMiercoles);
+                    segonPlat(3,arrayIngredients2Miercoles,quantitatAlergens2Miercoles);
+                } else if (i ==4){
+                    cell = new PdfPCell( new Paragraph("DIJOUS: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
+                    cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                    primerPlat(4,arrayIngredientsJueves,quantitatAlergensJueves);
+                    segonPlat(4,arrayIngredients2Jueves,quantitatAlergens2Jueves);
+                } else if (i ==5){
+                    cell = new PdfPCell( new Paragraph("DIVENDRES: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
+                    cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                    primerPlat(5,arrayIngredientsViernes,quantitatAlergensViernes);
+                    segonPlat(5,arrayIngredients2Viernes,quantitatAlergens2Viernes);
                 }
-
-
-                        /*
-                    case 2:
-                        cell = new PdfPCell( new Paragraph("DIMARTS: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
-                        cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
-                        primerPlat(arrayIngredientsMartes,quantitatAlergensMartes);
-                        segonPlat(arrayIngredients2Martes,quantitatAlergens2Martes);
-                        break;
-                        /*
-                    case 3:
-                        cell = new PdfPCell( new Paragraph("DIMECRES: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
-                        cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
-                        break;
-                    case 4:
-                        cell = new PdfPCell( new Paragraph("DIJOUS: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
-                        cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
-                        break;
-                    case 5:
-                        cell = new PdfPCell( new Paragraph("DIVENDRES: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
-                        cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
-                        break;  */
-
-
             }
             doc.add(table);
 
@@ -805,6 +976,9 @@ public class MenuActivity extends AppCompatActivity {
         finally
         {
             doc.close();
+            if (!doc.isOpen()){
+                Missatges.AlertMissatge("MENU CREADO", "El menú esta listo para imprimir!", R.drawable.acierto, MenuActivity.this);
+            }
         }
     }
     public void segonPlat (Integer dia, Integer[] arrayIngredients2, Integer quantitatAlergens2){
@@ -818,9 +992,17 @@ public class MenuActivity extends AppCompatActivity {
                 cell = new PdfPCell( new Paragraph("Segon Plat: "+segundoMartes,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
                 cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
-            case 3: break;
-            case 4: break;
-            case 5: break;
+            case 3:
+                cell = new PdfPCell( new Paragraph("Segon Plat: "+segundoMiercoles,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
+                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                break;
+            case 4:
+                cell = new PdfPCell( new Paragraph("Segon Plat: "+segundoJueves,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
+                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                break;
+            case 5: cell = new PdfPCell( new Paragraph("Segon Plat: "+segundoViernes,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
+                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                break;
         }
 
         try {
@@ -884,9 +1066,18 @@ public class MenuActivity extends AppCompatActivity {
                 cell = new PdfPCell( new Paragraph("Primer Plat: "+primeroMartes,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
                 cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
-            case 3: break;
-            case 4: break;
-            case 5: break;
+            case 3:
+                cell = new PdfPCell( new Paragraph("Primer Plat: "+primeroMiercoles,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
+                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                break;
+            case 4:
+                cell = new PdfPCell( new Paragraph("Primer Plat: "+primeroJueves,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
+                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                break;
+            case 5:
+                cell = new PdfPCell( new Paragraph("Primer Plat: "+primeroViernes,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
+                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                break;
         }
 
 
@@ -969,7 +1160,7 @@ public class MenuActivity extends AppCompatActivity {
             return true;
         }
     }
-    public static  byte[] getByteArrayFromImageView(String imagen)
+    public static  byte[] getByteArrayFromImage( String imagen)
     {
         try {
             Bitmap selectedImage =  BitmapFactory.decodeFile(imagen);
