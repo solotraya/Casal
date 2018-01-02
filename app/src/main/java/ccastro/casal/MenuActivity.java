@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -229,6 +230,12 @@ public class MenuActivity extends AppCompatActivity {
                 boolean result = checkPermission();
                 if (result) {
                     crearPDF();
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/PDF";
+
+                    File file = new File(path, "menu.pdf");
+
+                    openDocument(file.getPath());
                 }
             }
         });
@@ -284,6 +291,20 @@ public class MenuActivity extends AppCompatActivity {
         });
 
         actualizarRecyclerView();
+    }
+    public void openDocument(String name) {
+        Intent intent = new Intent(android.content.Intent.ACTION_VIEW);
+        File file = new File(name);
+        String extension = android.webkit.MimeTypeMap.getFileExtensionFromUrl(Uri.fromFile(file).toString());
+        String mimetype = android.webkit.MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+        if (extension.equalsIgnoreCase("") || mimetype == null) {
+            // if there is no extension or there is no definite mimetype, still try to open the file
+            intent.setDataAndType(Uri.fromFile(file), "text/*");
+        } else {
+            intent.setDataAndType(Uri.fromFile(file), mimetype);
+        }
+        // custom message for the intent
+        startActivity(Intent.createChooser(intent, "Choose an Application:"));
     }
     public String obtenerNumeroSemanaAño(Boolean esSemanaActual){
         Calendar calendar = Calendar.getInstance();
