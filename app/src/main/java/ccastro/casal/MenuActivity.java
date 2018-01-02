@@ -56,10 +56,12 @@ import ccastro.casal.SQLite.DBInterface;
 import ccastro.casal.Utils.Missatges;
 import ccastro.casal.Utils.Statics;
 import ccastro.casal.Utils.Utilitats;
+import harmony.java.awt.Color;
 
 public class MenuActivity extends AppCompatActivity {
     Context context;
     PdfPTable table;
+    PdfPCell cell;
     public static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL = 123;
     public static final String NADA = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf/nada.png";
     public static final String PESCADO = Environment.getExternalStorageDirectory().getAbsolutePath() + "//pdf/pescado.png";
@@ -892,7 +894,7 @@ public class MenuActivity extends AppCompatActivity {
     }
     public static PdfPCell createImageCell(String path) throws DocumentException, IOException {
         Image img = Image.getInstance(getByteArrayFromImage(path));
-        img.scaleAbsolute(50, 50);
+        img.scaleAbsolute(20, 20);
         PdfPCell cell = new PdfPCell(img);
         return cell;
     }
@@ -929,40 +931,60 @@ public class MenuActivity extends AppCompatActivity {
             Log.d("CANTIDAD",Integer.toString(quantitatAlergensLunes));
 
 
-            table = new PdfPTable(6);
+            table = new PdfPTable(14);
             //  table.setWidthPercentage(100);
             // table.setWidths(new int[]{1, 2});
             //table.addCell(createTextCell("Primero Lunes: "+primero));
-            PdfPCell cell = new PdfPCell( new Paragraph("MENU SETMANAL: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLUE)));
-            cell.setColspan(6);
+            cell = new PdfPCell( new Paragraph("Menú Setmanal: "+diaInicio+"/"+mesInicio+"/"+añoInicio,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, Color.BLACK)));
+            cell.setVerticalAlignment(Element.ALIGN_CENTER);
+            cell.setColspan(14);
+            cell.setMinimumHeight(50);
+
             cell.setBorder(Rectangle.NO_BORDER);
             table.addCell(cell);
+            // Linea en blanco en tabla
+
+
             for (int i=1; i<=5; i++){
 
                 if (i == 1){
-                    cell = new PdfPCell( new Paragraph("DILLUNS: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
-                    cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                    cell = new PdfPCell( new Paragraph("Dilluns: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE, harmony.java.awt.Color.BLACK)));
+                    cell.setColspan(14); cell.setBorder(Rectangle.NO_BORDER);
+                    cell.setMinimumHeight(30);table.addCell(cell);
                     primerPlat(1,arrayIngredientsLunes,quantitatAlergensLunes);
+                    espacioTabla();
                     segonPlat(1,arrayIngredients2Lunes,quantitatAlergens2Lunes);
                 } else if (i ==2){
-                    cell = new PdfPCell( new Paragraph("DIMARTS: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
-                    cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                    espacioTabla();
+                    cell = new PdfPCell( new Paragraph("Dimarts: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE, harmony.java.awt.Color.BLACK)));
+                    cell.setColspan(14); cell.setBorder(Rectangle.NO_BORDER);
+                    cell.setMinimumHeight(30);table.addCell(cell);
                     primerPlat(2,arrayIngredientsMartes,quantitatAlergensMartes);
+                    espacioTabla();
                     segonPlat(2,arrayIngredients2Martes,quantitatAlergens2Martes);
                 } else if (i ==3){
-                    cell = new PdfPCell( new Paragraph("DIMECRES: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
-                    cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                    espacioTabla();
+                    cell = new PdfPCell( new Paragraph("Dimecres: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE, harmony.java.awt.Color.BLACK)));
+                    cell.setColspan(14); cell.setBorder(Rectangle.NO_BORDER);
+                    cell.setMinimumHeight(30);table.addCell(cell);
                     primerPlat(3,arrayIngredientsMiercoles,quantitatAlergensMiercoles);
+                    espacioTabla();
                     segonPlat(3,arrayIngredients2Miercoles,quantitatAlergens2Miercoles);
                 } else if (i ==4){
-                    cell = new PdfPCell( new Paragraph("DIJOUS: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
-                    cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                    espacioTabla();
+                    cell = new PdfPCell( new Paragraph("Dijous: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE, harmony.java.awt.Color.BLACK)));
+                    cell.setColspan(14); cell.setBorder(Rectangle.NO_BORDER);
+                    cell.setMinimumHeight(30);table.addCell(cell);
                     primerPlat(4,arrayIngredientsJueves,quantitatAlergensJueves);
+                    espacioTabla();
                     segonPlat(4,arrayIngredients2Jueves,quantitatAlergens2Jueves);
                 } else if (i ==5){
-                    cell = new PdfPCell( new Paragraph("DIVENDRES: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.BLACK)));
-                    cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                    espacioTabla();
+                    cell = new PdfPCell( new Paragraph("Divendres: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE, harmony.java.awt.Color.BLACK)));
+                    cell.setColspan(14); cell.setBorder(Rectangle.NO_BORDER);
+                    cell.setMinimumHeight(30);table.addCell(cell);
                     primerPlat(5,arrayIngredientsViernes,quantitatAlergensViernes);
+                    espacioTabla();
                     segonPlat(5,arrayIngredients2Viernes,quantitatAlergens2Viernes);
                 }
             }
@@ -981,27 +1003,32 @@ public class MenuActivity extends AppCompatActivity {
             }
         }
     }
+    public void espacioTabla(){
+        cell = new PdfPCell(new Paragraph(""));cell.setColspan(14); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+        cell = new PdfPCell(new Paragraph(""));cell.setColspan(14); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+        cell = new PdfPCell(new Paragraph(""));cell.setColspan(14); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+    }
     public void segonPlat (Integer dia, Integer[] arrayIngredients2, Integer quantitatAlergens2){
         PdfPCell cell = null;
         switch (dia){
             case 1:
-                cell = new PdfPCell( new Paragraph("Segon Plat: "+segundoLunes,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
-                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                cell = new PdfPCell( new Paragraph(segundoLunes,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
             case 2:
-                cell = new PdfPCell( new Paragraph("Segon Plat: "+segundoMartes,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
-                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                cell = new PdfPCell( new Paragraph(segundoMartes,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
             case 3:
-                cell = new PdfPCell( new Paragraph("Segon Plat: "+segundoMiercoles,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
-                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                cell = new PdfPCell( new Paragraph(segundoMiercoles,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
             case 4:
-                cell = new PdfPCell( new Paragraph("Segon Plat: "+segundoJueves,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
-                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                cell = new PdfPCell( new Paragraph(segundoJueves,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
-            case 5: cell = new PdfPCell( new Paragraph("Segon Plat: "+segundoViernes,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
-                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+            case 5: cell = new PdfPCell( new Paragraph(segundoViernes,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
         }
 
@@ -1059,24 +1086,24 @@ public class MenuActivity extends AppCompatActivity {
         PdfPCell cell = null;
         switch (dia){
             case 1:
-                cell = new PdfPCell( new Paragraph("Primer Plat: "+primeroLunes,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
-                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                cell = new PdfPCell( new Paragraph(primeroLunes,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
             case 2:
-                cell = new PdfPCell( new Paragraph("Primer Plat: "+primeroMartes,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
-                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                cell = new PdfPCell( new Paragraph(primeroMartes,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, harmony.java.awt.Color.DARK_GRAY)));
+                cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
             case 3:
-                cell = new PdfPCell( new Paragraph("Primer Plat: "+primeroMiercoles,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
-                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                cell = new PdfPCell( new Paragraph(primeroMiercoles,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, harmony.java.awt.Color.DARK_GRAY)));
+                cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
             case 4:
-                cell = new PdfPCell( new Paragraph("Primer Plat: "+primeroJueves,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
-                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                cell = new PdfPCell( new Paragraph(primeroJueves,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, harmony.java.awt.Color.DARK_GRAY)));
+                cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
             case 5:
-                cell = new PdfPCell( new Paragraph("Primer Plat: "+primeroViernes,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.BOLD, harmony.java.awt.Color.RED)));
-                cell.setColspan(6); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                cell = new PdfPCell( new Paragraph(primeroViernes,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, harmony.java.awt.Color.DARK_GRAY)));
+                cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
         }
 
