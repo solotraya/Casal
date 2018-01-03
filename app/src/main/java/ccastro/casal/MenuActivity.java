@@ -102,7 +102,7 @@ public class MenuActivity extends AppCompatActivity {
 
     public static View viewAnterior;
     public static String idMenuPlato, idMenu;
-    public String primero,segundo,primeroLunes, segundoLunes, primeroMartes, segundoMartes,primeroMiercoles, segundoMiercoles,primeroJueves, segundoJueves,primeroViernes, segundoViernes, diaMenu;
+    public String primero,segundo,primeroLunes="", segundoLunes="", primeroMartes="", segundoMartes="",primeroMiercoles="", segundoMiercoles="",primeroJueves="", segundoJueves="",primeroViernes="", segundoViernes="", diaMenu;
     TextView textViewFechaMenu;
     private android.support.v7.widget.Toolbar mToolbar;
     private Integer diaInicio=null, mesInicio,añoInicio,diasSumar=0;
@@ -118,7 +118,6 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         context = MenuActivity.this;
         mToolbar = (android.support.v7.widget.Toolbar) findViewById(R.id.toolbar_menu_imprimir);
-        mToolbar.findViewById(R.id.buttonImprimir).setVisibility(View.GONE);
         textViewFechaMenu = (TextView) findViewById(R.id.fechaVenta);
         fechaMenu = Utilitats.obtenerFechaActual();
         obtenerAñoMesDiaInicio(fechaMenu);
@@ -140,10 +139,6 @@ public class MenuActivity extends AppCompatActivity {
 
                 } else getFechaFinal(diasSumar);
 
-
-                if(diasSumar>=0) {
-                    mToolbar.findViewById(R.id.buttonImprimir).setVisibility(View.VISIBLE);
-                } else mToolbar.findViewById(R.id.buttonImprimir).setVisibility(View.GONE);
                 do {
                     obtenerAñoMesDiaInicio(fechaMenu);
                     if (diaInicio!=1){
@@ -173,7 +168,6 @@ public class MenuActivity extends AppCompatActivity {
         });
         findViewById(R.id.buttonFechaPosterior).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                mToolbar.findViewById(R.id.buttonImprimir).setVisibility(View.VISIBLE);
                 diasSumar = diasSumar + 7;
                 getFechaFinal(diasSumar);
                 String fecha;
@@ -230,11 +224,8 @@ public class MenuActivity extends AppCompatActivity {
                 boolean result = checkPermission();
                 if (result) {
                     crearPDF();
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
                     String path = Environment.getExternalStorageDirectory().getAbsolutePath() + "/PDF";
-
                     File file = new File(path, "menu.pdf");
-
                     openDocument(file.getPath());
                 }
             }
@@ -347,6 +338,7 @@ public class MenuActivity extends AppCompatActivity {
         if (cursor.moveToFirst()) {
             mToolbar.findViewById(R.id.buttonModificar).setVisibility(View.VISIBLE);
             mToolbar.findViewById(R.id.buttonEliminar).setVisibility(View.VISIBLE);
+            mToolbar.findViewById(R.id.buttonImprimir).setVisibility(View.VISIBLE);
             mToolbar.findViewById(R.id.buttonAñadir).setVisibility(View.GONE);
             int contador = 0;
             for (int i=0;i<arrayIngredientsLunes.length;i++){
@@ -370,6 +362,7 @@ public class MenuActivity extends AppCompatActivity {
             quantitatAlergensMiercoles=0; quantitatAlergens2Miercoles=0;
             quantitatAlergensJueves=0; quantitatAlergens2Jueves=0;
             quantitatAlergensViernes=0; quantitatAlergens2Viernes=0;
+
 
             do {
                 diaMenu = cursor.getString(cursor.getColumnIndex(ContracteBD.MenuPlato.DIA_MENU));
@@ -874,6 +867,7 @@ public class MenuActivity extends AppCompatActivity {
         } else {  // SI NO HAY MENU CREADO:
             mToolbar.findViewById(R.id.buttonEliminar).setVisibility(View.GONE);
             mToolbar.findViewById(R.id.buttonModificar).setVisibility(View.GONE);
+            mToolbar.findViewById(R.id.buttonImprimir).setVisibility(View.GONE);
             mToolbar.findViewById(R.id.buttonAñadir).setVisibility(View.VISIBLE);
             int contador = 1;
             Statics.esconderMoluscos1.clear(); Statics.esconderSulfitos1.clear(); Statics.esconderApio1.clear();
@@ -1002,7 +996,7 @@ public class MenuActivity extends AppCompatActivity {
                     espacioTabla();
                     segonPlat(1,arrayIngredients2Lunes,quantitatAlergens2Lunes);
                     espacioTabla();
-                    postre();
+                    postre(primeroLunes,segundoLunes);
                 } else if (i ==2){
                     espacioTabla();
                     cell = new PdfPCell( new Paragraph("Dimarts: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE, harmony.java.awt.Color.BLACK)));
@@ -1012,7 +1006,7 @@ public class MenuActivity extends AppCompatActivity {
                     espacioTabla();
                     segonPlat(2,arrayIngredients2Martes,quantitatAlergens2Martes);
                     espacioTabla();
-                    postre();
+                    postre(primeroMartes,segundoMartes);
                 } else if (i ==3){
                     espacioTabla();
                     cell = new PdfPCell( new Paragraph("Dimecres: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE, harmony.java.awt.Color.BLACK)));
@@ -1022,7 +1016,7 @@ public class MenuActivity extends AppCompatActivity {
                     espacioTabla();
                     segonPlat(3,arrayIngredients2Miercoles,quantitatAlergens2Miercoles);
                     espacioTabla();
-                    postre();
+                    postre(primeroMiercoles,segundoMiercoles);
                 } else if (i ==4){
                     espacioTabla();
                     cell = new PdfPCell( new Paragraph("Dijous: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE, harmony.java.awt.Color.BLACK)));
@@ -1032,7 +1026,7 @@ public class MenuActivity extends AppCompatActivity {
                     espacioTabla();
                     segonPlat(4,arrayIngredients2Jueves,quantitatAlergens2Jueves);
                     espacioTabla();
-                    postre();
+                    postre(primeroJueves,segundoJueves);
                 } else if (i ==5){
                     espacioTabla();
                     cell = new PdfPCell( new Paragraph("Divendres: ",FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE, harmony.java.awt.Color.BLACK)));
@@ -1042,7 +1036,7 @@ public class MenuActivity extends AppCompatActivity {
                     espacioTabla();
                     segonPlat(5,arrayIngredients2Viernes,quantitatAlergens2Viernes);
                     espacioTabla();
-                    postre();
+                    postre(primeroViernes,segundoViernes);
                     espacioTabla();
                     espacioTabla();
                     cell = new PdfPCell( new Paragraph("",FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.UNDERLINE, Color.BLACK)));
@@ -1061,9 +1055,6 @@ public class MenuActivity extends AppCompatActivity {
         finally
         {
             doc.close();
-            if (!doc.isOpen()){
-                Missatges.AlertMissatge("MENU CREADO", "El menú esta listo para imprimir!", R.drawable.acierto, MenuActivity.this);
-            }
         }
     }
     public void espacioTabla(){
@@ -1075,22 +1066,34 @@ public class MenuActivity extends AppCompatActivity {
         PdfPCell cell = null;
         switch (dia){
             case 1:
-                cell = new PdfPCell( new Paragraph(segundoLunes,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                if (segundoLunes!=null){
+                    cell = new PdfPCell( new Paragraph(segundoLunes,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                } else   cell = new PdfPCell( new Paragraph("Tancat",FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.RED)));
+
                 cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
             case 2:
-                cell = new PdfPCell( new Paragraph(segundoMartes,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                if (segundoMartes!=null){
+                    cell = new PdfPCell( new Paragraph(segundoMartes,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                } else   cell = new PdfPCell( new Paragraph("Tancat",FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.RED)));
                 cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
             case 3:
-                cell = new PdfPCell( new Paragraph(segundoMiercoles,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                if (segundoMiercoles!=null){
+                    cell = new PdfPCell( new Paragraph(segundoMiercoles,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                } else   cell = new PdfPCell( new Paragraph("Tancat",FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.RED)));
                 cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
             case 4:
-                cell = new PdfPCell( new Paragraph(segundoJueves,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                if (segundoJueves!=null){
+                    cell = new PdfPCell( new Paragraph(segundoJueves,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                } else   cell = new PdfPCell( new Paragraph("Tancat",FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.RED)));
                 cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
-            case 5: cell = new PdfPCell( new Paragraph(segundoViernes,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+            case 5:
+                if (segundoViernes!=null){
+                    cell = new PdfPCell( new Paragraph(segundoViernes,FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+                } else   cell = new PdfPCell( new Paragraph("Tancat",FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.RED)));
                 cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
                 break;
         }
@@ -1145,20 +1148,22 @@ public class MenuActivity extends AppCompatActivity {
             Log.e("PDFCreator", "DocumentException:" + de);
         }
     }
-    public void postre(){
-        cell = new PdfPCell( new Paragraph("Pa i Postres",FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
-        cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
-        try{
-            cell =createImageCell(GLUTEN);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell);
-            cell =createImageCell(LACTEOS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell);
-            cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
-            cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
-            cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
-            cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
-        } catch (DocumentException de) {
+    public void postre(String primer, String segon){
+        if (primer!=null || segon!=null){
+            cell = new PdfPCell( new Paragraph("Pa i Postres",FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.ITALIC, Color.DARK_GRAY)));
+            cell.setColspan(8); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+            try{
+                cell =createImageCell(GLUTEN);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell);
+                cell =createImageCell(LACTEOS);cell.setBorder(Rectangle.NO_BORDER);table.addCell(cell);
+                cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+                cell =createImageCell(NADA); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
+            } catch (DocumentException de) {
             Log.e("PDFCreator", "DocumentException:" + de);
-        } catch (IOException e) {
-            Log.e("PDFCreator", "ioException:" + e);
+            } catch (IOException e) {
+                Log.e("PDFCreator", "ioException:" + e);
+            }
         }
     }
     public void primerPlat(Integer dia, Integer[] arrayIngredients, Integer quantitatAlergens){
