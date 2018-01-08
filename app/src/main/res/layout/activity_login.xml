@@ -49,17 +49,16 @@
                 android:orientation="vertical">
 
 
-
                 <EditText
                     android:id="@+id/textUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:ems="10"
-                    android:textColor="#F5F5F5"
-                    android:textColorHint="#F5F5F5"
                     android:hint="Usuario"
-                    android:inputType="textPersonName" />
+                    android:inputType="textPersonName"
+                    android:textColor="#F5F5F5"
+                    android:textColorHint="#F5F5F5" />
 
                 <EditText
                     android:id="@+id/textPassword"

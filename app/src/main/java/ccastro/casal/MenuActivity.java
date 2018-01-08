@@ -123,21 +123,19 @@ public class MenuActivity extends AppCompatActivity {
         obtenerAñoMesDiaInicio(fechaMenu);
         obtenerNumeroSemanaAño(true);
         getFechaFinal(0);
-        textViewFechaMenu.setText("Fecha Actual: "+Utilitats.getFechaFormatSpain(fechaMenu));
+        textViewFechaMenu.setText(Utilitats.getFechaFormatSpain(fechaMenu)+" - "+fechaFinal);
+
 
         findViewById(R.id.buttonFechaAnterior).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
                 String fecha;
-                Boolean today;
 
 
                 fechaFinal = Utilitats.obtenerFechaActual();
                 Log.d("FECHA_MENU",fechaMenu+" "+fechaFinal);
-                if (!fechaMenu.equals(fechaFinal)){
-                    diasSumar = diasSumar - 7;
-                    getFechaFinal(diasSumar);
 
-                } else getFechaFinal(diasSumar);
+                diasSumar = diasSumar - 7;
+                getFechaFinal(diasSumar);
 
                 do {
                     obtenerAñoMesDiaInicio(fechaMenu);

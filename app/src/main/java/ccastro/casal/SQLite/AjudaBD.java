@@ -36,7 +36,7 @@ import static android.content.ContentValues.TAG;
 public class AjudaBD extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "casalcivic.db";
-    private static final int DATABASE_VERSION = 5;
+    private static final int DATABASE_VERSION = 6;
 
     public AjudaBD(Context con)
     {
