@@ -15,6 +15,10 @@ public class Utilitats {
         String fechaMostrar [] =  data.split(" ");
         return fechaMostrar[2]+"/"+fechaMostrar[1]+"/"+fechaMostrar[0];
     }
+    public static String getFechaFormatSpain2(String data){
+        String fechaMostrar [] =  data.split(" ");
+        return fechaMostrar[0]+"/"+fechaMostrar[1]+"/"+fechaMostrar[2];
+    }
     public static String obtenerFechaActual (){
         Calendar ahoraCal = Calendar.getInstance();
         // PARECE QUE EL MES EMPIEZA DESDE 0, HAY QUE SUMAR UNO.

@@ -109,7 +109,9 @@ public class ConsultesSQL {
                 ", r." + Reserva_Cliente.ASISTENCIA + ", c." + Client.TIPO_PAGO + ", c." + Client.TIPO_COMIDA + ", c." + Client.OBSERVACIONS_CLIENT +
                 " FROM " + Reserva_Cliente.NOM_TAULA + " r" +
                 " LEFT JOIN  " + Client.NOM_TAULA + " c ON c." + ContracteBD.Client._ID + " = r." + Reserva_Cliente.ID_CLIENTE +
-                " WHERE r." + Reserva_Cliente.DIA_RESERVADO + " LIKE '" + data + "' AND r." + Reserva_Cliente.ID_MESA + " LIKE " + idMesa;
+                " WHERE r." + Reserva_Cliente.DIA_RESERVADO + " LIKE '" + data + "' AND r." + Reserva_Cliente.ID_MESA + " LIKE " + idMesa+
+                " ORDER BY c."+Client.NOM_CLIENT+" ASC";
+
         //      " WHERE r."+ Reserva_Cliente.DIA_RESERVADO+" LIKE strftime('%Y %m %d','now') AND r."+Reserva_Cliente.ID_MESA+" LIKE "+idMesa;
     }
 
@@ -147,21 +149,24 @@ public class ConsultesSQL {
     public String RetornaProductes(String tipusProducte){
         return "Select p."+Producte._ID+", p."+Producte.NOM_PRODUCTE+", p."+Producte.PREU_PRODUCTE+
                 " FROM "+ Producte.NOM_TAULA+" p"+
-                " WHERE p."+ Producte.TIPUS_PRODUCTE+" LIKE '"+tipusProducte+"'";
+                " WHERE p."+ Producte.TIPUS_PRODUCTE+" LIKE '"+tipusProducte+"'"+
+                " ORDER BY p."+Producte.NOM_PRODUCTE+" ASC";
     }
     public String RetornaPrimerosPlatos(){
         return  "Select pp."+PrimerPlato._ID+", pp."+PrimerPlato.NOMBRE_PLATO+
                 ", pp."+PrimerPlato.GLUTEN+",pp."+PrimerPlato.CRUSTACEOS+", pp."+PrimerPlato.HUEVOS+", pp."+PrimerPlato.PESCADO+
                 ", pp."+PrimerPlato.CACAHUETES+", pp."+PrimerPlato.LACTEOS+", pp."+PrimerPlato.FRUTOS_DE_CASCARA+", pp."+PrimerPlato.APIO+
                 ", pp."+PrimerPlato.DIOXIDO_AZUFRE_SULFITOS+", pp."+PrimerPlato.MOLUSCOS+
-                " FROM "+ PrimerPlato.NOM_TAULA+" pp";
+                " FROM "+ PrimerPlato.NOM_TAULA+" pp"+
+                " ORDER BY pp."+PrimerPlato.NOMBRE_PLATO+" ASC";
     }
     public String RetornaSegundosPlatos(){
         return  "Select sp."+SegundoPlato._ID+", sp."+SegundoPlato.NOMBRE_PLATO+
                 ", sp."+SegundoPlato.GLUTEN+",sp."+SegundoPlato.CRUSTACEOS+", sp."+SegundoPlato.HUEVOS+", sp."+SegundoPlato.PESCADO+
                 ", sp."+SegundoPlato.CACAHUETES+", sp."+SegundoPlato.LACTEOS+", sp."+SegundoPlato.FRUTOS_DE_CASCARA+", sp."+SegundoPlato.APIO+
                 ", sp."+SegundoPlato.DIOXIDO_AZUFRE_SULFITOS+", sp."+SegundoPlato.MOLUSCOS+
-                " FROM "+ SegundoPlato.NOM_TAULA+" sp";
+                " FROM "+ SegundoPlato.NOM_TAULA+" sp"+
+                " ORDER BY sp."+SegundoPlato.NOMBRE_PLATO+" ASC";
     }
     public String verificarLogin (String userName, String password){
         return  " Select t."+ Treballador._ID+",t."+ Treballador.NOM_TREBALLADOR+",t."+ Treballador.COGNOMS_TREBALLADOR+

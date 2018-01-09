@@ -180,17 +180,71 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirClient("Nicanor","Sanchez","0",8,"0","0","Poquito"); */
 
         // nomProducte, preu, tipus
+
+        db.InserirProducte("Café Solo","0.90","0");
+        db.InserirProducte("Café Hielo","1.00","0");
+        db.InserirProducte("Cortado","1.00","0");
+        db.InserirProducte("Cafe con leche","1.10","0");
+        db.InserirProducte("Cafe con leche Hielo","1.15","0");
+        db.InserirProducte("Carajillo","1.40","0");
+        db.InserirProducte("Vaso Leche Soja","1.10","0");
+        db.InserirProducte("Vaso Leche","0.70","0");
+        db.InserirProducte("Infusion","0.75","0");
+        db.InserirProducte("Infusion Hielo","0.80","0");
+        db.InserirProducte("Infusion Leche","1.10","0");
+
+        db.InserirProducte("Agua 33cl","0.60","1");
+        db.InserirProducte("Agua 50cl","0.80","1");
+        db.InserirProducte("Agua 150cl","1.00","1");
+        db.InserirProducte("Agua con gas","1.10","1");
+        db.InserirProducte("Zumo","1.45","1");
+        db.InserirProducte("Refresco Botella","1.35","1");
+        db.InserirProducte("Refresco Lata","1.40","1");
+        db.InserirProducte("Cacaolat","1.70","1");
+        db.InserirProducte("Orxata","1.70","1");
+        db.InserirProducte("Nestea Lata","1.55","1");
+        db.InserirProducte("Quinto","1.20","1");
+        db.InserirProducte("Quinto 0.0%","1.25","1");
+        db.InserirProducte("Mediana","1.30","1");
+        db.InserirProducte("Mediana Marca","1.50","1");
+        db.InserirProducte("Mediana 0.0%","1.40","1");
+        db.InserirProducte("Cerveza con Limón","1.35","1");
+        db.InserirProducte("Vino Vaso Grande (200cl)","0.60","1");
+        db.InserirProducte("Vino Vaso Pequeño (125 cl)","0.45","1");
+        db.InserirProducte("Vino Marca Vaso (200cl)","1.30","1");
+        db.InserirProducte("Vino Marca Vaso (125 cl)","1.00","1");
+        db.InserirProducte("Vino Botella","4.30","1");
+        db.InserirProducte("Cava Botella","6.00","1");
+        db.InserirProducte("Coñac","1.40","1");
+        db.InserirProducte("Ronmiel","1.40","1");
+
+
+
+        db.InserirProducte("Bocadillo Frio Grande (Media barra)","2.65","2");
+        db.InserirProducte("Bocadillo Frio Mediano (1/3 barra)","2.15","2");
+        db.InserirProducte("Bocadillo Frio Pequeño (1/4 barra)","1.35","2");
+        db.InserirProducte("Bocadillo Frio Mini (A determinar)","1.10","2");
+        db.InserirProducte("Bocadillo Caliente Grande (Media barra)","3.25","2");
+        db.InserirProducte("Bocadillo Caliente Mediano (1/3 barra)","2.65","2");
+        db.InserirProducte("Bocadillo Caliente Pequeño (1/4 barra)","1.90","2");
+        db.InserirProducte("Bocadillo Caliente Mini (A determinar)","1.35","2");
+        db.InserirProducte("Tostada Grande","1.50","2");
+        db.InserirProducte("Tostada Pequeña","1.00","2");
+        db.InserirProducte("Pasta envasada","1.00","2");
+        db.InserirProducte("Fruta (1 Pieza)","0.50","2");
+        db.InserirProducte("Yogurt","0.50","2");
+        db.InserirProducte("Flan","0.95","2");
+        db.InserirProducte("Patatas","1.10","2");
+        db.InserirProducte("Olivas Rellenas","1.10","2");
+        db.InserirProducte("Helado","1.00","2");
+        db.InserirProducte("Barra de Pan","1.00","2");
+        db.InserirProducte("Magdalenas","1.00","2");
+
+        db.InserirProducte("Pastel aniversario","15.00","3");
+        db.InserirProducte("Cubata","3.00","3");
+        db.InserirProducte("Menú extra","5.70","3");
+        db.InserirProducte("Plato principal extra","4.00","3");
 /*
-        db.InserirProducte("Café Solo","1.10","0");
-        db.InserirProducte("Café con leche","1.20","0");
-        db.InserirProducte("Carajillo","1.50","0");
-        db.InserirProducte("Cocacola","1.30","1");
-        db.InserirProducte("Agua","0.90","1");
-        db.InserirProducte("Bocadillo grande","2.50","2");
-        db.InserirProducte("Bocadillo pequeño","2","2");
-        db.InserirProducte("Whisky cola","5","3");
-
-
 
         //id_client,id_treballador,dataVenta,Cobrada,TotalVenta
         db.InserirVenta(3,1,"2017 11 18","0","10:15");  // SIN ID_FACTURA!!
