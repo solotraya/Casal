@@ -929,7 +929,7 @@ public class MenuActivity extends AppCompatActivity {
             espacioTabla();
             cell = new PdfPCell( new Paragraph("",FontFactory.getFont(FontFactory.TIMES_BOLD,16,Font.UNDERLINE, Color.BLACK)));
             cell.setColspan(2); cell.setBorder(Rectangle.NO_BORDER); table.addCell(cell);
-            cell = new PdfPCell( new Paragraph("Menú Setmanal: "+diaInicio+"/"+mesInicio+"/"+añoInicio+" - "+fechaFinal,FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE , Color.BLACK)));
+            cell = new PdfPCell( new Paragraph("Menú Setmanal: "+diaInicio+"/"+mesInicio+"/"+añoInicio+" - "+Utilitats.getFechaFormatSpain2(fechaFinal),FontFactory.getFont(FontFactory.TIMES_BOLD,18,Font.UNDERLINE , Color.BLACK)));
             cell.setVerticalAlignment(Element.ALIGN_CENTER);
             cell.setColspan(12);
             cell.setMinimumHeight(50);
