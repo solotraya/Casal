@@ -192,13 +192,59 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirClient("Paquita","Selles","0",6,"0","1","Poquito");
         db.InserirClient("José","De Paquita","0",6,"0","1","No Canelones.\nNo Albóndigas.");
         db.InserirClient("Consuelo","De Diego","0",11,"0","0","");
-        db.InserirClient("Diego","De COnsuelo","0",11,"0","0","");
+        db.InserirClient("Diego","De Consuelo","0",11,"0","0","");
         db.InserirClient("Jesús","Cordobés","0",1,"0","0","Ensalada: Solo Olivas. \nNo Macarrones");
         db.InserirClient("Salvador","Luna","0",1,"0","0","Poquito");
         db.InserirClient("Juan","Castro","0",1,"0","0","Poquito");
         db.InserirClient("Manel","Oros","0",9,"0","1","Ensalada: Poca lechuga.");
-        db.InserirClient("Angel","De Manel","0",9,"0","0","Ensalada: Solo tomate. \nNo Pollo. \nNo arroz.");
+        db.InserirClient("Angel","De Manel","0",9,"0","0","Ensalada: Sin lechuga. \nNo Pollo. \nNo arroz.");
         db.InserirClient("Pedro","Alonso","0",1,"0","1","Ensalada: Solo Olivas. \nNo carne. \nNo Pescado");
+        db.InserirClient("Manuel","Cañadas","0",1,"0","0","Ensalada: Poquito");
+        db.InserirClient("Juan Antonio","Fernandez","0",1,"0","0","");
+        db.InserirClient("Cristina","PREGUNTAR APELLIDO","0",2,"0","0","");
+        db.InserirClient("Antonia","Ruedas","1",0,"0","0","No Muslo Pollo. \nNo Sopa Pescado");
+        db.InserirClient("Olga","Administradora","1",0,"0","1","Ensalada: Solo lechuga. \nSolo Verduras y planchas.");
+        db.InserirClient("Carmelo","PREGUNTAR APELLIDO","0",3,"0","0","Poquito.");
+        db.InserirClient("Perfecto","Heredia","0",3,"0","0","Poquito.");
+        db.InserirClient("Antonio","Sepulveda","0",5,"0","0","Ensalada: Solo tomate.");
+        db.InserirClient("Rafael","PREGUNTAR APELLIDO","0",5,"0","0","");
+        db.InserirClient("Joan","Prunes","1",0,"0","0","Se lleva doble. \nPostre: Solo fruta.");
+        db.InserirClient("Dolores","Garcia","0",10,"0","0","");
+        db.InserirClient("Juanito","De Dolores","0",10,"0","0","");
+        db.InserirClient("Francisco","Gutierrez","1",0,"0","0","No Yogurt de Fresa.");
+        db.InserirClient("Luis","Gutierrez","1",0,"0","0","No Yogurt de Fresa.");
+        db.InserirClient("Jaume","Buenaventura","0",12,"0","0","No come Arroz.");
+        db.InserirClient("Vallejo","PREGUNTAR APELLIDO","1",0,"0","0","");
+        db.InserirClient("Claudia","PREGUNTAR APELLIDO","0",2,"0","0","");
+        db.InserirClient("El","Flores","0",5,"0","0","");
+        db.InserirClient("Domingo","PREGUNTAR APELLIDO","0",5,"0","0","");
+        db.InserirClient("Amparo","Cuidadora","0",2,"0","0","");
+        db.InserirClient("Pilar","Garcia","0",8,"0","0","");
+        db.InserirClient("Josefa","Gallego","0",8,"0","0","Sin Ensalada");
+        db.InserirClient("Josefa","Gallego Hijo","0",8,"0","0","Sin Ensalada");
+        db.InserirClient("Dolores","Luna","0",2,"0","0","");
+        db.InserirClient("Andres","PREGUNTAR APELLIDO","0",9,"0","0","");
+        db.InserirClient("Andres","Mujer","0",9,"0","0","");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

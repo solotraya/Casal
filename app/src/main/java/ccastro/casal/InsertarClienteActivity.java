@@ -49,19 +49,19 @@ public class InsertarClienteActivity extends AppCompatActivity {
         tituloperacion = (TextView) findViewById(R.id.textViewOperacion);
         tituloperacion.setPaintFlags(tituloperacion.getPaintFlags() |   Paint.UNDERLINE_TEXT_FLAG);
         spinnerNumClientes = (Spinner) findViewById(R.id.spinnerNumClientes);
-        adapterNumClientes = new ArrayAdapter<String> (this, android.R.layout.simple_list_item_1, android.R.id.text1, arraySpinnerNumClientes);
+        adapterNumClientes = new ArrayAdapter<String> (this, R.layout.spinner, arraySpinnerNumClientes);
         spinnerNumClientes.setAdapter(adapterNumClientes);
         spinnerTipoClientes = (Spinner) findViewById(R.id.spinnerTipoCliente);
-        adapterTipoClientes = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, android.R.id.text1, arraySpinnerTipoClientes);
+        adapterTipoClientes = new ArrayAdapter<String> (this, R.layout.spinner, arraySpinnerTipoClientes);
         spinnerTipoClientes.setAdapter(adapterTipoClientes);
         spinnerTipoPago = (Spinner) findViewById(R.id.spinnerTipoPago);
-        adapterTipoPago = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, android.R.id.text1, arraySpinnerTipoPago);
+        adapterTipoPago = new ArrayAdapter<String> (this, R.layout.spinner, arraySpinnerTipoPago);
         spinnerTipoPago.setAdapter(adapterTipoPago);
         spinnerMesaFavorita = (Spinner) findViewById(R.id.spinnerMesaFavorita);
-        adapterMesaFavorita = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_item, android.R.id.text1, arraySpinnerMesaFavorita);
+        adapterMesaFavorita = new ArrayAdapter<String> (this,R.layout.spinner, arraySpinnerMesaFavorita);
         spinnerMesaFavorita.setAdapter(adapterMesaFavorita);
         spinnerTipoComida = (Spinner) findViewById(R.id.spinnerTipoComida);
-        adapterTipoComida = new ArrayAdapter<String> (this, android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, arraySpinnerTipoComida);
+        adapterTipoComida = new ArrayAdapter<String> (this, R.layout.spinner, arraySpinnerTipoComida);
         spinnerTipoComida.setAdapter(adapterTipoComida);
         nomClient = (EditText) findViewById(R.id.editTextNomClient);
         cognomsClient = (EditText) findViewById(R.id.editTextCognomsClients);
@@ -140,7 +140,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
         spinnerNumClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                if (view!=null) ((TextView) view).setTextColor(Color.WHITE);
+                //if (view!=null) ((TextView) view).setTextColor(Color.WHITE);
                 quantitatAfegir = position+1;
             }
             @Override
@@ -150,7 +150,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
                 mesaFavorita = position;
-                if (view!=null) ((TextView) view).setTextColor(Color.WHITE);
+                //if (view!=null) ((TextView) view).setTextColor(Color.WHITE);
                 Log.d("MESA FAVORITA",Integer.toString(mesaFavorita));
             }
             @Override
@@ -159,7 +159,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
         spinnerTipoClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                if (view!=null)((TextView) view).setTextColor(Color.WHITE);
+                //if (view!=null)((TextView) view).setTextColor(Color.WHITE);
                 tipusClient = Integer.toString(position);
             }
             @Override
@@ -177,7 +177,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
         spinnerTipoPago.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-                if (view!=null) ((TextView) view).setTextColor(Color.WHITE);
+                //if (view!=null) ((TextView) view).setTextColor(Color.WHITE);
                 tipoPago = Integer.toString(position);
             }
             @Override
