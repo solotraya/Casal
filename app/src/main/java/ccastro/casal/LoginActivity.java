@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         db.obre();
 
         // TODO:  DESCOMENTAR PARA INSTALAR LA PRIMERA VEZ
-        //CrearExemplesBD();
+        CrearExemplesBD();
 
 
         db.tanca();
@@ -167,7 +167,57 @@ public class LoginActivity extends AppCompatActivity {
         db.InserirTreballador("Carlos","Castro Cañabate","carlos","1987");
 // ************* HAY QUE INSERTAR CLIENTE BARRAy QUE NO SE PUEDA ELIMINAR, SI MODIFICAR *************
         db.InserirClient("#Cliente de barra","","3",0,"0","0","Cliente de barra sin determinar");
-/*
+        db.InserirClient("Jose","Campos Hernandez","2",0,"2","0","");
+        db.InserirClient("Amparo","Acedo Orozco","2",0,"2","0","");
+        db.InserirClient("Isolina","Alvarez Diaz","2",0,"4","0","No fideos.");
+        db.InserirClient("Daniel","Cabeza Fernandez","2",0,"4","1","Come la mitad de todo");
+        db.InserirClient("Melchor","Cruz Torres","2",0,"1","0","No arroz. \nNo Yogurth.");
+        db.InserirClient("Maria Angeles","Cazorla Roja","2",0,"2","0","");
+        db.InserirClient("Maria Dolores","Wilson Liendo","2",0,"2","0","Postre: Solo fruta.");
+        db.InserirClient("Isabel Araceli","Wilson Liendo","2",0,"4","0","");
+        db.InserirClient("Pedro","Huertas Juarez","2",0,"4","0","");
+        db.InserirClient("Isabeel","Morral Pujol","2",0,"2","0","");
+        db.InserirClient("Ramona","Carcavilla Villa","2",0,"4","0","");
+        db.InserirClient("Elvira","Martí Pont","2",0,"4","1","No come: Butifarra, Hamburguesas, Embutidos ni Patatas.");
+        db.InserirClient("Juan","Pita Martinez","2",0,"4","0","");
+        db.InserirClient("Jose Pedro","Rodriguez Galindo","2",0,"4","0","");
+        db.InserirClient("Manel","Solans Soriano","2",1,"4","0","");
+        db.InserirClient("Maria Jesus","Soriano Pérez","2",0,"4","1","");
+        db.InserirClient("Maria Moralba","Trujillo Giraldo","2",0,"3","0","");
+        db.InserirClient("Ana Maria","Paredes","2",0,"4","0","");
+
+        db.InserirClient("Encarna","PREGUNTAR APELLIDO","0",4,"0","0","Ensalada: Solo Olivas. \nNo Lomo. \nNo Calamar");
+        db.InserirClient("Manuela","Bono","0",7,"0","1","Ensalada: Solo Olivas. \nPan Integral.");
+        db.InserirClient("Pedro","De Manuela","0",7,"0","0","No come lentejas.");
+        db.InserirClient("Paquita","Selles","0",6,"0","1","Poquito");
+        db.InserirClient("José","De Paquita","0",6,"0","1","No Canelones.\nNo Albóndigas.");
+        db.InserirClient("Consuelo","De Diego","0",11,"0","0","");
+        db.InserirClient("Diego","De COnsuelo","0",11,"0","0","");
+        db.InserirClient("Jesús","Cordobés","0",1,"0","0","Ensalada: Solo Olivas. \nNo Macarrones");
+        db.InserirClient("Salvador","Luna","0",1,"0","0","Poquito");
+        db.InserirClient("Juan","Castro","0",1,"0","0","Poquito");
+        db.InserirClient("Manel","Oros","0",9,"0","1","Ensalada: Poca lechuga.");
+        db.InserirClient("Angel","De Manel","0",9,"0","0","Ensalada: Solo tomate. \nNo Pollo. \nNo arroz.");
+        db.InserirClient("Pedro","Alonso","0",1,"0","1","Ensalada: Solo Olivas. \nNo carne. \nNo Pescado");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /*
         db.InserirClient("Manuela","Torres Cobijo","0",2,"0","1","Segundo de poquito y pan integral");
         db.InserirClient("Manel","Garcia","0",1,"0","1","");
         db.InserirClient("Remedios","Luque","2",0,"1","2","Vegetariana"); // Ayuntamiento

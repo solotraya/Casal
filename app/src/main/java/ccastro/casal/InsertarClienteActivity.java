@@ -140,7 +140,7 @@ public class InsertarClienteActivity extends AppCompatActivity {
         spinnerNumClientes.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int position, long l) {
-            if (view!=null) ((TextView) view).setTextColor(Color.WHITE);
+                if (view!=null) ((TextView) view).setTextColor(Color.WHITE);
                 quantitatAfegir = position+1;
             }
             @Override
