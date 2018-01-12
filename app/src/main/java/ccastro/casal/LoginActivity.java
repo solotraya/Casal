@@ -57,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         db.obre();
 
         // TODO:  DESCOMENTAR PARA INSTALAR LA PRIMERA VEZ
-        CrearExemplesBD();
+        //CrearExemplesBD();
 
 
         db.tanca();
